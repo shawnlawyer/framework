@@ -1,0 +1,8 @@
+{
+    "name": "sequode",
+    "autoload": {
+        "PSR-4": {
+            "Sequode\\": "Sequode/src"
+        }
+    }
+}
