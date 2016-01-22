@@ -2,6 +2,8 @@
 
 namespace Sequode\Operation;
 
+use Sequode\ApplicationConfiguration as ApplicationConfiguration;
+
 class Mailer {
 	public static function makeTemplate($template,$hooks){
         $default_hooks = array("#WEBSITENAME#","#WEBSITEURL#","#DATE#");
@@ -17,19 +19,18 @@ class Mailer {
         return $message;
 	}
 	public static function send($to_email, $reply_email, $reply_name, $from_email, $from_name, $subject, $body, $attachments = array()){
-		$email = new PHPMailer();
-		//$email->SMTPDebug   = 4;
-		$email->isSMTP();
-        $email->Host 		= 'email-smtp.us-east-1.amazonaws.com';
-		$email->SMTPAuth    = true;
-        $email->Username 	= 'AKIAJNA63ZDLQNFL4MDQ';
-        $email->Password 	= 'Aiw5Lc0HBIBNsEF1czQR1voTJmr/XsAK1yF5QoHd7aaP';
-		$email->SMTPSecure  = 'tls';
-        $email->Port        = 587;
-        
-		/*
-		$email = new AmazonSESMailer('AKIAIZQXUBNBZTGRHMBA', 'FcrVXVAZkGxZr2xXAzzutM2ezEhR9vQFewH55N96');
-        */
+        if(ApplicationConfiguration::model()->emailer->relay == 'SMTP'){
+            $email = new \PHPMailer();
+            
+            //$email->SMTPDebug   = 4;
+            $email->isSMTP();
+            $email->Host 		        = ApplicationConfiguration::model()->emailer->host;
+            $email->SMTPAuth        = ApplicationConfiguration::model()->emailer->auth;
+            $email->Username 	    = ApplicationConfiguration::model()->emailer->username;
+            $email->Password 	    = ApplicationConfiguration::model()->emailer->password;
+            $email->SMTPSecure    = ApplicationConfiguration::model()->emailer->security;
+            $email->Port                 = ApplicationConfiguration::model()->emailer->port;
+        }
         
         $email->addAddress($to_email); 
         $email->addReplyTo($reply_email,$reply_name);
