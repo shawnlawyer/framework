@@ -60,6 +60,6 @@ class HTTPRequest {
         return $request_pieces;
     }
 	public static function setCookie($name = '', $value = '', $expire = 0){
-        setcookie($name, $value, $expire, \Sequode\Model\Application::model()->sessions->path, \Sequode\Model\Application::model()->sessions->domain);
+        setcookie($name, $value, $expire, \Sequode\ApplicationConfiguration::model()->sessions->path, \Sequode\ApplicationConfiguration::model()->sessions->domain);
 	}
 }
