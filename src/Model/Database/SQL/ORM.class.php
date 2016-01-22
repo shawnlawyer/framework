@@ -1,9 +1,9 @@
 <?php
-namespace Sequode\Model;
+namespace Sequode\Model\Database\SQL;
 
 use Sequode\Model\Database\ResourceConnection;
 
-class Database {
+class ORM {
 	//Setting object members
 	public $table 			=	'';
 	public $orderBy			=	'id';
