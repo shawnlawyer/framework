@@ -17,7 +17,7 @@ class HTTPRequest {
             }
         }
 		$route_class = false;
-        $routes_classes = \Sequode\ApplicationProfile::model()->routes;
+        $routes_classes = \Sequode\Model\Application\Runtime::model()->routes;
 		$route = 'index';
         $request_pieces = self::requestUriPieces();
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) == ''){
@@ -45,8 +45,8 @@ class HTTPRequest {
 				}
 			}
 		}
-		if(isset(\Sequode\ApplicationProfile::model()->module)){
-			return forward_static_call_array(array('\\' . \Sequode\ApplicationProfile::model()->module ,'run'), array());	
+		if(isset(\Sequode\Model\Application\Runtime::model()->module)){
+			return forward_static_call_array(array('\\' . \Sequode\Model\Application\Runtime::model()->module ,'run'), array());	
 		}
     }
     public static function requestUriPieces(){
