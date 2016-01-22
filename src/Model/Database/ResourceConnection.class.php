@@ -1,7 +1,7 @@
 <?php
-namespace Sequode\Model;
+namespace Sequode\Model\Database;
 
-class Application{
+class ResourceConnection{
 	public static function model(){
         static $model;
         if(!is_object($model)){

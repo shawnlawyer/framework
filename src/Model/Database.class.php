@@ -1,6 +1,9 @@
 <?php
 namespace Sequode\Model;
-class Database extends Application {
+
+use Sequode\Model\Database\ResourceConnection;
+
+class Database {
 	//Setting object members
 	public $table 			=	'';
 	public $orderBy			=	'id';
@@ -12,7 +15,7 @@ class Database extends Application {
 	//object constructor
 	public function __construct($lookupMembers=true){
         $database = $this->database_connection;
-		$this->database = self::model()->$database;
+		$this->database = ResourceConnection::model()->$database;
 		if($lookupMembers == true){
 			$this->setMembers();
 		}
