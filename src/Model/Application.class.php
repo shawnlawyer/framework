@@ -1,14 +1,16 @@
 <?php
 namespace Sequode\Model;
 
-//class ApplicationInstance{
 class Application{
-	public static function model($replace = false){
+	public static function model(){
         static $model;
         if(!is_object($model)){
-            $model = new \SQDE_ApplicationConfiguration;
-        }elseif($replace != false){
-            $model = $replace;
+            $model = (object) null;
+            if(isset(\Sequode\ApplicationConfiguration::model()->database)){
+                foreach(\Sequode\ApplicationConfiguration::model()->database as $member => $database){
+                    $model->{$member. '_database'} = new \Sequode\Controller\Database\MySQL($database->host,$database->user,$database->password,$database->name);
+                }
+            }
         }
         return $model;
     }
