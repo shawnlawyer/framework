@@ -2,6 +2,9 @@
 
 namespace Sequode\Controller;
 
+use Sequode\Model\Application\Configuration;
+use Sequode\Model\Application\Runtime;
+
 class HTTPRequest {
 	public static function run(){
         if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], array('https://sequode.com','https://origin.sequode.com','https://console.sequode.com','https://xhr.sequode.com','https://api.sequode.com'))) {
@@ -17,7 +20,7 @@ class HTTPRequest {
             }
         }
 		$route_class = false;
-        $routes_classes = \Sequode\Model\Application\Runtime::model()->routes;
+        $routes_classes = Runtime::model()->routes;
 		$route = 'index';
         $request_pieces = self::requestUriPieces();
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) == ''){
@@ -45,8 +48,8 @@ class HTTPRequest {
 				}
 			}
 		}
-		if(isset(\Sequode\Model\Application\Runtime::model()->module)){
-			return forward_static_call_array(array('\\' . \Sequode\Model\Application\Runtime::model()->module ,'run'), array());	
+		if(isset(Runtime::model()->module)){
+			return forward_static_call_array(array('\\' . Runtime::model()->module ,'run'), array());	
 		}
     }
     public static function requestUriPieces(){
@@ -60,6 +63,6 @@ class HTTPRequest {
         return $request_pieces;
     }
 	public static function setCookie($name = '', $value = '', $expire = 0){
-        setcookie($name, $value, $expire, \Sequode\ApplicationConfiguration::model()->sessions->path, \Sequode\ApplicationConfiguration::model()->sessions->domain);
+        setcookie($name, $value, $expire, Configuration::model()->sessions->path, Configuration::model()->sessions->domain);
 	}
 }

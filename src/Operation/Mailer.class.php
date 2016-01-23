@@ -2,7 +2,7 @@
 
 namespace Sequode\Operation;
 
-use Sequode\ApplicationConfiguration as ApplicationConfiguration;
+use Sequode\Model\Application\Configuration;
 
 class Mailer {
 	public static function makeTemplate($template,$hooks){
@@ -19,17 +19,17 @@ class Mailer {
         return $message;
 	}
 	public static function send($to_email, $reply_email, $reply_name, $from_email, $from_name, $subject, $body, $attachments = array()){
-        if(ApplicationConfiguration::model()->emailer->relay == 'SMTP'){
+        if(Configuration::model()->emailer->relay == 'SMTP'){
             $email = new \PHPMailer();
             
             //$email->SMTPDebug   = 4;
             $email->isSMTP();
-            $email->Host 		        = ApplicationConfiguration::model()->emailer->host;
-            $email->SMTPAuth        = ApplicationConfiguration::model()->emailer->auth;
-            $email->Username 	    = ApplicationConfiguration::model()->emailer->username;
-            $email->Password 	    = ApplicationConfiguration::model()->emailer->password;
-            $email->SMTPSecure    = ApplicationConfiguration::model()->emailer->security;
-            $email->Port                 = ApplicationConfiguration::model()->emailer->port;
+            $email->Host 		        = Configuration::model()->emailer->host;
+            $email->SMTPAuth        = Configuration::model()->emailer->auth;
+            $email->Username 	    = Configuration::model()->emailer->username;
+            $email->Password 	    = Configuration::model()->emailer->password;
+            $email->SMTPSecure    = Configuration::model()->emailer->security;
+            $email->Port                 = Configuration::model()->emailer->port;
         }
         
         $email->addAddress($to_email); 
