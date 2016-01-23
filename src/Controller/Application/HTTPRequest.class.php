@@ -4,6 +4,7 @@ namespace Sequode\Controller\Application;
 
 use Sequode\Model\Application\Configuration;
 use Sequode\Model\Application\Runtime;
+use Sequode\Model\Application\Routes;
 
 class HTTPRequest {
 	public static function run(){
@@ -35,8 +36,8 @@ class HTTPRequest {
 		}
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) != ''){
 			foreach($routes_classes as $routes_class){
-				if(isset($request_pieces[0]) && in_array($request_pieces[0], \Sequode\Routes::routes('\\'.$routes_class))){
-					$route = \Sequode\Routes::route('\\'.$routes_class, trim($request_pieces[0]));
+				if(isset($request_pieces[0]) && in_array($request_pieces[0], Routes::routes('\\'.$routes_class))){
+					$route = Routes::route('\\'.$routes_class, trim($request_pieces[0]));
 					array_shift($request_pieces);
 					$parameters = array(); 
 					if(isset($request_pieces[0])){
