@@ -1,5 +1,7 @@
 <?php
-namespace Sequode;
+
+namespace Sequode\Model\Application;
+
 class Routes{
 	
 	public static function routes($routes_class){

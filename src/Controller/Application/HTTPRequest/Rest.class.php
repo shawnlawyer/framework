@@ -1,5 +1,5 @@
 <?php
-namespace Sequode;
+namespace Sequode\Controller\Application\HTTPRequest;
 
 class Rest  {
 	public static function call($route_class, $route, $parameters = null){

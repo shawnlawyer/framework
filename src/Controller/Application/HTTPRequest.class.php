@@ -1,6 +1,10 @@
 <?php
 
-namespace Sequode\Controller;
+namespace Sequode\Controller\Application;
+
+use Sequode\Model\Application\Configuration;
+use Sequode\Model\Application\Runtime;
+use Sequode\Model\Application\Routes;
 
 class HTTPRequest {
 	public static function run(){
@@ -17,7 +21,7 @@ class HTTPRequest {
             }
         }
 		$route_class = false;
-        $routes_classes = \Sequode\ApplicationProfile::model()->routes;
+        $routes_classes = Runtime::model()->routes;
 		$route = 'index';
         $request_pieces = self::requestUriPieces();
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) == ''){
@@ -32,8 +36,8 @@ class HTTPRequest {
 		}
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) != ''){
 			foreach($routes_classes as $routes_class){
-				if(isset($request_pieces[0]) && in_array($request_pieces[0], \Sequode\Routes::routes('\\'.$routes_class))){
-					$route = \Sequode\Routes::route('\\'.$routes_class, trim($request_pieces[0]));
+				if(isset($request_pieces[0]) && in_array($request_pieces[0], Routes::routes('\\'.$routes_class))){
+					$route = Routes::route('\\'.$routes_class, trim($request_pieces[0]));
 					array_shift($request_pieces);
 					$parameters = array(); 
 					if(isset($request_pieces[0])){
@@ -45,8 +49,8 @@ class HTTPRequest {
 				}
 			}
 		}
-		if(isset(\Sequode\ApplicationProfile::model()->module)){
-			return forward_static_call_array(array('\\' . \Sequode\ApplicationProfile::model()->module ,'run'), array());	
+		if(isset(Runtime::model()->module)){
+			return forward_static_call_array(array('\\' . Runtime::model()->module ,'run'), array());	
 		}
     }
     public static function requestUriPieces(){
@@ -60,6 +64,6 @@ class HTTPRequest {
         return $request_pieces;
     }
 	public static function setCookie($name = '', $value = '', $expire = 0){
-        setcookie($name, $value, $expire, \Sequode\Model\Application::model()->sessions->path, \Sequode\Model\Application::model()->sessions->domain);
+        setcookie($name, $value, $expire, Configuration::model()->sessions->path, Configuration::model()->sessions->domain);
 	}
 }

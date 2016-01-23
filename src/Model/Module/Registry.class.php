@@ -1,7 +1,7 @@
 <?php
-namespace Sequode;
+namespace Sequode\Model\Module;
 
-class ModuleRegistry {
+class Registry {
     public static function container($mode, $key = null, $value = null) {
         static $store;
         if(!is_array($store)){

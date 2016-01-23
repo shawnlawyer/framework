@@ -1,6 +1,6 @@
 <?php
-namespace Sequode;
-class ApplicationProfile {
+namespace Sequode\Model\Application;
+class Runtime {
 	public static function model($set = false){
         static $store;
 		if(empty($store)){ $store = false; }
