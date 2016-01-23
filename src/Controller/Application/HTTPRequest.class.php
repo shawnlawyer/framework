@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Controller;
+namespace Sequode\Controller\Application;
 
 use Sequode\Model\Application\Configuration;
 use Sequode\Model\Application\Runtime;
