@@ -1,5 +1,5 @@
 <?php
-namespace Sequode\Controller\Application\HTTPRequest\XHR;
+namespace Sequode\Controller\Application\HTTPRequest;
 
 class XHR  {
 	public static function call($route_class, $route, $parameters = null){
