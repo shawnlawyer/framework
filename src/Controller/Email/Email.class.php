@@ -4,7 +4,7 @@ namespace Sequode\Controller\Email;
 
 use Sequode\Model\Application\Configuration;
 
-class Mailer {
+class Email {
 	public static function send($to_email, $reply_email, $reply_name, $from_email, $from_name, $subject, $body, $attachments = array()){
         if(Configuration::model()->emailer->relay == 'SMTP'){
             $email = new \PHPMailer();
