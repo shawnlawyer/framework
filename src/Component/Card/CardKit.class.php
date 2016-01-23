@@ -1,11 +1,14 @@
 <?php
 namespace Sequode\Component\Card;
+
+use Sequode\Model\Module\Registry as ModuleRegistry;
+
 class CardKit {
     public static function collectionTile($package, $headline=''){
         $user_model = \SQDE_AuthenticatedUser::model();
         $dom_id = \Sequode\Component\FormInput\FormInput::uniqueHash('','');
         $html = $js = array();
-        $context = \Sequode\ModuleRegistry::model($package)->context;
+        $context = ModuleRegistry::model($package)->context;
         $_models = \SQDE_AccountOperations::getOwnedModels($package, $user_model, 'id,name')->all;
         $html[] = '<div class="automagic-content-area-xsmall-tile-container">';
         $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.'">'.$headline . count($_models).'</div>';
