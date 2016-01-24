@@ -1,9 +1,8 @@
 <?php
 namespace Sequode\Component\Form;
 
-
 use Sequode\Patterns\Mason;
-use Sequode\Component\FormInput\FormInput;
+use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class Form extends Mason {
     public static $mason = 'form';
@@ -12,7 +11,7 @@ class Form extends Mason {
         $dom_ids = array();
         if(is_object($form_object)){
             foreach($form_object as $loop_member => $loop_value){
-                $dom_ids[] = FormInput::uniqueHash();
+                $dom_ids[] = FormInputComponent::uniqueHash();
             }
         }
         return $dom_ids;
@@ -78,7 +77,7 @@ class Form extends Mason {
 			$component_object = self::attachComponentObjectEvents($component_object,$js_events_array[$j]);
 			$component_object->Dom_Id = $dom_ids[$i];
 			$component_object->Value = $form_object->$member->Value;
-			$components_array[] = FormInput::render($component_object);
+			$components_array[] = FormInputComponent::render($component_object);
 			$i++;
             if(count($js_events_array) > 1){
                 $j++;
@@ -87,7 +86,7 @@ class Form extends Mason {
 		return $components_array;
 	}
     public static function render($form_object){
-        $timeout_var_name = FormInput::uniqueHash();
+        $timeout_var_name = FormInputComponent::uniqueHash();
 		$dom_ids = self::domIds($form_object->components);
         $js_event = (object) null;
         $submit_js = '';
@@ -109,12 +108,12 @@ class Form extends Mason {
         $components_array = self::components($form_object->components, $dom_ids, array($js_event));
         
         if($form_object->submit_button != null){
-            FormInput::exists('button','name');
-            $button_component = json_decode(FormInput::model()->component_object);
+            FormInputComponent::exists('button','name');
+            $button_component = json_decode(FormInputComponent::model()->component_object);
             $button_component->Value = $form_object->submit_button;
             $button_component->CSS_Class = 'btn';
             $button_component->On_Click = self::registerTimeout($timeout_var_name, $submit_js);
-            $components_array[] = FormInput::render($button_component);
+            $components_array[] = FormInputComponent::render($button_component);
         }
 		return $components_array;
 	}
