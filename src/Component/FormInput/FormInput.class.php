@@ -496,14 +496,16 @@ class FormInput {
 	public static function exists($value, $by='id'){
         return (self::model(null)->exists($value,$by)) ? true : false ;
     }
-	public static function render($component_object){
+    public static function render($component_object, $component_model = null, $sequode_model = null){
+        if($component_model != null ){ self::model($component_model); }
+        if($sequode_model != null ){ SQDE_Sequode::model($sequode_model); }
         if($component_object->Component == 'checkboxSwitch' && !isset($component_object->On_Value)){
             self::exists('checkboxSwitch','name');
             $component_object = json_decode(self::model()->component_object);
-        }elseif(!isset($component_object->Component)){
+        }elseif((!isset($component_object->Component) || self::exists($component_object->Component,'name')) && !isset(self::model()->component)){
             self::exists('str','name');
             $component_object = json_decode(self::model()->component_object);
         }
-		return forward_static_call_array(array(self, $component_object->Component), array($component_object));
+		return forward_static_call_array(array(self,self::model()->component), array($component_object));
     }
 }
