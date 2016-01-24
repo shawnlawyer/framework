@@ -1,5 +1,9 @@
 <?php
 namespace Sequode\Component\FormInput;
+
+use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
+use Sequode\Component\Card\Kit\HTML as CardKitHTML;
+
 class FormInput {
 
 	public static function uniqueHash($seed='',$prefix='SQDE'){
@@ -20,16 +24,16 @@ class FormInput {
            $component->Values = json_decode(str_replace('.*-"-*.',"\\'",str_replace("'",'"',str_replace("\\'",'.*-"-*.',$component->Values))));
         }
         if(isset($component->On_Focus)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
         }
         if(isset($component->On_Blur)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
         }
         if(isset($component->On_Change)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->On_Change);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->On_Change);
         }
         if(isset($component->Value_Changed)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->Value_Changed);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->Value_Changed);
         }
         if(isset($component->CSS_Class)){   
             $class[] = self::formatValue($component->CSS_Class);
@@ -89,28 +93,28 @@ class FormInput {
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
         if(isset($component->Value)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::setValueJS($dom_id, $component->Value);
+            $js[] = DOMElementKitJS::setValueJS($dom_id, $component->Value);
         }
         if(isset($component->On_Focus)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
         }
         if(isset($component->On_Blur)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
         }
         if(isset($component->On_Change)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->On_Change);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->On_Change);
         }
         if(isset($component->Value_Changed)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keyup', $component->Value_Changed);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keyup', $component->Value_Changed);
         }
         if(isset($component->On_Key_Up)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keyup', $component->On_Key_Up);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keyup', $component->On_Key_Up);
         }
         if(isset($component->On_Key_Down)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keydown', $component->On_Key_Down);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keydown', $component->On_Key_Down);
         }
         if(isset($component->On_Key_Press)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keypress', $component->On_Key_Press);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keypress', $component->On_Key_Press);
         }
         if(isset($component->CSS_Class)){   
             $class[] = self::formatValue($component->CSS_Class);
@@ -150,28 +154,28 @@ class FormInput {
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
         if(isset($component->Value)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::setValueJS($dom_id, $component->Value);
+            $js[] = DOMElementKitJS::setValueJS($dom_id, $component->Value);
         }
         if(isset($component->On_Focus)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
         }
         if(isset($component->On_Blur)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
         }
         if(isset($component->On_Change)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->On_Change);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->On_Change);
         }
         if(isset($component->Value_Changed)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keyup', $component->Value_Changed);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keyup', $component->Value_Changed);
         }
         if(isset($component->On_Key_Up)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keyup', $component->On_Key_Up);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keyup', $component->On_Key_Up);
         }
         if(isset($component->On_Key_Down)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keydown', $component->On_Key_Down);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keydown', $component->On_Key_Down);
         }
         if(isset($component->On_Key_Press)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keypress', $component->On_Key_Press);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keypress', $component->On_Key_Press);
         }
         if(isset($component->CSS_Class)){   
             $class[] = self::formatValue($component->CSS_Class);
@@ -214,28 +218,28 @@ class FormInput {
             $dom_id = $component->Dom_Id;
         }
         if(isset($component->Value)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::setValueJS($dom_id, $component->Value);
+            $js[] = DOMElementKitJS::setValueJS($dom_id, $component->Value);
         }
         if(isset($component->On_Focus)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
         }
         if(isset($component->On_Blur)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
         }
         if(isset($component->On_Change)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->On_Change);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->On_Change);
         }
         if(isset($component->Value_Changed)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keyup', $component->Value_Changed);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keyup', $component->Value_Changed);
         }
         if(isset($component->On_Key_Up)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keyup', $component->On_Key_Up);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keyup', $component->On_Key_Up);
         }
         if(isset($component->On_Key_Down)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keydown', $component->On_Key_Down);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keydown', $component->On_Key_Down);
         }
         if(isset($component->On_Key_Press)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keypress', $component->On_Key_Press);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keypress', $component->On_Key_Press);
         }
         if(isset($component->CSS_Class)){   
             $class[] = self::formatValue($component->CSS_Class);
@@ -285,13 +289,13 @@ class FormInput {
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
         if(isset($component->Value)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::setValueJS($dom_id, $component->Value);
+            $js[] = DOMElementKitJS::setValueJS($dom_id, $component->Value);
         }
         if(isset($component->On_Change)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->On_Change);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->On_Change);
         }
         if(isset($component->Value_Changed)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->Value_Changed);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->Value_Changed);
         }
         
         $html[] = '<input';
@@ -350,7 +354,7 @@ class FormInput {
             $value = self::formatValue($component->Value);
         }
         if(isset($component->On_Click)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'click', $component->On_Click);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'click', $component->On_Click);
         }
         if(isset($component->CSS_Class)){   
             $class[] = self::formatValue($component->CSS_Class);
@@ -386,28 +390,28 @@ class FormInput {
             $value = self::formatValue($component->Value);
         }
         if(isset($component->On_Focus)){   
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'focus', $component->On_Focus);
         }
         if(isset($component->On_Blur)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'blur', $component->On_Blur);
         }
         if(isset($component->On_Change)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->On_Change);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->On_Change);
         }
         if(isset($component->On_Key_Up)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keyup', $component->On_Key_Up);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keyup', $component->On_Key_Up);
         }
         if(isset($component->On_Key_Down)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keydown', $component->On_Key_Down);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keydown', $component->On_Key_Down);
         }
         if(isset($component->On_Key_Press)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'keypress', $component->On_Key_Press);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'keypress', $component->On_Key_Press);
         }
         if(isset($component->On_Click)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'click', $component->On_Click);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'click', $component->On_Click);
         }
         if(isset($component->Value_Changed)){
-            $js[] = \Sequode\Component\DOMElement\Kit\JS::addEventListenerJS($dom_id, 'change', $component->Value_Changed);
+            $js[] = DOMElementKitJS::addEventListenerJS($dom_id, 'change', $component->Value_Changed);
         }
         if(isset($component->CSS_Class)){   
             $class[] = self::formatValue($component->CSS_Class);
@@ -493,15 +497,15 @@ class FormInput {
         return (self::model(null)->exists($value,$by)) ? true : false ;
     }
 	public static function render($component_object, $component_model = null, $sequode_model = null){
-        if($component_model != null ){ \Sequode\Component\FormInput\FormInput::model($component_model); }
+        if($component_model != null ){ self::model($component_model); }
         if($sequode_model != null ){ SQDE_Sequode::model($sequode_model); }
         if($component_object->Component == 'checkboxSwitch' && !isset($component_object->On_Value)){
-            \Sequode\Component\FormInput\FormInput::exists('checkboxSwitch','name');
-            $component_object = json_decode(\Sequode\Component\FormInput\FormInput::model()->component_object);
-        }elseif((!isset($component_object->Component) || \Sequode\Component\FormInput\FormInput::exists($component_object->Component,'name')) && !isset(\Sequode\Component\FormInput\FormInput::model()->component)){
-            \Sequode\Component\FormInput\FormInput::exists('str','name');
-            $component_object = json_decode(\Sequode\Component\FormInput\FormInput::model()->component_object);
+            self::exists('checkboxSwitch','name');
+            $component_object = json_decode(self::model()->component_object);
+        }elseif((!isset($component_object->Component) || self::exists($component_object->Component,'name')) && !isset(self::model()->component)){
+            self::exists('str','name');
+            $component_object = json_decode(self::model()->component_object);
         }
-		return forward_static_call_array(array('\Sequode\Component\FormInput\FormInput',\Sequode\Component\FormInput\FormInput::model()->component), array($component_object));
+		return forward_static_call_array(array(self, self::model()->component), array($component_object));
     }
 }
