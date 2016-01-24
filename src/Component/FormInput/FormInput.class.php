@@ -500,7 +500,7 @@ class FormInput {
         if($component_object->Component == 'checkboxSwitch' && !isset($component_object->On_Value)){
             self::exists('checkboxSwitch','name');
             $component_object = json_decode(self::model()->component_object);
-        }elseif((!isset($component_object->Component)){
+        }elseif(!isset($component_object->Component)){
             self::exists('str','name');
             $component_object = json_decode(self::model()->component_object);
         }
