@@ -2,6 +2,7 @@
 namespace Sequode\Model\Database;
 
 use Sequode\Model\Application\Configuration;
+use Sequode\Controller\Database\MySQL;
 
 class ResourceConnection{
 	public static function model(){
@@ -10,7 +11,7 @@ class ResourceConnection{
             $model = (object) null;
             if(isset(Configuration::model()->database)){
                 foreach(Configuration::model()->database as $member => $database){
-                    $model->{$member. '_database'} = new \Sequode\Controller\Database\MySQL($database->host,$database->user,$database->password,$database->name);
+                    $model->{$member. '_database'} = new MySQL($database->host,$database->user,$database->password,$database->name);
                 }
             }
         }
