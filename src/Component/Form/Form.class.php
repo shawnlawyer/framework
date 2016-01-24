@@ -1,13 +1,18 @@
 <?php
 namespace Sequode\Component\Form;
-class Form extends \Sequode\Patterns\Mason {
+
+
+use Sequode\Patterns\Mason;
+use Sequode\Component\FormInput\FormInput;
+
+class Form extends Mason {
     public static $mason = 'form';
     public static $collection_replacement_hook = '[%COLLECTION_JS%]';
 	public static function domIds($form_object){
         $dom_ids = array();
         if(is_object($form_object)){
             foreach($form_object as $loop_member => $loop_value){
-                $dom_ids[] = \Sequode\Component\FormInput\FormInput::uniqueHash();
+                $dom_ids[] = FormInput::uniqueHash();
             }
         }
         return $dom_ids;
@@ -73,7 +78,7 @@ class Form extends \Sequode\Patterns\Mason {
 			$component_object = self::attachComponentObjectEvents($component_object,$js_events_array[$j]);
 			$component_object->Dom_Id = $dom_ids[$i];
 			$component_object->Value = $form_object->$member->Value;
-			$components_array[] = \Sequode\Component\FormInput\FormInput::render($component_object);
+			$components_array[] = FormInput::render($component_object);
 			$i++;
             if(count($js_events_array) > 1){
                 $j++;
@@ -82,7 +87,7 @@ class Form extends \Sequode\Patterns\Mason {
 		return $components_array;
 	}
     public static function render($form_object){
-        $timeout_var_name = \Sequode\Component\FormInput\FormInput::uniqueHash();
+        $timeout_var_name = FormInput::uniqueHash();
 		$dom_ids = self::domIds($form_object->components);
         $js_event = (object) null;
         $submit_js = '';
@@ -104,12 +109,12 @@ class Form extends \Sequode\Patterns\Mason {
         $components_array = self::components($form_object->components, $dom_ids, array($js_event));
         
         if($form_object->submit_button != null){
-            \Sequode\Component\FormInput\FormInput::exists('button','name');
-            $button_component = json_decode(\Sequode\Component\FormInput\FormInput::model()->component_object);
+            FormInput::exists('button','name');
+            $button_component = json_decode(FormInput::model()->component_object);
             $button_component->Value = $form_object->submit_button;
             $button_component->CSS_Class = 'btn';
             $button_component->On_Click = self::registerTimeout($timeout_var_name, $submit_js);
-            $components_array[] = \Sequode\Component\FormInput\FormInput::render($button_component);
+            $components_array[] = FormInput::render($button_component);
         }
 		return $components_array;
 	}
