@@ -1,6 +1,9 @@
 <?php
 namespace Sequode\Component\Card;
-class Card extends \Sequode\Patterns\Mason {
+
+use Sequode\Patterns\Mason;
+
+class Card extends Mason {
     public static $mason = 'card';
 
    public static function cardMenuComponent($menu_object){

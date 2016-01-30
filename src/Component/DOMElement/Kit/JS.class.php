@@ -1,5 +1,11 @@
 <?php
+
 namespace Sequode\Component\DOMElement\Kit;
+
+
+use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Component\Card\Kit\HTML as CardKitHTML;
+
 class JS {
     
 	public static function setValueJS($dom_id, $value){
@@ -23,11 +29,11 @@ class JS {
                 }
             }
         }else{
-            $html[] = \Sequode\Component\Card\Kit\HTML::contentRowDivider();
+            $html[] = CardKitHTML::contentRowDivider();
             foreach($form as $key => $object){
                 if(isset($object->html)){
                     $html[] = $object->html;
-                    $html[] = \Sequode\Component\Card\Kit\HTML::contentRowDivider();
+                    $html[] = CardKitHTML::contentRowDivider();
                 }
             }
         }
@@ -99,7 +105,7 @@ class JS {
 	}
     public static function loadComponentHere($call_object, $contents='', $icon = 'atom'){
         $html = $js = array();
-        $dom_id = \Sequode\Component\FormInput\FormInput::uniqueHash();
+        $dom_id = FormInputComponent::uniqueHash();
         
         $html[] = '<span id="'.$dom_id.'c">';
         $html[] = '<span class="automagic-card-text-button" id="'.$dom_id.'b">';
