@@ -487,7 +487,7 @@ class FormInput {
 	public static function model($replace = false){
         static $model;  
         if(!is_object($model) || ($replace != false && $replace == null)){
-            $model = new \SQDE_Components;
+            $model = new \Sequode\Application\Models\ORM\Components;
         }elseif($replace != false){
             $model = $replace;
         }
