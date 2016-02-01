@@ -4,7 +4,7 @@ namespace Sequode\Application\Models\ORM;
 
 use Sequode\Model\Database\SQL\ORM;
 
-class SQDE_Components extends ORM {
+class Components extends ORM {
     public $database_connection     =   'system_database';
 	public $table 				    =	'components';
 	public function __construct() {
