@@ -54,8 +54,8 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Password');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($_model->id)), 'Set Password', 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Role');
-        SQDE_Role::exists($_model->role_id,'id');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($_model->id)), SQDE_Role::model()->name, 'settings');
+        \SQDE_Role::exists($_model->role_id,'id');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($_model->id)), \SQDE_Role::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Active Status');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateActive', array($_model->id)), (($_model->active == 1) ? 'Active' : 'Suspended'), 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Sign Up Date');
@@ -70,7 +70,7 @@ class Cards {
         $_o->body[] = CardKit::collectionTile('Package', 'Packages Created : ', $_model);
         $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $_model);
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/user/details'));
-        if(SQDE_UserAuthority::isSystemOwner()){
+        if(\SQDE_UserAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         return $_o;

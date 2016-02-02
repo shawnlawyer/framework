@@ -20,15 +20,15 @@ class Operations {
         return $salt . sha1($salt . $text);
     }
     public static function load(){
-        if(SQDE_Session::isCookieValid() && SQDE_Session::exists(SQDE_Session::model()->session_id, 'session_id')){
-            Modeler::exists(SQDE_Session::get('user_id'),'id');
-            SQDE_AuthenticatedUser::exists(SQDE_Session::get('user_id'),'id');
+        if(\SQDE_Session::isCookieValid() && \SQDE_Session::exists(\SQDE_Session::model()->session_id, 'session_id')){
+            Modeler::exists(\SQDE_Session::get('user_id'),'id');
+            \SQDE_AuthenticatedUser::exists(\SQDE_Session::get('user_id'),'id');
         }
     }
 	public static function getModelersModelCount($_modeler, $_model){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $_models = new SQDE_Package::$model;
+        $_models = new \SQDE_Package::$model;
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$modeler::model()->id);
         $_models->getCount($where, 'id');
@@ -91,22 +91,22 @@ class Operations {
         return $modeler::model();
     }
     public static function addToSequodeFavorites($sequode_model = null, $_model = null){
-        if($sequode_model != null ){ SQDE_Sequode::model($sequode_model); }
+        if($sequode_model != null ){ \SQDE_Sequode::model($sequode_model); }
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
 		$palette = json_decode($_model->sequode_favorites);
-		$palette[] = SQDE_Sequode::model()->id;
+		$palette[] = \SQDE_Sequode::model()->id;
         $modeler::model()->updateField(json_encode(array_unique($palette)),'sequode_favorites');
         return $modeler::model();
     }
     public static function removeFromSequodeFavorites($sequode_model = null, $_model = null){
-        if($sequode_model != null ){ SQDE_Sequode::model($sequode_model); }
+        if($sequode_model != null ){ \SQDE_Sequode::model($sequode_model); }
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
 		$palette = json_decode($modeler::model()->sequode_favorites);
         $array = array();
 		foreach($palette as $value){
-			if(intval($value) != SQDE_Sequode::model()->id){
+			if(intval($value) != \SQDE_Sequode::model()->id){
 				$array[] = $value;
 			}
 		}
@@ -117,17 +117,17 @@ class Operations {
     public static function login($_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        SQDE_AuthenticatedUser::model($modeler::model());
-        SQDE_Session::model()->updateField($modeler::model()->username,'username');
-        SQDE_Session::set('user_id', $modeler::model()->id, false);
-        SQDE_Session::set('username', $modeler::model()->username, false);
-        SQDE_Session::set('role_id', $modeler::model()->role_id, false);
-        SQDE_Session::save();
-        return SQDE_AuthenticatedUser::model();
+        \SQDE_AuthenticatedUser::model($modeler::model());
+        \SQDE_Session::model()->updateField($modeler::model()->username,'username');
+        \SQDE_Session::set('user_id', $modeler::model()->id, false);
+        \SQDE_Session::set('username', $modeler::model()->username, false);
+        \SQDE_Session::set('role_id', $modeler::model()->role_id, false);
+        \SQDE_Session::save();
+        return \SQDE_AuthenticatedUser::model();
     }
     public static function newUser(){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
-        $modeler::model()->create(substr(SQDE_Session::uniqueHash(),0,15), SQDE_Session::uniqueHash(), substr(SQDE_Session::uniqueHash(),0,15));
+        $modeler::model()->create(substr(\SQDE_Session::uniqueHash(),0,15), \SQDE_Session::uniqueHash(), substr(\SQDE_Session::uniqueHash(),0,15));
         $modeler::exists($modeler::model()->id, 'id');
         $modeler::model()->updateField('[]','sequode_favorites');
         $modeler::model()->updateField('100','role_id');
@@ -137,7 +137,7 @@ class Operations {
     }
     public static function newGuest(){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
-        $modeler::model()->create(substr(SQDE_Session::uniqueHash(),0,15), SQDE_Session::uniqueHash(), substr(SQDE_Session::uniqueHash(),0,15));
+        $modeler::model()->create(substr(\SQDE_Session::uniqueHash(),0,15), \SQDE_Session::uniqueHash(), substr(\SQDE_Session::uniqueHash(),0,15));
         $modeler::exists($modeler::model()->id, 'id');
         $modeler::model()->updateField('[]','sequode_favorites');
         $modeler::model()->updateField('101','role_id');
@@ -149,7 +149,7 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         if(!($_model->id != 1 && $_model->id != 2 && $_model->role_id > 99)){
-            return SQDE_User::model($_model);
+            return \SQDE_User::model($_model);
         }
         $sequodes_model = self::getSequodesModelOfAllSequencedSequodes($_model);
         foreach($sequodes_model->all as $object){
@@ -159,7 +159,7 @@ class Operations {
         return $modeler::model();
     }
     public static function updateRole($role_model = null, $_model = null){
-        if($role_model == null ){ $role_model = SQDE_Role::model(); }
+        if($role_model == null ){ $role_model = \SQDE_Role::model(); }
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         $modeler::model()->updateField($role_model->id,'role_id');

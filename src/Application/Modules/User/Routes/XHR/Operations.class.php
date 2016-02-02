@@ -11,7 +11,7 @@ class Operations{
         $operations = ModuleRegistry::model(static::$package)->operations;
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         if(!(
-        SQDE_UserAuthority::isSystemOwner()
+        \SQDE_UserAuthority::isSystemOwner()
         )){ return; }
         return $cards_xhr::details($operations::newUser()->id);
     }
@@ -19,7 +19,7 @@ class Operations{
         $operations = ModuleRegistry::model(static::$package)->operations;
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         if(!(
-        SQDE_UserAuthority::isSystemOwner()
+        \SQDE_UserAuthority::isSystemOwner()
         )){ return; }
         return $cards_xhr::details($operations::newGuest()->id);
     }
@@ -28,7 +28,7 @@ class Operations{
         $operations = ModuleRegistry::model(static::$package)->operations;
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         if(!(
-        SQDE_UserAuthority::isSystemOwner()
+        \SQDE_UserAuthority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::delete();
@@ -39,11 +39,11 @@ class Operations{
         $operations = ModuleRegistry::model(static::$package)->operations;
         $input = json_decode(rawurldecode($json));
         if(!(
-        SQDE_UserAuthority::isSystemOwner()
+        \SQDE_UserAuthority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::login();
-        return SQDE_ConsoleRoutes::js(false);
+        return \SQDE_ConsoleRoutes::js(false);
     }
     public static function updatePassword($_model_id, $json){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
@@ -51,7 +51,7 @@ class Operations{
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $input = json_decode(rawurldecode($json));
         if(!(
-        SQDE_UserAuthority::isSystemOwner()
+        \SQDE_UserAuthority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::updatePassword($input->password);
@@ -63,9 +63,9 @@ class Operations{
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $input = json_decode(rawurldecode($json));
         if(!(
-            SQDE_UserAuthority::isSystemOwner()
+            \SQDE_UserAuthority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
-            && SQDE_Role::exists($input->role,'id')
+            && \SQDE_Role::exists($input->role,'id')
         )){return;}
         $operations::updateRole();
         return $cards_xhr::details($modeler::model()->id);
@@ -76,7 +76,7 @@ class Operations{
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $input = json_decode(rawurldecode($json));
         if(!(
-            SQDE_UserAuthority::isSystemOwner()
+            \SQDE_UserAuthority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::updateActive($input->active);
@@ -111,7 +111,7 @@ class Operations{
         $_o = json_decode(stripslashes($json));
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
         $collection = 'user_search';
-        SQDE_Session::set($collection, $_o);
+        \SQDE_Session::set($collection, $_o);
 		$js=array();
         $js[] = DOMElementKitJS::fetchCollection($collection);
         return implode(' ',$js);
