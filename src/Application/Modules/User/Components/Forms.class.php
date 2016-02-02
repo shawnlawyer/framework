@@ -1,4 +1,5 @@
 <?php
+namespace Sequode\Application\Modules\User\Components;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\Form\Form as FormComponent;
