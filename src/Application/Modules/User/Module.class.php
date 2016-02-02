@@ -8,10 +8,10 @@ class Module {
         $_o = (object)  array (
             'context' => 'user',
             'modeler' => Modeler::class,
-            'card_objects' => Components\Cards:class,
-            'form_objects' => Components\Forms:class,
+            'card_objects' => Components\Cards::class,
+            'form_objects' => Components\Forms::class,
             'operations' => Operations::class,
-            'finder' => Models\Finder:class,
+            'finder' => Models\Finder::class,
             'collections' => Routes\Collections::class,
             'xhr' = (object) array (
                 'operations' => Routes\XHR\Operations::class,
