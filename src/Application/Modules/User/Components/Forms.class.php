@@ -3,9 +3,9 @@
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\Form\Form as FormComponent;
 
-class SQDE_UserFormObjects   {
+class Forms  {
     public static $package = 'User';
-	public static $objects_source = Sequode\Application\Modules\User\Components\FormInputs:class;
+	public static $objects_source = Sequode\Application\Modules\User\Components\FormInputs::class;
 	public static $xhr_library = 'operations/user';
     public static function updateDomain($_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
