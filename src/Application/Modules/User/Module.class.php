@@ -13,7 +13,7 @@ class Module {
             'operations' => Operations::class,
             'finder' => Models\Finder::class,
             'collections' => Routes\Collections::class,
-            'xhr' = (object) array (
+            'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class,
                 'forms' => Routes\XHR\Forms::class,
                 'cards' => Routes\XHR\Cards::class
