@@ -33,7 +33,7 @@ class Operations {
     }
     public static function load(){
         if(\SQDE_Session::isCookieValid() && \SQDE_Session::exists(\SQDE_Session::model()->session_id, 'session_id')){
-            \Sequode\Application\Modules\Auth\Modeler::exists(SQDE_Session::get('user_id'),'id');
+            \Sequode\Application\Modules\Auth\Modeler::exists(\SQDE_Session::get('user_id'),'id');
         }
     }
 }
