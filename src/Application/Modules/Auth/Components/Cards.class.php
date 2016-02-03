@@ -5,6 +5,7 @@ namespace Sequode\Application\Modules\Auth\Components;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\CardKit as CardKit;
+use Sequode\Component\Form\Form as FormComponent;
 
 class Cards {
     public static $package = 'Auth';
@@ -35,7 +36,7 @@ class Cards {
         if($dialog_store->step != 0){
             $_o->menu = (object) null;
             $_o->menu->items = array();
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Reset','operations/auth/' . __FUNCTION__,array(Sequode\Component\Form\Form::jsQuotedValue('{"reset":"1"}')));
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Reset','operations/auth/' . __FUNCTION__,array(FormComponent::jsQuotedValue('{"reset":"1"}')));
         }
         $_o->head = 'Authentication';
         $_o->body = array('');
