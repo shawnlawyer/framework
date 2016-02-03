@@ -2,9 +2,9 @@
 
 namespace Sequode\Application\Modules\User\Models;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
+use Sequode\Model\Module\Registry\Finder as ModuleRegistry;
 
-class Finder {
+class Collections {
     public static $package = 'User';
     public static function search($search_object, $limit=100){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
