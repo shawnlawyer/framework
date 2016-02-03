@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\User;
+namespace Sequode\Application\Modules\Auth;
 
 use Sequode\Application\Models\ORM\Users as Model;
 

@@ -9,7 +9,7 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class CardKit {
     public static function collectionTile($package, $headline=''){
-        $user_model = \SQDE_AuthenticatedUser::model();
+        $user_model = \Sequode\Application\Modules\Auth\Modeler::model();
         $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = array();
         $context = ModuleRegistry::model($package)->context;

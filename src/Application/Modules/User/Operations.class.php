@@ -108,17 +108,6 @@ class Operations {
         return $modeler::model();
     }
     
-    public static function login($_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        \SQDE_AuthenticatedUser::model($modeler::model());
-        \SQDE_Session::model()->updateField($modeler::model()->username,'username');
-        \SQDE_Session::set('user_id', $modeler::model()->id, false);
-        \SQDE_Session::set('username', $modeler::model()->username, false);
-        \SQDE_Session::set('role_id', $modeler::model()->role_id, false);
-        \SQDE_Session::save();
-        return \SQDE_AuthenticatedUser::model();
-    }
     public static function newUser(){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         $modeler::model()->create(substr(\SQDE_Session::uniqueHash(),0,15), \SQDE_Session::uniqueHash(), substr(\SQDE_Session::uniqueHash(),0,15));
