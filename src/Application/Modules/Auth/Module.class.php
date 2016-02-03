@@ -10,7 +10,7 @@ class Module {
             'modeler' => Modeler::class,
             'card_objects' => Components\Cards::class,
             'form_objects' => Components\Forms::class,
-            'operations' => Operations::class
+            'operations' => Operations::class,
             'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class,
                 'cards' => Routes\XHR\Cards::class
