@@ -6,7 +6,7 @@ use Sequode\Component\Form\Form as FormComponent;
 
 class Forms   {
     public static $package = 'Auth';
-	public static $objects_source = FormInputs:class;
+	public static $objects_source = FormInputs::class;
 	public static $xhr_library = 'operations/auth';
 	public static function login(){
         $_o = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
