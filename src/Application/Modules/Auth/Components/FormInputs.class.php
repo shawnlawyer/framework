@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\Auth\Components;
 
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
-class SQDE_AuthFormComponentObjects   {
+class FormInputs   {
     public static $package = 'Auth';
     public static function login(){
         $_o = (object) null;

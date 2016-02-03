@@ -6,7 +6,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\CardKit as CardKit;
 
-class SQDE_AuthCardObjects {
+class Cards {
     public static $package = 'Auth';
     public static function menu(){
         $_o = (object) null;
