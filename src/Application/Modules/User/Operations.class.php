@@ -19,12 +19,6 @@ class Operations {
         }
         return $salt . sha1($salt . $text);
     }
-    public static function load(){
-        if(\SQDE_Session::isCookieValid() && \SQDE_Session::exists(\SQDE_Session::model()->session_id, 'session_id')){
-            Modeler::exists(\SQDE_Session::get('user_id'),'id');
-            \SQDE_AuthenticatedUser::exists(\SQDE_Session::get('user_id'),'id');
-        }
-    }
 	public static function getModelersModelCount($_modeler, $_model){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
