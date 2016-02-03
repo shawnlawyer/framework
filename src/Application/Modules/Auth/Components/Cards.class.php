@@ -24,10 +24,10 @@ class Cards {
     }
    public static function login(){
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!SQDE_Session::is($dialog['session_store_key'])){
-            SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
+        if(!\SQDE_Session::is($dialog['session_store_key'])){
+            \SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
-        $dialog_store = SQDE_Session::get($dialog['session_store_key']);
+        $dialog_store = \SQDE_Session::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
         $_o->icon_background = 'users-icon-background';

@@ -16,7 +16,7 @@ class Operations {
     public static function login($json = null){
         
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!SQDE_Session::is($dialog['session_store_key'])){ return; }
+        if(!\SQDE_Session::is($dialog['session_store_key'])){ return; }
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $operations_xhr = ModuleRegistry::model(static::$package)->xhr->operations;
         $operations = ModuleRegistry::model(static::$package)->operations;
@@ -24,11 +24,11 @@ class Operations {
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
-                    SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
+                    \SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
                     return forward_static_call_array(array($cards_xhr,__FUNCTION__),array());  
                 }
         }
-        $dialog_store = SQDE_Session::get($dialog['session_store_key']);
+        $dialog_store = \SQDE_Session::get($dialog['session_store_key']);
         $dialog_step = $dialog['steps'][$dialog_store->step];
         if(isset($dialog_step->prep) && $dialog_step->prep == true){
             if(isset($dialog_step->required_members)){
@@ -46,7 +46,7 @@ class Operations {
                     && SQDE_UserAuthority::isActive($modeler::model())
                     ){
                         $dialog_store->prep->user_id = $modeler::model()->id;
-                        SQDE_Session::set($dialog['session_store_key'], $dialog_store);
+                        \SQDE_Session::set($dialog['session_store_key'], $dialog_store);
                     }
                     else
                     {
@@ -74,7 +74,7 @@ class Operations {
         }
         if(!isset($error)){
             $dialog_store->step++;
-            SQDE_Session::set($dialog['session_store_key'], $dialog_store);
+            \SQDE_Session::set($dialog['session_store_key'], $dialog_store);
             return (intval($dialog_store->step) == 2) ? SQDE_ConsoleRoutes::js(false) : forward_static_call_array(array($cards_xhr,__FUNCTION__),array());
         }else{
                 echo $error;
