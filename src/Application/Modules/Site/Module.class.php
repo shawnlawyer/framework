@@ -3,7 +3,7 @@
 
 namespace Sequode\Application\Modules\Site;
 
-class Modules {
+class Module {
     public static $package = 'Site';
 	public static function model(){
         $_o = (object)  array (
