@@ -2,7 +2,7 @@
 
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
-class SQDE_RegisterFormComponentObjects   {
+class FormInputs   {
     public static $package = 'Register';
     
     public static function email(){
