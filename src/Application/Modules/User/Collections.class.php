@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\User\Models;
+namespace Sequode\Application\Modules\User;
 
 use Sequode\Model\Module\Registry\Finder as ModuleRegistry;
 
