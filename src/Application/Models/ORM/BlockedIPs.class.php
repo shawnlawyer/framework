@@ -4,7 +4,7 @@ namespace Sequode\Application\Models\ORM;
 
 use Sequode\Model\Database\SQL\ORM;
 
-class BlacklistIPs extends ORM {
+class BlockedIPs extends ORM {
     public $database_connection     =   'sessions_database';
 	public $table                   =	'ip_blacklist';
 	public function __construct() {
