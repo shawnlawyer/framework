@@ -53,7 +53,7 @@ class Cards {
                 $_o->body = array_merge($_o->body, ModuleForm::render(self::$package, $form));
             }
         }
-        if($dialog_store->step != 0){
+        if($dialog_store->step != 0 && $dialog_store->step < count($dialog['steps']) - 1){
             $_o->body[] = CardKit::resetDialogButton('operations/register/' . __FUNCTION__);
         }
         $_o->body[] = (object) array('js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();');
