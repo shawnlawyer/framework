@@ -1,10 +1,12 @@
 <?php
 
+namespace Sequode\Application\Modules\Register\Routes\XHR;
+
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
 
-class SQDE_RegisterOperationsXHR {
+class Operations {
     public static $package = 'Register';
 	public static $merge = false;
 	public static $routes = array(
@@ -17,7 +19,7 @@ class SQDE_RegisterOperationsXHR {
     public static function signup($json = null){
         
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!SQDE_Session::is($dialog['session_store_key'])){ return; }
+        if(!\SQDE_Session::is($dialog['session_store_key'])){ return; }
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $operations_xhr = ModuleRegistry::model(static::$package)->xhr->operations;
         $operations = ModuleRegistry::model(static::$package)->operations;
@@ -25,11 +27,11 @@ class SQDE_RegisterOperationsXHR {
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
-                    SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
+                    \SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
                     return forward_static_call_array(array($cards_xhr,__FUNCTION__),array());  
                 }
         }
-        $dialog_store = SQDE_Session::get($dialog['session_store_key']);
+        $dialog_store = \SQDE_Session::get($dialog['session_store_key']);
         $dialog_step = $dialog['steps'][$dialog_store->step];
         if(isset($dialog_step->prep) && $dialog_step->prep == true){
             if(isset($dialog_step->required_members)){
@@ -41,11 +43,11 @@ class SQDE_RegisterOperationsXHR {
                 case 0:
                     if(
                         !$modeler::exists(rawurldecode($input->email),'email')
-                        && SQDE_UserAuthority::isAnEmailAddress(rawurldecode($input->email))
+                        && \SQDE_UserAuthority::isAnEmailAddress(rawurldecode($input->email))
                     ){
                         $dialog_store->prep->email = rawurldecode($input->email);
                         $dialog_store->prep->token = $operations::generateHash();
-                        SQDE_Session::set($dialog['session_store_key'], $dialog_store);
+                        \SQDE_Session::set($dialog['session_store_key'], $dialog_store);
                     }
                     else
                     {
@@ -55,10 +57,10 @@ class SQDE_RegisterOperationsXHR {
                 case 1:
                     if(
                         rawurldecode($input->password) == rawurldecode($input->confirm_password)
-                        && SQDE_UserAuthority::isSecurePassword(rawurldecode($input->password))
+                        && \SQDE_UserAuthority::isSecurePassword(rawurldecode($input->password))
                     ){
                         $dialog_store->prep->password = rawurldecode($input->password);
-                        SQDE_Session::set($dialog['session_store_key'], $dialog_store);
+                        \SQDE_Session::set($dialog['session_store_key'], $dialog_store);
                     }
                     else
                     {
@@ -101,7 +103,7 @@ class SQDE_RegisterOperationsXHR {
         }
         if(!isset($error)){
             $dialog_store->step++;
-            SQDE_Session::set($dialog['session_store_key'], $dialog_store);
+            \SQDE_Session::set($dialog['session_store_key'], $dialog_store);
             return forward_static_call_array(array($cards_xhr,__FUNCTION__),array()); 
         }
     }

@@ -1,10 +1,13 @@
 <?php
 
+namespace Sequode\Application\Modules\Register\Components;
+
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\CardKit as CardKit;
+use Sequode\Component\Form\Form as FormComponent;
 
-class SQDE_RegisterCardObjects {
+class Cards {
     public static $package = 'Register';
     public static function menu(){
         $_o = (object) null;
@@ -22,10 +25,10 @@ class SQDE_RegisterCardObjects {
     }
     public static function signup(){
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!SQDE_Session::is($dialog['session_store_key'])){
-            SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
+        if(!\SQDE_Session::is($dialog['session_store_key'])){
+            \SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
-        $dialog_store = SQDE_Session::get($dialog['session_store_key']);
+        $dialog_store = \SQDE_Session::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
         $_o->icon_background = 'users-icon-background';
@@ -33,7 +36,7 @@ class SQDE_RegisterCardObjects {
         if($dialog_store->step != 0){
             $_o->menu = (object) null;
             $_o->menu->items = array();
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over','operations/account/' . __FUNCTION__,array(Sequode\Component\Form\Form::jsQuotedValue('{"reset":"1"}')));
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over','operations/account/' . __FUNCTION__,array(FormComponent::jsQuotedValue('{"reset":"1"}')));
         }
         $_o->head = ' Create Account';
         $_o->body = array('');
