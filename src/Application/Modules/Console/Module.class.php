@@ -1,13 +1,15 @@
 <?php
-
-namespace Sequode\Application\Modules\Site;
+namespace Sequode\Application\Modules\Console;
 
 class Module {
-    public static $package = 'Site';
+    public static $package = 'Console';
 	public static function model(){
         $_o = (object)  array (
-            'context' => 'site',
+            'context' => 'console',
             'card_objects' => Components\Cards::class,
+            'routes' =>  array(
+                Routes\Routes::class
+            ),
             'xhr' => (object) array (
                 'cards' => Routes\XHR\Cards::class
             )

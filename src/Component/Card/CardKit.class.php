@@ -8,7 +8,7 @@ use Sequode\Component\FormInput\FormInput as FormInputComponent;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class CardKit {
-    public static function collectionTile($package, $headline=''){
+    public static function collectionTile($package, $headline='', $user_model){
         $user_model = \Sequode\Application\Modules\Auth\Modeler::model();
         $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = array();
