@@ -33,7 +33,7 @@ class Cards {
         $_o = (object) null;
         $_o->icon_background = 'users-icon-background';
         $_o->size = 'small';
-        if($dialog_store->step != 0){
+        if($dialog_store->step != 0 && $dialog_store->step < count($dialog['steps']) - 1){
             $_o->menu = (object) null;
             $_o->menu->items = array();
             $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over','operations/account/' . __FUNCTION__,array(FormComponent::jsQuotedValue('{"reset":"1"}')));
