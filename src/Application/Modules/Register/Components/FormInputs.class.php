@@ -1,5 +1,7 @@
 <?php
 
+namespace Sequode\Application\Modules\Register\Components;
+
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class FormInputs   {
