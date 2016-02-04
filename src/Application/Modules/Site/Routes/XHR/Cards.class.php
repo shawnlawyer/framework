@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\Account\Routes\XHR;
+namespace Sequode\Application\Modules\Site\Routes\XHR;
 
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
