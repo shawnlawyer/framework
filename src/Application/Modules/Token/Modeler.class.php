@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\Tokens;
+namespace Sequode\Application\Modules\Token;
 
 use Sequode\Application\Models\ORM\Tokens as Model;
 
