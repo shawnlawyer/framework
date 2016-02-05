@@ -5,7 +5,7 @@ namespace Sequode\Application\Modules\Token\Components;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
-class FormInouts{
+class FormInputs{
     public static $package = 'Token';
     public static function name($_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
