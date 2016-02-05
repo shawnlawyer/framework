@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\Console\Routes;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
+use Sequode\Model\Application\Routes as ApplicationRoutes;
 use Sequode\Model\Application\Runtime as RuntimeModel;
 use Sequode\Controller\Application\HTTPRequest\XHR as XHRRequest;
 use Sequode\Component\DOMElement\Kit\HTML as DOMElementKitHTML;
@@ -150,10 +151,10 @@ class Routes{
             return;
         }
         $routes_class = ModuleRegistry::model($package)->xhr->$request_type;
-        if(!in_array($call_pieces[2], Routes::routes('\\'.$routes_class))){
+        if(!in_array($call_pieces[2], ApplicationRoutes::routes('\\'.$routes_class))){
             return;
         }
-        $route = Routes::route('\\'.$routes_class, $call_pieces[2]);
+        $route = ApplicationRoutes::route('\\'.$routes_class, $call_pieces[2]);
         
 		if(isset($_POST['args']) && !empty($_POST['args'])){
             if( 500000 < strlen(http_build_query($_POST))){ return; }
