@@ -113,7 +113,7 @@ class Routes{
         if($closure == true){
             echo '!function() {';
         }
-        if($force_SSL == true && $_SERVER['WORKFLOW_ENVIRONMENT'] != 'development'){
+        if($force_SSL == true){
             //echo DOMElementKitJS::forceSSL();
         }
 		foreach($files as $file){
@@ -176,7 +176,6 @@ class Routes{
                 break;
         }
         
-
         switch($collection){
 			case 'my_sequodes':
                 \SQDE_SequodeCollections::owned();
@@ -185,7 +184,7 @@ class Routes{
                 \SQDE_PackageCollections::owned();
                 return;
 			case 'tokens':
-                \SQDE_TokenCollections::owned();
+               \Sequode\Application\Modules\User\Routes\Collections\Collections::owned();
                 return;
 			case 'sequode_search':
                 \SQDE_SequodeCollections::search();
@@ -200,7 +199,7 @@ class Routes{
                 \SQDE_PackageCollections::search();
                 return;
 			case 'token_search':
-                \SQDE_TokenCollections::search();
+                \Sequode\Application\Modules\User\Routes\Collections\Collections::search();
                 return;
 			case 'sequode_favorites':
                 \SQDE_SequodeCollections::favorited();
