@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Token\Components;
 
-use Sequode\Model\Modules\Registry as ModuleRegistry;
+use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\Form\Form as FormComponent;
 
 class Forms   {
