@@ -179,16 +179,16 @@ class Routes{
 
         switch($collection){
 			case 'my_sequodes':
-                SQDE_SequodeCollections::owned();
+                \SQDE_SequodeCollections::owned();
                 return;
 			case 'packages':
-                SQDE_PackageCollections::owned();
+                \SQDE_PackageCollections::owned();
                 return;
 			case 'tokens':
-                SQDE_TokenCollections::owned();
+                \SQDE_TokenCollections::owned();
                 return;
 			case 'sequode_search':
-                SQDE_SequodeCollections::search();
+                \SQDE_SequodeCollections::search();
                 return;
 			case 'user_search':
                 \Sequode\Application\Modules\User\Routes\Collections::search();
@@ -197,19 +197,19 @@ class Routes{
                 \SQDE_SessionCollections::search();
                 return;
 			case 'package_search':
-                SQDE_PackageCollections::search();
+                \SQDE_PackageCollections::search();
                 return;
 			case 'token_search':
-                SQDE_TokenCollections::search();
+                \SQDE_TokenCollections::search();
                 return;
 			case 'sequode_favorites':
-                SQDE_SequodeCollections::favorited();
+                \SQDE_SequodeCollections::favorited();
                 return;
 			case 'palette':
-                SQDE_SequodeCollections::palette();
+                \SQDE_SequodeCollections::palette();
                 return;
 			case 'sequodes':
-                SQDE_SequodeCollections::main($key);
+                \SQDE_SequodeCollections::main($key);
                 return;
             default:
 			case 'collections':
