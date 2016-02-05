@@ -43,7 +43,7 @@ class Operations{
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::login();
-        return \SQDE_ConsoleRoutes::js(false);
+        return \Sequode\Application\Modules\Console\Routes\Routes::js(false);
     }
     public static function updatePassword($_model_id, $json){
         $modeler = ModuleRegistry::model(static::$package)->modeler;

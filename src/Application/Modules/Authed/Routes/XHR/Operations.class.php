@@ -16,6 +16,6 @@ class Operations {
     public static function logout(){
         $operations = ModuleRegistry::model(static::$package)->operations;
         forward_static_call_array(array($operations,__FUNCTION__),array());
-        return \SQDE_ConsoleRoutes::js(false);
+        return \Sequode\Application\Modules\Console\Routes\Routes::js(false);
     }
 }
