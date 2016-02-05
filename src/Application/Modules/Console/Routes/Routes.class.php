@@ -3,7 +3,6 @@
 namespace Sequode\Application\Modules\Console\Routes;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
-use Sequode\Model\Application\Routes;
 use Sequode\Model\Application\Runtime as RuntimeModel;
 use Sequode\Controller\Application\HTTPRequest\XHR as XHRRequest;
 use Sequode\Component\DOMElement\Kit\HTML as DOMElementKitHTML;
@@ -38,78 +37,6 @@ class Routes{
         }
         SQDE_Session::set('console',$console);
 		echo DOMElementKitHTML::page();
-		exit;
-	}
-	public static function routes(){
-        if(SQDE_UserAuthority::isSystemOwner()){
-            $routes_classes = RuntimeModel::model()->routes;
-            foreach($routes_classes as $routes_class){
-                $routes = Sequode\ZA::routes('\\'.$routes_class);
-                echo $routes_class.'<br>';
-                echo '<ul>';
-                foreach($routes as $route){
-                    echo '<li>';
-                    echo '<a href="/'.$route.'">'.$route.'</a><br>';
-                    echo '</li>';
-                }
-                echo '</ul>';
-            }
-        }
-		exit;
-	}
-	public static function operations(){
-        if(!SQDE_Session::is('console')){return;}
-        $packages = ModuleRegistry::models();
-        foreach($packages as $package => $model){
-            echo '<li> /';
-            echo $model->context;
-            echo '/ </li>';
-            if(isset($model->xhr->operations)){
-                $routes = Routes::routes('\\'.$model->xhr->operations);
-                foreach($routes as $route){
-                    echo '<li>';
-                    echo __FUNCTION__ .'/'. $model->context .'/'. $route;
-                    echo '</li>';
-                }
-            }
-        }
-		exit;
-	}
-	public static function cards(){
-        
-        $packages = ModuleRegistry::models();
-        foreach($packages as $package => $model){
-            echo '<li> /';
-            echo $model->context;
-            echo '/ </li>';
-            if(isset($model->xhr->cards)){
-                $routes = Routes::routes('\\'.$model->xhr->cards);
-                foreach($routes as $route){
-                    echo '<li>';
-                    echo '<a href="/?card='. $model->context .'/'. $route .'">';
-                    echo $model->context .'/'. $route;
-                    echo '</a>';
-                    echo '</li>';
-                }
-            }
-        }
-		exit;
-	}
-	public static function cardsCollection(){
-        if(!SQDE_Session::is('console')){return;}
-        $packages = ModuleRegistry::models();
-        echo '{';
-        foreach($packages as $package => $model){
-            if(isset($model->xhr->cards)){
-                $routes = Routes::routes('\\'.$model->xhr->cards);
-                foreach($routes as $route){
-                    echo '"cards":"'. $model->context .'/'. $route .'",';
-                    echo $model->context .'/'. $route;
-                    echo '</a>';
-                    echo '</li>';
-                }
-            }
-        }
 		exit;
 	}
 	public static function vendorJS(){
