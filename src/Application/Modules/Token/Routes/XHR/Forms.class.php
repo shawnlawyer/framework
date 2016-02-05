@@ -1,8 +1,6 @@
 <?php
 
-
-namespace Sequode\Application\Modules\TokenRoutes\XHR;
-
+namespace Sequode\Application\Modules\Token\Routes\XHR;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
