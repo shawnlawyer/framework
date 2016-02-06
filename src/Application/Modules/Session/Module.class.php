@@ -12,7 +12,6 @@ class Module {
         $model->finder = Collections::class;
         $model->card_objects = Components\Cards::class;
         $model->form_objects = Components\Forms::class;
-        $model->operations = Operations::class;
         $model->xhr = (object) null;
         $model->xhr->operations = Routes\XHR\Operations::class;
         $model->xhr->forms = Routes\XHR\Forms::class;
