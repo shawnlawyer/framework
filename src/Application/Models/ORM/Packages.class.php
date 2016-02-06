@@ -20,7 +20,7 @@ class Packages extends ORM {
 			,0
 			,0
 			,'New Package'
-            ,".$this->safedSQLData(SQDE_Session::uniqueHash('token'), 'text')."
+            ,".$this->safedSQLData(sha1(substr(md5(uniqid(rand(), true)), 0, 25)), 'text')."
             ,'{}'
             )
 			";

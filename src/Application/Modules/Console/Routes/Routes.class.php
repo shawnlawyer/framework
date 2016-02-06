@@ -36,12 +36,12 @@ class Routes{
         if(\SQDE_UserAuthority::isAuthenticated()){
             $console = 'Sequode';
         }
-        \SQDE_Session::set('console',$console);
+        \Sequode\Application\Modules\Session\Modeler::set('console',$console);
 		echo DOMElementKitHTML::page();
 		exit;
 	}
 	public static function vendorJS(){
-        if(!\SQDE_Session::is('console')){return;}
+        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
 		$files = array('js/jquery-2.1.4.js','js/kinetic_v5_1_0.js');
 		header('Content-type: application/javascript');
 		foreach($files as $file){ 
@@ -50,7 +50,7 @@ class Routes{
 		}
 	}
 	public static function css(){
-        if(!\SQDE_Session::is('console')){return;}
+        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
 		$files = array(
         'css/SQDE_automagic_cards.css',
         'css/SQDE_automagic_content.css',
@@ -75,8 +75,8 @@ class Routes{
 		}
 	}
 	public static function js($closure = true,$force_SSL = true){
-        if(!\SQDE_Session::is('console')){return;}
-        switch(\SQDE_Session::get('console')){
+        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
+        switch(\Sequode\Application\Modules\Session\Modeler::get('console')){
             case 'Sequode':
                 $files = array(
                     'js/SQDE_Configuration.js',
@@ -125,7 +125,7 @@ class Routes{
         }
 	}
 	public static function xhr(){
-        if(!\SQDE_Session::is('console')){return;}
+        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
 		$call = false;
 		$args = array();
 
@@ -169,8 +169,8 @@ class Routes{
         return true;
     }
 	public static function collections($collection='collections', $key = null){
-        if(!\SQDE_Session::is('console')){return;}
-        switch(\SQDE_Session::get('console')){
+        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
+        switch(\Sequode\Application\Modules\Session\Modeler::get('console')){
             case 'Sequode':
                 $collections = array('my_sequodes', 'sequode_favorites', 'palette', 'sequodes', 'tokens', 'packages');
                 break;

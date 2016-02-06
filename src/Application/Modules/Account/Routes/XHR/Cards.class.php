@@ -21,15 +21,15 @@ class Cards {
     );
     public static function updatePassword($dom_id = 'CardsContainer'){
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!\SQDE_Session::is($dialog['session_store_key'])){
-            \SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
+        if(!\Sequode\Application\Modules\Session\Modeler::is($dialog['session_store_key'])){
+            \Sequode\Application\Modules\Session\Modeler::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
         return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
     }
     public static function updateEmail($dom_id = 'CardsContainer'){
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!\SQDE_Session::is($dialog['session_store_key'])){
-            \SQDE_Session::set($dialog['session_store_key'], $dialog['session_store_setup']);
+        if(!\Sequode\Application\Modules\Session\Modeler::is($dialog['session_store_key'])){
+            \Sequode\Application\Modules\Session\Modeler::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
         return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
     }

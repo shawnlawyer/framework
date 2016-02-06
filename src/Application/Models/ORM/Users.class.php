@@ -25,7 +25,7 @@ class Users extends ORM {
             ,".$this->safedSQLData($email, 'text')."
             ,".time()."
             ,'[]'
-            ,".$this->safedSQLData(\SQDE_Session::uniqueHash(), 'text')."
+            ,".$this->safedSQLData(sha1(substr(md5(uniqid(rand(), true)), 0, 25));, 'text')."
             )";
 		$this->database->query($sql);
 		$this->id = $this->database->insertId;

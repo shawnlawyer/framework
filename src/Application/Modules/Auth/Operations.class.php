@@ -23,17 +23,17 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         $modeler::model()->updateField(($time === false) ? time() : $time ,'last_sign_in');
-        \SQDE_Session::model()->updateField($modeler::model()->email,'username');
-        \SQDE_Session::set('user_id', $modeler::model()->id, false);
-        \SQDE_Session::set('username', $modeler::model()->username, false);
-        \SQDE_Session::set('role_id', $modeler::model()->role_id, false);
-		\SQDE_Session::set('console','Sequode', false);
-        \SQDE_Session::save();
+        \Sequode\Application\Modules\Session\Modeler::model()->updateField($modeler::model()->email,'username');
+        \Sequode\Application\Modules\Session\Modeler::set('user_id', $modeler::model()->id, false);
+        \Sequode\Application\Modules\Session\Modeler::set('username', $modeler::model()->username, false);
+        \Sequode\Application\Modules\Session\Modeler::set('role_id', $modeler::model()->role_id, false);
+		\Sequode\Application\Modules\Session\Modeler::set('console','Sequode', false);
+        \Sequode\Application\Modules\Session\Modeler::save();
         return $modeler::model();
     }
     public static function load(){
-        if(\SQDE_Session::isCookieValid() && \SQDE_Session::exists(\SQDE_Session::model()->session_id, 'session_id')){
-            \Sequode\Application\Modules\Auth\Modeler::exists(\SQDE_Session::get('user_id'),'id');
+        if(\Sequode\Application\Modules\Session\Modeler::isCookieValid() && \Sequode\Application\Modules\Session\Modeler::exists(\Sequode\Application\Modules\Session\Modeler::model()->session_id, 'session_id')){
+            \Sequode\Application\Modules\Auth\Modeler::exists(\Sequode\Application\Modules\Session\Modeler::get('user_id'),'id');
         }
     }
 }

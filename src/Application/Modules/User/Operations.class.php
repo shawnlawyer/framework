@@ -110,7 +110,7 @@ class Operations {
     
     public static function newUser(){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
-        $modeler::model()->create(substr(\SQDE_Session::uniqueHash(),0,15), \SQDE_Session::uniqueHash(), substr(\SQDE_Session::uniqueHash(),0,15));
+        $modeler::model()->create(substr(\Sequode\Application\Modules\Session\Modeler::uniqueHash(),0,15), \Sequode\Application\Modules\Session\Modeler::uniqueHash(), substr(\Sequode\Application\Modules\Session\Modeler::uniqueHash(),0,15));
         $modeler::exists($modeler::model()->id, 'id');
         $modeler::model()->updateField('[]','sequode_favorites');
         $modeler::model()->updateField('100','role_id');
@@ -120,7 +120,7 @@ class Operations {
     }
     public static function newGuest(){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
-        $modeler::model()->create(substr(\SQDE_Session::uniqueHash(),0,15), \SQDE_Session::uniqueHash(), substr(\SQDE_Session::uniqueHash(),0,15));
+        $modeler::model()->create(substr(\Sequode\Application\Modules\Session\Modeler::uniqueHash(),0,15), \Sequode\Application\Modules\Session\Modeler::uniqueHash(), substr(\Sequode\Application\Modules\Session\Modeler::uniqueHash(),0,15));
         $modeler::exists($modeler::model()->id, 'id');
         $modeler::model()->updateField('[]','sequode_favorites');
         $modeler::model()->updateField('101','role_id');

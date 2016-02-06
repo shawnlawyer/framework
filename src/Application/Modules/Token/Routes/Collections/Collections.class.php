@@ -36,8 +36,8 @@ class Collections{
         $finder = ModuleRegistry::model(static::$package)->finder;
         $collection = ModuleRegistry::model(static::$package)->context . '_' . __FUNCTION__;
         $nodes = array();
-        if(\SQDE_Session::is($collection)){
-            $_array = $finder::search(\SQDE_Session::get($collection));
+        if(\Sequode\Application\Modules\Session\Modeler::is($collection)){
+            $_array = $finder::search(\Sequode\Application\Modules\Session\Modeler::get($collection));
             foreach($_array as $_object){
                 $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->name.'"}';
             }
