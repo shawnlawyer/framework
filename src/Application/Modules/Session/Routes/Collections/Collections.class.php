@@ -1,8 +1,10 @@
 <?php
 
+namespace Sequode\Application\Modules\Session\Routes\Collections;
+
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
-class SQDE_SessionCollections{
+class Collections{
     public static $package = 'Session';
 	public static $merge = true;
 	public static $routes = array(
