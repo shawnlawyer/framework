@@ -3,10 +3,11 @@
 namespace Sequode\Application\Modules\Session;
 
 use Sequode\Model\Application\Configuration;
+use Sequode\Application\Models\ORM\Sessions;
 
 class Modeler extends \Sequode\Patterns\Modeler {
     
-    public static $model = Sequode\Application\Models\ORM\Sessions::class;
+    public static $model = Model::class;
     
     public static function container($mode, $key = null, $value = null) {
         static $store;
