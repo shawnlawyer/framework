@@ -193,7 +193,7 @@ class Routes{
                 \Sequode\Application\Modules\User\Routes\Collections::search();
                 return;
 			case 'session_search':
-                \SQDE_SessionCollections::search();
+                \Sequode\Application\Modules\Session\Routes\Collections\Collections::search();
                 return;
 			case 'package_search':
                 \SQDE_PackageCollections::search();
