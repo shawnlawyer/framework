@@ -14,7 +14,7 @@ class Module {
             'operations' => Operations::class,
             'routes' => (object) array (
                 'downloads' => Routes\Rest\Downloads::class
-            )
+            ),
             'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class,
                 'forms' => Routes\XHR\Forms::class,
