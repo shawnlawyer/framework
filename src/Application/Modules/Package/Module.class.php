@@ -1,4 +1,5 @@
 <?php
+
 namespace Sequode\Application\Modules\Package;
 
 class Module {

@@ -1,5 +1,7 @@
 <?php
-namespace Sequode\Application\Modules\Package\Routes\Collections
+
+namespace Sequode\Application\Modules\Package\Routes\Collections;
+
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections{
