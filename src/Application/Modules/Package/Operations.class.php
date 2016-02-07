@@ -147,14 +147,13 @@ class Operations {
         }
         
         $_o = '<?php
-class ' . SQDE_Package::model()->name . ' {
-    public static $name = \'' . SQDE_Package::model()->name . '\';
-    public static $token = \'' . SQDE_Package::model()->token . '\';
-    ' . file_get_contents('php/SQDE_PackageExpressor.class.phps',true) . '
-    
+class ' . \Sequode\Application\Modules\Package\Modeler::model()->name . ' {
+    public static $name = \'' . \Sequode\Application\Modules\Package\Modeler::model()->name . '\';
+    public static $token = \'' . \Sequode\Application\Modules\Package\Modeler::model()->token . '\';
     public static $name_to_id = ' . PHPClosure::export($name_to_id, true) . ';
     public static $id_to_key = ' . PHPClosure::export($id_to_key, true) . ';
     public static $index = ' . $package_sequode_model_ids[0] . ';
+    ' . file_get_contents('php/SQDE_PackageExpressor.class.phps',true) . '
     public static function collection(){
         return ' . str_replace('Inp_Obj','i', str_replace('Prop_Obj','p', str_replace('Out_Obj','o', str_replace('\'%START_CLOSURE_REPLACEMENT_HOOK%','function($_s){ ',str_replace('%END_CLOSURE_REPLACEMENT_HOOK%\'',' return; }',PHPClosure::export($filtered_models, true)))))) . ';
     }
