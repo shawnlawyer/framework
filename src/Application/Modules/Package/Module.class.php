@@ -11,7 +11,7 @@ class Module {
             'modeler' => Modeler::class,
             'card_objects' => Components\Cards::class,
             'form_objects' => Components\Forms::class,
-            'operations' => Operations::class
+            'operations' => Operations::class,
             'routes' => (object) array (
                 'downloads' => Routes\Rest\Downloads::class
             )
