@@ -13,7 +13,7 @@ class Module {
             'card_objects' => Components\Cards::class,
             'form_objects' => Components\Forms::class,
             'operations' => Operations::class,
-            'routes' => (object) array (
+            'routes' => array (
                 'downloads' => Routes\Rest\Downloads::class
             ),
             'xhr' => (object) array (
