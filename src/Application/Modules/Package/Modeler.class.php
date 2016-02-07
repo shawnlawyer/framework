@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\Sequode;
+namespace Sequode\Application\Modules\Package;
 
 use Sequode\Application\Models\ORM\Packages as Model;
 

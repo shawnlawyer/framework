@@ -13,6 +13,6 @@ class Downloads{
         
         header('Content-Type: text/plain',true);
         header('Content-Disposition: attachment; filename="'.\Sequode\Application\Modules\Package\Modeler::model()->name.'.class.php"');
-        echo \Sequode\Application\Modules\Package::download();
+        echo \Sequode\Application\Modules\Package\Operations::download();
     }
 }

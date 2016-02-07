@@ -1,4 +1,5 @@
 <?php
+
 namespace Sequode\Application\Modules\Package\Routes\XHR;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
