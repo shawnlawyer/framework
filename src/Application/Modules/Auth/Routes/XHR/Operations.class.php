@@ -43,7 +43,7 @@ class Operations {
                         $modeler::exists(rawurldecode($input->login),'email')
                         || $modeler::exists(rawurldecode($input->login),'username')
                     )
-                    && \SQDE_UserAuthority::isActive($modeler::model())
+                    && \Sequode\Application\Modules\Auth\Authority::isActive($modeler::model())
                     ){
                         $dialog_store->prep->user_id = $modeler::model()->id;
                         \Sequode\Application\Modules\Session\Modeler::set($dialog['session_store_key'], $dialog_store);
@@ -56,7 +56,7 @@ class Operations {
                 case 1:
                     if(
                         $modeler::exists($dialog_store->prep->user_id, 'id')
-                        && \SQDE_UserAuthority::isPassword(rawurldecode($input->secret), $modeler::model())
+                        && \Sequode\Application\Modules\Auth\Authority::isPassword(rawurldecode($input->secret), $modeler::model())
                     ){
                         $_a = array($modeler::model());
                     }

@@ -21,8 +21,8 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (SQDE_UserAuthority::isOwner( $modeler::model() )
-        || SQDE_UserAuthority::isSystemOwner())
+        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array());
         $js = array();

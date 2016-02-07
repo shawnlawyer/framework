@@ -43,7 +43,7 @@ class Operations {
                 case 0:
                     if(
                         !$modeler::exists(rawurldecode($input->email),'email')
-                        && \SQDE_UserAuthority::isAnEmailAddress(rawurldecode($input->email))
+                        && \Sequode\Application\Modules\Auth\Authority::isAnEmailAddress(rawurldecode($input->email))
                     ){
                         $dialog_store->prep->email = rawurldecode($input->email);
                         $dialog_store->prep->token = $operations::generateHash();
@@ -57,7 +57,7 @@ class Operations {
                 case 1:
                     if(
                         rawurldecode($input->password) == rawurldecode($input->confirm_password)
-                        && \SQDE_UserAuthority::isSecurePassword(rawurldecode($input->password))
+                        && \Sequode\Application\Modules\Auth\Authority::isSecurePassword(rawurldecode($input->password))
                     ){
                         $dialog_store->prep->password = rawurldecode($input->password);
                         \Sequode\Application\Modules\Session\Modeler::set($dialog['session_store_key'], $dialog_store);

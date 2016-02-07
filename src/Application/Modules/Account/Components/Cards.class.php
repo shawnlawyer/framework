@@ -36,7 +36,7 @@ class Cards {
         $_o->icon_background = 'user-icon-background';
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $_model->email;
-        if(SQDE_UserAuthority::isSystemOwner()){
+        if(\Sequode\Application\Modules\Auth\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         return $_o;
