@@ -1,5 +1,7 @@
 <?php
 
+namespace Sequode\Application\Modules\Sequode;
+
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
