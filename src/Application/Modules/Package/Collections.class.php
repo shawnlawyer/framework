@@ -1,5 +1,5 @@
 <?php
-namespace Sequode\Application\Modules\Packages;
+namespace Sequode\Application\Modules\Package;
 
 class Collections {
     public static $package = 'Package';
