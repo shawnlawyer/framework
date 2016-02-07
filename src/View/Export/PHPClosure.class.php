@@ -1,5 +1,5 @@
 <?php
-namespace Sequode\Model\Export;
+namespace Sequode\View\Export;
 
 class PHPClosure {
     public static function export($variable, $return = false, $delimeter_nl = true ) {

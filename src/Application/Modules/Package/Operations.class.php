@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Package;
 
-use Sequode\Model\Export\PHPClosure;
+use Sequode\View\Export\PHPClosure;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
