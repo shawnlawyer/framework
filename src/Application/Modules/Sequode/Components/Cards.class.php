@@ -217,7 +217,7 @@ class Cards {
                     $_o->body[] = $member . ' (' . $type_object_detail->$member->type. ') ' . (($type_object_detail->$member->required == true) ? 'required' : 'optional');
                     FormInputComponent::exists($type_form_object->$member->Component,'name');
                     $text = 'Form Component : '. FormInputComponent::model()->printable_name;
-                    $_o->body[] = (\Sequode\Application\Modules\Auth\Authority::canEdit()) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('cards/sequode/componentSettings', array(Sequode\Component\Form\Form::jsQuotedValue($type), Sequode\Component\Form\Form::jsQuotedValue($member), $_model->id)), $text, 'settings') : $text;
+                    $_o->body[] = (\Sequode\Application\Modules\Auth\Authority::canEdit()) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('cards/sequode/componentSettings', array(\Sequode\Component\Form\Form::jsQuotedValue($type), \Sequode\Component\Form\Form::jsQuotedValue($member), $_model->id)), $text, 'settings') : $text;
                 }
             }
         }
@@ -330,10 +330,10 @@ class Cards {
             }
             if(($component->connected == true)){
                 $text = $component->member;
-                $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/component', array(Sequode\Component\Form\Form::jsQuotedValue($component->type), $_model->id, $component->map_key)), $text, 'settings');
+                $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/component', array(\Sequode\Component\Form\Form::jsQuotedValue($component->type), $_model->id, $component->map_key)), $text, 'settings');
             }elseif($component->required == false && $component->value_set == false){ 
                 $text = $component->member;
-                $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/component', array(Sequode\Component\Form\Form::jsQuotedValue($component->type), $_model->id, $component->map_key)), $text, 'settings');
+                $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/component', array(\Sequode\Component\Form\Form::jsQuotedValue($component->type), $_model->id, $component->map_key)), $text, 'settings');
             }else{
                 $components_array = ModuleForm::render(self::$package,'component',array($component->type, $component->map_key, $_model));
                 foreach($components_array as $component_object){
@@ -365,7 +365,7 @@ class Cards {
         $items[] = array(
             'css_classes'=>'automagic-card-menu-item noSelect',
             'id'=>$dom_id,
-            'js_action'=> 'new SQDE_XHRCall({route:\'forms/sequode/selectPalette\',inputs:['.Sequode\Component\Form\Form::jsQuotedValue($dom_id).']});'                 
+            'js_action'=> 'new SQDE_XHRCall({route:\'forms/sequode/selectPalette\',inputs:['.\Sequode\Component\Form\Form::jsQuotedValue($dom_id).']});'                 
         );
         $_o->menu->items = array_merge($items,$_o->menu->items);
         
