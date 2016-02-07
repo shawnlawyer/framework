@@ -7,7 +7,7 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Forms {
     public static $package = 'Package';
-    public static $modeler = \Sequode\Application\Modules\Package:Modeler::class;
+    public static $modeler = \Sequode\Application\Modules\Package\Modeler::class;
     public static function name($_model_id, $dom_id){
         $modeler = static::$modeler;
         if(!(
