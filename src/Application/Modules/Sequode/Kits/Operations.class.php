@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\Sequode\Kit;
+namespace Sequode\Application\Modules\Sequode\Kits;
 
 class Operations{
 	public static function uniqueHash($seed='',$prefix='SQDE'){
