@@ -181,7 +181,7 @@ class Routes{
                 \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::owned();
                 return;
 			case 'packages':
-                \SQDE_PackageCollections::owned();
+                \Sequode\Application\Modules\Package\Routes\Collections\Collections::owned();
                 return;
 			case 'tokens':
                \Sequode\Application\Modules\Token\Routes\Collections\Collections::owned();
@@ -196,7 +196,7 @@ class Routes{
                 \Sequode\Application\Modules\Session\Routes\Collections\Collections::search();
                 return;
 			case 'package_search':
-                \SQDE_PackageCollections::search();
+                \Sequode\Application\Modules\Package\Routes\Collections\Collections::search();
                 return;
 			case 'token_search':
                 \Sequode\Application\Modules\Token\Routes\Collections\Collections::search();
