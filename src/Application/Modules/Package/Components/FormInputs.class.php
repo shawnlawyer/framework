@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\Package\Components;
 
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class FormInputs {
     public static $package = 'Package';
