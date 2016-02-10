@@ -4,10 +4,12 @@ namespace Sequode\Application\Modules\Token;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
+use Sequode\Application\Modules\Prototype\Operations\ORMModelDeleteTrait;
+use Sequode\Application\Modules\Prototype\Operations\ORMModelUpdateNameTrait;
+
 class Operations {
     
-    use Sequode\Application\Modules\Prototype\Operations\ORMModelDeleteTrait;
-    use Sequode\Application\Modules\Prototype\Operations\ORMModelUpdateNameTrait;
+    use ORMModelDeleteTrait, ORMModelUpdateNameTrait;
     
     public static $package = 'Token';
 	//public static function uniqueHash($prefix=''){

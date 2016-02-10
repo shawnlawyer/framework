@@ -22,7 +22,7 @@ class Operations {
 	public static function getModelersModelCount($_modeler, $_model){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $_models = new \SQDE_Package::$model;
+        $_models = new \Sequode\Application\Modules\Package\Modeler::$model;
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$modeler::model()->id);
         $_models->getCount($where, 'id');
