@@ -1,10 +1,8 @@
 <?php
 
-namespace Sequode\Application\Modules\Prototype\Traits\ORMModelDelete;
+namespace Sequode\Application\Modules\Prototype\Operations;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
-
-class ORMModelDelete {
+class ORMModelDeleteTrait {
     public static function updateName($name, $_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
