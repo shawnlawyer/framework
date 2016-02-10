@@ -6,7 +6,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
     
-    use Sequode\Application\Modules\Prototype\Traits\ORMModelDelete;
+    use Sequode\Application\Modules\Prototype\Operations\ORMModelDeleteTrait;
     
     public static $package = 'Token';
 	//public static function uniqueHash($prefix=''){
