@@ -19,7 +19,7 @@ class Tokens extends ORM {
 		 	(''
 			,0
 			,'New Token'
-            ,".$this->safedSQLData('TOK' . sha1(microtime().uniqid(rand(), true), 'text')."
+            ,".$this->safedSQLData('TOK' . sha1(microtime().uniqid(rand(), true)), 'text')."
             )
 			";
 		$this->database->query($sql);
