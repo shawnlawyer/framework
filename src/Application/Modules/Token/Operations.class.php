@@ -7,6 +7,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 class Operations {
     
     use Sequode\Application\Modules\Prototype\Operations\ORMModelDeleteTrait;
+    use Sequode\Application\Modules\Prototype\Operations\ORMModelUpdateNameTrait;
     
     public static $package = 'Token';
 	//public static function uniqueHash($prefix=''){
@@ -44,10 +45,4 @@ class Operations {
         }
         return false;   
 	}
-    public static function updateName($name, $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $modeler::model()->updateField(str_replace(" ","_",$name),'name');
-        return $modeler::model();
-    }
 }
