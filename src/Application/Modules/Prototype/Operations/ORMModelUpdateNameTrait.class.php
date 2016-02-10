@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Prototype\Operations;
 
+use Sequode\Model\Module\Registry as ModuleRegistry;
+
 trait ORMModelUpdateNameTrait {
     public static function updateName($name, $_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;

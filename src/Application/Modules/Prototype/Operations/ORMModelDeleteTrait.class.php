@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Prototype\Operations;
 
+use Sequode\Model\Module\Registry as ModuleRegistry;
+
 trait ORMModelDeleteTrait {
     public static function delete($_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
