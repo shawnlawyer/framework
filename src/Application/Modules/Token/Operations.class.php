@@ -6,8 +6,8 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
     
-    use Sequode\Application\Modules\Prototype\Operations\ORMModelDeleteTrait,
-    Sequode\Application\Modules\Prototype\Operations\ORMModelUpdateNameTrait;
+    use \Sequode\Application\Modules\Prototype\Operations\ORMModelDeleteTrait,
+    \Sequode\Application\Modules\Prototype\Operations\ORMModelUpdateNameTrait;
     
     public static $package = 'Token';
 	//public static function uniqueHash($prefix=''){
