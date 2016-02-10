@@ -5,6 +5,7 @@ namespace Sequode\Application\Modules\Account;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
+    
     public static $package = 'Account';
 	public static function uniqueHash($seed='',$prefix='SQDE'){
 		$time = explode(' ', microtime());
@@ -22,7 +23,7 @@ class Operations {
 	public static function getModelersModelCount($_modeler, $_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $_models = new SQDE_Package::$model;
+        $_models = new $_modeler::$model;
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$modeler::model()->id);
         $_models->getCount($where, 'id');

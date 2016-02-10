@@ -5,9 +5,6 @@ namespace Sequode\Application\Modules\Token;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
-    
-    use Sequode\Application\Modules\Prototype\Traits\ORMModelDelete;
-    
     public static $package = 'Token';
 	//public static function uniqueHash($prefix=''){
     //    return $prefix.openssl_digest(uniqid(rand(), true).microtime(), 'sha512');
@@ -48,6 +45,20 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         $modeler::model()->updateField(str_replace(" ","_",$name),'name');
+        return $modeler::model();
+    }
+    public static function newToken($owner = 0){
+        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler::model()->create();
+        $modeler::exists($modeler::model()->id,'id');
+        $modeler::model()->updateField(substr(self::uniqueHash(),0,15),'name');
+        $modeler::model()->updateField($owner,'owner_id');
+        return $modeler::model();
+	}
+    public static function delete($_model = null){
+        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
+        $modeler::model()->delete($modeler::model()->id);
         return $modeler::model();
     }
 }
