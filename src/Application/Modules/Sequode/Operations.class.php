@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Sequode;
 
+use Sequode\Foundation\Hashes;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
@@ -135,9 +136,9 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         $kit = ModuleRegistry::model(static::$package)->operations_kit;
         
-        $modeler::model()->create(substr($kit::uniqueHash(),0,15), '', 1, 1);
+        $modeler::model()->create(substr(Hashes::uniqueHash(),0,15), '', 1, 1);
         $modeler::exists($modeler::model()->id,'id');
-        $modeler::model()->updateField(substr($kit::uniqueHash($modeler::model()->id.$modeler::model()->name),0,15),'name');
+        $modeler::model()->updateField(substr(Hashes::uniqueHash($modeler::model()->id.$modeler::model()->name),0,15),'name');
         $modeler::model()->updateField(1,'sequence_type');
         $modeler::model()->updateField('[]','sequence');
         $modeler::model()->updateField('[]','grid_areas');

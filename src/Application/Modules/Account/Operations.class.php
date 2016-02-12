@@ -4,6 +4,8 @@ namespace Sequode\Application\Modules\Account;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
+use Sequode\Foundation\Hashes;
+
 class Operations {
     
     public static $package = 'Account';
@@ -12,14 +14,6 @@ class Operations {
         $time = $time[0] + $time[1];
 		return $prefix.md5($time.$seed);
 	}
-	public static function generateHash($text, $salt = null){
-        if ($salt === null){
-            $salt = substr(md5(uniqid(rand(), true)), 0, 25);
-        }else{
-            $salt = substr($salt, 0, 25);
-        }
-        return $salt . sha1($salt . $text);
-    }
 	public static function getModelersModelCount($_modeler, $_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
@@ -42,7 +36,7 @@ class Operations {
     public static function updatePassword($password, $_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $modeler::model()->updateField(self::generateHash($password),'password');
+        $modeler::model()->updateField(Hashes::generateHash($password),'password');
         return $modeler::model();
     }
     public static function emptySequodeFavorites($_model = null){

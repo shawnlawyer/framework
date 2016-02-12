@@ -4,21 +4,18 @@ namespace Sequode\Application\Modules\Token;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Application\Modules\Prototype\Operations\ORMModelUpdateNameTrait;
+use Sequode\Application\Modules\Prototype\Operations\ORMModelDeleteTrait;
 
 class Operations {
     
-    use ORMModelUpdateNameTrait;
+    use 
+        ORMModelUpdateNameTrait,
+        ORMModelDeleteTrait;
     
-    public static $package = 'Token';
-	//public static function uniqueHash($prefix=''){
-    //    return $prefix.openssl_digest(uniqid(rand(), true).microtime(), 'sha512');
-	//}
-	public static function uniqueHash($prefix='SQDE'){
-		return $prefix.sha1(microtime().uniqid(rand(), true));
-	}
+    public static $modeler = Modeler::class;
+    
     public static function getModel($value = null, $by = null, $owner_id = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
-        $_model = new $modeler::$model;
+        $_model = new static::$modeler::$model;
         switch($by){
             case 'id':
             case 'name':
@@ -41,7 +38,7 @@ class Operations {
         }
         if($id != false){
             $modeler::exists($id,'id');
-            return $modeler::model();
+            return static::$modeler::model();
         }
         return false;   
 	}

@@ -1,12 +1,15 @@
 <?php
 namespace Sequode\Application\Modules\Authed;
 
+use Sequode\Application\Modules\Account\Modeler;
+
 class Module {
     public static $package = 'Authed';
+    public static $modeler = Modeler::class;
 	public static function model(){
         $_o = (object)  array (
             'context' => 'auth',
-            'modeler' => \Sequode\Application\Modules\Auth\Modeler::class,
+            'modeler' => Modeler::class,
             'card_objects' => Components\Cards::class,
             'operations' => Operations::class,
             'xhr' => (object) array (

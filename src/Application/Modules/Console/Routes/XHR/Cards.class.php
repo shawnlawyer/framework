@@ -12,7 +12,7 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 class Cards {
     public static $package = 'Console';
     public static function index($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__,array(\Sequode\Application\Modules\Auth\Modeler::model())), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__,array(\Sequode\Application\Modules\Account\Modeler::model())), $dom_id);
     }
     public static function menus($dom_id = 'MenusContainer'){
         $html = $js = array();

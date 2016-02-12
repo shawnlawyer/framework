@@ -9,7 +9,7 @@ class Operations {
     public static $package = 'Token';
     public static function newToken(){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
-        forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array(\Sequode\Application\Modules\Auth\Modeler::model()->id));
+        forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
         $js = array();
         $js[] = DOMElementKitJS::fetchCollection(ModuleRegistry::model(static::$package)->collections->main, $modeler::model()->id);
         $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$package)->xhr->cards,'details'),array($modeler::model()->id));

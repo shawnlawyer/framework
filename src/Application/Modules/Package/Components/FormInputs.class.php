@@ -45,7 +45,7 @@ class FormInputs {
     public static function packageSequode($_model = null, $user_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
-        $_user_model = ($_user_model == null) ? \Sequode\Application\Modules\Auth\Modeler::model() : $_user_model;
+        $_user_model = ($_user_model == null) ? \Sequode\Application\Modules\Account\Modeler::model() : $_user_model;
         
         $_o = (object) null;
         $values = $where = array();

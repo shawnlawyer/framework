@@ -56,7 +56,7 @@ class Operations{
         if(!(
             \Sequode\Application\Modules\Auth\Authority::canCreate()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::newSequence(\Sequode\Application\Modules\Auth\Modeler::model()->id);
+        \Sequode\Application\Modules\Sequode\Operations::newSequence(\Sequode\Application\Modules\Account\Modeler::model()->id);
         $object = (object) null;
         $object->Success = 1;
 		$object->Model_Id = \Sequode\Application\Modules\Sequode\Modeler::model()->id;
@@ -70,7 +70,7 @@ class Operations{
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && \Sequode\Application\Modules\Auth\Authority::canCopy()
         )){ return; }
-		\Sequode\Application\Modules\Sequode\Operations::makeSequenceCopy(\Sequode\Application\Modules\Auth\Modeler::model()->id);
+		\Sequode\Application\Modules\Sequode\Operations::makeSequenceCopy(\Sequode\Application\Modules\Account\Modeler::model()->id);
 		$object = (object) null;
         $object->Success = 1;
 		$object->Model_Id = \Sequode\Application\Modules\Sequode\Modeler::model()->id;

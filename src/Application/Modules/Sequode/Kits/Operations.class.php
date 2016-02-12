@@ -3,11 +3,6 @@
 namespace Sequode\Application\Modules\Sequode\Kits;
 
 class Operations{
-	public static function uniqueHash($seed='',$prefix='SQDE'){
-		$time = explode(' ', microtime());
-        $time = $time[0] + $time[1];
-		return $prefix.md5($time.$seed);
-	}
     public static function makeSequodeFromModel($sequode_model = null, $add_php=true){
         if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
         return self::makeCodeFromNode($sequode_model, $add_php);

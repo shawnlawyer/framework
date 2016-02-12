@@ -6,6 +6,8 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
 
+use Sequode\Foundation\Hashes;
+
 class Operations {
     public static $package = 'Account';
 	public static $merge = false;
@@ -108,7 +110,7 @@ class Operations {
                         && \Sequode\Application\Modules\Auth\Authority::isAnEmailAddress(rawurldecode($input->email))
                     ){
                         $dialog_store->prep->new_email = rawurldecode($input->email);
-                        $dialog_store->prep->token = $operations::generateHash();
+                        $dialog_store->prep->token = Hashes::generateHash();
                         \Sequode\Application\Modules\Session\Modeler::set($dialog['session_store_key'], $dialog_store);
                         
                         $hooks = array(

@@ -20,11 +20,6 @@ class SequodeSDK{
         }
         return ($this->package != false && $this->package == $token) ? $this : false;
     }
-    public static function uniqueHash($seed='',$prefix='SQDE'){
-		$time = explode(' ', microtime());
-        $time = $time[0] + $time[1];
-		return $prefix.md5($time.$seed);
-	}
     
     public static function requestPieces($mode = '', $line = ''){
         switch($mode){

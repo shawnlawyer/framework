@@ -9,10 +9,10 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 class Cards {
     public static $package = 'Console';
     public static function index(){
-        return self::tiles(\Sequode\Application\Modules\Auth\Modeler::model());
+        return self::tiles(\Sequode\Application\Modules\Account\Modeler::model());
     }
     public static function tiles($user_model=null){
-        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Auth\Modeler::model(); }
+        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Account\Modeler::model(); }
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->head = 'Sequode Web Services';
@@ -36,7 +36,7 @@ class Cards {
     }
     
     public static function mySequodes($user_model=null){
-        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Auth\Modeler::model(); }
+        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Account\Modeler::model(); }
         $_o = (object) null;
         $_o->head = 'My Sequodes';
         $_o->size = 'xsmall';
@@ -51,7 +51,7 @@ class Cards {
         return $_o;
     }
     public static function myPackages($user_model=null){
-        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Auth\Modeler::model(); }
+        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Account\Modeler::model(); }
         $_o = (object) null;
         $_o->head = 'My Packages';
         $_o->size = 'xsmall';
@@ -66,7 +66,7 @@ class Cards {
         return $_o;
     }
     public static function myTokens($user_model=null){
-        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Auth\Modeler::model(); }
+        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Account\Modeler::model(); }
         $_o = (object) null;
         $_o->head = 'My Tokens';
         $_o->size = 'xsmall';

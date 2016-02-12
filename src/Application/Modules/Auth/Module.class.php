@@ -2,8 +2,11 @@
 
 namespace Sequode\Application\Modules\Auth;
 
+use Sequode\Application\Modules\Account\Modeler;
+
 class Module {
     public static $package = 'Auth';
+    public static $modeler = Modeler::class;
 	public static function model(){
         $_o = (object)  array (
             'context' => 'auth',

@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Session;
 
+use Sequode\Foundation\Hashes;
 use Sequode\Model\Application\Configuration;
 use Sequode\Application\Models\ORM\Sessions as Model;
 
@@ -52,16 +53,11 @@ class Modeler extends \Sequode\Patterns\Modeler {
         self::container('clear');
         return true;
     }
-	public static function uniqueHash($seed='',$prefix='SQDE'){
-		$time = explode(' ', microtime());
-        $time = $time[0] + $time[1];
-		return $prefix.md5($time.$seed);
-	}
 	public static function create($ip_address = null){
         if($ip_address == null){$ip_address = explode(',',((!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"]))[0];}
         self::model()->create();
         self::model()->exists(self::model()->id,'id');
-        self::model()->updateField(self::uniqueHash(),'session_id');
+        self::model()->updateField(Hashes::uniqueHash(),'session_id');
         self::model()->updateField(serialize(array()),'session_data');
         self::model()->updateField(time(),'session_start');
         $ip_address = (!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"];
@@ -96,7 +92,7 @@ class Modeler extends \Sequode\Patterns\Modeler {
        return self::model()->session_id;
     }
 	public static function end(){
-        self::model()->updateField(self::uniqueHash(),'session_id');
+        self::model()->updateField(Hashes::uniqueHash(),'session_id');
         /*self::model()->updateField(time() - 86400,'session_start');*/
         self::clear();
         self::model(null);
