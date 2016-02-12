@@ -12,7 +12,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         $input = json_decode($json);
         if (!is_object($input)){ return; }
@@ -37,7 +37,7 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         $form_member_object = json_decode(stripslashes($member_json));
         if(!is_object($form_member_object)){return;}
@@ -63,10 +63,10 @@ class Operations {
     public static function cloneSequence($_model_id){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
-        \Sequode\Application\Modules\Auth\Authority::canCreate()
+        \Sequode\Application\Modules\Account\Authority::canCreate()
         && $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canCopy()
+        && \Sequode\Application\Modules\Account\Authority::canCopy()
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,'makeSequenceCopy'),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
         $js = array();
@@ -78,7 +78,7 @@ class Operations {
     public static function newSequence(){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
-        \Sequode\Application\Modules\Auth\Authority::canCreate()
+        \Sequode\Application\Modules\Account\Authority::canCreate()
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
         $js = array();
@@ -91,7 +91,7 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         $_o = json_decode($json);
         $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($_o->name))));
@@ -101,7 +101,7 @@ class Operations {
         if(!eregi("^([A-Za-z0-9_])*$",$name)){
             return ' alert(\'Name can be alphanumeric and contain spaces only\');';
         }
-        if(!\Sequode\Application\Modules\Auth\Authority::canRename($name)){
+        if(!\Sequode\Application\Modules\Account\Authority::canRename($name)){
             return ' alert(\'Name already exists\');';
         }
         $modeler::exists($_model_id,'id');
@@ -117,7 +117,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canDelete()
+        && \Sequode\Application\Modules\Account\Authority::canDelete()
         )){ return; }
         $sequence = json_decode($modeler::model()->sequence);
         if ($confirmed===false && is_array($sequence) && count(json_decode($modeler::model()->sequence)) != 0){
@@ -142,7 +142,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         $js = array();
         if ($confirmed===false){
@@ -165,9 +165,9 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
 		$modeler::exists($add_model_id,'id')
-		&& \Sequode\Application\Modules\Auth\Authority::canRun()
+		&& \Sequode\Application\Modules\Account\Authority::canRun()
 		&& $modeler::exists($_model_id,'id')
-		&& \Sequode\Application\Modules\Auth\Authority::canEdit()
+		&& \Sequode\Application\Modules\Account\Authority::canEdit()
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && !\Sequode\Application\Modules\Sequode\Authority::isFullSequence()
 		)){ return; }
@@ -179,7 +179,7 @@ class Operations {
         if(!(
 		$modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Auth\Authority::canEdit()
+		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($from_position, $to_position, $position_tuner, $grid_modifier));
 		return;
@@ -189,7 +189,7 @@ class Operations {
         if(!(
 		$modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Auth\Authority::canEdit()
+		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($position));
 		return;
@@ -199,7 +199,7 @@ class Operations {
         if(!(
 		$modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Auth\Authority::canEdit()
+		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($position));
 		return;
@@ -209,7 +209,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array());
         $collection = 'sequodes';
@@ -224,7 +224,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($grid_area_key, $x, $y));
 		return;
@@ -234,7 +234,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($receiver_type, $transmitter_key, $receiver_key));
 		return;
@@ -244,7 +244,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($receiver_type, $transmitter_key, $receiver_key));
 		return;
@@ -254,7 +254,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -265,7 +265,7 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -276,7 +276,7 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::canShare()
+        && \Sequode\Application\Modules\Account\Authority::canShare()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -287,7 +287,7 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
             $modeler::exists($_model_id,'id')
-            && \Sequode\Application\Modules\Auth\Authority::canEdit()
+            && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -298,7 +298,7 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
             $modeler::exists($_model_id,'id')
-            && \Sequode\Application\Modules\Auth\Authority::canEdit()
+            && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -309,7 +309,7 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -341,7 +341,7 @@ class Operations {
                 default:
                     if((
                     \Sequode\Application\Modules\Sequode\Modeler::exists($_o->palette,'id')
-                    && \Sequode\Application\Modules\Auth\Authority::canView()
+                    && \Sequode\Application\Modules\Account\Authority::canView()
                     )){ 
                     \Sequode\Application\Modules\Session\Modeler::set('palette', $_o->palette);
                     }

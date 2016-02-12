@@ -12,8 +12,8 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package,__FUNCTION__), $dom_id);
     }
@@ -21,8 +21,8 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package,__FUNCTION__), $dom_id);
     }
@@ -30,8 +30,8 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         && in_array($type, array('input','property'))
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__, array($type, $map_key)), $dom_id);
@@ -40,8 +40,8 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         && in_array($type, array('input','property'))
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__, array($type, $member, $dom_id)), $dom_id);
@@ -50,8 +50,8 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__), $dom_id);
     }
@@ -59,8 +59,8 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__), $dom_id);
     }
@@ -68,8 +68,8 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__), $dom_id);
     }
@@ -77,7 +77,7 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__), $dom_id);
     }
@@ -88,10 +88,10 @@ class Forms {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){return;}
         if(!(
-            \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+            \Sequode\Application\Modules\Account\Authority::isSystemOwner()
             && \Sequode\Application\Modules\Sequode\Modeler::exists($_model_id, 'id')
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__), $dom_id);

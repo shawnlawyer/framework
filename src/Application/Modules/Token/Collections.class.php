@@ -17,7 +17,7 @@ class Collections {
             $_i->field = 'name';
         //}
         
-        if(\Sequode\Application\Modules\Auth\Authority::isSystemOwner()){
+        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $where = array();
             if(isset($shared_where)){
                 $where[] = $shared_where;

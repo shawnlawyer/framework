@@ -11,7 +11,7 @@ class Operations{
         $operations = ModuleRegistry::model(static::$package)->operations;
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         if(!(
-        \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){ return; }
         return $cards_xhr::details($operations::newUser()->id);
     }
@@ -19,7 +19,7 @@ class Operations{
         $operations = ModuleRegistry::model(static::$package)->operations;
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         if(!(
-        \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){ return; }
         return $cards_xhr::details($operations::newGuest()->id);
     }
@@ -28,7 +28,7 @@ class Operations{
         $operations = ModuleRegistry::model(static::$package)->operations;
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         if(!(
-        \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::delete();
@@ -39,7 +39,7 @@ class Operations{
         $operations = ModuleRegistry::model(static::$package)->operations;
         $input = json_decode(rawurldecode($json));
         if(!(
-        \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::login();
@@ -51,7 +51,7 @@ class Operations{
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $input = json_decode(rawurldecode($json));
         if(!(
-        \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::updatePassword($input->password);
@@ -63,7 +63,7 @@ class Operations{
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $input = json_decode(rawurldecode($json));
         if(!(
-            \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+            \Sequode\Application\Modules\Account\Authority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
             && \SQDE_Role::exists($input->role,'id')
         )){return;}
@@ -76,7 +76,7 @@ class Operations{
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $input = json_decode(rawurldecode($json));
         if(!(
-            \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+            \Sequode\Application\Modules\Account\Authority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::updateActive($input->active);

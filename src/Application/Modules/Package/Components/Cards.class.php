@@ -60,7 +60,7 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('<a target="_blank" href="/source/'.$_model->token.'">Download</a>');
         
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/package/details'));
-        if(\Sequode\Application\Modules\Auth\Authority::isSystemOwner()){
+        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         return $_o;

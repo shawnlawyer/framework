@@ -23,7 +23,7 @@ class Collections{
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         $_model = new $modeler::$model;
         if($key == null){
-            if(\Sequode\Application\Modules\Auth\Authority::isSystemOwner()){
+            if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
                 $where = array();
                 $_model->getAll($where,'id, process_description_node');
                 $nodes = array();
@@ -57,7 +57,7 @@ class Collections{
             return;
         }elseif(
         $modeler::exists($key,'id')
-        && \Sequode\Application\Modules\Auth\Authority::canView()
+        && \Sequode\Application\Modules\Account\Authority::canView()
         ){
             echo $modeler::model()->process_description_node;
             return;

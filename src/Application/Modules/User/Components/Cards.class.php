@@ -70,7 +70,7 @@ class Cards {
         $_o->body[] = CardKit::collectionTile('Package', 'Packages Created : ', $_model);
         $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $_model);
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/user/details'));
-        if(\Sequode\Application\Modules\Auth\Authority::isSystemOwner()){
+        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         return $_o;

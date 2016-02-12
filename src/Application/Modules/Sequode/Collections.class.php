@@ -19,7 +19,7 @@ class Collections {
         if(!in_array($_i->position, array('=%','%=%','%=','='))){
             $_i->position = '=%';
         }
-        if(\Sequode\Application\Modules\Auth\Authority::isSystemOwner()){
+        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $where = array();
             if(isset($shared_where)){
                 $where[] = $shared_where;

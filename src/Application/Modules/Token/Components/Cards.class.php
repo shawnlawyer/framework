@@ -57,7 +57,7 @@ class Cards {
         
         
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/token/details'));
-        if(\Sequode\Application\Modules\Auth\Authority::isSystemOwner()){
+        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         return $_o;

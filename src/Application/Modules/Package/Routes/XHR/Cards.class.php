@@ -12,8 +12,8 @@ class Cards {
         $modeler = static::$modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
         return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
     }

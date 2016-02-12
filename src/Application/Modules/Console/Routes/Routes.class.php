@@ -33,7 +33,7 @@ class Routes{
 	);
     public static function index(){
         $console = 'Auth';
-        if(\Sequode\Application\Modules\Auth\Authority::isAuthenticated()){
+        if(\Sequode\Application\Modules\Account\Authority::isAuthenticated()){
             $console = 'Sequode';
         }
         \Sequode\Application\Modules\Session\Modeler::set('console',$console);

@@ -7,7 +7,7 @@ class Operations{
 		if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isCode()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
 		
 		try{
@@ -23,7 +23,7 @@ class Operations{
 	public static function cacheNode($sequode_model_id = 0){
 		if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){ return; }
         try{
 			\Sequode\Application\Modules\Sequode\Operations::regenerateProcessDescriptionNode();
@@ -39,7 +39,7 @@ class Operations{
         
 		if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         
 		try{
@@ -54,7 +54,7 @@ class Operations{
 	}
 	public static function newSequence(){
         if(!(
-            \Sequode\Application\Modules\Auth\Authority::canCreate()
+            \Sequode\Application\Modules\Account\Authority::canCreate()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::newSequence(\Sequode\Application\Modules\Account\Modeler::model()->id);
         $object = (object) null;
@@ -65,10 +65,10 @@ class Operations{
 	}
 	public static function cloneSequence($sequode_model_id = 0){
         if(!(
-        \Sequode\Application\Modules\Auth\Authority::canCreate()
+        \Sequode\Application\Modules\Account\Authority::canCreate()
         && \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canCopy()
+        && \Sequode\Application\Modules\Account\Authority::canCopy()
         )){ return; }
 		\Sequode\Application\Modules\Sequode\Operations::makeSequenceCopy(\Sequode\Application\Modules\Account\Modeler::model()->id);
 		$object = (object) null;
@@ -81,7 +81,7 @@ class Operations{
 		if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
 		
         \Sequode\Application\Modules\Sequode\Operations::makeDefaultSequencedSequode();
@@ -94,7 +94,7 @@ class Operations{
 		if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canDelete()
+        && \Sequode\Application\Modules\Account\Authority::canDelete()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::deleteSequence();
 		$object = (object) null;
@@ -105,9 +105,9 @@ class Operations{
 	public static function addToSequence($sequode_model_id = 0, $add_sequode_model_id = 0, $position = 0, $position_tuner = null , $grid_modifier = null ){
 		if(!(
 		\Sequode\Application\Modules\Sequode\Modeler::exists($add_sequode_model_id,'id')
-		&& \Sequode\Application\Modules\Auth\Authority::canRun()
+		&& \Sequode\Application\Modules\Account\Authority::canRun()
 		&& \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-		&& \Sequode\Application\Modules\Auth\Authority::canEdit()
+		&& \Sequode\Application\Modules\Account\Authority::canEdit()
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && !\Sequode\Application\Modules\Sequode\Authority::isFullSequence()
 		)){ return; }
@@ -121,7 +121,7 @@ class Operations{
 		if(!(
 		\Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Auth\Authority::canEdit()
+		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
 		\Sequode\Application\Modules\Sequode\Operations::reorderSequence($from_position, $to_position, $position_tuner, $grid_modifier);
 		$object = (object) null;
@@ -133,7 +133,7 @@ class Operations{
 		if(!(
 		\Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Auth\Authority::canEdit()
+		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
         \Sequode\Application\Modules\Sequode\Operations::removeFromSequence($position);
 		$object = (object) null;
@@ -145,7 +145,7 @@ class Operations{
 		if(!(
 		\Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Auth\Authority::canEdit()
+		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
         \Sequode\Application\Modules\Sequode\Operations::modifyGridAreas($position);
 		$object = (object) null;
@@ -157,7 +157,7 @@ class Operations{
 		if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::emptySequence();
 		$object = (object) null;
@@ -169,7 +169,7 @@ class Operations{
 		if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::moveGridArea($grid_area_key, $x, $y);
 		$object = (object) null;
@@ -181,7 +181,7 @@ class Operations{
         if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::updateValue($type, $map_key, $value);
 		$object = (object) null;
@@ -193,7 +193,7 @@ class Operations{
         if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::addInternalConnection($receiver_type, $transmitter_key, $receiver_key);
 		$object = (object) null;
@@ -205,7 +205,7 @@ class Operations{
         if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::addExternalConnection($connection_type, $transmitter_key, $receiver_key);
 		$object = (object) null;
@@ -217,7 +217,7 @@ class Operations{
         if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::removeReceivingConnection($connection_type, $restore_key);
 		$object = (object) null;
@@ -228,7 +228,7 @@ class Operations{
     public static function updateTenancy($value = 0, $sequode_model_id = 0){
         if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::updateTenancy($value);
         exit;
@@ -236,14 +236,14 @@ class Operations{
     public static function updateSharing($value = 0, $sequode_model_id = 0){
        if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::canShare()
+        && \Sequode\Application\Modules\Account\Authority::canShare()
         )){ return; }
         \Sequode\Application\Modules\Sequode\Operations::updateSharing($value);
         exit;
     }
     public static function updateCodeSharing($sequode_model_id = 0, $value = 1){
        if(!(
-        \Sequode\Application\Modules\Auth\Authority::isSystemOwner()
+        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         && \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isCode()
         && \Sequode\Application\Modules\Sequode\Authority::isCodingTypeFunction()
@@ -254,7 +254,7 @@ class Operations{
     public static function updateName($sequode_model_id = 0, $name=''){
         if(!(
         \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Auth\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ 
             return;
         }
@@ -265,7 +265,7 @@ class Operations{
             $object->Error = 'Name cannot be empty';
         }elseif(!eregi("^([A-Za-z0-9_])*$",$name)){
             $object->Error = 'Name can be alphanumeric and contain spaces only';
-        }elseif(!\Sequode\Application\Modules\Auth\Authority::canRename($name)){
+        }elseif(!\Sequode\Application\Modules\Account\Authority::canRename($name)){
             $object->Error = 'Name already used';
         }
         if(!isset($object->Error)){

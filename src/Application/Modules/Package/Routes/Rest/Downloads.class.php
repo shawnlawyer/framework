@@ -7,8 +7,8 @@ class Downloads{
         if(!(
 		\Sequode\Application\Modules\Package\Modeler::exists($_model_token,'token')
         && \Sequode\Application\Modules\Sequode\Modeler::exists(\Sequode\Application\Modules\Package\Modeler::model()->sequode_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner(\Sequode\Application\Modules\Package\Modeler::model()) || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner(\Sequode\Application\Modules\Sequode\Modeler::model()) || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner(\Sequode\Application\Modules\Package\Modeler::model()) || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner(\Sequode\Application\Modules\Sequode\Modeler::model()) || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
 		)){ return; }
         
         header('Content-Type: text/plain',true);

@@ -46,7 +46,7 @@ class Operations {
                 case 0:
                     if(
                         rawurldecode($input->password) == rawurldecode($input->confirm_password)
-                        && \Sequode\Application\Modules\Auth\Authority::isSecurePassword(rawurldecode($input->password))
+                        && \Sequode\Application\Modules\Account\Authority::isSecurePassword(rawurldecode($input->password))
                     ){
                         $dialog_store->prep->new_secret = rawurldecode($input->password);
                         \Sequode\Application\Modules\Session\Modeler::set($dialog['session_store_key'], $dialog_store);
@@ -58,7 +58,7 @@ class Operations {
                     break;
                 case 1:
                     if(
-                        \Sequode\Application\Modules\Auth\Authority::isPassword(rawurldecode($input->password), $modeler::model())
+                        \Sequode\Application\Modules\Account\Authority::isPassword(rawurldecode($input->password), $modeler::model())
                     ){
                         $_a =  array($dialog_store->prep->new_secret);
                     }
@@ -107,7 +107,7 @@ class Operations {
                 case 0:
                     if(
                         !$modeler::exists(rawurldecode($input->email),'email')
-                        && \Sequode\Application\Modules\Auth\Authority::isAnEmailAddress(rawurldecode($input->email))
+                        && \Sequode\Application\Modules\Account\Authority::isAnEmailAddress(rawurldecode($input->email))
                     ){
                         $dialog_store->prep->new_email = rawurldecode($input->email);
                         $dialog_store->prep->token = Hashes::generateHash();

@@ -23,7 +23,7 @@ class Operations {
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Modeler::exists($_o->sequode,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isPackage(\Sequode\Application\Modules\Sequode\Modeler::model())
-        && ( \Sequode\Application\Modules\Auth\Authority::isOwner($modeler::model()) || \Sequode\Application\Modules\Auth\Authority::isSystemOwner() )
+        && ( \Sequode\Application\Modules\Account\Authority::isOwner($modeler::model()) || \Sequode\Application\Modules\Account\Authority::isSystemOwner() )
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($_o->sequode));
         $js = array();
@@ -36,8 +36,8 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){ return; }
         $_o = json_decode($json);
         $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($_o->name))));
@@ -62,8 +62,8 @@ class Operations {
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Auth\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Auth\Authority::isSystemOwner())
+        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
+        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){ return; }
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array());
         $js = array();
