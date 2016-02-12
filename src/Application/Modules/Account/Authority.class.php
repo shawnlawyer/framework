@@ -1,12 +1,11 @@
 <?php
 
-namespace Sequode\Application\Modules\Auth;
+namespace Sequode\Application\Modules\Account;
 
 use Sequode\Foundation\Hashes;
-use Sequode\Application\Modules\Account\Modeler;
 
 class Authority {
-    static $modeler = Modeler::class;
+    public static $modeler = Modeler::class;
     public static function isAuthenticated($_model = null){
         if($_model == null ){ $_model = static::$modeler::model(); }
         return (self::isActive($_model) || self::isSystemOwner($_model)) ? true : false;
