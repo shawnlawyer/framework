@@ -8,7 +8,7 @@ use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSignOutTrait;
 class Operations {
     
     use ORMModelLoadSignedInTrait,
-        ORMModelSignOutTrait;
+            ORMModelSignOutTrait;
     
     public static $modeler = Module::$modeler;
     

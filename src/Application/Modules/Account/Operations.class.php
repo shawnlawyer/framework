@@ -7,8 +7,6 @@ use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetPasswordTra
 use Sequode\Application\Modules\Prototype\Operations\User\ORMModelFavoritedModuleModelTrait;
 use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetEmailTrait;
 
-use Sequode\Foundation\Hashes;
-
 class Operations {
     
     use  ORMModelOwnedModuleModelsTrait,
@@ -17,7 +15,6 @@ class Operations {
             ORMModelSetEmailTrait,
             ORMModelFavoritedModuleModelTrait;
     
-    public static $package = 'Account';
     public static $modeler = Module::$modeler;
     
 }
