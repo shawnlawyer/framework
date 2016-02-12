@@ -10,8 +10,6 @@ trait ORMModelOwnedModuleModelsTrait {
             ? forward_static_call_array(array(static::$modeler,'model'),array())
             : forward_static_call_array(array(static::$modeler,'model'),array($_model)) ;
             
-        $modeler = ModuleRegistry::model($module_registry_key)->modeler;
-        
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>static::$modeler::model()->id);
         
