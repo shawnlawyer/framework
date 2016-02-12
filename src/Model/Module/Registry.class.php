@@ -47,9 +47,4 @@ class Registry {
         self::container('clear');
         return true;
     }
-	public static function uniqueHash($seed='',$prefix='SQDE'){
-		$time = explode(' ', microtime());
-        $time = $time[0] + $time[1];
-		return $prefix.md5($time.$seed);
-	}
 }
