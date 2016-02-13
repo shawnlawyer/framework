@@ -5,13 +5,13 @@ namespace Sequode\Application\Modules\Auth;
 use Sequode\Application\Modules\Account\Modeler;
 
 use Sequode\Application\Modules\Prototype\Operations\User\ORMModelLoadSignedInTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSignOutTrait;
+use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSignInTrait;
 
 
 class Operations {
     
     use  ORMModelLoadSignedInTrait,
-            ORMModelSignOutTrait;
+            ORMModelSignInTrait;
     
     public static $modeler = Modeler::class;
     
