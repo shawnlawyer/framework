@@ -9,6 +9,7 @@ trait ORMModelModuleModelTrait {
         $modeler = static::$modeler;
         
         $model = new $modeler::$model;
+        
         switch($by){
             case 'id':
             case 'name':
