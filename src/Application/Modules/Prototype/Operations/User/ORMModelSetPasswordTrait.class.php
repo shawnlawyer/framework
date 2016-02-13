@@ -8,12 +8,14 @@ trait ORMModelSetPasswordTrait {
     
     public static function updatePassword($password, $_model = null){
         
-        ($_model == null)
-            ? forward_static_call_array(array(static::$modeler,'model'),array())
-            : forward_static_call_array(array(static::$modeler,'model'),array($_model)) ;
-            
-        static::$modeler::model()->updateField(Hashes::generateHash($password),'password');
+        $modeler = static::$modeler;
         
-        return static::$modeler::model();
+        ($_model == null)
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model)) ;
+            
+        $modeler::model()->updateField(Hashes::generateHash($password),'password');
+        
+        return $modeler::model();
     }
 }

@@ -6,11 +6,13 @@ trait ORMModelCreateTrait {
     
     public static function newToken($owner_id){
         
-        static::$modeler::model()->create();
-        static::$modeler::exists($modeler::model()->id, 'id');
-        static::$modeler::model()->updateField($owner_id, 'owner_id');
+        $modeler = static::$modeler;
         
-        return static::$modeler::model();
+        $modeler::model()->create();
+        $modeler::exists($modeler::model()->id, 'id');
+        $modeler::model()->updateField($owner_id, 'owner_id');
+        
+        return $modeler::model();
     }
     
 }

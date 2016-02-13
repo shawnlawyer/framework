@@ -6,13 +6,15 @@ trait ORMModelSetNameTrait {
     
     public static function updateName($username, $_model = null){
         
-        ($_model == null)
-            ? forward_static_call_array(array(static::$modeler,'model'),array())
-            : forward_static_call_array(array(static::$modeler,'model'),array($_model)) ;
-            
-        static::$modeler::model()->updateField($username, 'username');
+        $modeler = static::$modeler;
         
-        return static::$modeler::model();
+        ($_model == null)
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model)) ;
+            
+        $modeler::model()->updateField($username, 'username');
+        
+        return $modeler::model();
     }
     
 }

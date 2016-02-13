@@ -6,9 +6,11 @@ trait ORMModelOwnedModuleModelsTrait {
     
 	public static function getOwnedModels($module_registry_key, $_model = null, $fields='id'){
         
+        $modeler = static::$modeler;
+        
         ($_model == null)
-            ? forward_static_call_array(array(static::$modeler,'model'),array())
-            : forward_static_call_array(array(static::$modeler,'model'),array($_model)) ;
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model)) ;
             
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>static::$modeler::model()->id);
