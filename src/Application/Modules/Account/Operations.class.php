@@ -15,6 +15,6 @@ class Operations {
             ORMModelSetEmailTrait,
             ORMModelFavoritedModuleModelTrait;
     
-    public static $modeler = Module::$modeler;
+    public static $modeler = Modeler::class;
     
 }
