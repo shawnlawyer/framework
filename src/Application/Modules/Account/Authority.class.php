@@ -9,7 +9,8 @@ class Authority {
     public static $modeler = Modeler::class;
     
     public static function isAuthenticated($_model = null){
-        if($_model == null ){ $_model = { static::$modeler }::model(); }
+        $modeler = static::$modeler;
+        if($_model == null ){ $_model = $modeler::model(); }
         return (self::isActive($_model) || self::isSystemOwner($_model)) ? true : false;
     }
     public static function isOwner($test_model, $_model = null){
