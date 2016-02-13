@@ -5,7 +5,7 @@ namespace Sequode\Application\Modules\Account;
 use Sequode\Application\Modules\Prototype\Operations\User\ORMModelOwnedModuleModelsTrait;
 use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetNameTrait;
 use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetPasswordTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelFavoritedModuleModelTrait;
+use Sequode\Application\Modules\Prototype\Operations\User\ORMModelFavoritedModuleModelsTrait;
 use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetEmailTrait;
 
 class Operations {
@@ -14,7 +14,7 @@ class Operations {
             ORMModelSetNameTrait,
             ORMModelSetPasswordTrait,
             ORMModelSetEmailTrait,
-            ORMModelFavoritedModuleModelTrait;
+            ORMModelFavoritedModuleModelsTrait;
     
     public static $modeler = Modeler::class;
     
