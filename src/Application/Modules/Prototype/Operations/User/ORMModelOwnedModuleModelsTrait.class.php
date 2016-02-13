@@ -13,7 +13,7 @@ trait ORMModelOwnedModuleModelsTrait {
             : forward_static_call_array(array($modeler,'model'),array($_model)) ;
             
         $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>static::$modeler::model()->id);
+        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$modeler::model()->id);
         
         $model = new $modeler::$model;
         $model->getAll($where, $fields);
