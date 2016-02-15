@@ -1,18 +1,17 @@
 <?php
 
-namespace Sequode\Application\Modules\Prototype\Operations\User;
+namespace Sequode\Application\Modules\User\Traits\Operations;
 
-trait ORMModelSetNameTrait {
+trait ORMModelSetLastSignInTrait {
     
-    public static function updateName($username, $_model = null){
-        
+    public static function updateLastSignIn($time=false, $_model = null){
         $modeler = static::$modeler;
         
         ($_model == null)
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model)) ;
             
-        $modeler::model()->updateField($username, 'username');
+        $modeler::model()->updateField(($time === false) ? time() : $time ,'last_sign_in');
         
         return $modeler::model();
     }

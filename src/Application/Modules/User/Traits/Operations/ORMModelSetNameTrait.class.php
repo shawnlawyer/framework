@@ -1,19 +1,18 @@
 <?php
 
-namespace Sequode\Application\Modules\Prototype\Operations\User;
+namespace Sequode\Application\Modules\User\Traits\Operations;
 
-trait ORMModelSetActiveTrait {
+trait ORMModelSetNameTrait {
     
-    public static function updateActive($active = 0, $_model = null){
+    public static function updateName($username, $_model = null){
+        
         $modeler = static::$modeler;
         
         ($_model == null)
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model)) ;
             
-        $active = (intval($active) == 1) ? 1 : 0;
-        
-        $modeler::model()->updateField($active,'active');
+        $modeler::model()->updateField($username, 'username');
         
         return $modeler::model();
     }

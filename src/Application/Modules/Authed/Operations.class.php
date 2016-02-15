@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Authed;
 
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSignOutTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSignOutTrait;
 
 class Operations {
     

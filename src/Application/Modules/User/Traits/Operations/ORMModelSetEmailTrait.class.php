@@ -1,12 +1,10 @@
 <?php
 
-namespace Sequode\Application\Modules\Prototype\Operations\User;
+namespace Sequode\Application\Modules\User\Traits\Operations;
 
-use Sequode\Foundation\Hashes;
-
-trait ORMModelSetPasswordTrait {
+trait ORMModelSetEmailTrait {
     
-    public static function updatePassword($password, $_model = null){
+    public static function updateEmail($email, $_model = null){
         
         $modeler = static::$modeler;
         
@@ -14,8 +12,9 @@ trait ORMModelSetPasswordTrait {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model)) ;
             
-        $modeler::model()->updateField(Hashes::generateHash($password),'password');
+        $modeler::model()->updateField($email,'email');
         
         return $modeler::model();
     }
+    
 }

@@ -4,8 +4,8 @@ namespace Sequode\Application\Modules\Auth;
 
 use Sequode\Application\Modules\Account\Modeler;
 
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelLoadSignedInTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSignInTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelLoadSignedInTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSignInTrait;
 
 
 class Operations {

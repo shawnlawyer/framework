@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\Prototype\Operations\User;
+namespace Sequode\Application\Modules\User\Traits\Operations;
 
 trait ORMModelModuleModelTrait {
     

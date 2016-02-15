@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Register;
 
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSignupTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSignupTrait;
 
 class Operations {
     

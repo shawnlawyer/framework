@@ -1,16 +1,16 @@
 <?php
 namespace Sequode\Application\Modules\User;
 
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelCreateTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetNameTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetEmailTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetPasswordTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelDeleteTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetLastSignIn;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelSetActiveTrait;
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelFavoritedModuleModelTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelCreateTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetNameTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetEmailTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetPasswordTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelDeleteTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetLastSignIn;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetActiveTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelFavoritedModuleModelTrait;
 
-use Sequode\Application\Modules\Prototype\Operations\User\ORMModelUpdateRoleTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelUpdateRoleTrait;
 
 class Operations {
    
