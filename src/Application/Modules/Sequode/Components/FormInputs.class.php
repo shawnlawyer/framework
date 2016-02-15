@@ -92,7 +92,7 @@ class FormInputs   {
 	}
     public static function component($type, $map_key, $sequode_model = null){
         if($sequode_model != null ){ \Sequode\Application\Modules\Sequode\Modeler::model($sequode_model); }
-        $default_map = \Sequode\Application\Modules\Sequode\Kit\Operations::makeDefaultSequenceObjectMap($type,$sequode_model);
+        $default_map = \Sequode\Application\Modules\Sequode\Kits\Operations::makeDefaultSequenceObjectMap($type,$sequode_model);
         $sequence =  json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->sequence);
         $location_object = $default_map[$map_key];
 		$sequence_key = $location_object->Key - 1;
