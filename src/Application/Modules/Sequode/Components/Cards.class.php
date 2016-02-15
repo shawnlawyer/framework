@@ -185,11 +185,6 @@ class Cards {
             $text = (\Sequode\Application\Modules\Sequode\Authority::isShared()) ? 'Public Use' : 'System Restricted Use';
             $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/sharing', array($_model->id)), $text, 'atom');
         }
-        if(\Sequode\Application\Modules\Sequode\Authority::isCode()){
-            $_o->body[] = CardKitHTML::sublineBlock('Tenancy Requirement');
-            $text = (\Sequode\Application\Modules\Sequode\Authority::isTenacyDedicated()) ? 'Dedicated Enviroment' : 'Shared Enviroment';
-            $_o->body[] = (\Sequode\Application\Modules\Account\Authority::isSystemOwner()) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/tenancy', array($_model->id)), $text, 'setting') : $text;
-        } 
         if(\Sequode\Application\Modules\Sequode\Authority::isSequence() && !\Sequode\Application\Modules\Sequode\Authority::isEmptySequence()){
             $_o->body[] = CardKitHTML::sublineBlock('Palettes Menu Visibility');
             $text = (\Sequode\Application\Modules\Sequode\Authority::isPalette()) ? 'Shown in Palettes Menu' : 'Hidden from Palettes Menu';
