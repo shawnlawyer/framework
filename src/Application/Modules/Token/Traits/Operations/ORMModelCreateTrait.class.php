@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\Prototype\Operations\Token;
+namespace Sequode\Application\Modules\Token\Traits\Operations;
 
 trait ORMModelCreateTrait {
     

@@ -1,10 +1,10 @@
 <?php
 
-namespace Sequode\Application\Modules\Prototype\Operations\Token;
+namespace Sequode\Application\Modules\Token\Traits\Operations;
 
-trait ORMModelUpdateNameTrait {
+trait ORMModelDeleteTrait {
     
-    public static function updateName($name, $_model = null){
+    public static function delete($_model = null){
         
         $modeler = static::$modeler;
         
@@ -12,10 +12,10 @@ trait ORMModelUpdateNameTrait {
             ? forward_static_call_array(array($modeler, 'model'), array())
             : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
             
-        $modeler::model()->updateField(str_replace(" ","_",$name),'name');
+        $modeler::model()->delete($modeler::model()->id);
         
         return $modeler::model();
-        
+    
     }
     
 }

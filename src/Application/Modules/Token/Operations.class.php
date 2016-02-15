@@ -2,9 +2,9 @@
 
 namespace Sequode\Application\Modules\Token;
 
-use Sequode\Application\Modules\Prototype\Operations\Token\ORMModelCreateTrait;
-use Sequode\Application\Modules\Prototype\Operations\Token\ORMModelUpdateNameTrait;
-use Sequode\Application\Modules\Prototype\Operations\Token\ORMModelDeleteTrait;
+use Sequode\Application\Modules\Token\Traits\Operations\ORMModelCreateTrait;
+use Sequode\Application\Modules\Token\Traits\Operations\ORMModelUpdateNameTrait;
+use Sequode\Application\Modules\Token\Traits\Operations\ORMModelDeleteTrait;
 
 class Operations {
     
