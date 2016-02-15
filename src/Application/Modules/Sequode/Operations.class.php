@@ -22,7 +22,7 @@ class Operations {
             ORMModelSetNameTrait,
             ORMModelSetPropertySwitchesTrait;
     
-    public static $modeler = Modeler:class;
+    public static $modeler = Modeler::class;
     public static $kit = Kits\Operations::class;
     
 }
