@@ -9,7 +9,7 @@ class Operations {
     
     use  ORMModelCreateTrait,
             ORMModelDeleteTrait;
-            
+
     public static $modeler = Modeler::class;
     
 }
