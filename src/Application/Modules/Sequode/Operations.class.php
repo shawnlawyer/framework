@@ -13,7 +13,7 @@ use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelSetPrope
 
 class Operations {
     
-    use  ORMModelManageCodeTrait.
+    use  ORMModelManageCodeTrait,
             ORMModelManageSequenceGridTrait,
             ORMModelManageSequenceIPODataFlowTrait,
             ORMModelManageSequenceTrait,
