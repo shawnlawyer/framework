@@ -2,14 +2,14 @@
 
 namespace Sequode\Application\Modules\Sequode;
 
-use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelManageCodeTrait;
-use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelManageSequenceGridTrait;
-use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelManageSequenceIPODataFlowTrait;
-use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelManageSequenceTrait;
-use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelSetDescriptionTrait;
-use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelSetFormInputComponentSettingsTrait;
-use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelSetNameTrait;
-use Sequode\Application\Modules\Prototype\Operations\Sequencing\ORMModelSetPropertySwitchesTrait;
+use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelManageCodeTrait;
+use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelManageSequenceGridTrait;
+use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelManageSequenceIPODataFlowTrait;
+use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelManageSequenceTrait;
+use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelSetDescriptionTrait;
+use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelSetFormInputComponentSettingsTrait;
+use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelSetNameTrait;
+use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelSetPropertySwitchesTrait;
 
 class Operations {
     

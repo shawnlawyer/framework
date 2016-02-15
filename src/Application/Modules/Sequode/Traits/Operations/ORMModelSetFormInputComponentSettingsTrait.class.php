@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\Prototype\Operations\Sequencing;
+namespace Sequode\Application\Modules\Sequode\Traits\Operations;
 
 trait ORMModelSetFormInputComponentSettingsTrait {
     
