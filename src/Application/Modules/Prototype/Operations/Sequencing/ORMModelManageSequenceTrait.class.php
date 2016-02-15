@@ -45,49 +45,11 @@ trait ORMModelManageSequenceTrait {
             $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('property',$modeler::model())),'default_property_object_map');
             $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('output',$modeler::model())),'default_output_object_map');
             
-            self::autoSetTenancy();
         }
         
         self::regenerateProcessDescriptionNode();
         
         return $modeler::model();
-        
-    }
-    
-	public static function autoSetTenancy($_model = null){
-        
-        $modeler = static::$modeler;
-        
-        ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
-            
-		$sequence = json_decode($modeler::model()->sequence);
-        $safe = 1;
-        
-        $object_cache = array();
-        foreach( $sequence as $key => $id ){
-            
-			if(!array_key_exists($id, $object_cache)){
-                
-				$object_cache[$id] = new $modeler::$model;
-				$object_cache[$id]->exists($id,'id');
-                
-			}
-			if($object_cache[$id]->safe == 0){ 
-            
-                $safe = 0;
-                break;
-                
-            }
-		}
-        
-        if(intval($modeler::model()->safe) != $safe){
-            
-            self::updateTenancy($safe, $_model);
-            
-        }
-        return $modeler::model($_model);
         
     }
     

@@ -132,19 +132,6 @@ class FormInputs   {
         if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
         return json_decode($sequode_model->input_form_object);
 	}
-    public static function tenancy($sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
-        $components_object = (object) null;
-        FormInputComponent::exists('checkboxSwitch','name');
-        $components_object->sharing = json_decode(FormInputComponent::model()->component_object);
-        $components_object->sharing->Label = '';
-        $components_object->sharing->On_Text = 'Dedicated Tenancy';
-        $components_object->sharing->On_Value = 1;
-        $components_object->sharing->Off_Text = 'Shared Tenancy';
-        $components_object->sharing->Off_Value = 0;
-        $components_object->sharing->Value = (\Sequode\Application\Modules\Sequode\Authority::isTenacyDedicated($sequode_model)) ? 0 : 1;
-		return $components_object;
-	}
     public static function sharing($sequode_model = null){
         if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
         $components_object = (object) null;

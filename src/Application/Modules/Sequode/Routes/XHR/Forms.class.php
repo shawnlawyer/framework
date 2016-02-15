@@ -84,16 +84,4 @@ class Forms {
     public static function selectPalette($dom_id){
         return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__), $dom_id);
     }
-    public static function tenancy($_model_id, $dom_id){
-        $modeler = static::$modeler;
-        if(!(
-        $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
-        )){return;}
-        if(!(
-            \Sequode\Application\Modules\Account\Authority::isSystemOwner()
-            && \Sequode\Application\Modules\Sequode\Modeler::exists($_model_id, 'id')
-        )){return;}
-        return DOMElementKitJS::placeForm(ModuleForm::render(self::$package, __FUNCTION__), $dom_id);
-    }
 }

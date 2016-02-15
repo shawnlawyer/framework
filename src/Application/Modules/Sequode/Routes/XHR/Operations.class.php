@@ -261,17 +261,6 @@ class Operations {
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($connection_type, $restore_key));
 		return;
 	}
-	public static function updateTenancy($_model_id,$json){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
-        if(!(
-        $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
-        )){ return; }
-        $_o = json_decode($json);
-        if (!is_object($_o)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array(rawurldecode($_o->tenancy)));
-		return;
-	}
 	public static function updateSharing($_model_id,$json){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         if(!(

@@ -75,17 +75,6 @@ class Forms {
 		$form_object->submit_button = \Sequode\Application\Modules\Sequode\Modeler::model()->name;
 		return $form_object;
 	}
-    public static function tenancy($_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 1;
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'updateTenancy';
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
-		return $form_object;
-	}
     public static function sharing($_model = null){
         $modeler = ModuleRegistry::model(static::$package)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));   
