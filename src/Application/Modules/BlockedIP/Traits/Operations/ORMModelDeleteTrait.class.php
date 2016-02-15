@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\User\Traits\Operations;
+namespace Sequode\Application\Modules\BlockedIP\Traits\Operations;
 
 trait ORMModelDeleteTrait {
     
@@ -12,13 +12,8 @@ trait ORMModelDeleteTrait {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model)) ;
             
-               
-        $sequodes_model = self::getSequodesModelOfAllSequencedSequodes($_model);
-        foreach($sequodes_model->all as $object){
-            $sequodes_model->delete($object->id);
-        }
+        $modeler::model()->delete($modeler::model()->id);
         
-        $modeler::model()->delete($_model->id);
         return $modeler::model();
     }
 }
