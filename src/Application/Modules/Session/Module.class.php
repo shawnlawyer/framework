@@ -6,7 +6,7 @@ class Module {
     public static $package = 'Session'; 
 	public static function model(){
         $_o = (object)  array (
-            'context' => 'token',
+            'context' => 'session',
             'modeler' => Modeler::class,
             'operations' => Operations::class,
             'form_objects' => Components\Forms::class,

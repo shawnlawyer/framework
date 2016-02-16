@@ -11,4 +11,5 @@ class Modeler extends \Sequode\Patterns\Modeler {
 	public static function exists($value,$by='session_id'){
         return (self::model()->exists($value, $by)) ? true : false ;
     }
+    
 }
