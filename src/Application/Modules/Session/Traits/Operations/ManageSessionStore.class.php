@@ -52,7 +52,7 @@ trait ManageSessionStore {
         /*$modeler::model()->updateField(time() - 86400,'session_start');*/
         self::clear();
         
-        self::model(null);
+        $modeler::model()::model(null);
         
     }
     
@@ -64,7 +64,7 @@ trait ManageSessionStore {
         
         self::clear();
         
-        self::model(null);
+        $modeler::model(null);
         
     }
     
