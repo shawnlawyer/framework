@@ -25,10 +25,10 @@ class Cards {
     }
     public static function signup(){
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!\Sequode\Application\Modules\Session\Modeler::is($dialog['session_store_key'])){
-            \Sequode\Application\Modules\Session\Modeler::set($dialog['session_store_key'], $dialog['session_store_setup']);
+        if(!\Sequode\Application\Modules\Session\Operations::is($dialog['session_store_key'])){
+            \Sequode\Application\Modules\Session\Operations::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
-        $dialog_store = \Sequode\Application\Modules\Session\Modeler::get($dialog['session_store_key']);
+        $dialog_store = \Sequode\Application\Modules\Session\Operations::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
         $_o->icon_background = 'users-icon-background';

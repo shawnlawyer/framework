@@ -43,7 +43,7 @@ class Operations {
         $_o = json_decode(stripslashes($json));
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
         $collection = 'session_search';
-        \Sequode\Application\Modules\Session\Modeler::set($collection, $_o);
+        \Sequode\Application\Modules\Session\Operations::set($collection, $_o);
 		$js=array();
         $js[] = DOMElementKitJS::fetchCollection($collection);
         return implode(' ',$js);

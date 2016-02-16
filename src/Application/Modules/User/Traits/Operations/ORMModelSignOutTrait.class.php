@@ -8,10 +8,10 @@ trait ORMModelSignOutTrait {
                 
         $modeler = static::$modeler;
         
-		\Sequode\Application\Modules\Session\Modeler::end();
+		\Sequode\Application\Modules\Session\Operations::end();
         $modeler::model(null);
-		\Sequode\Application\Modules\Session\Modeler::start();
-		\Sequode\Application\Modules\Session\Modeler::set('console','Auth');
+		\Sequode\Application\Modules\Session\Operations::start();
+		\Sequode\Application\Modules\Session\Operations::set('console','Auth');
         
         return;
         

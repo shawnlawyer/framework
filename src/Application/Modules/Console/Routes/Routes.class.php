@@ -36,12 +36,12 @@ class Routes{
         if(\Sequode\Application\Modules\Account\Authority::isAuthenticated()){
             $console = 'Sequode';
         }
-        \Sequode\Application\Modules\Session\Modeler::set('console',$console);
+        \Sequode\Application\Modules\Session\Operations::set('console',$console);
 		echo DOMElementKitHTML::page();
 		exit;
 	}
 	public static function vendorJS(){
-        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
+        if(!\Sequode\Application\Modules\Session\Operations::is('console')){return;}
 		$files = array('js/jquery-2.1.4.js','js/kinetic_v5_1_0.js');
 		header('Content-type: application/javascript');
 		foreach($files as $file){ 
@@ -50,7 +50,7 @@ class Routes{
 		}
 	}
 	public static function css(){
-        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
+        if(!\Sequode\Application\Modules\Session\Operations::is('console')){return;}
 		$files = array(
         'css/SQDE_automagic_cards.css',
         'css/SQDE_automagic_content.css',
@@ -75,8 +75,8 @@ class Routes{
 		}
 	}
 	public static function js($closure = true,$force_SSL = true){
-        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
-        switch(\Sequode\Application\Modules\Session\Modeler::get('console')){
+        if(!\Sequode\Application\Modules\Session\Operations::is('console')){return;}
+        switch(\Sequode\Application\Modules\Session\Operations::get('console')){
             case 'Sequode':
                 $files = array(
                     'js/SQDE_Configuration.js',
@@ -124,8 +124,9 @@ class Routes{
             echo '}();';
         }
 	}
+    
 	public static function xhr(){
-        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
+        if(!\Sequode\Application\Modules\Session\Operations::is('console')){return;}
 		$call = false;
 		$args = array();
 
@@ -169,8 +170,8 @@ class Routes{
         return true;
     }
 	public static function collections($collection='collections', $key = null){
-        if(!\Sequode\Application\Modules\Session\Modeler::is('console')){return;}
-        switch(\Sequode\Application\Modules\Session\Modeler::get('console')){
+        if(!\Sequode\Application\Modules\Session\Operations::is('console')){return;}
+        switch(\Sequode\Application\Modules\Session\Operations::get('console')){
             case 'Sequode':
                 $collections = array('my_sequodes', 'sequode_favorites', 'palette', 'sequodes', 'tokens', 'packages');
                 break;
