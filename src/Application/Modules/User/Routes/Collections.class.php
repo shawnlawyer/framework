@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\User\Routes;
 
+use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections{
@@ -17,8 +18,8 @@ class Collections{
         $finder = ModuleRegistry::model(static::$package)->finder;
         $collection = ModuleRegistry::model(static::$package)->context . '_' . __FUNCTION__;
         $nodes = array();
-        if(\Sequode\Application\Modules\Session\Operations::is($collection)){
-            $_array = $finder::search(\Sequode\Application\Modules\Session\Operations::get($collection));
+        if(SessionStore::is($collection)){
+            $_array = $finder::search(SessionStore::get($collection));
             foreach($_array as $_object){
                 $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->username.'"}';
             }

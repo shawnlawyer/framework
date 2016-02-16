@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\User\Traits\Operations;
 
 use Sequode\Application\Modules\Session\Authority as SessionAuthority;
 use Sequode\Application\Modules\Session\Modeler as SessionModeler;
-use Sequode\Application\Modules\Session\Operations as SessionOperations;
+use Sequode\Application\Modules\Session\Store as SessionStore;
 
 trait ORMModelLoadSignedInTrait {
 	
@@ -14,7 +14,7 @@ trait ORMModelLoadSignedInTrait {
         
         if(SessionAuthority::isCookieValid() && SessionModeler::exists(SessionModeler::model()->session_id, 'session_id')){
             
-            $modeler::exists(SessionOperations::get('user_id'),'id');
+            $modeler::exists(SessionStore::get('user_id'),'id');
             
         }
     

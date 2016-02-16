@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Sequode\Routes\Collections;
 
+use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections{
@@ -70,8 +71,8 @@ class Collections{
         $finder = ModuleRegistry::model(static::$package)->finder;
         $collection = 'sequode_search';
         $nodes = array();
-        if(\Sequode\Application\Modules\Session\Operations::is($collection)){
-            $_array = $finder::search(\Sequode\Application\Modules\Session\Operations::get($collection));
+        if(SessionStore::is($collection)){
+            $_array = $finder::search(SessionStore::get($collection));
             foreach($_array as $_object){
                 $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->name.'"}';
             }
@@ -110,15 +111,15 @@ class Collections{
     /*
 	public static function palette(){
         $finder = ModuleRegistry::model(static::$package)->finder;
-        if(in_array(\Sequode\Application\Modules\Session\Operations::get(__FUNCTION__),static::$routes)){
+        if(in_array(SessionStore::get(__FUNCTION__),static::$routes)){
             $method = static::$routes_to_methods[static::$routes];
             self::$method();
             return;
         }
         $nodes = array();
         $collection = __FUNCTION__;
-        if(\Sequode\Application\Modules\Session\Operations::is($collection)){
-            $_array = \Sequode\Application\Modules\Session\Operations::get($collection);
+        if(SessionStore::is($collection)){
+            $_array = SessionStore::get($collection);
             foreach($_array as $_object){
                 $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->name.'"}';
             }
@@ -128,13 +129,13 @@ class Collections{
 	}
     */
 	public static function palette(){
-        if(\Sequode\Application\Modules\Session\Operations::get('palette') == 'sequode_search'){
+        if(SessionStore::get('palette') == 'sequode_search'){
             self::search();
-        }elseif(\Sequode\Application\Modules\Session\Operations::get('palette') == 'sequode_favorites'){
+        }elseif(SessionStore::get('palette') == 'sequode_favorites'){
             self::favorited();
-        }elseif(\Sequode\Application\Modules\Session\Operations::is('palette')){
+        }elseif(SessionStore::is('palette')){
             $sequode_model = new \Sequode\Application\Modules\Sequode\Modeler::$model;
-            $sequode_model->exists(\Sequode\Application\Modules\Session\Operations::get('palette'),'id');
+            $sequode_model->exists(SessionStore::get('palette'),'id');
             $sequence = array_unique(json_decode($sequode_model->sequence));
             $nodes = array();
             foreach($sequence as $id){

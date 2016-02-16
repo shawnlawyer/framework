@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Register\Components;
 
+use Sequode\Application\Modules\Session\Store as SessionStore;
+
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\CardKit as CardKit;
@@ -25,10 +27,10 @@ class Cards {
     }
     public static function signup(){
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!\Sequode\Application\Modules\Session\Operations::is($dialog['session_store_key'])){
-            \Sequode\Application\Modules\Session\Operations::set($dialog['session_store_key'], $dialog['session_store_setup']);
+        if(!SessionStore::is($dialog['session_store_key'])){
+            SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
-        $dialog_store = \Sequode\Application\Modules\Session\Operations::get($dialog['session_store_key']);
+        $dialog_store = SessionStore::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
         $_o->icon_background = 'users-icon-background';

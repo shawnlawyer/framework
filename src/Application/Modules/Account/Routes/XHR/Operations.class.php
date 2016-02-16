@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Account\Routes\XHR;
 
+use Sequode\Application\Modules\Session\Store as SessionStore;
+
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
@@ -22,7 +24,7 @@ class Operations {
     public static function updatePassword($json = null){
         
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!\Sequode\Application\Modules\Session\Operations::is($dialog['session_store_key'])){ return; }
+        if(!SessionStore::is($dialog['session_store_key'])){ return; }
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $operations_xhr = ModuleRegistry::model(static::$package)->xhr->operations;
         $operations = ModuleRegistry::model(static::$package)->operations;
@@ -30,11 +32,11 @@ class Operations {
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
-                    \Sequode\Application\Modules\Session\Operations::set($dialog['session_store_key'], $dialog['session_store_setup']);
+                    SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
                     return forward_static_call_array(array($cards_xhr,__FUNCTION__),array());  
                 }
         }
-        $dialog_store = \Sequode\Application\Modules\Session\Operations::get($dialog['session_store_key']);
+        $dialog_store = SessionStore::get($dialog['session_store_key']);
         $dialog_step = $dialog['steps'][$dialog_store->step];
         if(isset($dialog_step->prep) && $dialog_step->prep == true){
             if(isset($dialog_step->required_members)){
@@ -49,7 +51,7 @@ class Operations {
                         && \Sequode\Application\Modules\Account\Authority::isSecurePassword(rawurldecode($input->password))
                     ){
                         $dialog_store->prep->new_secret = rawurldecode($input->password);
-                        \Sequode\Application\Modules\Session\Operations::set($dialog['session_store_key'], $dialog_store);
+                        SessionStore::set($dialog['session_store_key'], $dialog_store);
                     }
                     else
                     {
@@ -76,14 +78,14 @@ class Operations {
         }
         if(!isset($error)){
             $dialog_store->step++;
-            \Sequode\Application\Modules\Session\Operations::set($dialog['session_store_key'], $dialog_store);
+            SessionStore::set($dialog['session_store_key'], $dialog_store);
             return forward_static_call_array(array($cards_xhr,__FUNCTION__),array()); 
         }
     }
     public static function updateEmail($json = null){
         
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        if(!\Sequode\Application\Modules\Session\Operations::is($dialog['session_store_key'])){ return; }
+        if(!SessionStore::is($dialog['session_store_key'])){ return; }
         $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
         $operations_xhr = ModuleRegistry::model(static::$package)->xhr->operations;
         $operations = ModuleRegistry::model(static::$package)->operations;
@@ -91,11 +93,11 @@ class Operations {
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
-                    \Sequode\Application\Modules\Session\Operations::set($dialog['session_store_key'], $dialog['session_store_setup']);
+                    SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
                     return forward_static_call_array(array($cards_xhr,__FUNCTION__),array());  
                 }
         }
-        $dialog_store = \Sequode\Application\Modules\Session\Operations::get($dialog['session_store_key']);
+        $dialog_store = SessionStore::get($dialog['session_store_key']);
         $dialog_step = $dialog['steps'][$dialog_store->step];
         if(isset($dialog_step->prep) && $dialog_step->prep == true){
             if(isset($dialog_step->required_members)){
@@ -111,7 +113,7 @@ class Operations {
                     ){
                         $dialog_store->prep->new_email = rawurldecode($input->email);
                         $dialog_store->prep->token = Hashes::generateHash();
-                        \Sequode\Application\Modules\Session\Operations::set($dialog['session_store_key'], $dialog_store);
+                        SessionStore::set($dialog['session_store_key'], $dialog_store);
                         
                         $hooks = array(
                             "searchStrs" => array('#TOKEN#'),
@@ -144,7 +146,7 @@ class Operations {
         }
         if(!isset($error)){
             $dialog_store->step++;
-            \Sequode\Application\Modules\Session\Operations::set($dialog['session_store_key'], $dialog_store);
+            SessionStore::set($dialog['session_store_key'], $dialog_store);
             return forward_static_call_array(array($cards_xhr,__FUNCTION__),array()); 
         }
     }
