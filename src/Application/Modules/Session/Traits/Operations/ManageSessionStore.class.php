@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\Session\Traits\Operations;
 
 use Sequode\Foundation\Hashes;
+use Sequode\Model\Application\Configuration;
 
 trait ManageSessionStore {
     
