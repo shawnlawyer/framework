@@ -6,8 +6,10 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections {
     public static $package = 'Session';
+    public static $modeler = Modeler::class;
+    
     public static function search($_i, $limit=100){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = static::$modeler;
         $_i->position = urldecode($_i->position);
         $_i->field = urldecode($_i->field);
         if(!in_array($_i->position, array('=%','%=%','%=','='))){
@@ -19,10 +21,10 @@ class Collections {
         $results = array();
         $where = array();
         $where[] = array('field'=>$_i->field,'operator'=>$_i->position,'value'=>$_i->search);
-        $_model = new $modeler::$model;
-        $_model->getAll($where,'id, username',false, $limit);
-        $results = array_merge($results,$_model->all);
-        unset($sessions_model);
+        $model = new $modeler::$model;
+        $model->getAll($where,'id, username',false, $limit);
+        $results = array_merge($results,$model->all);
+        unset($_model);
         return $results;
     }
 }
