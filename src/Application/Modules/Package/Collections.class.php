@@ -1,6 +1,8 @@
 <?php
 namespace Sequode\Application\Modules\Package;
 
+use Sequode\Model\Module\Registry as ModuleRegistry;
+
 class Collections {
     public static $package = 'Package';
     public static function search($_i, $limit=100){
