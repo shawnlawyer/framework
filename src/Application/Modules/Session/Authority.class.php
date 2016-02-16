@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Session;
 
+use Sequode\Model\Application\Configuration;
+
 class Authority {
     
 	public static function isCookieValid(){
