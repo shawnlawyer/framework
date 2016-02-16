@@ -126,7 +126,7 @@ trait ManageSessionStore {
         
         if($save != false){
             
-            $modeler::save();
+            self::save();
             
         }
         
@@ -142,7 +142,7 @@ trait ManageSessionStore {
         
         if($save != false){
             
-            $modeler::save();
+            self::save();
             
         }
         
