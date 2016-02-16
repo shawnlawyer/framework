@@ -3,7 +3,6 @@
 namespace Sequode\Application\Modules\Session;
 
 use Sequode\Application\Models\ORM\Sessions as Model;
-use Sequode\Application\Modules\Session\Traits\StaticStoreTrait;
 
 class Modeler extends \Sequode\Patterns\Modeler {
     
