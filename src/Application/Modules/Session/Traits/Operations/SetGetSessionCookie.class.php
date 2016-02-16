@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\Session\Traits\Operations;
 
 use Sequode\Model\Application\Configuration;
 
-trait ManageSessionCookie {
+trait SetGetSessionCookie {
    
     public static function setCookie(){
         
