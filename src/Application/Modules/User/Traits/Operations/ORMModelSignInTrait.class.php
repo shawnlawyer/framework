@@ -2,6 +2,9 @@
 
 namespace Sequode\Application\Modules\User\Traits\Operations;
 
+use Sequode\Application\Modules\Session\Modeler as SessionModeler;
+use Sequode\Application\Modules\Session\Operations as SessionOperations;
+
 trait ORMModelSignInTrait {
 	
     public static function login($_model = null){
@@ -13,12 +16,12 @@ trait ORMModelSignInTrait {
             : forward_static_call_array(array($modeler,'model'),array($_model)) ;
             
         $modeler::model()->updateField(($time === false) ? time() : $time ,'last_sign_in');
-        \Sequode\Application\Modules\Session\Modeler::model()->updateField($modeler::model()->email,'username');
-        \Sequode\Application\Modules\Session\Operations::set('user_id', $modeler::model()->id, false);
-        \Sequode\Application\Modules\Session\Operations::set('username', $modeler::model()->username, false);
-        \Sequode\Application\Modules\Session\Operations::set('role_id', $modeler::model()->role_id, false);
-		\Sequode\Application\Modules\Session\Operations::set('console','Sequode', false);
-        \Sequode\Application\Modules\Session\Operations::save();
+        SessionModeler::model()->updateField($modeler::model()->email,'username');
+        SessionOperations::set('user_id', $modeler::model()->id, false);
+        SessionOperations::set('username', $modeler::model()->username, false);
+        SessionOperations::set('role_id', $modeler::model()->role_id, false);
+		SessionOperations::set('console','Sequode', false);
+        SessionOperations::save();
         
         return $modeler::model();
         

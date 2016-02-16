@@ -2,16 +2,18 @@
 
 namespace Sequode\Application\Modules\User\Traits\Operations;
 
+use Sequode\Application\Modules\Session\Operations as SessionOperations;
+
 trait ORMModelSignOutTrait {
     
 	public static function logout(){
                 
         $modeler = static::$modeler;
         
-		\Sequode\Application\Modules\Session\Operations::end();
+		SessionOperations::end();
         $modeler::model(null);
-		\Sequode\Application\Modules\Session\Operations::start();
-		\Sequode\Application\Modules\Session\Operations::set('console','Auth');
+		SessionOperations::start();
+		SessionOperations::set('console','Auth');
         
         return;
         

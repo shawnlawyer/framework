@@ -10,16 +10,17 @@ trait ManageSessionCookie {
         
         $modeler = static::$modeler;
         
-        $expire = time()+Configuration::model()->sessions->length;
+        $expire = time() + Configuration::model()->sessions->length;
         
         setcookie(Configuration::model()->sessions->cookie, $modeler::model()->session_id, $expire, Configuration::model()->sessions->path, '.'.Configuration::model()->sessions->domain);
+        
         setcookie(Configuration::model()->sessions->cookie, $modeler::model()->session_id, $expire, Configuration::model()->sessions->path, '*.'.Configuration::model()->sessions->domain);
         
     }
     
 	public static function getCookieValue(){
         
-        return (\Sequode\Application\Modules\Session\Authority::isCookieValid()) ? $_COOKIE[Configuration::model()->sessions->cookie] : false;
+        return (!empty($_COOKIE[Configuration::model()->sessions->cookie])) ? $_COOKIE[Configuration::model()->sessions->cookie] : false;
         
     }
     
