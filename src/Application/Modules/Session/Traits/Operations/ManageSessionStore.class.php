@@ -77,7 +77,7 @@ trait ManageSessionStore {
     
 	public static function load(){
         
-        $modeler::setAll(unserialize($modeler::model()->session_data),false);
+        self::setAll(unserialize($modeler::model()->session_data),false);
         
     }
     
