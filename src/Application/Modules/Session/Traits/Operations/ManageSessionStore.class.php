@@ -72,12 +72,15 @@ trait ManageSessionStore {
         
         $modeler = static::$modeler;
         
-        $modeler::model()->updateField(serialize($modeler::getAll()),'session_data');
+        $modeler::model()->updateField(serialize($modeler::container('getAll')),'session_data');
+        
     }
     
 	public static function load(){
         
-        self::setAll(unserialize($modeler::model()->session_data),false);
+        $modeler = static::$modeler;
+        
+        $modeler::container('setAll', null, unserialize($modeler::model()->session_data));
         
     }
     
