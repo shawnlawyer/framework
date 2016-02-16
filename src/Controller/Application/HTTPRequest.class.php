@@ -8,18 +8,7 @@ use Sequode\Model\Application\Routes;
 
 class HTTPRequest {
 	public static function run(){
-        if (isset($_SERVER['HTTP_ORIGIN']) && in_array($_SERVER['HTTP_ORIGIN'], array('https://sequode.com','https://origin.sequode.com','https://console.sequode.com','https://xhr.sequode.com','https://api.sequode.com'))) {
-            header("Access-Control-Allow-Origin: {$_SERVER['HTTP_ORIGIN']}");
-            header('Access-Control-Allow-Credentials: true');
-            if ($_SERVER['REQUEST_METHOD'] == 'OPTIONS') {
-                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_METHOD'])){
-                    header("Access-Control-Allow-Methods: GET, POST, OPTIONS");         
-                }
-                if (isset($_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS'])){
-                    header("Access-Control-Allow-Headers: {$_SERVER['HTTP_ACCESS_CONTROL_REQUEST_HEADERS']}");
-                }
-            }
-        }
+        
 		$route_class = false;
         $routes_classes = Runtime::model()->routes;
 		$route = 'index';
