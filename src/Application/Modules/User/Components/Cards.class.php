@@ -54,8 +54,8 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Password');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($_model->id)), 'Set Password', 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Role');
-        \SQDE_Role::exists($_model->role_id,'id');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($_model->id)), \SQDE_Role::model()->name, 'settings');
+        \Sequode\Application\Modules\Role\Modeler::exists($_model->role_id,'id');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($_model->id)), \Sequode\Application\Modules\Role\Modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Active Status');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateActive', array($_model->id)), (($_model->active == 1) ? 'Active' : 'Suspended'), 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Sign Up Date');

@@ -19,7 +19,6 @@ class Collections{
         $collection = ModuleRegistry::model(static::$package)->context . '_' . __FUNCTION__;
         $nodes = array();
         if(SessionStore::is($collection)){
-            $nodes[] = '"0":{"id":"0","n":"'.$collection.'"}';
             $_array = $finder::search(SessionStore::get($collection));
             foreach($_array as $_object){
                 $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->username.'"}';

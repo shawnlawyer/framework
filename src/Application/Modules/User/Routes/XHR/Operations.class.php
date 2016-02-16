@@ -66,7 +66,7 @@ class Operations{
         if(!(
             \Sequode\Application\Modules\Account\Authority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
-            && \SQDE_Role::exists($input->role,'id')
+            && \Sequode\Application\Modules\Role\Modeler::exists($input->role,'id')
         )){return;}
         $operations::updateRole();
         return $cards_xhr::details($modeler::model()->id);
