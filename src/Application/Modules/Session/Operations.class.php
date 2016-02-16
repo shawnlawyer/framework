@@ -11,10 +11,11 @@ use Sequode\Application\Modules\Session\Traits\Operations\SetGetSessionCookie;
 
 class Operations {
     
-    use  ORMModelCreate,
-            ManageSessionStore,
-            SetGetSessionCookie;
+    use ORMModelCreate,
+        ManageSessionStore,
+        SetGetSessionCookie;
     
     public static $modeler = Modeler::class;
+    public static $store = Store::class;
     
 }

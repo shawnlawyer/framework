@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\Session\Traits;
+namespace Sequode\Foundation\Traits;
 
 trait StaticStoreTrait {
     
@@ -13,11 +13,12 @@ trait StaticStoreTrait {
             $store = array();
             
         }
+        
         switch($mode){
             
             case 'clear':
                 $store = array();
-                break;
+                return;
             case 'is':
                 return (array_key_exists($key, $store)) ? true : false ;
             case 'set':
@@ -26,20 +27,19 @@ trait StaticStoreTrait {
                     $store[$key] = $value;
                     
                 }
-                break;
+                return;
             case 'get':
                 if(array_key_exists($key, $store)){
                     
                     return $store[$key];
                     
                 }
-                break;
+                return;
             case 'setAll':
                 $store = $value;
-                break;
+                return;
             case 'getAll':
                 return $store;
-                break;
                 
         }
         

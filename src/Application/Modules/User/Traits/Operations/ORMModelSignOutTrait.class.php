@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\User\Traits\Operations;
 
 use Sequode\Application\Modules\Session\Operations as SessionOperations;
+use Sequode\Application\Modules\Session\Store as SessionStore;
 
 trait ORMModelSignOutTrait {
     
@@ -13,7 +14,7 @@ trait ORMModelSignOutTrait {
 		SessionOperations::end();
         $modeler::model(null);
 		SessionOperations::start();
-		SessionOperations::set('console','Auth');
+		SessionStore::set('console','Auth');
         
         return;
         

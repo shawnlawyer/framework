@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Account\Components;
 
+use Sequode\Application\Modules\Session\Store as SessionStore;
+
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
@@ -43,7 +45,7 @@ class Cards {
     }
     public static function updatePassword(){
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        $dialog_store = \Sequode\Application\Modules\Session\Operations::get($dialog['session_store_key']);
+        $dialog_store = SessionStore::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
         $_o->icon_background = 'users-icon-background';
@@ -76,7 +78,7 @@ class Cards {
     }
     public static function updateEmail(){
         $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
-        $dialog_store = \Sequode\Application\Modules\Session\Operations::get($dialog['session_store_key']);
+        $dialog_store = SessionStore::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
         $_o->icon_background = 'users-icon-background';

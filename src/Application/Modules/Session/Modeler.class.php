@@ -7,8 +7,6 @@ use Sequode\Application\Modules\Session\Traits\StaticStoreTrait;
 
 class Modeler extends \Sequode\Patterns\Modeler {
     
-    use StaticStoreTrait;
-    
     public static $model = Model::class;
     
 	public static function exists($value,$by='session_id'){

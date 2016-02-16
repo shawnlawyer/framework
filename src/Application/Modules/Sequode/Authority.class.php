@@ -3,6 +3,9 @@
 namespace Sequode\Application\Modules\Sequode;
 
 class Authority {
+    
+    public static $modeler = Modeler::class;
+    
     public static function isSequence($sequode_model = null){
         if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
         return ($sequode_model->usage_type == 1) ? true : false;

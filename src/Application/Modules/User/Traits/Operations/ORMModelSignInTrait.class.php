@@ -4,6 +4,7 @@ namespace Sequode\Application\Modules\User\Traits\Operations;
 
 use Sequode\Application\Modules\Session\Modeler as SessionModeler;
 use Sequode\Application\Modules\Session\Operations as SessionOperations;
+use Sequode\Application\Modules\Session\Store as SessionStore;
 
 trait ORMModelSignInTrait {
 	
@@ -17,11 +18,10 @@ trait ORMModelSignInTrait {
             
         $modeler::model()->updateField(($time === false) ? time() : $time ,'last_sign_in');
         SessionModeler::model()->updateField($modeler::model()->email,'username');
-        SessionOperations::set('user_id', $modeler::model()->id, false);
-        SessionOperations::set('username', $modeler::model()->username, false);
-        SessionOperations::set('role_id', $modeler::model()->role_id, false);
-		SessionOperations::set('console','Sequode', false);
-        SessionOperations::save();
+        SessionStore::set('user_id', $modeler::model()->id, false);
+        SessionStore::set('username', $modeler::model()->username, false);
+        SessionStore::set('role_id', $modeler::model()->role_id, false);
+		SessionStore::set('console','Sequode');
         
         return $modeler::model();
         
