@@ -54,19 +54,19 @@ class Routes{
 	public static function css(){
         if(!SessionStore::is('console')){return;}
 		$files = array(
-        'css/SQDE_automagic_cards.css',
-        'css/SQDE_automagic_content.css',
-        'css/SQDE_automagic_data.css',
-        'css/SQDE_automagic_forms.css',
-        'css/SQDE_automagic_layout.css',
-        'css/SQDE_btn.css',
-        'css/SQDE_containers.css',
-        'css/SQDE_globals.css',
-        'css/SQDE_icons.css',
-        'css/SQDE_shortcuts.css',
-        'css/SQDE_text.css',
+        'css/automagic_cards.css',
+        'css/automagic_content.css',
+        'css/automagic_data.css',
+        'css/automagic_forms.css',
+        'css/automagic_layout.css',
+        'css/btn.css',
+        'css/containers.css',
+        'css/globals.css',
+        'css/icons.css',
+        'css/shortcuts.css',
+        'css/text.css',
         'css/sequode.css',
-        'css/SQDE_client.css'
+        'css/client.css'
         );
         header("Content-type: text/css", true);
         echo '@charset "utf-8";';
@@ -81,36 +81,35 @@ class Routes{
         switch(SessionStore::get('console')){
             case 'Sequode':
                 $files = array(
-                    'js/SQDE_Configuration.js',
-                    'js/SQDE_SymbolsKit.js',
-                    'js/SQDE_BaseKit.js',
-                    'js/SQDE_EventsKit.js',
-                    'js/SQDE_ShapesKit.js',
-                    'js/SQDE_CardsKit.js',
-                    'js/SQDE_Cards.js',
-                    'js/SQDE_XHR.js',
-                    'js/SQDE_Model.js',
-                    'js/SQDE_ModelEnds.js',
-                    'js/SQDE_Sequencer.js',
-                    'js/SQDE_SequencerPalette.js',
-                    'js/SQDE_CollectionCards.js',
-                    'js/SQDE_SequodeConsoleRegistry.js',
-                    'js/SQDE_SequodeConsole.js',
+                    'js/Configuration.js',
+                    'js/SymbolsKit.js',
+                    'js/BaseKit.js',
+                    'js/EventsKit.js',
+                    'js/ShapesKit.js',
+                    'js/CardsKit.js',
+                    'js/Cards.js',
+                    'js/XHR.js',
+                    'js/Model.js',
+                    'js/ModelEnds.js',
+                    'js/Sequencer.js',
+                    'js/SequencerPalette.js',
+                    'js/CollectionCards.js',
+                    'js/SequodeConsoleRegistry.js',
+                    'js/SequodeConsole.js',
                     'js/sequode-main.js'
                 );
                 break;
             case 'Auth':
                 $files = array(
-                    'js/SQDE_XHR.js',
-                    'js/SQDE_AuthConsole.js',
-                    'js/SQDE_AuthConsoleRegistry.js',
+                    'js/XHR.js',
+                    'js/AuthConsole.js',
+                    'js/AuthConsoleRegistry.js',
                     'js/auth-main.js'
                 );
                 break;
             
         }
 		header('Content-type: application/javascript');
-        echo '/* Copyright (c) 2006-2015 Shawn Thomas Lawyer - shawnlawyer@gmail.com. All Rights Reserved. */';
         echo "\n";
         if($closure == true){
             echo '!function() {';
@@ -180,17 +179,11 @@ class Routes{
         }
         
         switch($collection){
-			case 'my_sequodes':
-                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::owned();
-                return;
 			case 'packages':
                 \Sequode\Application\Modules\Package\Routes\Collections\Collections::owned();
                 return;
 			case 'tokens':
                \Sequode\Application\Modules\Token\Routes\Collections\Collections::owned();
-                return;
-			case 'sequode_search':
-                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::search();
                 return;
 			case 'user_search':
                 \Sequode\Application\Modules\User\Routes\Collections::search();
@@ -204,14 +197,20 @@ class Routes{
 			case 'token_search':
                 \Sequode\Application\Modules\Token\Routes\Collections\Collections::search();
                 return;
-			case 'sequode_favorites':
-                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::favorited();
-                return;
 			case 'palette':
                 \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::palette();
                 return;
 			case 'sequodes':
                 \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::main($key);
+                return;
+			case 'my_sequodes':
+                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::owned();
+                return;
+			case 'sequode_favorites':
+                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::favorited();
+                return;
+			case 'sequode_search':
+                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::search();
                 return;
             default:
 			case 'collections':
