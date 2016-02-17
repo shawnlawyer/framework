@@ -18,7 +18,7 @@ class Form extends Mason {
 	}
 	public static function xhrCall($route, $inputs){
         $js = array();
-        $js[] = 'new SQDE_XHRCall({';
+        $js[] = 'new XHRCall({';
         $js[] = 'route:\''. $route .'\'';
         if(is_array($inputs) && count($inputs) != 0){
             $js[] = ',inputs:['. implode(',',$inputs) .']';

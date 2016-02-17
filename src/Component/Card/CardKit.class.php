@@ -39,7 +39,7 @@ class CardKit {
         $html = $js = array();
         
         $html[] = '<div  class="fitBlock alignCenter" id="'.$dom_id.'"></div>';
-        $js[] = 'var cards = new SQDE_CollectionCards();';
+        $js[] = 'var cards = new CollectionCards();';
         $js[] = 'cards.container = \''.$dom_id.'\';';
         $js[] = 'cards.icon = \''.$component->icon.'\';';
         $js[] = 'cards.details_route = \''.$component->details_route.'\';';

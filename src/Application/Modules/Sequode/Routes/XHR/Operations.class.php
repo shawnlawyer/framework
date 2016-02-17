@@ -57,7 +57,7 @@ class Operations {
         forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($type, $member, $form_member_object));
         if($previous_form_object->$member->Component != $form_member_object->Component){
             $js = array();
-            $js[] = 'new SQDE_XHRCall({route:"forms/sequode/componentSettings",inputs:[\''.$type.'\', \''.$member.'\', '.$modeler::model()->id.', \''.$dom_id.'\']});';
+            $js[] = 'new XHRCall({route:"forms/sequode/componentSettings",inputs:[\''.$type.'\', \''.$member.'\', '.$modeler::model()->id.', \''.$dom_id.'\']});';
 			return implode(' ',$js);
         }
     }
@@ -126,7 +126,7 @@ class Operations {
 			$js[] = 'if(';
 			$js[] = 'confirm(\'Are you sure you want to delete this?\')';
 			$js[] = '){';
-            $js[] = 'new SQDE_XHRCall({route:"operations/sequode/deleteSequence",inputs:['.$modeler::model()->id.', true]});';
+            $js[] = 'new XHRCall({route:"operations/sequode/deleteSequence",inputs:['.$modeler::model()->id.', true]});';
 			$js[] = '}';
 			return implode(' ',$js);
         }else{
@@ -150,14 +150,14 @@ class Operations {
 			$js[] = 'if(';
 			$js[] = 'confirm(\'Are you sure you want to format '.$modeler::model()->id.'?\')';
 			$js[] = '){';
-            $js[] = 'new SQDE_XHRCall({route:"operations/sequode/formatSequence",inputs:['.$modeler::model()->id.', true]});';
+            $js[] = 'new XHRCall({route:"operations/sequode/formatSequence",inputs:['.$modeler::model()->id.', true]});';
 			$js[] = '}';
         }else{
             forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,'makeDefaultSequencedSequode'),array());
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
             $js[] = 'if(typeof registry.active_context != \'undefined\' && typeof registry.active_context.card != \'undefined\'){';
-            $js[] = 'new SQDE_XHRCall({route:registry.active_context.card, inputs:['.$modeler::model()->id.']});';
+            $js[] = 'new XHRCall({route:registry.active_context.card, inputs:['.$modeler::model()->id.']});';
             $js[] = '}';
         }
         return implode(' ',$js);
@@ -216,7 +216,7 @@ class Operations {
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
         $js[] = 'if(registry.active_context != false && registry.active_context.card != \'\' && registry.active_context.node != \'\'){';
-        $js[] = 'new SQDE_XHRCall({route:registry.active_context.card, inputs:[registry.active_context.node]});';
+        $js[] = 'new XHRCall({route:registry.active_context.card, inputs:[registry.active_context.node]});';
         $js[] = '}';
         return implode('',$js);
 	}

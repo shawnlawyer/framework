@@ -92,7 +92,7 @@ class JS {
             $call_object = (object) $call_object;
         }
         $js = array();
-        $js[] = 'new SQDE_XHRCall({';
+        $js[] = 'new XHRCall({';
         $js[] = 'route:\''. $call_object->route .'\'';
         if(is_array($call_object->inputs) && count($call_object->inputs) != 0){
             $js[] = ',inputs:['. implode(',',$call_object->inputs) .']';

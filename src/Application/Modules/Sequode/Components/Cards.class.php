@@ -360,7 +360,7 @@ class Cards {
         $items[] = array(
             'css_classes'=>'automagic-card-menu-item noSelect',
             'id'=>$dom_id,
-            'js_action'=> 'new SQDE_XHRCall({route:\'forms/sequode/selectPalette\',inputs:['.\Sequode\Component\Form\Form::jsQuotedValue($dom_id).']});'                 
+            'js_action'=> 'new XHRCall({route:\'forms/sequode/selectPalette\',inputs:['.\Sequode\Component\Form\Form::jsQuotedValue($dom_id).']});'                 
         );
         $_o->menu->items = array_merge($items,$_o->menu->items);
         
@@ -369,7 +369,7 @@ class Cards {
         $html = $js = array();
         $html[] = '<div class="SequencerStageContainer" id="'.$dom_id.'chart"></div>';
         $js[] = 'var sequencer;';
-        $js[] = 'sequencer = new SQDE_Sequencer();';
+        $js[] = 'sequencer = new Sequencer();';
         $js[] = 'sequencer.stage = shapesKit.stage({ container: \''.$dom_id.'chart\', width: $(window).width(), height: $(window).height() });';
         $js[] = 'registry.setContext({card:\'cards/sequode/chart\',collection:\'sequodes\',node:'.$_model->id.',tearDown:function(){ sequencer = undefined; }});';
         $js[] = 'registry.subscribeToUpdates({type:\'context\', collection:\'sequodes\', key:true, call: sequencer.run});';
@@ -396,7 +396,7 @@ class Cards {
         $html = $js = array();
         $html[] = '<div class="SequencerStageContainer" id="'.$dom_id.'chart"></div>';
         $js[] = 'var sequencer;';
-        $js[] = 'sequencer = new SQDE_Sequencer();';
+        $js[] = 'sequencer = new Sequencer();';
         $js[] = 'sequencer.default_events = false;';
         $js[] = 'sequencer.stage = shapesKit.stage({ container: \''.$dom_id.'chart\', width: $(window).width(), height: $(window).height() });';
         $js[] = 'registry.setContext({card:\'cards/sequode/chart\',collection:\'sequodes\',node:'.$_model->id.',tearDown:function(){ sequencer = undefined; }});';
