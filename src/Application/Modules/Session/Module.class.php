@@ -4,6 +4,7 @@ namespace Sequode\Application\Modules\Session;
 
 class Module {
     
+    public static $package = 'Session'; 
 	public static function model(){
         $_o = (object)  array (
             'context' => 'session',
