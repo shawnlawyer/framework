@@ -9,7 +9,9 @@ class Module {
             'context' => 'account',
             'modeler' => \Sequode\Application\Modules\Account\Modeler::class,
             'card_objects' => Components\Cards::class,
-            'form_objects' => Components\Forms::class,
+            'components' => (object) array (
+                'forms' => Components\Forms::class,
+            },
             'operations' => Operations::class,
             'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class,

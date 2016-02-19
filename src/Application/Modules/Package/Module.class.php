@@ -11,7 +11,9 @@ class Module {
             'collections' => Routes\Collections\Collections::class,
             'modeler' => Modeler::class,
             'card_objects' => Components\Cards::class,
-            'form_objects' => Components\Forms::class,
+            'components' => (object) array (
+                'forms' => Components\Forms::class,
+            },
             'operations' => Operations::class,
             'routes' => array (
                 'downloads' => Routes\Rest\Downloads::class

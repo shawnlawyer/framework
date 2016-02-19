@@ -9,7 +9,9 @@ class Module {
             'context' => 'token',
             'modeler' => Modeler::class,
             'operations' => Operations::class,
-            'form_objects' => Components\Forms::class,
+            'components' => (object) array (
+                'forms' => Components\Forms::class,
+            },
             'card_objects' => Components\Cards::class,
             'finder' => Collections::class,
             'collections' => Routes\Collections\Collections::class,

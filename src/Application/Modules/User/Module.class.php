@@ -9,7 +9,9 @@ class Module {
             'context' => 'user',
             'modeler' => Modeler::class,
             'card_objects' => Components\Cards::class,
-            'form_objects' => Components\Forms::class,
+            'components' => (object) array (
+                'forms' => Components\Forms::class,
+            },
             'operations' => Operations::class,
             'finder' => Collections::class,
             'collections' => Routes\Collections::class,

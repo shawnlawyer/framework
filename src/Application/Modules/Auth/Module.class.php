@@ -12,7 +12,9 @@ class Module {
             'context' => 'auth',
             'modeler' => Modeler::class,
             'card_objects' => Components\Cards::class,
-            'form_objects' => Components\Forms::class,
+            'components' => (object) array (
+                'forms' => Components\Forms::class,
+            },
             'operations' => Operations::class,
             'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class,
