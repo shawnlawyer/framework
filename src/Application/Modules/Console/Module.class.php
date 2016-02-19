@@ -8,7 +8,7 @@ class Module {
             'context' => 'console',
             'components' => (object) array (
                 'cards' => Components\Cards::class
-            },
+            ),
             'routes' =>  array(
                 Routes\Routes::class
             ),

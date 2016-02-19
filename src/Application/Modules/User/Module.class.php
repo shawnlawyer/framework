@@ -11,7 +11,7 @@ class Module {
             'components' => (object) array (
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
-            },
+            ),
             'operations' => Operations::class,
             'finder' => Collections::class,
             'collections' => Routes\Collections::class,

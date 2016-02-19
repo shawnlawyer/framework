@@ -9,7 +9,7 @@ class Module {
             'context' => 'site',
             'components' => (object) array (
                 'cards' => Components\Cards::class,
-            },
+            ),
             'xhr' => (object) array (
                 'cards' => Routes\XHR\Cards::class
             )

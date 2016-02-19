@@ -12,7 +12,7 @@ class Module {
             'modeler' => Modeler::class,
             'components' => (object) array (
                 'cards' => Components\Cards::class,
-            },
+            ),
             'operations' => Operations::class,
             'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class

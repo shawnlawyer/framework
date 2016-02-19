@@ -11,7 +11,7 @@ class Module {
             'components' => (object) array (
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
-            },
+            ),
             'operations' => Operations::class,
             'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class,

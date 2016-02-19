@@ -12,7 +12,7 @@ class Module {
             'components' => (object) array (
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
-            },
+            ),
             'finder' => Collections::class,
             'collections' => Routes\Collections\Collections::class,
             'xhr' => (object) array (
