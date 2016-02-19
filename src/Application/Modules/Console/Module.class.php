@@ -6,7 +6,9 @@ class Module {
 	public static function model(){
         $_o = (object)  array (
             'context' => 'console',
-            'card_objects' => Components\Cards::class,
+            'components' => (object) array (
+                'cards' => Components\Cards::class,
+            },
             'routes' =>  array(
                 Routes\Routes::class
             ),

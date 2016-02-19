@@ -11,9 +11,9 @@ class Module {
         $_o = (object)  array (
             'context' => 'auth',
             'modeler' => Modeler::class,
-            'card_objects' => Components\Cards::class,
             'components' => (object) array (
                 'forms' => Components\Forms::class,
+                'cards' => Components\Cards::class,
             },
             'operations' => Operations::class,
             'xhr' => (object) array (

@@ -8,9 +8,9 @@ class Module {
         $_o = (object)  array (
             'context' => 'user',
             'modeler' => Modeler::class,
-            'card_objects' => Components\Cards::class,
             'components' => (object) array (
                 'forms' => Components\Forms::class,
+                'cards' => Components\Cards::class,
             },
             'operations' => Operations::class,
             'finder' => Collections::class,

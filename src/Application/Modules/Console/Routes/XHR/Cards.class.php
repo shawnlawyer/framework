@@ -16,13 +16,13 @@ class Cards {
     }
     public static function menus($dom_id = 'MenusContainer'){
         $html = $js = array();
-        $packages = ModuleRegistry::models();
-        $i = count($packages);
-        foreach($packages as $package => $model){
-            if(isset($model->card_objects)){
-                if(in_array('menu',get_class_methods($model->card_objects))){
+        $modules = ModuleRegistry::models();
+        $i = count($modules);
+        foreach($modules as $module => $model){
+            if(isset($model->components->cards)){
+                if(in_array('menu',get_class_methods($model->components->cards))){
                     $i--;
-					$card = ModuleCard::render($package,'menu');
+					$card = ModuleCard::render($module,'menu');
                     $html[] = CardKitHTML::menuCardHidingContainer($card->html,$i);
                     $js[] = $card->js;
 				}
