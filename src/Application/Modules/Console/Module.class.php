@@ -7,7 +7,7 @@ class Module {
         $_o = (object)  array (
             'context' => 'console',
             'components' => (object) array (
-                'cards' => Components\Cards::class,
+                'cards' => Components\Cards::class
             },
             'routes' =>  array(
                 Routes\Routes::class
