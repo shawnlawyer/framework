@@ -12,7 +12,7 @@ class Registry {
         return self::container('is', $key);
     }
     public static function add($class){
-        self::container('set', $class::class, $class::model());
+        self::container('set', $class::$module_registry_key, $class::model());
         return true;
     }
     public static function model($key){
