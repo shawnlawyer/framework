@@ -5,7 +5,7 @@ namespace Sequode\Application\Modules\Authed\Components;
 use Sequode\Component\Card\CardKit as CardKit;
 
 class Cards {
-    public static $module_registry_key = 'Authed';
+    public static $module_registry_key = Sequode\Application\Modules\Authed\Module::class;
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';

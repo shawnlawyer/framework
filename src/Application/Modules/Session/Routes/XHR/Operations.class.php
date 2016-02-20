@@ -7,7 +7,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Operations {
-    public static $module_registry_key = 'Session';
+    public static $module_registry_key = Sequode\Application\Modules\Session\Module::class;
     public static function delete($_model_id){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $cards_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->cards;

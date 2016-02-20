@@ -9,7 +9,7 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\Card\CardKit as CardKit;
 
 class Cards {
-    public static $module_registry_key = 'User';
+    public static $module_registry_key = Sequode\Application\Modules\User\Module::class;
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';

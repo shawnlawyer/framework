@@ -10,7 +10,7 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class Cards {
-    public static $module_registry_key = 'Session';
+    public static $module_registry_key = Sequode\Application\Modules\Session\Module::class;
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';

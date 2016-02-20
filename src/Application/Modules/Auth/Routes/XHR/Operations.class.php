@@ -6,7 +6,7 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
-    public static $module_registry_key = 'Auth';
+    public static $module_registry_key = Sequode\Application\Modules\Auth\Module::class;
 	public static $merge = false;
 	public static $routes = array(
 		'login'

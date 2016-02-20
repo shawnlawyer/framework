@@ -6,7 +6,7 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections{
-    public static $module_registry_key = 'Token';
+    public static $module_registry_key = Sequode\Application\Modules\Token\Module::class;
 	public static $merge = false;
 	public static $routes = array(
 		'tokens',

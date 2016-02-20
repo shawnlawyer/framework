@@ -9,7 +9,7 @@ use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
 
 class Operations {
-    public static $module_registry_key = 'Register';
+    public static $module_registry_key = Sequode\Application\Modules\Register\Module::class;
 	public static $merge = false;
 	public static $routes = array(
 		'signup',

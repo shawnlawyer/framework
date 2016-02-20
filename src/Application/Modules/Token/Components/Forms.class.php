@@ -6,7 +6,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\Form\Form as FormComponent;
 
 class Forms   {
-    public static $module_registry_key = 'Token';
+    public static $module_registry_key = Sequode\Application\Modules\Token\Module::class;
     public static $objects_source = FormInputs::class;
 	public static $xhr_library = 'operations/token';
     public static function name(){

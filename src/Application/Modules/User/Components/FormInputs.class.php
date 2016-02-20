@@ -8,7 +8,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class FormInputs{
-    public static $module_registry_key = 'User';
+    public static $module_registry_key = Sequode\Application\Modules\User\Module::class;
     public static function updatePassword(){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_o = (object) null;

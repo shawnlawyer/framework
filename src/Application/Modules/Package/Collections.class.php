@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\Package;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections {
-    public static $module_registry_key = 'Package';
+    public static $module_registry_key = Sequode\Application\Modules\Package\Module::class;
     public static function search($_i, $limit=100){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_i->position = urldecode($_i->position);
