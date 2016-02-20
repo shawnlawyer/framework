@@ -12,7 +12,7 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class Cards {
-    public static $module_registry_key = Sequode\Application\Modules\Package\Module::class;
+    public static $module_registry_key = 'Package';
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';

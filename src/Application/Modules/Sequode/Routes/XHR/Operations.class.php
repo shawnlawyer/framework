@@ -7,7 +7,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Operations {
-    public static $module_registry_key = Sequode\Application\Modules\Sequode\Module::class;
+    public static $module_registry_key = 'Sequode';
     public static function updateValue($type, $_model_id, $map_key, $json){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         if(!(

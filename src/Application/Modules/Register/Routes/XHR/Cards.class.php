@@ -6,7 +6,7 @@ use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 
 class Cards {
-    public static $module_registry_key = Sequode\Application\Modules\Register\Module::class;
+    public static $module_registry_key = 'Register';
 	public static $merge = false;
 	public static $routes = array(
 		'signup'

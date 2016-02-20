@@ -5,7 +5,7 @@ namespace Sequode\Application\Modules\Authed\Routes\XHR;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Operations {
-    public static $module_registry_key = Sequode\Application\Modules\Authed\Module::class;
+    public static $module_registry_key = 'Authed';
 	public static $merge = false;
 	public static $routes = array(
 		'logout'

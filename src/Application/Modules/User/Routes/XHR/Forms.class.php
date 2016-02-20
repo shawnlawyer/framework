@@ -7,7 +7,7 @@ use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Forms {
-    public static $module_registry_key = Sequode\Application\Modules\User\Module::class;
+    public static $module_registry_key = 'User';
     public static function updatePassword($_model_id, $dom_id){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         if(!(

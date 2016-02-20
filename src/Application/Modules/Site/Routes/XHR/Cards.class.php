@@ -6,7 +6,7 @@ use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 
 class Cards {
-    public static $module_registry_key = Sequode\Application\Modules\Site\Module::class;
+    public static $module_registry_key = 'Site';
     public static function sequode($dom_id = 'CardsContainer'){
         $js = array();
         $deck = array();

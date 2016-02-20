@@ -6,7 +6,7 @@ use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Forms {
-    public static $module_registry_key = Sequode\Application\Modules\Sequode\Module::class;
+    public static $module_registry_key = 'Sequode';
     public static $modeler = \Sequode\Application\Modules\Sequode\Modeler::class;
     public static function name($_model_id, $dom_id){
         $modeler = static::$modeler;

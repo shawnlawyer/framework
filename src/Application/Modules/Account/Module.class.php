@@ -3,7 +3,8 @@
 namespace Sequode\Application\Modules\Account;
 
 class Module {
-    public static function model(){
+    public static $module_registry_key = 'Account';
+	public static function model(){
         $_o = (object)  array (
             'context' => 'account',
             'modeler' => \Sequode\Application\Modules\Account\Modeler::class,

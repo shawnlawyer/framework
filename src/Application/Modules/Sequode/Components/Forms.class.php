@@ -6,7 +6,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\Form\Form as FormComponent;
 
 class Forms {
-    public static $module_registry_key = Sequode\Application\Modules\Sequode\Module::class;
+    public static $module_registry_key = 'Sequode';
     public static $objects_source = FormInputs::class;
 	public static $xhr_library = 'operations/sequode';
     public static function name($_model = null){

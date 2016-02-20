@@ -7,7 +7,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Operations {
-    public static $module_registry_key = Sequode\Application\Modules\Token\Module::class;
+    public static $module_registry_key = 'Token';
     public static function newToken(){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array(\Sequode\Application\Modules\Account\Modeler::model()->id));

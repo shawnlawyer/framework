@@ -144,9 +144,8 @@ class Routes{
         if(!isset($call_pieces[2])){
             return;
         }
-        $context = strtolower($call_pieces[1]);
-        
-        if(!in_array(ModuleRegistry::is($module))ModuleRegistry::is($module)){
+        $package = ucfirst(strtolower($call_pieces[1]));
+        if(!ModuleRegistry::is($package)){
             return;
         }
         $request_type = $call_pieces[0];

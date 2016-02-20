@@ -6,7 +6,7 @@ use Sequode\Component\FormInput\FormInput as FormInputComponent;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class FormInputs {
-    public static $module_registry_key = Sequode\Application\Modules\Package\Module::class;
+    public static $module_registry_key = 'Package';
     public static function name($_model = null){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;

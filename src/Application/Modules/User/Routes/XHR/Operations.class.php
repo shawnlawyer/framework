@@ -2,14 +2,12 @@
 
 namespace Sequode\Application\Modules\User\Routes\XHR;
 
-use Sequode\Application\Modules\User\Module;
-
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Operations{
-    public static $module_registry_key = Sequode\Application\Modules\User\Module::class;
+    public static $module_registry_key = 'User';
     public static function newUser(){
         $operations = ModuleRegistry::model(static::$module_registry_key)->operations;
         $cards_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->cards;

@@ -11,7 +11,7 @@ use Sequode\Controller\Email\Email;
 use Sequode\Foundation\Hashes;
 
 class Operations {
-    public static $module_registry_key = Sequode\Application\Modules\Account\Module::class;
+    public static $module_registry_key = 'Account';
 	public static $merge = false;
 	public static $routes = array(
 		'updatePassword',

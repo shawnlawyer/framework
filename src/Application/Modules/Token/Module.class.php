@@ -3,7 +3,8 @@
 namespace Sequode\Application\Modules\Token;
 
 class Module {
-    public static function model(){
+    public static $module_registry_key = 'Token';
+	public static function model(){
         $_o = (object)  array (
             'context' => 'token',
             'modeler' => Modeler::class,

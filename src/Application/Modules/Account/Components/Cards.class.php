@@ -11,7 +11,7 @@ use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Form\Form as FormComponent;
 
 class Cards {
-    public static $module_registry_key = Sequode\Application\Modules\Account\Module::class;
+    public static $module_registry_key = 'Account';
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';

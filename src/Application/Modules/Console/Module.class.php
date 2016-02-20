@@ -2,7 +2,8 @@
 namespace Sequode\Application\Modules\Console;
 
 class Module {
-    public static function model(){
+    public static $module_registry_key = 'Console';
+	public static function model(){
         $_o = (object)  array (
             'context' => 'console',
             'components' => (object) array (

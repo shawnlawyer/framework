@@ -9,7 +9,7 @@ use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 
 class Cards {
-    public static $module_registry_key = Sequode\Application\Modules\Account\Module::class;
+    public static $module_registry_key = 'Account';
 	public static $merge = false;
 	public static $routes = array(
 		'details',
