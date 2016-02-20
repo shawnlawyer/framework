@@ -6,7 +6,7 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections{
-    public static $package = 'Session';
+    public static $module_registry_key = 'Session';
 	public static $merge = true;
 	public static $routes = array(
 		'session_search'
@@ -15,8 +15,8 @@ class Collections{
 		'session_search' => 'search'
 	);
 	public static function search(){
-        $finder = ModuleRegistry::model(static::$package)->finder;
-        $collection = ModuleRegistry::model(static::$package)->context . '_' . __FUNCTION__;
+        $finder = ModuleRegistry::model(static::$module_registry_key)->finder;
+        $collection = ModuleRegistry::model(static::$module_registry_key)->context . '_' . __FUNCTION__;
         $nodes = array();
         if(SessionStore::is($collection)){
             $_array = $finder::search(SessionStore::get($collection));

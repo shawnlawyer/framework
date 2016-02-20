@@ -5,7 +5,7 @@ namespace Sequode\Application\Modules\Register\Components;
 use Sequode\Component\Form\Form as FormComponent;
 
 class Forms   {
-    public static $package = 'Register';
+    public static $module_registry_key = 'Register';
 	public static $objects_source = FormInputs::class;
 	public static $xhr_library = 'operations/register';
     public static function email(){

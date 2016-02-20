@@ -12,7 +12,7 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class Cards {
-    public static $package = 'Package';
+    public static $module_registry_key = 'Package';
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -30,7 +30,7 @@ class Cards {
         return $_o;
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details','cards/package/details',array($_model->id));
@@ -38,7 +38,7 @@ class Cards {
         return $_o;
     }
     public static function details($_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;

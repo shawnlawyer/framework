@@ -7,17 +7,17 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Operations {
-    public static $package = 'Token';
+    public static $module_registry_key = 'Token';
     public static function newToken(){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
-        forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
         $js = array();
-        $js[] = DOMElementKitJS::fetchCollection(ModuleRegistry::model(static::$package)->collections->main, $modeler::model()->id);
-        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$package)->xhr->cards,'details'),array($modeler::model()->id));
+        $js[] = DOMElementKitJS::fetchCollection(ModuleRegistry::model(static::$module_registry_key)->collections->main, $modeler::model()->id);
+        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->xhr->cards,'details'),array($modeler::model()->id));
         return implode(' ', $js);
     }
     public static function updateName($_model_id, $json){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
@@ -34,23 +34,23 @@ class Operations {
         if(!eregi("^([A-Za-z0-9_])*$",$name)){
             return ' alert(\'Token name must be alphanumeric and all spaces will convert to underscore.\');';
         }
-        forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array($name));
+        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($name));
         $js = array();
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$package)->xhr->cards,'details'),array($modeler::model()->id));
+        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->xhr->cards,'details'),array($modeler::model()->id));
         return implode(' ', $js);
     }
     public static function delete($_model_id){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$package)->operations,__FUNCTION__),array());
+        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array());
         $js = array();
-        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$package)->xhr->cards,'my'),array());
+        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->xhr->cards,'my'),array());
         return implode(' ', $js);
     }
     public static function search($json){

@@ -11,7 +11,7 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class Cards {
-    public static $package = 'Sequode';
+    public static $module_registry_key = 'Sequode';
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -31,7 +31,7 @@ class Cards {
         return $_o;
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         $items = array();
         if(\Sequode\Application\Modules\Account\Authority::canView($_model)){
@@ -79,7 +79,7 @@ class Cards {
         return $items;
     }
 	public static function componentSettings($type, $member, $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -98,7 +98,7 @@ class Cards {
         return $_o;
 	}
     public static function sequode($dom_id, $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -111,7 +111,7 @@ class Cards {
         return $_o;
 	}   
     public static function details( $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -232,7 +232,7 @@ class Cards {
         return $_o;
     }
     public static function internalForms( $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -255,7 +255,7 @@ class Cards {
     }
     public static function internalPositionForms($position, $_model = null){
         $position = intval($position);
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -339,7 +339,7 @@ class Cards {
         return $_o;
     }
     public static function sequencer( $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -379,7 +379,7 @@ class Cards {
         return $_o;
     }
     public static function chart( $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;

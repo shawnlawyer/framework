@@ -7,7 +7,7 @@ use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 
 class Cards {
-    public static $package = 'Console';
+    public static $module_registry_key = 'Console';
     public static function index(){
         return self::tiles(\Sequode\Application\Modules\Account\Modeler::model());
     }

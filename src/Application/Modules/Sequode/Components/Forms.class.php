@@ -6,11 +6,11 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\Form\Form as FormComponent;
 
 class Forms {
-    public static $package = 'Sequode';
+    public static $module_registry_key = 'Sequode';
     public static $objects_source = FormInputs::class;
 	public static $xhr_library = 'operations/sequode';
     public static function name($_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
 		$form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
         $form_object->auto_submit_time = 2000;
@@ -21,7 +21,7 @@ class Forms {
 		return $form_object;
 	}
     public static function description($_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
 		$form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
         $form_object->auto_submit_time = 2000;
@@ -37,7 +37,7 @@ class Forms {
 		return $form_object;
 	}
     public static function component($type, $map_key, $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
         $form_object->auto_submit_time = 500;
@@ -51,7 +51,7 @@ class Forms {
 		return $form_object;
 	}
 	public static function componentSettings($type, $member, $dom_id, $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
         $form_object->auto_submit_time = 1;
@@ -65,7 +65,7 @@ class Forms {
 		return $form_object;
 	}
     public static function sequode($dom_id, $_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
         $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'run';
@@ -76,7 +76,7 @@ class Forms {
 		return $form_object;
 	}
     public static function sharing($_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));   
         $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
         $form_object->auto_submit_time = 1;
@@ -87,7 +87,7 @@ class Forms {
 		return $form_object;
 	}
     public static function updateIsPalette($_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
         $form_object->auto_submit_time = 1;
@@ -98,7 +98,7 @@ class Forms {
 		return $form_object;
 	}
     public static function updateIsPackage($_model = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
         $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
         $form_object->auto_submit_time = 1;

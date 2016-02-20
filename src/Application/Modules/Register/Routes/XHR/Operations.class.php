@@ -9,7 +9,7 @@ use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
 
 class Operations {
-    public static $package = 'Register';
+    public static $module_registry_key = 'Register';
 	public static $merge = false;
 	public static $routes = array(
 		'signup',
@@ -20,12 +20,12 @@ class Operations {
     );
     public static function signup($json = null){
         
-        $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
+        $dialog = ModuleRegistry::model(static::$module_registry_key)->xhr->dialogs[__FUNCTION__];
         if(!SessionStore::is($dialog['session_store_key'])){ return; }
-        $cards_xhr = ModuleRegistry::model(static::$package)->xhr->cards;
-        $operations_xhr = ModuleRegistry::model(static::$package)->xhr->operations;
-        $operations = ModuleRegistry::model(static::$package)->operations;
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $cards_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->cards;
+        $operations_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->operations;
+        $operations = ModuleRegistry::model(static::$module_registry_key)->operations;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 

@@ -3,7 +3,7 @@
 namespace Sequode\Application\Modules\Register;
 
 class Module {
-    public static $package = 'Register';
+    public static $module_registry_key = 'Register';
 	public static function model(){
         $_o = (object)  array (
             'context' => 'auth',

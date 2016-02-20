@@ -11,7 +11,7 @@ use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Form\Form as FormComponent;
 
 class Cards {
-    public static $package = 'Account';
+    public static $module_registry_key = 'Account';
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -29,8 +29,8 @@ class Cards {
         return $_o;
     }
     public static function details(){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
-        $operations = ModuleRegistry::model(static::$package)->operations;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $operations = ModuleRegistry::model(static::$module_registry_key)->operations;
         $_model = forward_static_call_array(array($modeler,'model'),array());
         $_o = (object) null;
         $_o->head = 'Account Detail';
@@ -44,7 +44,7 @@ class Cards {
         return $_o;
     }
     public static function updatePassword(){
-        $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
+        $dialog = ModuleRegistry::model(static::$module_registry_key)->xhr->dialogs[__FUNCTION__];
         $dialog_store = SessionStore::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
@@ -77,7 +77,7 @@ class Cards {
         return $_o;    
     }
     public static function updateEmail(){
-        $dialog = ModuleRegistry::model(static::$package)->xhr->dialogs[__FUNCTION__];
+        $dialog = ModuleRegistry::model(static::$module_registry_key)->xhr->dialogs[__FUNCTION__];
         $dialog_store = SessionStore::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;

@@ -6,7 +6,7 @@ use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 
 class Cards {
-    public static $package = 'Package';
+    public static $module_registry_key = 'Package';
     public static $modeler = \Sequode\Application\Modules\Package\Modeler::class;
     public static function details($_model_id=0, $dom_id = 'CardsContainer'){
         $modeler = static::$modeler;

@@ -6,7 +6,7 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections{
-    public static $package = 'Token';
+    public static $module_registry_key = 'Token';
 	public static $merge = false;
 	public static $routes = array(
 		'tokens',
@@ -21,7 +21,7 @@ class Collections{
 		'token_search' => 'search',
 	);
 	public static function owned(){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = new $modeler::$model;
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
@@ -34,8 +34,8 @@ class Collections{
         return;
 	}
 	public static function search(){
-        $finder = ModuleRegistry::model(static::$package)->finder;
-        $collection = ModuleRegistry::model(static::$package)->context . '_' . __FUNCTION__;
+        $finder = ModuleRegistry::model(static::$module_registry_key)->finder;
+        $collection = ModuleRegistry::model(static::$module_registry_key)->context . '_' . __FUNCTION__;
         $nodes = array();
         if(SessionStore::is($collection)){
             $_array = $finder::search(SessionStore::get($collection));

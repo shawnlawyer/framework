@@ -6,7 +6,7 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections{
-    public static $package = 'Sequode';
+    public static $module_registry_key = 'Sequode';
 	public static $merge = true;
 	public static $routes = array(
 		'sequodes',
@@ -21,7 +21,7 @@ class Collections{
 		'sequode_favorites' => 'favorited'
 	);
 	public static function main($key = null){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = new $modeler::$model;
         if($key == null){
             if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
@@ -68,7 +68,7 @@ class Collections{
         }
 	}
 	public static function search(){
-        $finder = ModuleRegistry::model(static::$package)->finder;
+        $finder = ModuleRegistry::model(static::$module_registry_key)->finder;
         $collection = 'sequode_search';
         $nodes = array();
         if(SessionStore::is($collection)){
@@ -81,7 +81,7 @@ class Collections{
         return;
 	}
 	public static function owned(){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $_model = new $modeler::$model;
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
@@ -94,7 +94,7 @@ class Collections{
         return;
 	}
 	public static function favorited(){
-        $modeler = ModuleRegistry::model(static::$package)->modeler;
+        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
         $collection = 'sequode_favorites';
         $nodes = array();
         if(!empty(\Sequode\Application\Modules\Account\Modeler::model()->$collection)){
@@ -110,7 +110,7 @@ class Collections{
 	}
     /*
 	public static function palette(){
-        $finder = ModuleRegistry::model(static::$package)->finder;
+        $finder = ModuleRegistry::model(static::$module_registry_key)->finder;
         if(in_array(SessionStore::get(__FUNCTION__),static::$routes)){
             $method = static::$routes_to_methods[static::$routes];
             self::$method();

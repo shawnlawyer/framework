@@ -3,7 +3,7 @@
 namespace Sequode\Application\Modules\Account;
 
 class Module {
-    public static $package = 'Account';
+    public static $module_registry_key = 'Account';
 	public static function model(){
         $_o = (object)  array (
             'context' => 'account',
