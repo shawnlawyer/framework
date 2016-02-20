@@ -6,9 +6,9 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class FormInputs{
-    public static $module_registry_key = 'Account';
+    public static $registry_key = 'Account';
     public static function updateEmail(){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_model = $modeler::model();
         $_o = (object) null;
         

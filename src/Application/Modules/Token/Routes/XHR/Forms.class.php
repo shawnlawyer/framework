@@ -7,14 +7,14 @@ use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Forms {
-    public static $module_registry_key = 'Token';
+    public static $registry_key = 'Token';
     public static function name($_model_id, $dom_id){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return DOMElementKitJS::placeForm(ModuleForm::render(static::$module_registry_key,__FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render(static::$registry_key,__FUNCTION__), $dom_id);
     }
 }

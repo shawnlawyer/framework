@@ -15,9 +15,9 @@ class Registry {
     
     public static function add($class){
         
-        self::container('set', $class::$module_registry_key, $class);
+        self::container('set', $class::$registry_key, $class);
         
-        return self::container('is', $class::$module_registry_key);
+        return self::container('is', $class::$registry_key);
         
     }
     

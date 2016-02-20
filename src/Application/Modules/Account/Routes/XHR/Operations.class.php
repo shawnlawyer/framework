@@ -11,7 +11,7 @@ use Sequode\Controller\Email\Email;
 use Sequode\Foundation\Hashes;
 
 class Operations {
-    public static $module_registry_key = 'Account';
+    public static $registry_key = 'Account';
 	public static $merge = false;
 	public static $routes = array(
 		'updatePassword',
@@ -23,12 +23,12 @@ class Operations {
     );
     public static function updatePassword($json = null){
         
-        $dialog = ModuleRegistry::model(static::$module_registry_key)->xhr->dialogs[__FUNCTION__];
+        $dialog = ModuleRegistry::model(static::$registry_key)->xhr->dialogs[__FUNCTION__];
         if(!SessionStore::is($dialog['session_store_key'])){ return; }
-        $cards_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->cards;
-        $operations_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->operations;
-        $operations = ModuleRegistry::model(static::$module_registry_key)->operations;
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+        $operations_xhr = ModuleRegistry::model(static::$registry_key)->xhr->operations;
+        $operations = ModuleRegistry::model(static::$registry_key)->operations;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
@@ -84,12 +84,12 @@ class Operations {
     }
     public static function updateEmail($json = null){
         
-        $dialog = ModuleRegistry::model(static::$module_registry_key)->xhr->dialogs[__FUNCTION__];
+        $dialog = ModuleRegistry::model(static::$registry_key)->xhr->dialogs[__FUNCTION__];
         if(!SessionStore::is($dialog['session_store_key'])){ return; }
-        $cards_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->cards;
-        $operations_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->operations;
-        $operations = ModuleRegistry::model(static::$module_registry_key)->operations;
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+        $operations_xhr = ModuleRegistry::model(static::$registry_key)->xhr->operations;
+        $operations = ModuleRegistry::model(static::$registry_key)->operations;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 

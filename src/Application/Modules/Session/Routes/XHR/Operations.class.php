@@ -7,10 +7,10 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Operations {
-    public static $module_registry_key = 'Session';
+    public static $registry_key = 'Session';
     public static function delete($_model_id){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
-        $cards_xhr = ModuleRegistry::model(static::$module_registry_key)->xhr->cards;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
         if(!(
             $modeler::exists($_model_id,'id')
         )){ return; }
@@ -19,20 +19,20 @@ class Operations {
     }
     /* this should replace the above at a later day.
     public static function delete($_model_id){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array());
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array());
         $js = array();
-        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->xhr->cards,'my'),array());
+        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->xhr->cards,'my'),array());
         return implode(' ', $js);
     }
     */
     public static function blockIP($_model_id){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $session_ip = $modeler::model()->ip_address;
         if(!(
             $modeler::exists($_model_id,'id')

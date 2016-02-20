@@ -9,7 +9,7 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\Card\CardKit as CardKit;
 
 class Cards {
-    public static $module_registry_key = 'User';
+    public static $registry_key = 'User';
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -27,7 +27,7 @@ class Cards {
         return $_o;
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/user/details', array($_model->id));
@@ -36,7 +36,7 @@ class Cards {
         return $_o;
     }
     public static function details($_model = null){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -83,7 +83,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = array();
         
-        $search_components_array = ModuleForm::render(static::$module_registry_key,'search');
+        $search_components_array = ModuleForm::render(static::$registry_key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         

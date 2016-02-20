@@ -8,9 +8,9 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 class FormInputs{
-    public static $module_registry_key = 'User';
+    public static $registry_key = 'User';
     public static function updatePassword(){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_o = (object) null;
         
         FormInputComponent::exists('password','name');
@@ -22,7 +22,7 @@ class FormInputs{
 		return $_o;
 	}
     public static function updateEmail($_model = null){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
         $_o = (object) null;
         
@@ -93,7 +93,7 @@ class FormInputs{
 		return $_o;
 	}
     public static function updateRole($_model = null){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
         $_o = (object) null;
         $roles_model = new \Sequode\Application\Modules\Role\Modeler::$model;
@@ -112,7 +112,7 @@ class FormInputs{
 		return $_o;
 	}
     public static function updateActive($_model = null){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
         $_o = (object) null;
         FormInputComponent::exists('checkboxSwitch','name');
@@ -126,7 +126,7 @@ class FormInputs{
 		return $_o;
 	}
     public static function updateName($_model = null){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
         $_o = (object) null;
         

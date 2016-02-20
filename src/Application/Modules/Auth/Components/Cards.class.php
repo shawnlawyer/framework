@@ -10,7 +10,7 @@ use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Form\Form as FormComponent;
 
 class Cards {
-    public static $module_registry_key = 'Auth';
+    public static $registry_key = 'Auth';
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -26,7 +26,7 @@ class Cards {
         return $_o;
     }
    public static function login(){
-        $dialog = ModuleRegistry::model(static::$module_registry_key)->xhr->dialogs[__FUNCTION__];
+        $dialog = ModuleRegistry::model(static::$registry_key)->xhr->dialogs[__FUNCTION__];
         if(!SessionStore::is($dialog['session_store_key'])){
             SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
@@ -52,7 +52,7 @@ class Cards {
         }
         if(isset($step->forms)){
             foreach($step->forms as $form){
-                $_o->body = array_merge($_o->body, ModuleForm::render(static::$module_registry_key, $form));
+                $_o->body = array_merge($_o->body, ModuleForm::render(static::$registry_key, $form));
             }
         }
         if($dialog_store->step != 0){

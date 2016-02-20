@@ -3,7 +3,7 @@
 namespace Sequode\Application\Modules\Sequode;
 
 class Module {
-    public static $module_registry_key = 'Sequode';
+    public static $registry_key = 'Sequode';
 	public static function model(){
         $_o = (object)  array (
             'context' => 'sequode',

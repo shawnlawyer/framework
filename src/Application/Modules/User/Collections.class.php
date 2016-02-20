@@ -5,9 +5,9 @@ namespace Sequode\Application\Modules\User;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections {
-    public static $module_registry_key = 'User';
+    public static $registry_key = 'User';
     public static function search($search_object, $limit=100){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $search_object->position = urldecode($search_object->position);
         $search_object->field = urldecode($search_object->field);
         if(!in_array($search_object->position, array('=%','%=%','%=','='))){

@@ -7,9 +7,9 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Operations {
-    public static $module_registry_key = 'Sequode';
+    public static $registry_key = 'Sequode';
     public static function updateValue($type, $_model_id, $map_key, $json){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
@@ -26,7 +26,7 @@ class Operations {
                 return false;
         }
         $object_map = json_decode($modeler::model()->$model_member);
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($type, $map_key, rawurldecode($input->location)));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($type, $map_key, rawurldecode($input->location)));
         if(empty($object_map[$map_key]->Value)){
 			$js = array();
             $collection = 'sequodes';
@@ -35,7 +35,7 @@ class Operations {
         }
     }
     public static function updateComponentSettings($type, $member, $member_json, $_model_id, $dom_id='FormsContainer'){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Account\Authority::canEdit()
@@ -54,7 +54,7 @@ class Operations {
                 return;
         }
         $previous_form_object = json_decode($modeler::model()->$model_member);
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($type, $member, $form_member_object));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($type, $member, $form_member_object));
         if($previous_form_object->$member->Component != $form_member_object->Component){
             $js = array();
             $js[] = 'new XHRCall({route:"forms/sequode/componentSettings",inputs:[\''.$type.'\', \''.$member.'\', '.$modeler::model()->id.', \''.$dom_id.'\']});';
@@ -62,34 +62,34 @@ class Operations {
         }
     }
     public static function cloneSequence($_model_id){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         \Sequode\Application\Modules\Account\Authority::canCreate()
         && $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && \Sequode\Application\Modules\Account\Authority::canCopy()
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,'makeSequenceCopy'),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,'makeSequenceCopy'),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
         $js = array();
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->xhr->cards,'details'),array($modeler::model()->id));
+        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->xhr->cards,'details'),array($modeler::model()->id));
         return implode(' ', $js);
     }
     public static function newSequence(){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         \Sequode\Application\Modules\Account\Authority::canCreate()
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array(\Sequode\Application\Modules\Account\Modeler::model()->id));
         $js = array();
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->xhr->cards,'details'),array($modeler::model()->id));
+        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->xhr->cards,'details'),array($modeler::model()->id));
         return implode(' ', $js);
     }
     public static function updateName($_model_id, $json){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Account\Authority::canEdit()
@@ -106,15 +106,15 @@ class Operations {
             return ' alert(\'Name already exists\');';
         }
         $modeler::exists($_model_id,'id');
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($name));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($name));
         $js = array();
-        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->xhr->cards,'details'),array($modeler::model()->id));
+        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->xhr->cards,'details'),array($modeler::model()->id));
         return implode(' ', $js);
         
         return;
     }
     public static function deleteSequence($_model_id,$confirmed=false){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
@@ -130,16 +130,16 @@ class Operations {
 			$js[] = '}';
 			return implode(' ',$js);
         }else{
-            forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array());
+            forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array());
             $js = array();
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-            $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->xhr->cards,'my'),array());
+            $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->xhr->cards,'my'),array());
             return implode(' ', $js);
         }
     }
     public static function formatSequence($_model_id,$confirmed=false){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
@@ -153,7 +153,7 @@ class Operations {
             $js[] = 'new XHRCall({route:"operations/sequode/formatSequence",inputs:['.$modeler::model()->id.', true]});';
 			$js[] = '}';
         }else{
-            forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,'makeDefaultSequencedSequode'),array());
+            forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,'makeDefaultSequencedSequode'),array());
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
             $js[] = 'if(typeof registry.active_context != \'undefined\' && typeof registry.active_context.card != \'undefined\'){';
@@ -163,7 +163,7 @@ class Operations {
         return implode(' ',$js);
     }
 	public static function addToSequence($_model_id, $add_model_id, $position=0, $position_tuner = null, $grid_modifier = null){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
 		$modeler::exists($add_model_id,'id')
 		&& \Sequode\Application\Modules\Account\Authority::canRun()
@@ -172,47 +172,47 @@ class Operations {
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && !\Sequode\Application\Modules\Sequode\Authority::isFullSequence()
 		)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($add_model_id, $position, $position_tuner, $grid_modifier));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($add_model_id, $position, $position_tuner, $grid_modifier));
 		return;
 	}
 	public static function reorderSequence($_model_id, $from_position=0, $to_position=0, $position_tuner = null, $grid_modifier = null){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
 		$modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
 		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($from_position, $to_position, $position_tuner, $grid_modifier));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($from_position, $to_position, $position_tuner, $grid_modifier));
 		return;
 	}
 	public static function removeFromSequence($_model_id, $position){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
 		$modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
 		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($position));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($position));
 		return;
 	}
 	public static function modifyGridAreas($_model_id, $position){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
 		$modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
 		&& \Sequode\Application\Modules\Account\Authority::canEdit()
 		)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($position));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($position));
 		return;
 	}
 	public static function emptySequence($_model_id){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array());
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array());
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
         $js[] = 'if(registry.active_context != false && registry.active_context.card != \'\' && registry.active_context.node != \'\'){';
@@ -221,37 +221,37 @@ class Operations {
         return implode('',$js);
 	}
 	public static function moveGridArea($_model_id, $grid_area_key = 0, $x = 0, $y = 0){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($grid_area_key, $x, $y));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($grid_area_key, $x, $y));
 		return;
 	}
 	public static function addInternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($receiver_type, $transmitter_key, $receiver_key));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($receiver_type, $transmitter_key, $receiver_key));
 		return;
 	}
 	public static function addExternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($receiver_type, $transmitter_key, $receiver_key));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($receiver_type, $transmitter_key, $receiver_key));
 		return;
 	}
 	public static function removeReceivingConnection($_model_id, $connection_type = false, $restore_key = 0){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
@@ -259,51 +259,51 @@ class Operations {
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array($connection_type, $restore_key));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array($connection_type, $restore_key));
 		return;
 	}
 	public static function updateSharing($_model_id,$json){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Account\Authority::canShare()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array(rawurldecode($_o->sharing)));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array(rawurldecode($_o->sharing)));
 		return;
 	}
 	public static function updateIsPalette($_model_id,$json){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
             $modeler::exists($_model_id,'id')
             && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array(rawurldecode($_o->palette)));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array(rawurldecode($_o->palette)));
 		return;
 	}
 	public static function updateIsPackage($_model_id,$json){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
             $modeler::exists($_model_id,'id')
             && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array(rawurldecode($_o->package)));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array(rawurldecode($_o->package)));
 		return;
 	}
 	public static function updateDescription($_model_id, $json){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$module_registry_key)->operations,__FUNCTION__),array(rawurldecode($_o->description)));
+        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array(rawurldecode($_o->description)));
 		return;
 	}
     public static function search($json){

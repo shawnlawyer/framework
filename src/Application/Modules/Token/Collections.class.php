@@ -5,9 +5,9 @@ namespace Sequode\Application\Modules\Token;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections {
-    public static $module_registry_key = 'Token';
+    public static $registry_key = 'Token';
     public static function search($_i, $limit=100){
-        $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
+        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
         $_i->position = urldecode($_i->position);
         //$_i->field = urldecode($_i->field);
         if(!in_array($_i->position, array('=%','%=%','%=','='))){

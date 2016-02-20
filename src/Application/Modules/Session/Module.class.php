@@ -3,7 +3,7 @@
 namespace Sequode\Application\Modules\Session;
 
 class Module {
-    public static $module_registry_key = 'Session';
+    public static $registry_key = 'Session';
 	public static function model(){
         $_o = (object) array (
             'context' => 'session',

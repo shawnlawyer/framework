@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\Authed;
 use Sequode\Application\Modules\Account\Modeler;
 
 class Module {
-    public static $module_registry_key = 'Authed';
+    public static $registry_key = 'Authed';
     public static $modeler = Modeler::class;
 	public static function model(){
         $_o = (object)  array (

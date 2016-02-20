@@ -10,9 +10,9 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class Cards {
-    public static $module_registry_key = 'Console';
+    public static $registry_key = 'Console';
     public static function index($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__,array(\Sequode\Application\Modules\Account\Modeler::model())), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$registry_key,__FUNCTION__,array(\Sequode\Application\Modules\Account\Modeler::model())), $dom_id);
     }
     public static function menus($dom_id = 'MenusContainer'){
         $html = $js = array();
