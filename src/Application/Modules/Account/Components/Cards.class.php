@@ -67,7 +67,7 @@ class Cards {
         }
         if(isset($step->forms)){
             foreach($step->forms as $form){
-                $_o->body = array_merge($_o->body, ModuleForm::render(self::$package, $form));
+                $_o->body = array_merge($_o->body, ModuleForm::render(static::$module_registry_key, $form));
             }
         }
         if($dialog_store->step != 0){
@@ -100,7 +100,7 @@ class Cards {
         }
         if(isset($step->forms)){
             foreach($step->forms as $form){
-                $_o->body = array_merge($_o->body, ModuleForm::render(self::$package, $form));
+                $_o->body = array_merge($_o->body, ModuleForm::render(static::$module_registry_key, $form));
             }
         }
         if($dialog_store->step > 0){

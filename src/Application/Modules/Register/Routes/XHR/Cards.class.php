@@ -15,6 +15,6 @@ class Cards {
 		'signup' => 'signup'
     );
     public static function signup($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
 }

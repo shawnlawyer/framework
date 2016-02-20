@@ -15,12 +15,12 @@ class Cards {
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function search($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function my($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
 }

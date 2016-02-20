@@ -15,7 +15,7 @@ class Cards {
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__,array($type, $member)), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__,array($type, $member)), $dom_id);
     }
     public static function details($_model_id=0, $dom_id = 'CardsContainer'){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
@@ -23,7 +23,7 @@ class Cards {
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Account\Authority::canView()
         )){return;}
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function internalForms($_model_id=0, $dom_id = 'CardsContainer'){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
@@ -32,7 +32,7 @@ class Cards {
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function internalPositionForms($_model_id=0, $position=0, $dom_id = 'CardsContainer'){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
@@ -41,7 +41,7 @@ class Cards {
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return CardKitJS::placeCard(ModuleCard::render(self::$package, __FUNCTION__, array($position)), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key, __FUNCTION__, array($position)), $dom_id);
     }
     public static function chart($_model_id=0, $dom_id = 'CardsContainer'){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
@@ -50,7 +50,7 @@ class Cards {
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function sequencer($_model_id=0, $dom_id = 'CardsContainer'){
         $modeler = ModuleRegistry::model(static::$module_registry_key)->modeler;
@@ -59,15 +59,15 @@ class Cards {
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function search($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function my($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function favorites($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
 }

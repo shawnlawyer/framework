@@ -99,7 +99,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = array();
         
-        $search_components_array = ModuleForm::render(self::$package,'search');
+        $search_components_array = ModuleForm::render(static::$module_registry_key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         

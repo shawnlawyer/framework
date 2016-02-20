@@ -26,16 +26,16 @@ class Cards {
         if(!SessionStore::is($dialog['session_store_key'])){
             SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function updateEmail($dom_id = 'CardsContainer'){
         $dialog = ModuleRegistry::model(static::$module_registry_key)->xhr->dialogs[__FUNCTION__];
         if(!SessionStore::is($dialog['session_store_key'])){
             SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function details($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
 }

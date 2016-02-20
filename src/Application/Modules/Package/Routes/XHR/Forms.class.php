@@ -15,7 +15,7 @@ class Forms {
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return DOMElementKitJS::placeForm(ModuleForm::render(self::$package,__FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function packageSequode($_model_id, $dom_id){
         $modeler = static::$modeler;
@@ -24,6 +24,6 @@ class Forms {
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){return;}
-        return DOMElementKitJS::placeForm(ModuleForm::render(self::$package,__FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
 }

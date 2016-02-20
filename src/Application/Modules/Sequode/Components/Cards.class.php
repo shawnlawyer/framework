@@ -88,7 +88,7 @@ class Cards {
         $_o->icon_background = 'atom-icon-background';
         $_o->size = 'medium';
         $dom_id = FormInputComponent::uniqueHash('','');
-        $components = ModuleForm::render(self::$package,'componentSettings', array($type, $member, $dom_id));
+        $components = ModuleForm::render(static::$module_registry_key,'componentSettings', array($type, $member, $dom_id));
         $_o->body = array();
         $_o->body[] = '<div id="' . $dom_id . '">';
         foreach($components as $component){
@@ -103,7 +103,7 @@ class Cards {
         
         $_o = (object) null;
         $_o->head = 'Component';
-        $components = ModuleForm::render(self::$package,'sequode');
+        $components = ModuleForm::render(static::$module_registry_key,'sequode');
         $_o->body = array();
         foreach($components as $component){
             $_o->body[] = $component->html;
@@ -246,7 +246,7 @@ class Cards {
         
         $sequence = json_decode($_model->sequence);
         foreach($sequence as $loop_sequence_key => $loop_model_id){
-            $_o->body[] = ModuleCard::render(self::$package,'internalPositionForms',array($loop_sequence_key));
+            $_o->body[] = ModuleCard::render(static::$module_registry_key,'internalPositionForms',array($loop_sequence_key));
         }
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
@@ -330,7 +330,7 @@ class Cards {
                 $text = $component->member;
                 $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/component', array(\Sequode\Component\Form\Form::jsQuotedValue($component->type), $_model->id, $component->map_key)), $text, 'settings');
             }else{
-                $components_array = ModuleForm::render(self::$package,'component',array($component->type, $component->map_key, $_model));
+                $components_array = ModuleForm::render(static::$module_registry_key,'component',array($component->type, $component->map_key, $_model));
                 foreach($components_array as $component_object){
                     $_o->body[] = $component_object;
                 }
@@ -413,7 +413,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = array();
         
-        $search_components_array = ModuleForm::render(self::$package,'search');
+        $search_components_array = ModuleForm::render(static::$module_registry_key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         

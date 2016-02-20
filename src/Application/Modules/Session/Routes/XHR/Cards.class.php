@@ -13,9 +13,9 @@ class Cards {
         if(!(
             $modeler::exists($_model_id,'id')
         )){ return; }
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
     public static function search($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(self::$package,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render(static::$module_registry_key,__FUNCTION__), $dom_id);
     }
 }
