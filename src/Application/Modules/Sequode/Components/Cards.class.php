@@ -10,8 +10,10 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+use Sequode\Application\Modules\Sequode\Module;
+
 class Cards {
-    public static $registry_key = 'Sequode';
+    public static $module = Module::class;
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -31,7 +33,8 @@ class Cards {
         return $_o;
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         $items = array();
         if(\Sequode\Application\Modules\Account\Authority::canView($_model)){
@@ -79,8 +82,9 @@ class Cards {
         return $items;
     }
 	public static function componentSettings($type, $member, $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
         $_o->head = 'Component Settings';
@@ -88,7 +92,7 @@ class Cards {
         $_o->icon_background = 'atom-icon-background';
         $_o->size = 'medium';
         $dom_id = FormInputComponent::uniqueHash('','');
-        $components = ModuleForm::render(static::$registry_key,'componentSettings', array($type, $member, $dom_id));
+        $components = ModuleForm::render($module::$registry_key, 'componentSettings', array($type, $member, $dom_id));
         $_o->body = array();
         $_o->body[] = '<div id="' . $dom_id . '">';
         foreach($components as $component){
@@ -98,12 +102,13 @@ class Cards {
         return $_o;
 	}
     public static function sequode($dom_id, $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
         
         $_o = (object) null;
         $_o->head = 'Component';
-        $components = ModuleForm::render(static::$registry_key,'sequode');
+        $components = ModuleForm::render($module::$registry_key, 'sequode');
         $_o->body = array();
         foreach($components as $component){
             $_o->body[] = $component->html;
@@ -111,8 +116,9 @@ class Cards {
         return $_o;
 	}   
     public static function details( $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
         
         $_o = (object) null;
         $_o->size = 'large';
@@ -156,11 +162,6 @@ class Cards {
         } 
         if(\Sequode\Application\Modules\Sequode\Authority::isSequence() && \Sequode\Application\Modules\Account\Authority::canEdit($_model)){
             $_o->body[] =  CardKit::onTapEventsXHRCallButton('Edit Chart','cards/sequode/sequencer', array($_model->id));
-            //$dom_id = FormInputComponent::uniqueHash('','');
-            //$html = $js = array();
-           // $html = '<div class="subline" id="'.$dom_id.'">More info</div>';
-            //$js = DOMElementKitJS::onTapEvents($dom_id, 'var win = window.open(\'http://php.net/'.$_model->name.'\', \'_blank\'); win.focus();');
-           // $_o->body[] = (object) array('html' => $html, 'js' => $js);
         }
         if(\Sequode\Application\Modules\Sequode\Authority::isSequence()){
             $_o->body[] = CardKitHTML::sublineBlock('Sequence');
@@ -224,7 +225,7 @@ class Cards {
             $_o->body[] = '';
         }
         
-        $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/sequode/details'));
+        $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id, 'details_route'=>'cards/sequode/details'));
         
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
@@ -232,7 +233,8 @@ class Cards {
         return $_o;
     }
     public static function internalForms( $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -246,7 +248,7 @@ class Cards {
         
         $sequence = json_decode($_model->sequence);
         foreach($sequence as $loop_sequence_key => $loop_model_id){
-            $_o->body[] = ModuleCard::render(static::$registry_key,'internalPositionForms',array($loop_sequence_key));
+            $_o->body[] = ModuleCard::render($module::$registry_key,'internalPositionForms',array($loop_sequence_key));
         }
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
@@ -255,7 +257,8 @@ class Cards {
     }
     public static function internalPositionForms($position, $_model = null){
         $position = intval($position);
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -318,6 +321,7 @@ class Cards {
                 $possible_components[] = $component_object;
             }
         }
+        
         foreach($possible_components as $component){
             if($type_labels[$component->type] != false){
                 $_o->body[] = CardKitHTML::sublineBlock($type_labels[$component->type]);
@@ -330,16 +334,19 @@ class Cards {
                 $text = $component->member;
                 $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/component', array(\Sequode\Component\Form\Form::jsQuotedValue($component->type), $_model->id, $component->map_key)), $text, 'settings');
             }else{
-                $components_array = ModuleForm::render(static::$registry_key,'component',array($component->type, $component->map_key, $_model));
+                $components_array = ModuleForm::render($module::$registry_key,'component',array($component->type, $component->map_key, $_model));
                 foreach($components_array as $component_object){
                     $_o->body[] = $component_object;
                 }
             }
         }
+        
         return $_o;
+        
     }
     public static function sequencer( $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -376,10 +383,15 @@ class Cards {
         $js[] = 'registry.subscribeToUpdates({type:\'context\', collection:\'palette\', call: sequencer.palette.run});';
         $js[] = 'registry.fetch({collection:\'sequodes\',key:'.$_model->id.'});';
         $_o->body[] = (object) array('html' => implode('', $html), 'js' => implode(' ', $js));
+        
         return $_o;
+        
     }
     public static function chart( $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -403,9 +415,14 @@ class Cards {
         $js[] = 'registry.subscribeToUpdates({type:\'context\', collection:\'sequodes\', key:true, call: sequencer.run});';
         $js[] = 'registry.fetch({collection:\'sequodes\',key:'.$_model->id.'});';
         $_o->body[] = (object) array('html' => implode('', $html), 'js' => implode(' ', $js));
+        
         return $_o;
+        
     }
     public static function search($_model = null){
+        
+        $module = static::$module;
+        
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
@@ -413,7 +430,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = array();
         
-        $search_components_array = ModuleForm::render(static::$registry_key,'search');
+        $search_components_array = ModuleForm::render($module::$registry_key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         
@@ -426,9 +443,12 @@ class Cards {
         }
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'sequode_search','icon'=>'sequode','card_route'=>'cards/sequode/search','details_route'=>'cards/sequode/details'));
+        
         return $_o;
+        
     }
     public static function my(){
+        
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
@@ -448,9 +468,12 @@ class Cards {
         
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'my_sequodes','icon'=>'sequode','card_route'=>'cards/sequode/my','details_route'=>'cards/sequode/details'));
+        
         return $_o;
+        
     }
     public static function favorites(){
+        
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
@@ -470,6 +493,8 @@ class Cards {
         
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'sequode_favorites','icon'=>'sequode','card_route'=>'cards/sequode/favorites','details_route'=>'cards/sequode/details'));
+        
         return $_o;
+        
     }
 }

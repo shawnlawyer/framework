@@ -4,10 +4,16 @@ namespace Sequode\Application\Modules\Sequode;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
+use Sequode\Application\Modules\Sequode\Module;
+
 class Collections {
-    public static $registry_key = 'Sequode';
+    
+    public static $module = Module::class;
     public static function search($_i, $limit=100){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         if($_i->coded == 0 && $_i->sequenced == 0){
             return array();
         }elseif($_i->coded == 1 && $_i->sequenced == 0){
@@ -40,8 +46,8 @@ class Collections {
                 $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
                 
                 $_model = new $modeler::$model;
-                $_model->getAll($where,'id,name',false, $limit);
-                $results = array_merge($results,$_model->all);
+                $_model->getAll($where, 'id,name', false, $limit);
+                $results = array_merge($results, $_model->all);
                 unset($_model);
             }
             if($_i->shared_sequodes == 1){
@@ -55,11 +61,13 @@ class Collections {
                 $where[] = array('field'=>'shared','operator'=>'=','value'=>'1');
                 
                 $_model = new $modeler::$model;
-                $_model->getAll($where,'id,name',false, $limit);
-                $results = array_merge($results,$_model->all);
+                $_model->getAll($where, 'id,name', false, $limit);
+                $results = array_merge($results, $_model->all);
                 unset($_model);
             }
         }
+        
         return $results;
+        
     }
 }

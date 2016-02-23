@@ -6,38 +6,57 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
-class Operations{
-    public static $registry_key = 'User';
+use Sequode\Application\Modules\User\Module;
+
+class Operations {
+    
+    public static $module = Module::class;
+    
     public static function newUser(){
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         if(!(
         \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){ return; }
-        return $cards_xhr::details($operations::newUser()->id);
+        return $xhr_cards::details($operations::newUser()->id);
     }
     public static function newGuest(){
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         if(!(
         \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         )){ return; }
-        return $cards_xhr::details($operations::newGuest()->id);
+        return $xhr_cards::details($operations::newGuest()->id);
     }
     public static function delete($_model_id){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         if(!(
         \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::delete();
-        return $cards_xhr::search();
+        return $xhr_cards::search();
     }
     public static function loginAs($_model_id){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         $input = json_decode(rawurldecode($json));
         if(!(
         \Sequode\Application\Modules\Account\Authority::isSystemOwner()
@@ -47,21 +66,27 @@ class Operations{
         return \Sequode\Application\Modules\Console\Routes\Routes::js(false);
     }
     public static function updatePassword($_model_id, $json){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         $input = json_decode(rawurldecode($json));
         if(!(
         \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::updatePassword($input->password);
-        return $cards_xhr::details($modeler::model()->id);
+        return $xhr_cards::details($modeler::model()->id);
     }
     public static function updateRole($_model_id, $json){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         $input = json_decode(rawurldecode($json));
         if(!(
             \Sequode\Application\Modules\Account\Authority::isSystemOwner()
@@ -69,24 +94,30 @@ class Operations{
             && \Sequode\Application\Modules\Role\Modeler::exists($input->role,'id')
         )){return;}
         $operations::updateRole();
-        return $cards_xhr::details($modeler::model()->id);
+        return $xhr_cards::details($modeler::model()->id);
     }
     public static function updateActive($_model_id, $json){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         $input = json_decode(rawurldecode($json));
         if(!(
             \Sequode\Application\Modules\Account\Authority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::updateActive($input->active);
-        return $cards_xhr::details($modeler::model()->id);
+        return $xhr_cards::details($modeler::model()->id);
     }
     public static function updateName($_model_id, $json){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         if(!(
             $modeler::exists($_model_id,'id')
         )){ return; }
@@ -104,9 +135,13 @@ class Operations{
         }elseif($modeler::exists($name,'username') && $modeler::model()->id == $_model_id){
             return;
         }
+        
         $modeler::exists($_model_id,'id');
+        
         $operations::updateName($name);
-        return $cards_xhr::details($modeler::model()->id);
+        
+        return $xhr_cards::details($modeler::model()->id);
+        
     }
     public static function search($json){
         $_o = json_decode(stripslashes($json));

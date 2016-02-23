@@ -4,8 +4,12 @@ namespace Sequode\Application\Modules\Register\Components;
 
 use Sequode\Component\Form\Form as FormComponent;
 
-class Forms   {
-    public static $registry_key = 'Register';
+use Sequode\Application\Modules\Register\Module;
+
+class Forms {
+    
+    public static $module = Module::class;
+    
 	public static $objects_source = FormInputs::class;
 	public static $xhr_library = 'operations/register';
     public static function email(){

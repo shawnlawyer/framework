@@ -4,8 +4,12 @@ namespace Sequode\Application\Modules\Authed\Routes\XHR;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
+use Sequode\Application\Modules\Authed\Module;
+
 class Operations {
-    public static $registry_key = 'Authed';
+    
+    public static $module = Module::class;
+    
 	public static $merge = false;
 	public static $routes = array(
 		'logout'
@@ -14,8 +18,10 @@ class Operations {
 		'logout' => 'logout'
     );
     public static function logout(){
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        forward_static_call_array(array($operations,__FUNCTION__),array());
+        
+        $module = static::$module;
+        $operations = $module::model()->operations;
+        forward_static_call_array(array($operations, __FUNCTION__), array());
         return \Sequode\Application\Modules\Console\Routes\Routes::js(false);
     }
 }

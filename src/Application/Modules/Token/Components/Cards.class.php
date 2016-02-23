@@ -9,8 +9,12 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+use Sequode\Application\Modules\Token\Module;
+    
 class Cards {
-    public static $registry_key = 'Token';
+    
+    public static $module = Module::class;
+    
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -22,23 +26,29 @@ class Cards {
     }
     public static function menuItems(){
         $_o = array();
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Token','operations/token/newPackage');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('My Tokens','cards/token/my');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens','cards/token/search');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Token', 'operations/token/newPackage');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('My Tokens', 'cards/token/my');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', 'cards/token/search');
         return $_o;
     }
     
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
         $_o = array();
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details','cards/token/details',array($_model->id));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete','cards/token/delete',array($_model->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/token/details', array($_model->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'cards/token/delete', array($_model->id));
         return $items;
     }
     public static function details($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
         
         $_o = (object) null;
         $_o->size = 'large';
@@ -83,6 +93,9 @@ class Cards {
         return $_o;
     }
     public static function search(){
+        
+        $module = static::$module;
+        
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
@@ -90,7 +103,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = array();
         
-        $search_components_array = ModuleForm::render(static::$registry_key,'search');
+        $search_components_array = ModuleForm::render($module::$registry_key, 'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         

@@ -5,8 +5,11 @@ namespace Sequode\Application\Modules\Token\Routes\Collections;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
+use Sequode\Application\Modules\Token\Module;
+
 class Collections{
-    public static $registry_key = 'Token';
+    
+    public static $module = Module::class;
 	public static $merge = false;
 	public static $routes = array(
 		'tokens',
@@ -21,7 +24,10 @@ class Collections{
 		'token_search' => 'search',
 	);
 	public static function owned(){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         $_model = new $modeler::$model;
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
@@ -31,11 +37,16 @@ class Collections{
             $nodes[] = '"'.$object->id.'":{"id":"'.$object->id.'","n":"'.$object->name.'"}';
         }
         echo '{'.implode(',', $nodes).'}';
+        
         return;
+        
 	}
 	public static function search(){
-        $finder = ModuleRegistry::model(static::$registry_key)->finder;
-        $collection = ModuleRegistry::model(static::$registry_key)->context . '_' . __FUNCTION__;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $finder = $module::model()->finder;
+        $collection = $module::model()->context . '_' . __FUNCTION__;
         $nodes = array();
         if(SessionStore::is($collection)){
             $_array = $finder::search(SessionStore::get($collection));
@@ -44,6 +55,8 @@ class Collections{
             }
         }
         echo '{'.implode(',', $nodes).'}';
+        
         return;
+        
 	}
 }

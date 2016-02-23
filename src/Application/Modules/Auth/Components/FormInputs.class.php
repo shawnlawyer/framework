@@ -4,8 +4,12 @@ namespace Sequode\Application\Modules\Auth\Components;
 
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+use Sequode\Application\Modules\Auth\Module;
+
 class FormInputs   {
-    public static $registry_key = 'Auth';
+    
+    public static $module = Module::class;
+    
     public static function login(){
         $_o = (object) null;
         

@@ -2,12 +2,17 @@
 
 namespace Sequode\Application\Modules\User;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
+use Sequode\Application\Modules\User\Module;
 
 class Collections {
-    public static $registry_key = 'User';
+    
+    public static $module = Module::class;
+    
     public static function search($search_object, $limit=100){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         $search_object->position = urldecode($search_object->position);
         $search_object->field = urldecode($search_object->field);
         if(!in_array($search_object->position, array('=%','%=%','%=','='))){
@@ -26,8 +31,8 @@ class Collections {
         }
         $where[] = array('field'=>$search_object->field,'operator'=>$search_object->position,'value'=>$search_object->search);
         $_model = new $modeler::$model;
-        $_model->getAll($where,'id,username',false, $limit);
-        $results = array_merge($results,$_model->all);
+        $_model->getAll($where, 'id,username', false, $limit);
+        $results = array_merge($results, $_model->all);
         unset($_model);
         return $results;
     }

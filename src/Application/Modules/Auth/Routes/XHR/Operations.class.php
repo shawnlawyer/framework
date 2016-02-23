@@ -5,8 +5,12 @@ namespace Sequode\Application\Modules\Auth\Routes\XHR;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
+use Sequode\Application\Modules\Auth\Module;
+
 class Operations {
-    public static $registry_key = 'Auth';
+    
+    public static $module = Module::class;
+    
 	public static $merge = false;
 	public static $routes = array(
 		'login'
@@ -16,17 +20,18 @@ class Operations {
     );
     public static function login($json = null){
         
-        $dialog = ModuleRegistry::model(static::$registry_key)->xhr->dialogs[__FUNCTION__];
+        $module = static::$module;
+        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
         if(!SessionStore::is($dialog['session_store_key'])){ return; }
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
-        $operations_xhr = ModuleRegistry::model(static::$registry_key)->xhr->operations;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $xhr_cards = $module::model()->xhr->cards;
+        $operations_xhr = $module::model()->xhr->operations;
+        $operations = $module::model()->operations;
+        $modeler = $module::model()->modeler;
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
                     SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
-                    return forward_static_call_array(array($cards_xhr,__FUNCTION__),array());  
+                    return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
                 }
         }
         $dialog_store = SessionStore::get($dialog['session_store_key']);
@@ -76,7 +81,7 @@ class Operations {
         if(!isset($error)){
             $dialog_store->step++;
             SessionStore::set($dialog['session_store_key'], $dialog_store);
-            return (intval($dialog_store->step) == 2) ? \Sequode\Application\Modules\Console\Routes\Routes::js(false) : forward_static_call_array(array($cards_xhr,__FUNCTION__),array());
+            return (intval($dialog_store->step) == 2) ? \Sequode\Application\Modules\Console\Routes\Routes::js(false) : forward_static_call_array(array($xhr_cards,__FUNCTION__),array());
         }else{
                 echo $error;
         }

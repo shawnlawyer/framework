@@ -10,8 +10,12 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Form\Form as FormComponent;
 
+use Sequode\Application\Modules\Account\Module;
+
 class Cards {
-    public static $registry_key = 'Account';
+    
+    public static $module = Module::class;
+    
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -29,8 +33,9 @@ class Cards {
         return $_o;
     }
     public static function details(){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
         $_model = forward_static_call_array(array($modeler,'model'),array());
         $_o = (object) null;
         $_o->head = 'Account Detail';
@@ -44,7 +49,8 @@ class Cards {
         return $_o;
     }
     public static function updatePassword(){
-        $dialog = ModuleRegistry::model(static::$registry_key)->xhr->dialogs[__FUNCTION__];
+        $module = static::$module;
+        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
         $dialog_store = SessionStore::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
@@ -67,7 +73,7 @@ class Cards {
         }
         if(isset($step->forms)){
             foreach($step->forms as $form){
-                $_o->body = array_merge($_o->body, ModuleForm::render(static::$registry_key, $form));
+                $_o->body = array_merge($_o->body, ModuleForm::render($module::$registry_key, $form));
             }
         }
         if($dialog_store->step != 0){
@@ -77,7 +83,8 @@ class Cards {
         return $_o;    
     }
     public static function updateEmail(){
-        $dialog = ModuleRegistry::model(static::$registry_key)->xhr->dialogs[__FUNCTION__];
+        $module = static::$module;
+        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
         $dialog_store = SessionStore::get($dialog['session_store_key']);
         $step = $dialog['steps'][$dialog_store->step];
         $_o = (object) null;
@@ -100,7 +107,7 @@ class Cards {
         }
         if(isset($step->forms)){
             foreach($step->forms as $form){
-                $_o->body = array_merge($_o->body, ModuleForm::render(static::$registry_key, $form));
+                $_o->body = array_merge($_o->body, ModuleForm::render($module::$registry_key, $form));
             }
         }
         if($dialog_store->step > 0){

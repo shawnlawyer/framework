@@ -5,8 +5,11 @@ namespace Sequode\Application\Modules\Register\Routes\XHR;
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 
+use Sequode\Application\Modules\Register\Module;
+
 class Cards {
-    public static $registry_key = 'Register';
+    
+    public static $module = Module::class;
 	public static $merge = false;
 	public static $routes = array(
 		'signup'
@@ -15,6 +18,7 @@ class Cards {
 		'signup' => 'signup'
     );
     public static function signup($dom_id = 'CardsContainer'){
-        return CardKitJS::placeCard(ModuleCard::render(static::$registry_key,__FUNCTION__), $dom_id);
+        $module = static::$module;
+        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, __FUNCTION__), $dom_id);
     }
 }

@@ -6,34 +6,50 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
+
+use Sequode\Application\Modules\Session\Module;
+    
 class Operations {
-    public static $registry_key = 'Session';
+    
+    public static $module = Module::class;
+    
     public static function delete($_model_id){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         if(!(
             $modeler::exists($_model_id,'id')
         )){ return; }
         $modeler::destroy();
-        return $cards_xhr::search();
+        return $xhr_cards::search();
     }
     /* this should replace the above at a later day.
     public static function delete($_model_id){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+        $xhr_cards = $module::model()->xhr->cards;
+        
         if(!(
         $modeler::exists($_model_id,'id')
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->operations,__FUNCTION__),array());
+        forward_static_call_array(array($operations,__FUNCTION__),array());
         $js = array();
-        $js[] = forward_static_call_array(array(ModuleRegistry::model(static::$registry_key)->xhr->cards,'my'),array());
+        $js[] = forward_static_call_array(array($xhr_cards,'my'),array());
         return implode(' ', $js);
     }
     */
     public static function blockIP($_model_id){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $session_ip = $modeler::model()->ip_address;
+        
         if(!(
             $modeler::exists($_model_id,'id')
             && $modeler::model()->ip_address != $session_ip

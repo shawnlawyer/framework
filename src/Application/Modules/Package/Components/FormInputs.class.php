@@ -5,10 +5,16 @@ namespace Sequode\Application\Modules\Package\Components;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
+use Sequode\Application\Modules\Package\Module;
+
 class FormInputs {
-    public static $registry_key = 'Package';
+    
+    public static $module = Module::class;
+    
     public static function name($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
         $_o = (object) null;
         
@@ -43,7 +49,8 @@ class FormInputs {
 		return $_o;
 	}
     public static function packageSequode($_model = null, $user_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
         $_user_model = ($_user_model == null) ? \Sequode\Application\Modules\Account\Modeler::model() : $_user_model;
         

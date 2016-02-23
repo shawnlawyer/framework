@@ -2,12 +2,17 @@
 
 namespace Sequode\Application\Modules\Token;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
-
+use Sequode\Application\Modules\Token\Module;
+    
 class Collections {
-    public static $registry_key = 'Token';
+    
+    public static $module = Module::class;
+    
     public static function search($_i, $limit=100){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         $_i->position = urldecode($_i->position);
         //$_i->field = urldecode($_i->field);
         if(!in_array($_i->position, array('=%','%=%','%=','='))){

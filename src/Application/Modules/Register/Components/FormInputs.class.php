@@ -4,8 +4,11 @@ namespace Sequode\Application\Modules\Register\Components;
 
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+use Sequode\Application\Modules\Register\Module;
+
 class FormInputs   {
-    public static $registry_key = 'Register';
+    
+    public static $module = Module::class;
     
     public static function email(){
         $_o = (object) null;

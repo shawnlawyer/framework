@@ -4,9 +4,11 @@ namespace Sequode\Application\Modules\Package;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 class Collections {
-    public static $registry_key = 'Package';
+    
+    public static $modeler = Modeler::class;
+    
     public static function search($_i, $limit=100){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $modeler = static::$modeler;
         $_i->position = urldecode($_i->position);
         //$_i->field = urldecode($_i->field);
         if(!in_array($_i->position, array('=%','%=%','%=','='))){

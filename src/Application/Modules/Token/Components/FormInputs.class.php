@@ -5,11 +5,19 @@ namespace Sequode\Application\Modules\Token\Components;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+
+use Sequode\Application\Modules\Token\Module;
+    
 class FormInputs{
-    public static $registry_key = 'Token';
+    
+    public static $module = Module::class;
+    
     public static function name($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        $_model = ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : $_model;
         $_o = (object) null;
         
         FormInputComponent::exists('str','name');

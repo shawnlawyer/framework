@@ -5,8 +5,10 @@ namespace Sequode\Application\Modules\Sequode\Routes\Collections;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
+use Sequode\Application\Modules\Sequode\Module;
+
 class Collections{
-    public static $registry_key = 'Sequode';
+    public static $module = Module::class;
 	public static $merge = true;
 	public static $routes = array(
 		'sequodes',
@@ -21,17 +23,25 @@ class Collections{
 		'sequode_favorites' => 'favorited'
 	);
 	public static function main($key = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         $_model = new $modeler::$model;
+        
         if($key == null){
+            
             if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+                
                 $where = array();
                 $_model->getAll($where,'id, process_description_node');
                 $nodes = array();
                 foreach($_model->all as $object){
                     $nodes[] = '"' . $object->id . '":' . $object->process_description_node;
                 }
+                
             }else{
+                
                 $nodes = array();
                 $where = array();
                 $where[] = array('field'=>'owner_id','operator'=>'!=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
@@ -46,7 +56,9 @@ class Collections{
                 foreach($_model->all as $object){
                     $nodes[] = '"' . $object->id . '":' . $object->process_description_node;
                 }
+                
             }
+            
             echo  '{';
             echo  "\n";
             if(0 < count($nodes)){
@@ -56,19 +68,29 @@ class Collections{
             echo  "\n";
             echo  '}';
             return;
+            
         }elseif(
+        
         $modeler::exists($key,'id')
         && \Sequode\Application\Modules\Account\Authority::canView()
         ){
+            
             echo $modeler::model()->process_description_node;
             return;
+            
         }else{
+            
             echo  '{}';
             return;
+            
         }
 	}
 	public static function search(){
-        $finder = ModuleRegistry::model(static::$registry_key)->finder;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        $finder = $module::model()->finder;
         $collection = 'sequode_search';
         $nodes = array();
         if(SessionStore::is($collection)){
@@ -78,10 +100,15 @@ class Collections{
             }
         }
         echo '{'.implode(',', $nodes).'}';
+        
         return;
+        
 	}
 	public static function owned(){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         $_model = new $modeler::$model;
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
@@ -91,10 +118,15 @@ class Collections{
             $nodes[] = '"'.$object->id.'":{"id":"'.$object->id.'","n":"'.$object->name.'"}';
         }
         echo '{'.implode(',', $nodes).'}';
+        
         return;
+        
 	}
 	public static function favorited(){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         $collection = 'sequode_favorites';
         $nodes = array();
         if(!empty(\Sequode\Application\Modules\Account\Modeler::model()->$collection)){
@@ -129,12 +161,16 @@ class Collections{
 	}
     */
 	public static function palette(){
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         if(SessionStore::get('palette') == 'sequode_search'){
             self::search();
         }elseif(SessionStore::get('palette') == 'sequode_favorites'){
             self::favorited();
         }elseif(SessionStore::is('palette')){
-            $sequode_model = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+            $sequode_model = new $modeler::$model;
             $sequode_model->exists(SessionStore::get('palette'),'id');
             $sequence = array_unique(json_decode($sequode_model->sequence));
             $nodes = array();

@@ -5,10 +5,15 @@ namespace Sequode\Application\Modules\Account\Components;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+use Sequode\Application\Modules\Account\Module;
+
 class FormInputs{
-    public static $registry_key = 'Account';
+    
+    public static $module = Module::class;
+    
     public static function updateEmail(){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = $modeler::model();
         $_o = (object) null;
         

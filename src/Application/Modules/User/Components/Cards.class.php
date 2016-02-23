@@ -2,14 +2,17 @@
 
 namespace Sequode\Application\Modules\User\Components;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\Card\CardKit as CardKit;
 
+use Sequode\Application\Modules\User\Module;
+
 class Cards {
-    public static $registry_key = 'User';
+    
+    public static $module = Module::class;
+    
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -17,28 +20,43 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
         $_o->menu->items =  self::menuItems();
+        
         return $_o;
+        
     }
+    
     public static function menuItems(){
+        
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New User','operations/user/newUser');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Guest','operations/user/newGuest');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Users','cards/user/search');
+        
         return $_o;
+        
     }
+    
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+		
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/user/details', array($_model->id));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'operations/user/delete', array($_model->id));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login As', 'operations/user/loginAs', array($_model->id));
+        
         return $_o;
     }
     public static function details($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         
+        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+		
         $_o = (object) null;
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
@@ -76,6 +94,12 @@ class Cards {
         return $_o;
     }
     public static function search(){
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+		
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
@@ -83,7 +107,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = array();
         
-        $search_components_array = ModuleForm::render(static::$registry_key,'search');
+        $search_components_array = ModuleForm::render($module::$registry_key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         

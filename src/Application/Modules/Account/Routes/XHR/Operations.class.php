@@ -10,30 +10,37 @@ use Sequode\Controller\Email\Email;
 
 use Sequode\Foundation\Hashes;
 
+use Sequode\Application\Modules\Account\Module;
+
 class Operations {
-    public static $registry_key = 'Account';
+    
+    public static $module = Module::class;
+    
 	public static $merge = false;
 	public static $routes = array(
 		'updatePassword',
 		'updateEmail'
 	);
+    
 	public static $routes_to_methods = array(
 		'updatePassword' => 'updatePassword',
 		'updateEmail' => 'updateEmail'
     );
+    
     public static function updatePassword($json = null){
         
-        $dialog = ModuleRegistry::model(static::$registry_key)->xhr->dialogs[__FUNCTION__];
+        $module = static::$module;
+        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
         if(!SessionStore::is($dialog['session_store_key'])){ return; }
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
-        $operations_xhr = ModuleRegistry::model(static::$registry_key)->xhr->operations;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $xhr_cards = $module::model()->xhr->cards;
+        $operations_xhr = $module::model()->xhr->operations;
+        $operations = $module::model()->operations;
+        $modeler = $module::model()->modeler;
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
                     SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
-                    return forward_static_call_array(array($cards_xhr,__FUNCTION__),array());  
+                    return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
                 }
         }
         $dialog_store = SessionStore::get($dialog['session_store_key']);
@@ -79,22 +86,23 @@ class Operations {
         if(!isset($error)){
             $dialog_store->step++;
             SessionStore::set($dialog['session_store_key'], $dialog_store);
-            return forward_static_call_array(array($cards_xhr,__FUNCTION__),array()); 
+            return forward_static_call_array(array($xhr_cards,__FUNCTION__),array()); 
         }
     }
     public static function updateEmail($json = null){
         
-        $dialog = ModuleRegistry::model(static::$registry_key)->xhr->dialogs[__FUNCTION__];
+        $module = static::$module;
+        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
         if(!SessionStore::is($dialog['session_store_key'])){ return; }
-        $cards_xhr = ModuleRegistry::model(static::$registry_key)->xhr->cards;
-        $operations_xhr = ModuleRegistry::model(static::$registry_key)->xhr->operations;
-        $operations = ModuleRegistry::model(static::$registry_key)->operations;
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        $xhr_cards = $module::model()->xhr->cards;
+        $operations_xhr = $module::model()->xhr->operations;
+        $operations = $module::model()->operations;
+        $modeler = $module::model()->modeler;
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
                     SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
-                    return forward_static_call_array(array($cards_xhr,__FUNCTION__),array());  
+                    return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
                 }
         }
         $dialog_store = SessionStore::get($dialog['session_store_key']);
@@ -140,14 +148,14 @@ class Operations {
             }
         }
         if(isset($dialog_step->operation) && is_array($_a)){
-            if(!(forward_static_call_array(array($operations, $dialog_step->operation),$_a))){
+            if(!(forward_static_call_array(array($operations, $dialog_step->operation), $_a))){
                 $error = true;
             }
         }
         if(!isset($error)){
             $dialog_store->step++;
             SessionStore::set($dialog['session_store_key'], $dialog_store);
-            return forward_static_call_array(array($cards_xhr,__FUNCTION__),array()); 
+            return forward_static_call_array(array($xhr_cards, __FUNCTION__), array()); 
         }
     }
 }

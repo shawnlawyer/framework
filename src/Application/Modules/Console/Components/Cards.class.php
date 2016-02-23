@@ -6,12 +6,18 @@ use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 
+use Sequode\Application\Modules\Console\Module;
+
 class Cards {
-    public static $registry_key = 'Console';
+    
+    public static $module = Module::class;
+    
     public static function index(){
         return self::tiles(\Sequode\Application\Modules\Account\Modeler::model());
     }
     public static function tiles($user_model=null){
+        
+        $module = static::$module;
         if($user_model == null ){ $user_model = \Sequode\Application\Modules\Account\Modeler::model(); }
         $_o = (object) null;
         $_o->size = 'fullscreen';
@@ -26,7 +32,7 @@ class Cards {
             if($key != 0){
                 $html[] = CardKitHTML::shim();
             }
-            $object = ModuleCard::render('Console', $card, $user_model);
+            $object = ModuleCard::render($module::$registry_key, $card, $user_model);
             $html[] = $object->html;
             $js[] = $object->js;
         }

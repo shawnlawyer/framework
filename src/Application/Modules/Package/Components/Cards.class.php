@@ -11,8 +11,12 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+use Sequode\Application\Modules\Package\Module;
+
 class Cards {
-    public static $registry_key = 'Package';
+    
+    public static $module = Module::class;
+    
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -30,7 +34,9 @@ class Cards {
         return $_o;
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details','cards/package/details',array($_model->id));
@@ -38,7 +44,9 @@ class Cards {
         return $_o;
     }
     public static function details($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
         $_o = (object) null;
@@ -86,6 +94,8 @@ class Cards {
         return $_o;
     }
     public static function search(){
+        
+        $module = static::$module;
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
@@ -93,7 +103,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = array();
         
-        $search_components_array = ModuleForm::render(static::$registry_key,'search');
+        $search_components_array = ModuleForm::render($module::$registry_key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         

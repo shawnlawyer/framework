@@ -2,15 +2,16 @@
 
 namespace Sequode\Application\Modules\User\Components;
 
-use Sequode\Application\Modules\User\Modeler as UserModeler;
-
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+use Sequode\Application\Modules\User\Module;
+
 class FormInputs{
-    public static $registry_key = 'User';
+    
+    public static $module = Module::class;
+    
     public static function updatePassword(){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
+            
         $_o = (object) null;
         
         FormInputComponent::exists('password','name');
@@ -20,10 +21,15 @@ class FormInputs{
         $_o->password->Width = 200;
         
 		return $_o;
+        
 	}
     public static function updateEmail($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+		
         $_o = (object) null;
         
         FormInputComponent::exists('str','name');
@@ -40,6 +46,7 @@ class FormInputs{
         $_o->password->CSS_Class = 'focus-input';
         
 		return $_o;
+        
 	}
     public static function search(){
         
@@ -75,7 +82,6 @@ class FormInputs{
         $_o->active->Value = 'all';
         $_o->active->Value_Key = 'value';
         $_o->active->Printable_Key = 'printable';
-
                 
         $roles_model = new \Sequode\Application\Modules\Role\Modeler::$model;
         $roles_model->getAll();
@@ -90,11 +96,17 @@ class FormInputs{
         $_o->role->Value = 'all';
         $_o->role->Value_Key = 'value';
         $_o->role->Printable_Key = 'printable';
+        
 		return $_o;
+        
 	}
     public static function updateRole($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+		
         $_o = (object) null;
         $roles_model = new \Sequode\Application\Modules\Role\Modeler::$model;
         $roles_model->getAll();
@@ -110,10 +122,15 @@ class FormInputs{
         $_o->role->Printable_Key = 'printable';
         
 		return $_o;
+        
 	}
     public static function updateActive($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+		
         $_o = (object) null;
         FormInputComponent::exists('checkboxSwitch','name');
         $_o->active = json_decode(FormInputComponent::model()->component_object);
@@ -123,18 +140,25 @@ class FormInputs{
         $_o->active->Off_Text = 'Suspended';
         $_o->active->Off_Value = 0;
         $_o->active->Value = $_model->active;
+        
 		return $_o;
+        
 	}
     public static function updateName($_model = null){
-        $modeler = ModuleRegistry::model(static::$registry_key)->modeler;
-        $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
-        $_o = (object) null;
+    
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
         
+        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+		
+        $_o = (object) null;
         FormInputComponent::exists('str','name');
 		$_o->username = json_decode(FormInputComponent::model()->component_object);
         $_o->username->Label = '';
         $_o->username->Value = $_model->username;
         $_o->username->Width = 200;
+        
 		return $_o;
+        
 	}
 }

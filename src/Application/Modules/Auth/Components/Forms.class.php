@@ -4,8 +4,12 @@ namespace Sequode\Application\Modules\Auth\Components;
 
 use Sequode\Component\Form\Form as FormComponent;
 
+use Sequode\Application\Modules\Auth\Module;
+
 class Forms   {
-    public static $registry_key = 'Auth';
+    
+    public static $module = Module::class;
+    
 	public static $objects_source = FormInputs::class;
 	public static $xhr_library = 'operations/auth';
 	public static function login(){
