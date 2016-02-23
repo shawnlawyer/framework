@@ -19,7 +19,7 @@ class Cards {
         $js[] = CardKitJS::placeDeck($deck, $dom_id);
         $deck = array();
         $deck[] = ModuleCard::render(\Sequode\Application\Modules\Auth\Module::$registry_key, 'login');
-        $deck[] = ModuleCard::render(\Sequode\Application\Modules\Registry\Module::$registry_key, 'signup');
+        $deck[] = ModuleCard::render(\Sequode\Application\Modules\Register\Module::$registry_key, 'signup');
         $js[] = CardKitJS::placeDeck($deck, $dom_id, false);
         
         return implode('', $js);
