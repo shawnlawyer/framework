@@ -7,6 +7,6 @@ use Sequode\Component\Form\Form as FormComponent;
 
 class Form {
 	public static function render($package, $form, $parameters = null){
-		return FormComponent::render(FormComponent::fetchObject(ModuleRegistry::model($package)->form_objects, $form, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters));
+		return FormComponent::render(FormComponent::fetchObject(ModuleRegistry::model($package)->components->forms, $form, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters));
 	}
 }

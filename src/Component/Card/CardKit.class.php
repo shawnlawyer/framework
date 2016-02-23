@@ -8,12 +8,12 @@ use Sequode\Component\FormInput\FormInput as FormInputComponent;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class CardKit {
-    public static function collectionTile($package, $headline=''){
-        $user_model = \SQDE_AuthenticatedUser::model();
+    public static function collectionTile($package, $headline='', $user_model){
+        $user_model = \Sequode\Application\Modules\Account\Modeler::model();
         $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = array();
         $context = ModuleRegistry::model($package)->context;
-        $_models = \SQDE_AccountOperations::getOwnedModels($package, $user_model, 'id,name')->all;
+        $_models = \Sequode\Application\Modules\Account\Operations::getOwnedModels($package, $user_model, 'id,name')->all;
         $html[] = '<div class="automagic-content-area-xsmall-tile-container">';
         $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.'">'.$headline . count($_models).'</div>';
         $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('cards/'.$context.'/my', array($object->id)));
@@ -39,7 +39,7 @@ class CardKit {
         $html = $js = array();
         
         $html[] = '<div  class="fitBlock alignCenter" id="'.$dom_id.'"></div>';
-        $js[] = 'var cards = new SQDE_CollectionCards();';
+        $js[] = 'var cards = new CollectionCards();';
         $js[] = 'cards.container = \''.$dom_id.'\';';
         $js[] = 'cards.icon = \''.$component->icon.'\';';
         $js[] = 'cards.details_route = \''.$component->details_route.'\';';
