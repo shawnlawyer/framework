@@ -22,34 +22,6 @@ class Module {
                 'cards' => Routes\XHR\Cards::class,
             )
         );
-        $_o->xhr->dialogs = array(
-            'login' => array(
-                'session_store_key' => 'login',
-                'session_store_setup' => (object) array('step'=>0, 'prep'=> (object) null),
-                'card'=> 'login',
-                'steps' => array(
-                    (object) array(
-                        'forms'=> array('login'),
-                        'content'=> (object) array(
-                            'head' => 'Login',
-                            'body' => 'Enter your email address / login key'
-                        ),
-                        'prep' => true,
-                        'required_members' => array('login')
-                    ),
-                    (object) array(
-                        'forms'=> array('secret'),
-                        'content'=> (object) array(
-                            'head' => 'Login Secret',
-                            'body' => 'Enter your password / secret key'
-                        ),
-                        'prep' => true,
-                        'required_members' => array('secret'),
-                        'operation' => 'login'
-                    )
-                )
-            )
-        );
 		return $_o;
 	}
 }
