@@ -32,7 +32,8 @@ class Cards {
    public static function login(){
        
         $module = static::$module;
-        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
+        $dialogs = $module::model()->components->dialogs;
+        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
         if(!SessionStore::is($dialog['session_store_key'])){
             SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
         }
