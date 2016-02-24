@@ -21,7 +21,7 @@ class Operations {
     public static function login($json = null){
                
         $module = static::$module;
-        $dialogs = $module::model()->xhr->dialogs;
+        $dialogs = $module::model()->components->dialogs;
         $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
         
         if(!SessionStore::is($dialog['session_store_key'])){ return; }
