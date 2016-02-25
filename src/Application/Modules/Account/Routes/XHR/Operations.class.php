@@ -30,27 +30,43 @@ class Operations {
     public static function updatePassword($json = null){
         
         $module = static::$module;
-        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
-        if(!SessionStore::is($dialog['session_store_key'])){ return; }
+        $dialogs = $module::model()->components->dialogs;
+        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
+        
+        if(!SessionStore::is($dialog->session_store_key)){ return; }
+        
         $xhr_cards = $module::model()->xhr->cards;
-        $operations_xhr = $module::model()->xhr->operations;
         $operations = $module::model()->operations;
         $modeler = $module::model()->modeler;
+        
         if($json != null){
-                $input = json_decode(rawurldecode($json)); 
-                if(isset($input->reset)){ 
-                    SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
-                    return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
-                }
-        }
-        $dialog_store = SessionStore::get($dialog['session_store_key']);
-        $dialog_step = $dialog['steps'][$dialog_store->step];
-        if(isset($dialog_step->prep) && $dialog_step->prep == true){
-            if(isset($dialog_step->required_members)){
-                foreach($dialog_step->required_members as $m){
-                    if(!isset($input->$m)){ return;}
-                }
+            
+            $input = json_decode(rawurldecode($json)); 
+            
+            if(isset($input->reset)){ 
+            
+                SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
+                return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
+                
             }
+            
+        }
+        
+        $dialog_store = SessionStore::get($dialog->session_store_key);
+        $dialog_step = $dialog->steps[$dialog_store->step];
+        
+        if(isset($dialog_step->prep) && $dialog_step->prep == true){
+            
+            if(isset($dialog_step->required_members)){
+                
+                foreach($dialog_step->required_members as $m){
+                    
+                    if(!isset($input->$m)){ return;}
+                    
+                }
+                
+            }
+            
             switch($dialog_store->step){
                 case 0:
                     if(
@@ -58,7 +74,7 @@ class Operations {
                         && \Sequode\Application\Modules\Account\Authority::isSecurePassword(rawurldecode($input->password))
                     ){
                         $dialog_store->prep->new_secret = rawurldecode($input->password);
-                        SessionStore::set($dialog['session_store_key'], $dialog_store);
+                        SessionStore::set($dialog->session_store_key, $dialog_store);
                     }
                     else
                     {
@@ -76,43 +92,65 @@ class Operations {
                         $error = true;
                     }
                     break;
+                    
             }
+            
         }
+        
         if(isset($dialog_step->operation) && is_array($_a)){
+            
             if(!(forward_static_call_array(array($operations, $dialog_step->operation),$_a))){
+                
                 $error = true;
+                
             }
+            
         }
+        
         if(!isset($error)){
+            
             $dialog_store->step++;
-            SessionStore::set($dialog['session_store_key'], $dialog_store);
+            SessionStore::set($dialog->session_store_key, $dialog_store);
             return forward_static_call_array(array($xhr_cards,__FUNCTION__),array()); 
+            
         }
+        
     }
+    
     public static function updateEmail($json = null){
         
         $module = static::$module;
         $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
-        if(!SessionStore::is($dialog['session_store_key'])){ return; }
+        
+        if(!SessionStore::is($dialog->session_store_key)){ return; }
+        
         $xhr_cards = $module::model()->xhr->cards;
-        $operations_xhr = $module::model()->xhr->operations;
         $operations = $module::model()->operations;
         $modeler = $module::model()->modeler;
+        
         if($json != null){
+            
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
-                    SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
+                    SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
                     return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
                 }
+                
         }
-        $dialog_store = SessionStore::get($dialog['session_store_key']);
-        $dialog_step = $dialog['steps'][$dialog_store->step];
+        
+        $dialog_store = SessionStore::get($dialog->session_store_key);
+        $dialog_step = $dialog->steps[$dialog_store->step];
+        
         if(isset($dialog_step->prep) && $dialog_step->prep == true){
+            
             if(isset($dialog_step->required_members)){
+                
                 foreach($dialog_step->required_members as $m){
                     if(!isset($input->$m)){ return;}
                 }
+                
             }
+            
             switch($dialog_store->step){
                 case 0:
                     if(
@@ -121,7 +159,7 @@ class Operations {
                     ){
                         $dialog_store->prep->new_email = rawurldecode($input->email);
                         $dialog_store->prep->token = Hashes::generateHash();
-                        SessionStore::set($dialog['session_store_key'], $dialog_store);
+                        SessionStore::set($dialog->session_store_key, $dialog_store);
                         
                         $hooks = array(
                             "searchStrs" => array('#TOKEN#'),
@@ -146,16 +184,23 @@ class Operations {
                     }
                     break;
             }
+            
         }
+        
         if(isset($dialog_step->operation) && is_array($_a)){
             if(!(forward_static_call_array(array($operations, $dialog_step->operation), $_a))){
                 $error = true;
             }
         }
+        
         if(!isset($error)){
+            
             $dialog_store->step++;
-            SessionStore::set($dialog['session_store_key'], $dialog_store);
+            SessionStore::set($dialog->session_store_key, $dialog_store);
             return forward_static_call_array(array($xhr_cards, __FUNCTION__), array()); 
+            
         }
+        
     }
+    
 }
