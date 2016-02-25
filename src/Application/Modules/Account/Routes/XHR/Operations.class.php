@@ -110,7 +110,7 @@ class Operations {
             
             $dialog_store->step++;
             SessionStore::set($dialog->session_store_key, $dialog_store);
-            return forward_static_call_array(array($xhr_cards,__FUNCTION__),array()); 
+            return forward_static_call_array(array($xhr_cards, __FUNCTION__) ,array()); 
             
         }
         
@@ -130,9 +130,11 @@ class Operations {
         if($json != null){
             
                 $input = json_decode(rawurldecode($json)); 
-                if(isset($input->reset)){ 
+                if(isset($input->reset)){
+                    
                     SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
-                    return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
+                    return forward_static_call_array(array($xhr_cards, __FUNCTION__), array());
+                    
                 }
                 
         }
@@ -151,6 +153,7 @@ class Operations {
             }
             
             switch($dialog_store->step){
+                
                 case 0:
                     if(
                         !$modeler::exists(rawurldecode($input->email),'email')
@@ -171,6 +174,7 @@ class Operations {
                         $error = true;
                     }
                     break;
+                    
                 case 1:
                     if(
                         $dialog_store->prep->token == rawurldecode($input->token)
