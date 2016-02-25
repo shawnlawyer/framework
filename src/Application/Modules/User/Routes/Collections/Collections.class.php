@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\User\Routes\Collectons;
+namespace Sequode\Application\Modules\User\Routes\Collections;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
