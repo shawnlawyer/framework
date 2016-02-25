@@ -145,7 +145,7 @@ class Routes{
         }
         $module_key = $modules_context[$context];    
         $request_type = $call_pieces[0];
-        if(!isset(ModuleRegistry::model()->xhr->$request_type)){
+        if(!isset(ModuleRegistry::model($module_key)->xhr->$request_type)){
             return;
         }
         $routes_class = ModuleRegistry::model($module_key)->xhr->$request_type;
