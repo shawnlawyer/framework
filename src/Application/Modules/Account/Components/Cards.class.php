@@ -146,7 +146,7 @@ class Cards {
             
             $_o->menu = (object) null;
             $_o->menu->items = array();
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over','operations/account/' . __FUNCTION__,array(FormComponent::jsQuotedValue('{"reset":"1"}')));
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/account/' . __FUNCTION__, array(FormComponent::jsQuotedValue('{"reset":"1"}')));
         
         }
         
