@@ -17,7 +17,7 @@ class Dialogs {
     
     public static function login(){
         
-        $_o = array(
+        $_o = (object) array(
             'session_store_key' => 'login',
             'session_store_setup' => (object) array('step'=>0, 'prep'=> (object) null),
             'card'=> 'login',
