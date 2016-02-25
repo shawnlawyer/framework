@@ -22,7 +22,7 @@ class Collections{
         
         $module = static::$module;
         $finder = $module::model()->finder;
-        $collection = 'user_search';
+        $collection = $module::model()->context . '_' . __FUNCTION__;
         
         $nodes = array();
         if(SessionStore::is($collection)){
