@@ -3,9 +3,10 @@
 namespace Sequode\Application\Modules\Register\Routes\XHR;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
+use Sequode\Foundation\Hashes;
+
 
 use Sequode\Application\Modules\Register\Module;
 
@@ -49,7 +50,7 @@ class Operations {
                         && \Sequode\Application\Modules\Account\Authority::isAnEmailAddress(rawurldecode($input->email))
                     ){
                         $dialog_store->prep->email = rawurldecode($input->email);
-                        $dialog_store->prep->token = $operations::generateHash();
+                        $dialog_store->prep->token = Hashes::generateHash();
                         SessionStore::set($dialog->session_store_key, $dialog_store);
                     }
                     else
