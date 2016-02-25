@@ -6,7 +6,7 @@ class Module {
     public static $registry_key = 'Register';
 	public static function model(){
         $_o = (object)  array (
-            'context' => 'auth',
+            'context' => 'register',
             'modeler' => \Sequode\Application\Modules\Account\Modeler::class,
             'components' => (object) array (
                 'forms' => Components\Forms::class,
