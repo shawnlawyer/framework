@@ -45,7 +45,6 @@ class Dialogs {
         
     }
     
-    
     public static function updateEmail(){
         
         $_o = (object) array(

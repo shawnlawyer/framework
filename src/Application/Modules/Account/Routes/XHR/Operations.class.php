@@ -4,7 +4,6 @@ namespace Sequode\Application\Modules\Account\Routes\XHR;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
 
@@ -46,7 +45,7 @@ class Operations {
             if(isset($input->reset)){ 
             
                 SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
-                return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
+                return forward_static_call_array(array($xhr_cards, __FUNCTION__), array());  
                 
             }
             
@@ -188,8 +187,11 @@ class Operations {
         }
         
         if(isset($dialog_step->operation) && is_array($_a)){
+            
             if(!(forward_static_call_array(array($operations, $dialog_step->operation), $_a))){
+                
                 $error = true;
+                
             }
         }
         
