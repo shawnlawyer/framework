@@ -119,8 +119,9 @@ class Operations {
     public static function updateEmail($json = null){
         
         $module = static::$module;
-        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
-        
+        $dialogs = $module::model()->components->dialogs;
+        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
+                
         if(!SessionStore::is($dialog->session_store_key)){ return; }
         
         $xhr_cards = $module::model()->xhr->cards;
