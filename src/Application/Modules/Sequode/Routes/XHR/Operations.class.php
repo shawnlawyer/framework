@@ -306,7 +306,7 @@ class Operations {
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model($operations, __FUNCTION__), array($receiver_type, $transmitter_key, $receiver_key));
+        forward_static_call_array(array($operations, __FUNCTION__), array($receiver_type, $transmitter_key, $receiver_key));
 		return;
 	}
 	public static function addExternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
