@@ -179,24 +179,31 @@ class Routes{
         }
         
         if ($collection == 'collections'){
+            
             echo '{';
             echo  "\n";
             foreach($collections as $loop_key => $collection){
-                if($loop_key != 0){echo ",\n";}
+                if($loop_key != 0){
+                    echo ",\n";
+                }
                 echo '"'.$collection.'":';
                 echo self::collections($collection);
             }
             echo  "\n";
             echo '}';
+            
             return;
+            
         }
         
         $modules = ModuleRegistry::models();
         foreach($modules as $module){
             if(!empty($module->collections){
                 if(isset($collection) && in_array($collection, Routes::routes($module->collections))){
+                    
 					forward_static_call_array(array($module->collections ,$collection), func_get_args());
 					return;
+                    
 				}
             }
         }
