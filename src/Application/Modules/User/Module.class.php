@@ -14,7 +14,7 @@ class Module {
             ),
             'operations' => Operations::class,
             'finder' => Collections::class,
-            'collections' => Routes\Collections::class,
+            'collections' => Routes\Collections\Collections::class,
             'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class,
                 'forms' => Routes\XHR\Forms::class,
