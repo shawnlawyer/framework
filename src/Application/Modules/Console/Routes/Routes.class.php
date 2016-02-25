@@ -204,7 +204,7 @@ class Routes{
                 
                 if(isset($collection) && in_array($collection, ApplicationRoutes::routes($module->collections))){
                     
-					forward_static_call_array(array($module->collections, $collection), ($key != null) ? array($key) : array());
+                    forward_static_call_array(array($module->collections, ApplicationRoutes::route($module->collections, $collection)), ($key != null) ? array($key) : array());
 					return;
                     
 				}
@@ -212,6 +212,7 @@ class Routes{
             }
             
         }
+        
         return;
         
 	}
