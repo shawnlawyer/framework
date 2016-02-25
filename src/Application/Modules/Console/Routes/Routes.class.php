@@ -197,15 +197,20 @@ class Routes{
         }
         
         $modules = ModuleRegistry::models();
+        
         foreach($modules as $module){
+            
             if(!empty($module->collections)){
-                if(isset($collection) && in_array($collection, Routes::routes($module->collections))){
+                
+                if(isset($collection) && in_array($collection, ApplicationRoutes::routes($module->collections))){
                     
 					forward_static_call_array(array($module->collections ,$collection), func_get_args());
 					return;
                     
 				}
+                
             }
+            
         }
         return;
         
