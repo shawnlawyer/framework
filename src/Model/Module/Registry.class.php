@@ -50,8 +50,7 @@ class Registry {
         return $_o;
         
     }
-    
-    
+        
     public static function module($key){
         
         return self::container('get', $key);
