@@ -8,6 +8,8 @@ use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetPasswordTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelFavoritedModuleModelsTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetEmailTrait;
 
+use Sequode\Application\Modules\User\Modeler;
+
 class Operations {
     
     use  ORMModelOwnedModuleModelsTrait,
