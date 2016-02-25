@@ -11,7 +11,7 @@ class Collections{
     
     public static $module = Module::class;
     
-	public static $merge = true;
+	public static $merge = false;
 	public static $routes = array(
 		'user_search'
 	);

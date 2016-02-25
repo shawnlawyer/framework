@@ -3,7 +3,6 @@
 namespace Sequode\Application\Modules\Token\Routes\Collections;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-use Sequode\Model\Module\Registry as ModuleRegistry;
 
 use Sequode\Application\Modules\Token\Module;
 
@@ -13,14 +12,10 @@ class Collections{
 	public static $merge = false;
 	public static $routes = array(
 		'tokens',
-		'my',
-		'my_tokens',
 		'token_search'
 	);
 	public static $routes_to_methods = array(
 		'tokens' => 'owned',
-		'my' => 'owned',
-		'my_tokens' => 'owned',
 		'token_search' => 'search',
 	);
 	public static function owned(){
