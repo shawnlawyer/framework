@@ -138,15 +138,17 @@ class Routes{
         if(!isset($call_pieces[2])){
             return;
         }
-        $package = ucfirst(strtolower($call_pieces[1]));
-        if(!ModuleRegistry::is($package)){
+        $context = strtolower($call_pieces[1]);
+        $modules_context = ModuleRegistry::modulesContext();
+        if(!array_key_exists($context, $modules_context)){
             return;
         }
+        $module_key = $modules_context[$context];    
         $request_type = $call_pieces[0];
-        if(!isset(ModuleRegistry::model($package)->xhr->$request_type)){
+        if(!isset(ModuleRegistry::model()->xhr->$request_type)){
             return;
         }
-        $routes_class = ModuleRegistry::model($package)->xhr->$request_type;
+        $routes_class = ModuleRegistry::model($module_key)->xhr->$request_type;
         if(!in_array($call_pieces[2], ApplicationRoutes::routes('\\'.$routes_class))){
             return;
         }
@@ -164,6 +166,7 @@ class Routes{
         echo XHRRequest::call('\\'.$routes_class, $route, $args);
         return true;
     }
+    
 	public static function collections($collection='collections', $key = null){
         
         if(!SessionStore::is('console')){
