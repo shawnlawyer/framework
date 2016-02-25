@@ -19,4 +19,6 @@ class Module {
                 'cards' => Routes\XHR\Cards::class
             )
         );
+        return $_o;
+    }
 }
