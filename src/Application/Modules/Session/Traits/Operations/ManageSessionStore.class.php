@@ -29,6 +29,7 @@ trait ManageSessionStore {
 	public static function end(){
         
         $modeler = static::$modeler;
+        $store = static::$store;
         
         $modeler::model()->updateField(Hashes::uniqueHash(),'session_id');
         /*$modeler::model()->updateField(time() - 86400,'session_start');*/
