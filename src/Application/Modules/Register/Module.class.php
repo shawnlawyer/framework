@@ -7,7 +7,7 @@ class Module {
 	public static function model(){
         $_o = (object)  array (
             'context' => 'register',
-            'modeler' => \Sequode\Application\Modules\Account\Modeler::class,
+            'modeler' => \Sequode\Application\Modules\User\Modeler::class,
             'components' => (object) array (
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,

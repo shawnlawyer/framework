@@ -19,6 +19,7 @@ trait ORMModelSignupTrait {
         $modeler::exists($modeler::model()->id, 'id');
         
         return $modeler::model();
+        
     }
     
 }

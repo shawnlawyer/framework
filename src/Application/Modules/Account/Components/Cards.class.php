@@ -154,22 +154,35 @@ class Cards {
         $_o->body = array('');
         
         if(isset($step->content)){
+            
             if(isset($step->content->head)){
+                
                 $_o->body[] = '<div class="subline">'.$step->content->head.'</div>';
+                
             }
+            
             if(isset($step->content->head)){
+                
                 $_o->body[] = $step->content->body;
+                
             }
+            
         }
         
         if(isset($step->forms)){
+            
             foreach($step->forms as $form){
+                
                 $_o->body = array_merge($_o->body, ModuleForm::render($module::$registry_key, $form));
+                
             }
+            
         }
         
         if($dialog_store->step > 0){
+            
             $_o->body[] = CardKit::resetDialogButton('operations/account/' . __FUNCTION__);
+            
         }
         
         $_o->body[] = (object) array('js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();');
