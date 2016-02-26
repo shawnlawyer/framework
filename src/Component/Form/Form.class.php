@@ -149,7 +149,7 @@ class Form extends Mason {
         $_o->submit_xhr_call_route = '';
         $_o->submit_xhr_call_parameters = array(static::$collection_replacement_hook);
         
-        if((is_object($_i)){
+        if(is_object($_i)){
             
             foreach($_o as $member => $value ){
                 
@@ -174,7 +174,7 @@ class Form extends Mason {
             'submit_on_enter' => true,
             'auto_submit_time' => null,
             'submit_xhr_call_route' => '',
-            'submit_xhr_call_parameters' => array(static::$collection_replacement_hook)
+            'submit_xhr_call_parameters' => array(static::$collection_replacement_hook),
         );
         
         if((is_object($_i)){
