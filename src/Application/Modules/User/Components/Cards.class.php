@@ -14,6 +14,7 @@ class Cards {
     public static $module = Module::class;
     
     public static function menu(){
+        
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
@@ -68,31 +69,35 @@ class Cards {
         $_o->body = array('');
         
         $_o->body[] = CardKitHTML::sublineBlock('Username');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', array($_model->id)), $_model->username, 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', array($module::model()->id)), $module::model()->username, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Password');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($_model->id)), 'Set Password', 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($module::model()->id)), 'Set Password', 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Role');
-        \Sequode\Application\Modules\Role\Modeler::exists($_model->role_id,'id');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($_model->id)), \Sequode\Application\Modules\Role\Modeler::model()->name, 'settings');
+        \Sequode\Application\Modules\Role\Modeler::exists($module::model()->role_id,'id');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($module::model()->id)), \Sequode\Application\Modules\Role\Modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Active Status');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateActive', array($_model->id)), (($_model->active == 1) ? 'Active' : 'Suspended'), 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateActive', array($module::model()->id)), (($module::model()->active == 1) ? 'Active' : 'Suspended'), 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Sign Up Date');
-        $_o->body[] = date('g:ia \o\n l jS F Y',$_model->sign_up_date);
+        $_o->body[] = date('g:ia \o\n l jS F Y',$module::model()->sign_up_date);
         $_o->body[] = CardKitHTML::sublineBlock('Allowed Sequode Count');
-        $_o->body[] = $_model->allowed_sequode_count;
+        $_o->body[] = $module::model()->allowed_sequode_count;
         $_o->body[] = CardKitHTML::sublineBlock('Favorite Sequodes');
-        $_o->body[] = $_model->sequode_favorites;
+        $_o->body[] = $module::model()->sequode_favorites;
         $_o->body[] = CardKitHTML::sublineBlock('Email');
-        $_o->body[] = $_model->email;
-        $_o->body[] = CardKit::collectionTile('Sequode', 'Sequodes Created : ', $_model);
-        $_o->body[] = CardKit::collectionTile('Package', 'Packages Created : ', $_model);
-        $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $_model);
-        $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/user/details'));
+        $_o->body[] = $module::model()->email;
+        $_o->body[] = CardKit::collectionTile('Sequode', 'Sequodes Created : ', $module::model());
+        $_o->body[] = CardKit::collectionTile('Package', 'Packages Created : ', $module::model());
+        $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $module::model());
+        $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$module::model()->id,'details_route'=>'cards/user/details'));
+        
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($_model);
+            $_o->body[] = CardKitHTML::modelId($module::model());
         }
+        
         return $_o;
+        
     }
+    
     public static function search(){
         
         $module = static::$module;
@@ -107,7 +112,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = array();
         
-        $search_components_array = ModuleForm::render($module::$registry_key,'search');
+        $search_components_array = ModuleForm::render($module::$registry_key, 'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         
