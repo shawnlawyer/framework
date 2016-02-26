@@ -16,7 +16,7 @@ class Form extends Mason {
         }
         return $dom_ids;
 	}
-	public static function xhrCallRoute($channel, $context, $route){        
+	public static function xhrCallRoute($context, $channel, $route){        
         return $channel .'/'. $context .'/'. $route;
 	}
 	public static function xhrCall($route, $inputs){
