@@ -8,6 +8,8 @@ use Sequode\Application\Modules\Package\Module;
 
 class Forms {
     
+    public static $module = Module::class;
+    
     public static function name($_model = null){
         
         $module = static::$module;
