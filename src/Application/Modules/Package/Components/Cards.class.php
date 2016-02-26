@@ -30,7 +30,7 @@ class Cards {
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Package','operations/package/newPackage');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('My Packages','cards/package/my');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sequodes','cards/package/search');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Packages','cards/package/search');
         return $_o;
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){

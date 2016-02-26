@@ -2,168 +2,217 @@
 
 namespace Sequode\Application\Modules\Sequode\Components;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\Form\Form as FormComponent;
 
 use Sequode\Application\Modules\Sequode\Module;
 
 class Forms {
     
-    public static $module = Module::class;
-    public static $objects_source = FormInputs::class;
-	public static $xhr_library = 'operations/sequode';
+    public static $module = Module::class
+    
     public static function name($_model = null){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-		$form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 2000;
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'updateName';
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+            
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateName');
+        $_o->auto_submit_time = 2000;
+        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         
-		return $form_object;
+		return $_o;
         
 	}
     public static function description($_model = null){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-		$form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 2000;
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'updateDescription';
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+            
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateDescription');
+        $_o->auto_submit_time = 2000;
+        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         
-		return $form_object;
+		return $_o;
         
 	}
     public static function search(){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 1;
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'search');
         
-		return $form_object;
+        $_o->auto_submit_time = 1;
+        
+		return $_o;
         
 	}
     public static function component($type, $map_key, $_model = null){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 500;
-        $form_object->submit_on_enter = false;
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'updateValue';
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($type);
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = $map_key;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+            
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateValue');
+        $_o->auto_submit_time = 500;
+        $_o->submit_on_enter = false;
+        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($type);
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = $map_key;
+        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         
-		return $form_object;
+		return $_o;
         
 	}
 	public static function componentSettings($type, $member, $dom_id, $_model = null){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 1;
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'updateComponentSettings';
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($type);
-        $form_object->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($member);
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($dom_id);
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+            
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateComponentSettings');
+        $_o->auto_submit_time = 1;
+        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($type);
+        $_o->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($member);
+        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($dom_id);
         
-		return $form_object;
+		return $_o;
         
 	}
     public static function sequode($dom_id, $_model = null){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'run';
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
-		$form_object->submit_button = \Sequode\Application\Modules\Sequode\Modeler::model()->name;
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+            
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'run');
+        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+		$_o->submit_button = \Sequode\Application\Modules\Sequode\Modeler::model()->name;
         
-		return $form_object;
+		return $_o;
         
 	}
     public static function sharing($_model = null){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));   
-        $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 1;
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'updateSharing';
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
-		return $form_object;
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+            
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateSharing');
+        $_o->auto_submit_time = 1;
+        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+		return $_o;
 	}
     public static function updateIsPalette($_model = null){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 1;
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'updateIsPalette';
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+            
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateIsPalette');
+        $_o->auto_submit_time = 1;
+        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         
-		return $form_object;
+		return $_o;
         
 	}
     public static function updateIsPackage($_model = null){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'),array($_model));
-        $form_object = FormComponent::formObject(static::$objects_source, __FUNCTION__, static::$xhr_library, func_get_args());
-        $form_object->auto_submit_time = 1;
-        $form_object->submit_xhr_call_route = static::$xhr_library.'/'.'updateIsPackage';
-        $form_object->submit_xhr_call_parameters = array();
-        $form_object->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $form_object->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+		
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateIsPackage');
+        $_o->auto_submit_time = 1;
+        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         
-		return $form_object;
+		return $_o;
         
 	}
     public static function selectPalette(){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $context = $module::model()->context;
+        $form_inputs = $module::model()->components->form_inputs;
         
-        $form_object = FormComponent::formObject(static::$objects_source,__FUNCTION__,static::$xhr_library,func_get_args());
-        $form_object->auto_submit_time = 1;
+        ($_model == null) 
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler,'model'),array($_model));
+            
+        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'selectPalette');
+        $_o->auto_submit_time = 1;
         
-		return $form_object;
+		return $_o;
         
 	}
 }

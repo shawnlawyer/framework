@@ -18,7 +18,6 @@ class Forms {
         
         $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateName');
-        
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = array();
         $_o->submit_xhr_call_parameters[] = \Sequode\Application\Modules\Package\Modeler::model()->id;
@@ -36,7 +35,6 @@ class Forms {
         
         $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updatePackageSequode');
-        
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = array();
         $_o->submit_xhr_call_parameters[] = \Sequode\Application\Modules\Package\Modeler::model()->id;
