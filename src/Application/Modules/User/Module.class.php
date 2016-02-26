@@ -14,6 +14,7 @@ class Module {
                 'cards' => Components\Cards::class,
             ),
             'operations' => Operations::class,
+            'authority' => Authority::class,
             'finder' => Collections::class,
             'collections' => Routes\Collections\Collections::class,
             'xhr' => (object) array (
