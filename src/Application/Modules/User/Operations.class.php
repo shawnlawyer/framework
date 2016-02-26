@@ -9,7 +9,7 @@ use Sequode\Application\Modules\User\Traits\Operations\ORMModelDeleteTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetLastSignInTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetActiveTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelFavoritedModuleModelsTrait;
-use Sequode\Application\Modules\User\Traits\Operations\ORMModelUpdateRoleTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetRoleTrait;
 
 class Operations {
    
