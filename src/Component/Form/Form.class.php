@@ -96,7 +96,7 @@ class Form extends Mason {
         if($_i->submit_js != null){
             $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->form_inputs,$dom_ids), $_i->submit_js);    
         }else{
-            $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCall($form_object->submit_xhr_call_route, $form_object->submit_xhr_call_parameters));
+            $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCall($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters));
         }
         $event_js = array();
         if($_i->auto_submit_time != null){
@@ -130,7 +130,7 @@ class Form extends Mason {
     public static function formObject2($object_class, $object_method, $parameters = null){
         
         $_o = (object) null;
-        $_o->components = forward_static_call_array(array($object_class, $object_method),($parameters == null) ? array() : $parameters);
+        $_o->form_inputs = forward_static_call_array(array($object_class, $object_method),($parameters == null) ? array() : $parameters);
         $_o->submit_js = null;
         $_o->submit_button = null;
         $_o->submit_on_enter = true;
