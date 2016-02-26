@@ -8,6 +8,7 @@ use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetPasswordTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelDeleteTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetLastSignInTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetActiveTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelOwnedModuleModelsTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelFavoritedModuleModelsTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetRoleTrait;
 
@@ -20,6 +21,7 @@ class Operations {
         ORMModelDeleteTrait,
         ORMModelSetLastSignInTrait,
         ORMModelSetActiveTrait,
+        ORMModelOwnedModuleModelsTrait,
         ORMModelFavoritedModuleModelsTrait,
         ORMModelSetRoleTrait;
     
