@@ -140,6 +140,7 @@ class Form extends Mason {
                 
         return $_o;
 	}
+    
     public static function formObject($_i = null){
         
         $_o = (object) array(
