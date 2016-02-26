@@ -16,12 +16,13 @@ class Forms {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
-        $xhr_route = FormComponent::xhrCallRoute($context, 'operations', 'updateEmail');
+        $o = (object) array(
+            'submit_xhr_call_route' => FormComponent::xhrCallRoute($context, 'operations', 'updateEmail');
+            'form_inputs' => FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args(), $xhr_route);
+            'submit_button' => 'Next'
+         );
         
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args(), $xhr_route);
-        $_o->submit_button = 'Next';
-        
-		return $_o;
+		return FormComponent::formObject($o);
         
 	}
     

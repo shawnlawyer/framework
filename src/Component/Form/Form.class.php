@@ -73,7 +73,7 @@ class Form extends Mason {
         }
 		return $component_object;
 	}
-	public static function components($form_object, $dom_ids, $js_events_array){
+	public static function renderFormInputs($form_object, $dom_ids, $js_events_array){
 		$components_array = array();
 		$i = $j = 0;
         foreach($form_object as $member => $component_object){
@@ -90,13 +90,13 @@ class Form extends Mason {
 	}
     public static function render($_i){
         $timeout_var_name = FormInputComponent::uniqueHash();
-		$dom_ids = self::domIds($_i->components);
+		$dom_ids = self::domIds($_i->form_inputs);
         $js_event = (object) null;
         $submit_js = '';
         if($_i->submit_js != null){
-            $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->components,$dom_ids), $_i->submit_js);    
+            $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->form_inputs,$dom_ids), $_i->submit_js);    
         }else{
-            $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->components,$dom_ids), self::xhrCall($form_object->submit_xhr_call_route, $form_object->submit_xhr_call_parameters));
+            $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCall($form_object->submit_xhr_call_route, $form_object->submit_xhr_call_parameters));
         }
         $event_js = array();
         if($_i->auto_submit_time != null){
@@ -108,7 +108,7 @@ class Form extends Mason {
             $event_js[] = self::enterPressed(self::registerTimeout($timeout_var_name, $submit_js));
             $js_event->On_Key_Up = implode(' ',$event_js);
         }
-        $components_array = self::components($_i->components, $dom_ids, array($js_event));
+        $components_array = self::renderFormInputs($_i->form_inputs, $dom_ids, array($js_event));
         
         if($_i->submit_button != null){
             FormInputComponent::exists('button','name');
@@ -119,17 +119,6 @@ class Form extends Mason {
             $components_array[] = FormInputComponent::render($button_component);
         }
 		return $components_array;
-	}
-    public static function formObject($object_class, $object_method, $xhr_library, $parameters = null){
-        $form_object = (object) null;
-        $form_object->components = forward_static_call_array(array($object_class,$object_method),($parameters == null) ? array() : $parameters);
-        $form_object->submit_js = null;
-        $form_object->submit_button = null;
-        $form_object->submit_on_enter = true;
-        $form_object->auto_submit_time = null;
-        $form_object->submit_xhr_call_route = $xhr_library .'/'. $object_method;
-        $form_object->submit_xhr_call_parameters = array(static::$collection_replacement_hook);
-        return $form_object;
 	}
     
     public static function formInputs($class, $method, $parameters = null){
@@ -151,10 +140,10 @@ class Form extends Mason {
                 
         return $_o;
 	}
-    public static function formObject3($_i = null){
+    public static function formObject($_i = null){
         
         $_o = (object) array(
-            'components' => array(),
+            'form_inputs' => array(),
             'submit_js' => null,
             'submit_button' => null,
             'submit_on_enter' => true,
