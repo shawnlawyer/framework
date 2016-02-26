@@ -2,7 +2,6 @@
 
 namespace Sequode\Application\Modules\User\Routes\XHR;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 
@@ -21,14 +20,14 @@ class Cards {
         $modeler::exists($_model_id,'id')
         )){ return; }
         
-        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, __FUNCTION__), $dom_id);
         
     }
     public static function search($dom_id = 'CardsContainer'){
     
         $module = static::$module;
         
-        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key,__FUNCTION__), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, __FUNCTION__), $dom_id);
         
     }
 }

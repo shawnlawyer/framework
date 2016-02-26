@@ -42,7 +42,9 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        ($_model == null)
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler, 'model'), array($_model));
 		
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/user/details', array($module::model()->id));
@@ -56,7 +58,9 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        ($_model == null)
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler, 'model'), array($_model));
 		
         $_o = (object) null;
         $_o->size = 'large';
@@ -69,28 +73,28 @@ class Cards {
         $_o->body = array('');
         
         $_o->body[] = CardKitHTML::sublineBlock('Username');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', array($module::model()->id)), $module::model()->username, 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', array($modeler::model()->id)), $modeler::model()->username, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Password');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($module::model()->id)), 'Set Password', 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($modeler::model()->id)), 'Set Password', 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Role');
-        \Sequode\Application\Modules\Role\Modeler::exists($module::model()->role_id,'id');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($module::model()->id)), \Sequode\Application\Modules\Role\Modeler::model()->name, 'settings');
+        \Sequode\Application\Modules\Role\Modeler::exists($modeler::model()->role_id,'id');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($modeler::model()->id)), \Sequode\Application\Modules\Role\Modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Active Status');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateActive', array($module::model()->id)), (($module::model()->active == 1) ? 'Active' : 'Suspended'), 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateActive', array($modeler::model()->id)), (($modeler::model()->active == 1) ? 'Active' : 'Suspended'), 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Sign Up Date');
-        $_o->body[] = date('g:ia \o\n l jS F Y',$module::model()->sign_up_date);
+        $_o->body[] = date('g:ia \o\n l jS F Y',$modeler::model()->sign_up_date);
         $_o->body[] = CardKitHTML::sublineBlock('Allowed Sequode Count');
-        $_o->body[] = $module::model()->allowed_sequode_count;
+        $_o->body[] = $modeler::model()->allowed_sequode_count;
         $_o->body[] = CardKitHTML::sublineBlock('Favorite Sequodes');
-        $_o->body[] = $module::model()->sequode_favorites;
+        $_o->body[] = $modeler::model()->sequode_favorites;
         $_o->body[] = CardKitHTML::sublineBlock('Email');
-        $_o->body[] = $module::model()->email;
-        $_o->body[] = CardKit::collectionTile('Sequode', 'Sequodes Created : ', $module::model());
-        $_o->body[] = CardKit::collectionTile('Package', 'Packages Created : ', $module::model());
-        $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $module::model());
-        $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$module::model()->id,'details_route'=>'cards/user/details'));
+        $_o->body[] = $modeler::model()->email;
+        $_o->body[] = CardKit::collectionTile('Sequode', 'Sequodes Created : ', $modeler::model());
+        $_o->body[] = CardKit::collectionTile('Package', 'Packages Created : ', $modeler::model());
+        $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $modeler::model());
+        $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$modeler::model()->id,'details_route'=>'cards/user/details'));
         
-        if(\Sequode\Application\Modules\User\Authority::isSystemOwner()){
+        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($module::model());
         }
         
@@ -103,7 +107,9 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        ($_model == null)
+            ? forward_static_call_array(array($modeler,'model'),array())
+            : forward_static_call_array(array($modeler, 'model'), array($_model));
 		
         $_o = (object) null;
         $_o->size = 'fullscreen';
