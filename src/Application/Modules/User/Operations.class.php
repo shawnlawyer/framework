@@ -6,7 +6,7 @@ use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetNameTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetEmailTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetPasswordTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelDeleteTrait;
-use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetLastSignIn;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetLastSignInTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetActiveTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelFavoritedModuleModelTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelUpdateRoleTrait;
@@ -18,7 +18,7 @@ class Operations {
         ORMModelSetEmailTrait,
         ORMModelSetPasswordTrait,
         ORMModelDeleteTrait,
-        ORMModelSetLastSignIn,
+        ORMModelSetLastSignInTrait,
         ORMModelSetActiveTrait,
         ORMModelFavoritedModuleModelTrait,
         ORMModelSetRoleTrait;
