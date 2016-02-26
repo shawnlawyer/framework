@@ -6,10 +6,10 @@ use Sequode\Component\Form\Form as FormComponent;
 
 use Sequode\Application\Modules\Account\Module;
 
-class Forms   {
+class Forms {
+    
 	public static $module = Module::class;
-	public static $objects_source = FormInputs::class;
-	public static $xhr_library = 'operations/account';
+    
     public static function updateEmail(){
         
         $module = static::$module;
@@ -23,6 +23,7 @@ class Forms   {
 		return $_o;
         
 	}
+    
     public static function verify(){
         
         $module = static::$module;
@@ -36,6 +37,7 @@ class Forms   {
 		return $_o;
         
 	}
+    
     public static function updatePassword(){
         
         $module = static::$module;
@@ -49,6 +51,7 @@ class Forms   {
 		return $_o;
         
 	}
+    
     public static function password(){
         
         $module = static::$module;
@@ -62,4 +65,5 @@ class Forms   {
 		return $_o;
         
 	}
+    
 }
