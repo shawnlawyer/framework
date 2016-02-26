@@ -11,6 +11,7 @@ class Model extends ORM {
 		parent::__construct();
 		return true;
     }
+    
 	public function create($username, $password, $email){
 
         $sql = "
@@ -27,8 +28,12 @@ class Model extends ORM {
             ,'[]'
             ,".$this->safedSQLData(sha1(substr(md5(uniqid(rand(), true)), 0, 25)), 'text')."
             )";
+            
 		$this->database->query($sql);
 		$this->id = $this->database->insertId;
+        
 		return true;
-	}	 
+        
+	}
+
 }
