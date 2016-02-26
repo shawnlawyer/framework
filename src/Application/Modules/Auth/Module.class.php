@@ -12,7 +12,7 @@ class Module {
             'context' => 'auth',
             'modeler' => Modeler::class,
             'components' => (object) array (
-                'form_inputs' => Components\FormsInputs::class,
+                'form_inputs' => Components\FormInputs::class,
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
                 'dialogs' => Components\Dialogs::class,

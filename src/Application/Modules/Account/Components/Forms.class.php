@@ -17,7 +17,7 @@ class Forms {
         $form_inputs = $module::model()->components->form_inputs;
         
         $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = 'operations/'.$context.'/'.'updateEmail';
+        $_o->submit_xhr_call_route = 'operations/'.$context.'/updateEmail';
         $_o->submit_button = 'Next';
         
 		return $_o;
@@ -31,7 +31,7 @@ class Forms {
         $form_inputs = $module::model()->components->form_inputs;
         
         $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = 'operations/'.$context.'/'.'updateEmail';
+        $_o->submit_xhr_call_route = 'operations/'.$context.'/updateEmail';
         $_o->submit_button = 'Next';
         
 		return $_o;
@@ -45,7 +45,7 @@ class Forms {
         $form_inputs = $module::model()->components->form_inputs;
         
         $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = 'operations/'.$context.'/'.'updatePassword';
+        $_o->submit_xhr_call_route = 'operations/'.$context.'/updatePassword';
         $_o->submit_button = 'Next';
         
 		return $_o;
@@ -59,7 +59,7 @@ class Forms {
         $form_inputs = $module::model()->components->form_inputs;
         
         $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = 'operations/'.$context.'/'.'updatePassword';
+        $_o->submit_xhr_call_route = 'operations/'.$context.'/updatePassword';
         $_o->submit_button = 'Next';
         
 		return $_o;
