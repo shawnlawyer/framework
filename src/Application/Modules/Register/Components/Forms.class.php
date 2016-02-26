@@ -17,7 +17,8 @@ class Forms {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
         $_o->submit_button = 'Next';
         
@@ -32,13 +33,15 @@ class Forms {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
         $_o->submit_button = 'Next';
         
 		return $_o;
         
 	}
+    
     public static function verify(){
         
         $module = static::$module;
@@ -46,7 +49,8 @@ class Forms {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
         $_o->auto_submit_time = 1;
         $_o->submit_button = 'Next';
@@ -60,7 +64,8 @@ class Forms {
         $module = static::$module;
         $form_inputs = $module::model()->components->form_inputs;
         
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         
 		return $_o;
 	}
@@ -72,7 +77,8 @@ class Forms {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
         $_o->auto_submit_time = 1;
         $_o->submit_button = 'Next';
@@ -88,7 +94,8 @@ class Forms {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
         $_o->submit_button = 'Next';
         

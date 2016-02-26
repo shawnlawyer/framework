@@ -21,7 +21,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateName');
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = array();
@@ -42,7 +43,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateDescription');
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = array();
@@ -59,7 +61,8 @@ class Forms {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'search');
         
         $_o->auto_submit_time = 1;
@@ -78,7 +81,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateValue');
         $_o->auto_submit_time = 500;
         $_o->submit_on_enter = false;
@@ -102,7 +106,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateComponentSettings');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = array();
@@ -126,7 +131,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'run');
         $_o->submit_xhr_call_parameters = array();
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -147,7 +153,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateSharing');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = array();
@@ -166,7 +173,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateIsPalette');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = array();
@@ -187,7 +195,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
 		
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateIsPackage');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = array();
@@ -208,7 +217,8 @@ class Forms {
             ? forward_static_call_array(array($modeler,'model'),array())
             : forward_static_call_array(array($modeler,'model'),array($_model));
             
-        $_o = FormComponent::formObject2($form_inputs, __FUNCTION__, func_get_args());
+        $_o = FormComponent::formObject();
+        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'selectPalette');
         $_o->auto_submit_time = 1;
         

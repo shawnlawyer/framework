@@ -7,17 +7,14 @@ use Sequode\Component\FormInput\FormInput as FormInputComponent;
 class Form extends Mason {
     public static $mason = 'form';
     public static $collection_replacement_hook = '[%COLLECTION_JS%]';
-	public static function domIds($form_object){
+	public static function domIds($_i){
         $dom_ids = array();
-        if(is_object($form_object)){
-            foreach($form_object as $loop_member => $loop_value){
+        if(is_object($_i)){
+            foreach($_i as $loop_member => $loop_value){
                 $dom_ids[] = FormInputComponent::uniqueHash();
             }
         }
         return $dom_ids;
-	}
-	public static function xhrCallRoute($context, $channel, $route){        
-        return $channel .'/'. $context .'/'. $route;
 	}
 	public static function xhrCall($route, $inputs){
         $js = array();
@@ -28,6 +25,9 @@ class Form extends Mason {
         }
         $js[] = '});';
         return implode('',$js);
+	}
+	public static function xhrCallRoute($context, $channel, $route){        
+        return $channel .'/'. $context .'/'. $route;
 	}
 	public static function jsQuotedValue($value=''){
         return '\''. $value .'\'';
