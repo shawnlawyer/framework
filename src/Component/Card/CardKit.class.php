@@ -9,11 +9,10 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class CardKit {
     public static function collectionTile($package, $headline='', $user_model){
-        $user_model = \Sequode\Application\Modules\Account\Modeler::model();
         $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = array();
         $context = ModuleRegistry::model($package)->context;
-        $_models = \Sequode\Application\Modules\Account\Operations::getOwnedModels($package, $user_model, 'id,name')->all;
+        $_models = \Sequode\Application\Modules\User\Operations::getOwnedModels($package, $user_model, 'id,name')->all;
         $html[] = '<div class="automagic-content-area-xsmall-tile-container">';
         $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.'">'.$headline . count($_models).'</div>';
         $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('cards/'.$context.'/my', array($object->id)));
