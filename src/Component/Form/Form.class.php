@@ -128,4 +128,16 @@ class Form extends Mason {
         $form_object->submit_xhr_call_parameters = array(static::$collection_replacement_hook);
         return $form_object;
 	}
+    
+    public static function formObject2($object_class, $object_method, $parameters = null, $xhr_route = null){
+        $form_object = (object) null;
+        $form_object->components = forward_static_call_array(array($object_class,$object_method),($parameters == null) ? array() : $parameters);
+        $form_object->submit_js = null;
+        $form_object->submit_button = null;
+        $form_object->submit_on_enter = true;
+        $form_object->auto_submit_time = null;
+        $form_object->submit_xhr_call_route = $xhr_route;
+        $form_object->submit_xhr_call_parameters = array(static::$collection_replacement_hook);
+        return $form_object;
+	}
 }

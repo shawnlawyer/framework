@@ -9,6 +9,7 @@ class Module {
             'context' => 'user',
             'modeler' => Modeler::class,
             'components' => (object) array (
+                'forms_inputs' => Components\FormsInputs::class,
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
             ),
