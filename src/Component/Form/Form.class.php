@@ -138,7 +138,7 @@ class Form extends Mason {
         
 	}
     
-    public static function formObject2($object_class, $object_method, $parameters = null, $_i = null){
+    public static function formObject2($object_class, $object_method, $parameters = null){
         
         $_o = (object) null;
         $_o->components = forward_static_call_array(array($object_class, $object_method),($parameters == null) ? array() : $parameters);
@@ -148,21 +148,7 @@ class Form extends Mason {
         $_o->auto_submit_time = null;
         $_o->submit_xhr_call_route = '';
         $_o->submit_xhr_call_parameters = array(static::$collection_replacement_hook);
-        
-        if(is_object($_i)){
-            
-            foreach($_o as $member => $value ){
                 
-                if(!isset($_i->$member)){
-                    
-                    $_o->$member = $_i->$member;
-                    
-                }
-                
-            }
-            
-        }
-        
         return $_o;
 	}
     public static function formObject3($_i = null){
@@ -177,7 +163,7 @@ class Form extends Mason {
             'submit_xhr_call_parameters' => array(static::$collection_replacement_hook),
         );
         
-        if((is_object($_i)){
+        if(is_object($_i)){
             
             foreach($_o as $member => $value ){
                 
