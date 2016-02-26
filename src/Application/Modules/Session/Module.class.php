@@ -10,7 +10,7 @@ class Module {
             'modeler' => Modeler::class,
             'operations' => Operations::class,
             'components' => (object) array (
-                'forms_inputs' => Components\FormsInputs::class,
+                'form_inputs' => Components\FormsInputs::class,
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
             ),

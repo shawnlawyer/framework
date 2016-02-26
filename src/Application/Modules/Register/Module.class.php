@@ -9,7 +9,7 @@ class Module {
             'context' => 'register',
             'modeler' => \Sequode\Application\Modules\User\Modeler::class,
             'components' => (object) array (
-                'forms_inputs' => Components\FormsInputs::class,
+                'form_inputs' => Components\FormsInputs::class,
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
                 'dialogs' => Components\Dialogs::class
