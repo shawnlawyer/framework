@@ -18,7 +18,7 @@ trait ORMModelCreateTrait {
         $modeler::model()->updateField('33','allowed_sequode_count');
         $modeler::model()->updateField('1','active');
         
-        return static::$modeler::model();
+        return $modeler::model();
     }
     
     public static function newGuest(){
@@ -32,7 +32,7 @@ trait ORMModelCreateTrait {
         $modeler::model()->updateField('5','allowed_sequode_count');
         $modeler::model()->updateField('1','active');
         
-        return static::$modeler::model();
+        return $modeler::model();
     }
     
 }
