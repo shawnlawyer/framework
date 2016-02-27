@@ -16,6 +16,7 @@ use Sequode\Application\Modules\Package\Module;
 class Cards {
     
     public static $module = Module::class;
+    public static $tiles = array('myTile');
     
     public static function menu(){
         $_o = (object) null;
@@ -116,6 +117,25 @@ class Cards {
         }
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'package_search','icon'=>'atom','card_route'=>'cards/package/search','details_route'=>'cards/package/details'));
+        return $_o;
+    }
+    
+    public static function myTile($user_model=null){
+        
+        $module = static::$module;
+        
+        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Account\Modeler::model(); }
+        $_o = (object) null;
+        $_o->head = 'Sequence Sets';
+        $_o->size = 'xsmall';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'atom-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items =  array();
+        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Set','operations/token/newPackage');
+        $_o->body = array();
+        $_o->body[] = '';
+        $_o->body[] = CardKit::collectionTile('Package', 'Sets Created : ', $user_model);
         return $_o;
     }
 }

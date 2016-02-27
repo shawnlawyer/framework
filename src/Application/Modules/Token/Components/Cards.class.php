@@ -2,18 +2,18 @@
 
 namespace Sequode\Application\Modules\Token\Components;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
-use Sequode\View\Module\Form as ModuleForm;
-use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
+use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
+use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Application\Modules\Token\Module;
     
 class Cards {
     
     public static $module = Module::class;
+    public static $tiles = array('myTile');
     
     public static function menu(){
         $_o = (object) null;
@@ -43,6 +43,7 @@ class Cards {
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'cards/token/delete', array($_model->id));
         return $items;
     }
+    
     public static function details($_model = null){
         
         $module = static::$module;
@@ -72,6 +73,7 @@ class Cards {
         }
         return $_o;
     }
+    
     public static function my(){
         $_o = (object) null;
         $_o->size = 'fullscreen';
@@ -118,4 +120,27 @@ class Cards {
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'token_search','icon'=>'atom','card_route'=>'cards/token/my','details_route'=>'cards/token/details'));
         return $_o;
     }
+    
+    public static function myTile($user_model=null){
+        
+        if($user_model == null ){
+            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+        }
+        
+        $_o = (object) null;
+        $_o->head = 'Tokens';
+        $_o->size = 'xsmall';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'atom-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items =  array();
+        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Token','operations/token/newToken');
+        $_o->body = array();
+        $_o->body[] = '';
+        $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $user_model);
+        
+        return $_o;
+        
+    }
+    
 }

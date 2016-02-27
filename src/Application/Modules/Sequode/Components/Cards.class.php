@@ -14,6 +14,8 @@ use Sequode\Application\Modules\Sequode\Module;
 
 class Cards {
     public static $module = Module::class;
+    public static $tiles = array('myTile');
+    
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
@@ -496,5 +498,21 @@ class Cards {
         
         return $_o;
         
+    }
+    
+    public static function myTile($user_model=null){
+        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Account\Modeler::model(); }
+        $_o = (object) null;
+        $_o->head = 'My Sequodes';
+        $_o->size = 'xsmall';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'sequode-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items =  array();
+        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/token/newSequence');
+        $_o->body = array();
+        $_o->body[] = '';
+        $_o->body[] = CardKit::collectionTile('Sequode', 'Sequodes Created : ', $user_model);
+        return $_o;
     }
 }
