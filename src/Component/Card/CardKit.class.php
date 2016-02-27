@@ -11,12 +11,13 @@ class CardKit {
     public static function collectionTile($package, $headline='', $user_model){
         $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = array();
+        $operations = ModuleRegistry::model($package)->operations;
         $context = ModuleRegistry::model($package)->context;
-        $_models = \Sequode\Application\Modules\User\Operations::getOwnedModels($package, $user_model, 'id,name')->all;
+        $models = $operations::getOwnedModels($user_model, 'id,name')->all;
         $html[] = '<div class="automagic-content-area-xsmall-tile-container">';
-        $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.'">'.$headline . count($_models).'</div>';
+        $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.'">'.$headline . count($models).'</div>';
         $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('cards/'.$context.'/my', array($object->id)));
-        foreach($_models as $i => $object){
+        foreach($models as $i => $object){
             $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.$i.'">';
             $html[] = $object->name;
             $html[] = '</div> ';

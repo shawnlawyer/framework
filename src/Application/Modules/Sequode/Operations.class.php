@@ -11,16 +11,19 @@ use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelSetFormInputCo
 use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelSetNameTrait;
 use Sequode\Application\Modules\Sequode\Traits\Operations\ORMModelSetPropertySwitchesTrait;
 
+use Sequode\Application\Modules\Token\Traits\Operations\ORMModelGetOwnedModelsTrait;
+
 class Operations {
     
-    use  ORMModelManageCodeTrait,
-            ORMModelManageSequenceGridTrait,
-            ORMModelManageSequenceIPODataFlowTrait,
-            ORMModelManageSequenceTrait,
-            ORMModelSetDescriptionTrait,
-            ORMModelSetFormInputComponentSettingsTrait,
-            ORMModelSetNameTrait,
-            ORMModelSetPropertySwitchesTrait;
+    use ORMModelManageCodeTrait,
+        ORMModelGetOwnedModelsTrait,
+        ORMModelManageSequenceGridTrait,
+        ORMModelManageSequenceIPODataFlowTrait,
+        ORMModelManageSequenceTrait,
+        ORMModelSetDescriptionTrait,
+        ORMModelSetFormInputComponentSettingsTrait,
+        ORMModelSetNameTrait,
+        ORMModelSetPropertySwitchesTrait;
     
     public static $modeler = Modeler::class;
     public static $kit = Kits\Operations::class;

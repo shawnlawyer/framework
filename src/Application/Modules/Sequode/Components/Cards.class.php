@@ -523,6 +523,7 @@ class Cards {
         $_o->body[] = '';
         $_o->body[] = CardKit::collectionTile($module::$registry_key, 'Sequodes : ', $user_model);
         
+        
         return $_o;
         
     }
