@@ -19,6 +19,7 @@ trait ORMModelCreateTrait {
         $modeler::model()->updateField('1','active');
         
         return $modeler::model();
+        
     }
     
     public static function newGuest(){
@@ -33,6 +34,7 @@ trait ORMModelCreateTrait {
         $modeler::model()->updateField('1','active');
         
         return $modeler::model();
+        
     }
     
 }
