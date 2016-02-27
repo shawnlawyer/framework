@@ -14,12 +14,14 @@ class Cards {
     public static $module = Module::class;
     
     public static function index(){
-        return self::tiles(\Sequode\Application\Modules\Account\Modeler::model());
+        return self::tiles();
     }
-    public static function tiles($user_model=null){
+    public static function tiles(){
         
         $module = static::$module;
-        if($user_model == null ){ $user_model = \Sequode\Application\Modules\Account\Modeler::model(); }
+        
+        $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+        
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->head = 'Sequode';

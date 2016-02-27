@@ -503,6 +503,7 @@ class Cards {
     public static function myTile($user_model=null){
         
         $module = static::$module;
+        $context = $module::model()->context;
         
         if($user_model == null ){
             
@@ -517,7 +518,7 @@ class Cards {
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
         $_o->menu->items =  array();
-        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/sequode/newSequence');
+        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/'.$context.'/newSequence');
         $_o->body = array();
         $_o->body[] = '';
         $_o->body[] = CardKit::collectionTile($module::$registry_key, 'Sequodes : ', $user_model);
