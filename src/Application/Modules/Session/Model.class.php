@@ -1,10 +1,10 @@
 <?php
 
-namespace Sequode\Application\Models\ORM;
+namespace Sequode\Application\Modules\Session;
 
 use Sequode\Model\Database\SQL\ORM;
 
-class Sessions extends ORM {
+class Model extends ORM {
     public $database_connection     =   'sessions_database';
 	public $table                   =	'sessions';
 	public function __construct() {
