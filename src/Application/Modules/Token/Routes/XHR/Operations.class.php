@@ -21,7 +21,7 @@ class Operations {
         forward_static_call_array(array($operations, __FUNCTION__), array(\Sequode\Application\Modules\Account\Modeler::model()->id));
         $js = array();
         $collection = 'tokens';
-        $js[] = DOMElementKitJS::fetchCollection(ModuleRegistry::model($collection, $modeler::model()->id);
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
         $js[] = forward_static_call_array(array(ModuleRegistry::model($xhr_cards, 'details'), array($modeler::model()->id));
         return implode(' ', $js);
     }
