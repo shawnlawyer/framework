@@ -25,13 +25,16 @@ class Cards {
         return $_o;
     }
     public static function menuItems(){
-
-        $_o = array();
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Token', 'operations/token/newPackage');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('My Tokens', 'cards/token/my');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', 'cards/token/search');
         
-        return $_o;
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $context = $module::model($package)->context;
+        
+        $_out = array();
+        $_out[] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', 'cards/token/search');
+        $_out[] = CardKit::onTapEventsXHRCallMenuItem('New Token', 'operations/token/newToken');
+        
+        return $_out;
         
     }
     
@@ -48,10 +51,12 @@ class Cards {
         $context = $module::model($package)->context;
         $models = $operations::getOwnedModels($user_model, $fields)->all;
         $items = array();
-        foreach($models as $model){
-            $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
+        if(count($models) > 0){
+            $items[] = CardKit::onTapEventsXHRCallMenuItem('My Tokens', 'cards/'.$context.'/my');
+            foreach($models as $model){
+                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
+            }
         }
-        
         return $items;
         
     }
