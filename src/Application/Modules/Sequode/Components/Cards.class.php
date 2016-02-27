@@ -28,11 +28,32 @@ class Cards {
     public static function menuItems(){
         $dom_id = FormInputComponent::uniqueHash('','');
         $_o = array();
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/sequode/newSequence');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('My Sequodes','cards/sequode/my');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sequodes','cards/sequode/search');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Favorited Sequodes','cards/sequode/favorites');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/sequode/newSequence');
         return $_o;
+    }
+    public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
+        
+        if($user_model == null ){
+            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+        }
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        $operations = $module::model($package)->operations;
+        $context = $module::model($package)->context;
+        $models = $operations::getOwnedModels($user_model, $fields)->all;
+        $items = array();
+        if(count($models) > 0){
+            $items[] = CardKit::onTapEventsXHRCallMenuItem('My Sequodes', 'cards/'.$context.'/my');
+            foreach($models as $model){
+                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
+            }
+        }
+        return $items;
+        
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){
         $module = static::$module;

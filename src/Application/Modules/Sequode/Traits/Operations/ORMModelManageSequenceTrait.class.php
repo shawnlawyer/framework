@@ -68,7 +68,7 @@ trait ORMModelManageSequenceTrait {
         
     }
     
-    public static function newSequence($owner = 0){
+    public static function newSequence($owner_id = 0){
 
         $modeler = static::$modeler;
         $kit = static::$kit;            
@@ -100,7 +100,7 @@ trait ORMModelManageSequenceTrait {
         $modeler::model()->updateField(json_encode($output_object_detail),'output_object_detail');
         */
         $modeler::model()->updateField('{}','output_object_detail');
-        $modeler::model()->updateField($owner,'owner_id');
+        $modeler::model()->updateField($owner_id,'owner_id');
         $modeler::model()->updateField(0,'safe');
         $modeler::model()->updateField(0,'level');
         $modeler::model()->updateField('{"display_name":"'.$modeler::model()->name.'"}','detail');
