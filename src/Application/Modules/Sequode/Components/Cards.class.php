@@ -22,7 +22,7 @@ class Cards {
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  self::menuItems();
+        $_o->menu->items =  array_merge(self::menuItems(),self::collectionOwnedMenuItems());
         return $_o;
     }
     public static function menuItems(){
