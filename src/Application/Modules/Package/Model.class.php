@@ -1,10 +1,10 @@
 <?php
 
-namespace Sequode\Application\Models\ORM;
+namespace Sequode\Application\Modules\Package;
 
 use Sequode\Model\Database\SQL\ORM;
 
-class Packages extends ORM {
+class Model extends ORM {
     public $database_connection     =   'accounts_database';
 	public $table 					=	'packages';
 	public function __construct() {
