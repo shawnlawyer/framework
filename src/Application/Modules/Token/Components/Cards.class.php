@@ -72,7 +72,7 @@ class Cards {
 		
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/token/details', array($modeler::model()->id));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'cards/token/delete', array($modeler::model()->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'operations/token/delete', array($modeler::model()->id));
         return $_o;
     }
     
