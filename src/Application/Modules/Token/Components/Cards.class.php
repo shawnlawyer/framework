@@ -49,7 +49,7 @@ class Cards {
         $models = $operations::getOwnedModels($user_model, $fields)->all;
         $items = array();
         foreach($models as $model){
-            $items[] = self::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
+            $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
         }
         
         return $items;
