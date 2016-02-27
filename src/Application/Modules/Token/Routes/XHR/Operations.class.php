@@ -22,7 +22,7 @@ class Operations {
         $js = array();
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array(ModuleRegistry::model($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
         return implode(' ', $js);
     }
     public static function updateName($_model_id, $json){ 
