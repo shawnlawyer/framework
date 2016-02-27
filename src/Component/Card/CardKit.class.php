@@ -8,6 +8,19 @@ use Sequode\Component\FormInput\FormInput as FormInputComponent;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class CardKit {
+    public static function collectionMenuItems($package, $headline='', $user_model){
+        $dom_id = FormInputComponent::uniqueHash('','');
+        $html = $js = array();
+        $operations = ModuleRegistry::model($package)->operations;
+        $context = ModuleRegistry::model($package)->context;
+        $models = $operations::getOwnedModels($user_model, 'id,name')->all;
+        $items[] = array();
+        foreach($models as $i => $object){
+            $items[] = self::onTapEventsXHRCallMenuItem($object->name, 'cards/'.$context.'/details', array($object->id));
+        }
+        return $items;
+    }
+    
     public static function collectionTile($package, $headline='', $user_model){
         $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = array();

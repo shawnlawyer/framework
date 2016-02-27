@@ -21,15 +21,39 @@ class Cards {
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  self::menuItems();
+        $_o->menu->items =  array_merge(self::menuItems(),self::menuItems());
         return $_o;
     }
     public static function menuItems(){
+
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Token', 'operations/token/newPackage');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('My Tokens', 'cards/token/my');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', 'cards/token/search');
+        
         return $_o;
+        
+    }
+    
+    public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
+        
+        if($user_model == null ){
+            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+        }
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        $operations = $module::model($package)->operations;
+        $context = $module::model($package)->context;
+        $models = $operations::getOwnedModels($user_model, $fields)->all;
+        $items = array();
+        foreach($models as $model){
+            $items[] = self::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
+        }
+        
+        return $items;
+        
     }
     
     public static function modelOperationsMenuItems($filter='', $_model = null){
