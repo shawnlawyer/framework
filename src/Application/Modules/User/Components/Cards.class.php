@@ -95,7 +95,7 @@ class Cards {
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$modeler::model()->id,'details_route'=>'cards/user/details'));
         
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($modeler::model()->id);
+            $_o->body[] = CardKitHTML::modelId($modeler::model());
         }
         
         return $_o;

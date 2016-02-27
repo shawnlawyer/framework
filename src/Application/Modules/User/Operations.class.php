@@ -10,6 +10,7 @@ use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetLastSignInTrai
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetActiveTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelOwnedModuleModelsTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelFavoritedModuleModelsTrait;
+use Sequode\Application\Modules\User\Traits\Operations\ORMModelSignInTrait;
 use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetRoleTrait;
 
 class Operations {
@@ -23,6 +24,7 @@ class Operations {
         ORMModelSetActiveTrait,
         ORMModelOwnedModuleModelsTrait,
         ORMModelFavoritedModuleModelsTrait,
+        ORMModelSignInTrait,
         ORMModelSetRoleTrait;
     
     public static $modeler = Modeler::class;
