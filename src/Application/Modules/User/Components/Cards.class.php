@@ -43,13 +43,13 @@ class Cards {
         $modeler = $module::model()->modeler;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'),array())
+            ? forward_static_call_array(array($modeler,'model'), array())
             : forward_static_call_array(array($modeler, 'model'), array($_model));
 		
         $_o = array();
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/user/details', array($module::model()->id));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'operations/user/delete', array($module::model()->id));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login As', 'operations/user/loginAs', array($module::model()->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/user/details', array($modeler::model()->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'operations/user/delete', array($modeler::model()->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login As', 'operations/user/loginAs', array($modeler::model()->id));
         
         return $_o;
     }
@@ -59,7 +59,7 @@ class Cards {
         $modeler = $module::model()->modeler;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'),array())
+            ? forward_static_call_array(array($modeler,'model'), array())
             : forward_static_call_array(array($modeler, 'model'), array($_model));
 		
         $_o = (object) null;
@@ -95,7 +95,7 @@ class Cards {
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$modeler::model()->id,'details_route'=>'cards/user/details'));
         
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($module::model());
+            $_o->body[] = CardKitHTML::modelId($modeler::model()->id);
         }
         
         return $_o;
