@@ -48,7 +48,7 @@ class Operations {
         if(!eregi("^([A-Za-z0-9_])*$",$name)){
             return ' alert(\'Token name must be alphanumeric and all spaces will convert to underscore.\');';
         }
-        forward_static_call_array(array(ModuleRegistry::model($operations, __FUNCTION__) , array($name));
+        forward_static_call_array(array($operations, __FUNCTION__) , array($name));
         $js = array();
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
