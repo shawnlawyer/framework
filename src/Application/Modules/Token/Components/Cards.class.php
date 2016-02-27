@@ -62,14 +62,17 @@ class Cards {
     }
     
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        
+    
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        ($_model == null)
+            ? forward_static_call_array(array($modeler,'model'), array())
+            : forward_static_call_array(array($modeler, 'model'), array($_model));
+		
         $_o = array();
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/token/details', array($_model->id));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'cards/token/delete', array($_model->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/token/details', array($modeler::model()->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'cards/token/delete', array($modeler::model()->id));
         return $items;
     }
     
