@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\Token\Traits\Operations;
 
 trait ORMModelCreateTrait {
     
-    public static function newToken($owner_id){
+    public static function newToken($owner_id = 0){
         
         $modeler = static::$modeler;
         

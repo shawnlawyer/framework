@@ -6,7 +6,7 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 
 trait ORMModelGetOwnedModelsTrait {
     
-	public static function getOwnedModels($user_model, $fields='id'){
+	public static function getOwnedModels($user_model, $fields='id',$limit){
         
         $modeler = static::$modeler;
         
