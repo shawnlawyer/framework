@@ -44,7 +44,7 @@ class Cards {
         
         $operations = $module::model($package)->operations;
         $context = $module::model($package)->context;
-        $models = $operations::getOwnedModels($user_model, $fields)->all;
+        $models = $operations::getOwnedModels($user_model, $fields, 10)->all;
         $items = array();
         if(count($models) > 0){
             $items[] = CardKit::onTapEventsXHRCallMenuItem('My Packages', 'cards/'.$context.'/my');
