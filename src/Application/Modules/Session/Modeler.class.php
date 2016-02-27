@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Session;
 
-use Sequode\Application\Models\ORM\Sessions as Model;
+use Sequode\Application\Modules\Session\Model;
 
 class Modeler extends \Sequode\Patterns\Modeler {
     

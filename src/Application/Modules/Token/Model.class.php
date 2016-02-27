@@ -1,10 +1,10 @@
 <?php
 
-namespace Sequode\Application\Models\ORM;
+namespace Sequode\Application\Modules\Token;
 
 use Sequode\Model\Database\SQL\ORM;
 
-class Tokens extends ORM {
+class Model extends ORM {
     public $database_connection     =   'accounts_database';
 	public $table 					=	'tokens';
 	public function __construct() {
