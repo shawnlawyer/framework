@@ -32,7 +32,7 @@ class Collections {
             }
             $where[] = array('field'=>'name','operator'=>$_i->position,'value'=>$_i->search);
             $_model = new $modeler::$model;
-            $_model->getAll($where,'id,name',false, $limit);
+            $_model->getAll($where,'id,name', $limit);
             $results = $_model->all;
             unset($_model);
         }else{
@@ -46,7 +46,7 @@ class Collections {
                 $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
                 
                 $_model = new $modeler::$model;
-                $_model->getAll($where, 'id,name', false, $limit);
+                $_model->getAll($where, 'id,name', $limit);
                 $results = array_merge($results, $_model->all);
                 unset($_model);
             }
@@ -61,7 +61,7 @@ class Collections {
                 $where[] = array('field'=>'shared','operator'=>'=','value'=>'1');
                 
                 $_model = new $modeler::$model;
-                $_model->getAll($where, 'id,name', false, $limit);
+                $_model->getAll($where, 'id,name', $limit);
                 $results = array_merge($results, $_model->all);
                 unset($_model);
             }

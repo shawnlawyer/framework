@@ -10,7 +10,7 @@ class HTML {
         $html[] ='<meta name="description" content="Sequode visual programming tool." ';
         $html[] ='<link rel="icon" href="/favicon.ico" type="image/x-icon" />';
         $html[] ='<link href="/application.css" rel="stylesheet" type="text/css">';
-        $html[] ='<script src="/3rdParty.js" defer="defer"></script>';
+        $html[] ='<script src="/vendor.js" defer="defer"></script>';
         $html[] ='<script src="/application.js" defer="defer"></script>';
         $html[] ='<!--[if lt IE 9]>';
         $html[] ='<script src="http://html5shiv.googlecode.com/svn/trunk/html5.js"></script>';

@@ -3,23 +3,43 @@ namespace Sequode\Component\FormInput;
 
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
+use Sequode\Application\Modules\FormInput\Modeler;
+
+use Sequode\Component\Traits\MergeComponentObjectsTrait;
+use Sequode\Component\Traits\FetchObjectTrait;
 
 class FormInput {
-
+    
+    use MergeComponentObjectsTrait,
+        FetchObjectTrait;
+    
+    public static $modeler = Modeler::class;
+    
 	public static function uniqueHash($seed='',$prefix='SQDE'){
+        
 		$number = explode(" ", microtime());
 		return $prefix.sha1(md5((rand(0,$number[0]) + $number[0] + rand(0,$number[1]) + $number[1])).$number[0].$number[1]);
+        
 	}
+    
 	public static function formatScript($input){
+        
 		return str_replace("\r",'\r',str_replace("\n",'\n',str_replace("'","\'",trim($input))));
+        
 	}
+    
 	public static function formatValue($input){
+        
 		return str_replace("\r",'\r',str_replace("\n",'\n',str_replace('"','\"',trim($input))));
+        
 	}
+    
     public static function select($component){
+        
         $html = $js = $class = $style = array();
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
+        
         if(!is_array($component->Values) && !is_object($component->Values)){
            $component->Values = json_decode(str_replace('.*-"-*.',"\\'",str_replace("'",'"',str_replace("\\'",'.*-"-*.',$component->Values))));
         }
@@ -44,6 +64,7 @@ class FormInput {
         if(isset($component->Width)){   
             $style[] = 'width:'.intval($component->Width).'px;';
         }
+        
         $class = implode(' ',$class);
         $style = implode(' ',$style);
         
@@ -85,9 +106,13 @@ class FormInput {
         
         $output_component->html .= implode(' ',$html);
         $output_component->js .= implode(' ',$js);
+        
         return $output_component;
+        
     }
+    
     public static function password($component){
+        
         $html = $js = $class = $style = array();
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
@@ -125,6 +150,7 @@ class FormInput {
         if(isset($component->Width)){   
             $style[] = 'width:'.intval($component->Width).'px;';
         }
+        
         $class = implode(' ',$class);
         $style = implode(' ',$style);
         
@@ -146,9 +172,13 @@ class FormInput {
         
         $output_component->html .= implode(' ',$html);
         $output_component->js .= implode(' ',$js);
+        
         return $output_component;
+        
 	}
+    
     public static function input($component){
+        
         $html = $js = $class = $style = array();
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
@@ -207,9 +237,13 @@ class FormInput {
         
         $output_component->html .= implode(' ',$html);
         $output_component->js .= implode(' ',$js);
+        
         return $output_component;
+        
 	}
-    public static function textarea($component){	
+    
+    public static function textarea($component){
+        
         $html = $js = $class = $style = array();
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
         $dom_id = '';
@@ -273,14 +307,21 @@ class FormInput {
         
         $output_component->html .= implode(' ',$html);
         $output_component->js .= implode(' ',$js);
+        
         return $output_component;
+        
 	}
+    
     public static function dataBoundSelect($component){
+        
 		$object = new $component->Class_Name;
 		$object->getAll();
         $component->Values = $object->all;
+        
 		return self::select($component);
+        
 	}
+    
 	public static function hiddenInput($component){
         
         $html = array();
@@ -305,18 +346,22 @@ class FormInput {
         $html[] = '>';
         $output_component->html = implode(' ', $html);
         $output_component->js = implode(' ', $js);
+        
         return $output_component;
+        
 	}
+    
     public static function label($component){
+        
         $html = array();
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
         $for_dom_id = $value = '';
-		
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
         if(isset($component->For_Dom_Id)){   
             $for_dom_id = $component->For_Dom_Id;
         }
+        
         if(isset($component->Value)){   
             $value = $component->Value;
         }
@@ -325,9 +370,13 @@ class FormInput {
         $html[] = 'for="'.$for_dom_id.'"';
         $html[] = '>'.$value.'</label>';
         $output_component->html = implode(' ',$html);
+        
         return $output_component;
+        
     }
+    
     public static function divLabel($component){
+        
         $html = array();
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
         $dom_id = $value = '';
@@ -343,13 +392,19 @@ class FormInput {
         $html[] = 'id="'.$dom_id.'"';
         $html[] = '>'.$value.'</div>';
         $output_component->html .= implode(' ',$html);
+        
         return $output_component;
+        
     }
+    
     public static function button($component){	
+    
         $html = $js = $class = $style = array();
+        
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         $value = 'Button';
+        
         if(isset($component->Value)){   
             $value = self::formatValue($component->Value);
         }
@@ -376,9 +431,13 @@ class FormInput {
         
         $output_component->html .= implode(' ',$html);
         $output_component->js .= implode(' ',$js);
+        
         return $output_component;
+        
 	}
+    
     public static function checkbox($component){
+        
         $html = $js = $class = $style = array();
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
         $dom_id = $value = '';
@@ -419,15 +478,18 @@ class FormInput {
         if(isset($component->CSS_Style)){   
             $style[] = self::formatValue($component->CSS_Style);
         }
+        
         $class = implode(' ',$class);
         $style = implode(' ',$style);
         
         if(isset($component->Label) && trim($component->Label) != ''){
+            
             $label_component = (object) null;
             $label_component->Dom_Id = $dom_id.'Label';
             $label_component->For_Dom_Id = $dom_id;
             $label_component->Value = $component->Label;
             $output_component = self::mergeComponents($output_component,self::divLabel($label_component));
+            
         }
         
         $html[] = '<input';
@@ -447,7 +509,9 @@ class FormInput {
         $output_component = self::mergeComponents($output_component,self::label($label_component));
         
         return $output_component;
+        
     }
+    
     public static function checkboxSwitch($component){
         
         $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
@@ -463,10 +527,14 @@ class FormInput {
         $js = array();
         $js[] = '$(\'#'.$checkbox_labeltext_dom_id.'\').html(($(\'#'.$checkbox_dom_id.'\').is(\':checked\')) ? decodeURIComponent(\''.rawurlencode($component->On_Text).'\') : decodeURIComponent(\''.rawurlencode($component->Off_Text).'\'));';
         $js[] = 'document.getElementById(\''.$component->Dom_Id.'\').value = ($(\'#'.$checkbox_dom_id.'\').is(\':checked\')) ? decodeURIComponent(\''.rawurlencode($component->On_Value).'\') : decodeURIComponent(\''.rawurlencode($component->Off_Value).'\');';
+        
         if(isset($component->Value_Changed)){
+            
             $js[] = $component->Value_Changed;
             unset($component->Value_Changed);
+            
         }
+        
         $checkbox_component = clone($component);
         $checkbox_component->Value_Changed = implode(' ',$js);
         $checkbox_component->Dom_Id = $checkbox_dom_id;
@@ -475,36 +543,38 @@ class FormInput {
         $checkbox_component->Checked_Value = $component->On_Value;
         
         $output_component = self::mergeComponents($output_component,self::checkbox($checkbox_component));
+        
         $output_component = self::mergeComponents($output_component,self::hiddenInput($component));
+        
         return $output_component;
+        
     }
-	public static function mergeComponents($component_a, $component_b){
-        foreach($component_b as $member => $value){
-            $component_a->$member = (!isset($component_a->$member)) ? $value : $component_a->$member . $value;
-        }
-        return $component_a;
-    }
-	public static function model($replace = false){
-        static $model;  
-        if(!is_object($model) || ($replace != false && $replace == null)){
-            $model = new \Sequode\Application\Models\ORM\Components;
-        }elseif($replace != false){
-            $model = $replace;
-        }
-        return $model;
-    }
-	public static function exists($value, $by='id'){
-        return (self::model(null)->exists($value,$by)) ? true : false ;
-    }
+    
+    
     public static function render($component_object, $component_model = null){
-        if($component_model != null ){ self::model($component_model); }
-        if($component_object->Component == 'checkboxSwitch' && !isset($component_object->On_Value)){
-            self::exists('checkboxSwitch','name');
-            $component_object = json_decode(self::model()->component_object);
-        }elseif((!isset($component_object->Component) || self::exists($component_object->Component,'name')) && !isset(self::model()->component)){
-            self::exists('str','name');
-            $component_object = json_decode(self::model()->component_object);
+        
+        $modeler = static::$modeler;
+        
+        if($component_model != null ){
+            
+            $modeler::model($component_model);
+            
         }
-		return forward_static_call_array(array(self,self::model()->component), array($component_object));
+        
+        if($component_object->Component == 'checkboxSwitch' && !isset($component_object->On_Value)){
+            
+            $modeler::exists('checkboxSwitch','name');
+            $component_object = json_decode($modeler::model()->component_object);
+            
+        }elseif((!isset($component_object->Component) || $modeler::exists($component_object->Component,'name')) && !isset($modeler::model()->component)){
+    
+            $modeler::exists('str','name');
+            $component_object = json_decode($modeler::model()->component_object);
+            
+        }
+        
+		return forward_static_call_array(array(self, $modeler::model()->component), array($component_object));
+        
     }
+    
 }

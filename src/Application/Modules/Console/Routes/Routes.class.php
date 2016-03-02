@@ -15,23 +15,17 @@ class Routes{
 	public static $merge = false;
 	public static $routes = array(
 		'xhr',
-		'routes',
-		'cards',
-		'operations',
 		'collections',
 		'application.css',
-		'3rdParty.js',
-        'application.js'
+        'application.js',
+		'vendor.js',
 	);
 	public static $routes_to_methods = array(
 		'xhr' => 'xhr',
-		'routes' => 'routes',
-		'cards' => 'cards',
-		'operations' => 'operations',
 		'collections' => 'collections',
 		'application.css' => 'css',
-		'3rdParty.js' => 'vendorJS',
-		'application.js' => 'js'
+		'application.js' => 'js',
+		'vendor.js' => 'vendorJS',
 	);
     public static function index(){
         $console = 'Auth';
@@ -144,15 +138,17 @@ class Routes{
         if(!isset($call_pieces[2])){
             return;
         }
-        $package = ucfirst(strtolower($call_pieces[1]));
-        if(!ModuleRegistry::is($package)){
+        $context = strtolower($call_pieces[1]);
+        $modules_context = ModuleRegistry::modulesContext();
+        if(!array_key_exists($context, $modules_context)){
             return;
         }
+        $module_key = $modules_context[$context];    
         $request_type = $call_pieces[0];
-        if(!isset(ModuleRegistry::model($package)->xhr->$request_type)){
+        if(!isset(ModuleRegistry::model($module_key)->xhr->$request_type)){
             return;
         }
-        $routes_class = ModuleRegistry::model($package)->xhr->$request_type;
+        $routes_class = ModuleRegistry::model($module_key)->xhr->$request_type;
         if(!in_array($call_pieces[2], ApplicationRoutes::routes('\\'.$routes_class))){
             return;
         }
@@ -170,61 +166,57 @@ class Routes{
         echo XHRRequest::call('\\'.$routes_class, $route, $args);
         return true;
     }
+    
 	public static function collections($collection='collections', $key = null){
-        if(!SessionStore::is('console')){return;}
+        
+        if(!SessionStore::is('console')){
+            return;
+        }
+        
         switch(SessionStore::get('console')){
+            
             case 'Sequode':
                 $collections = array('my_sequodes', 'sequode_favorites', 'palette', 'sequodes', 'tokens', 'packages');
                 break;
+                
         }
         
-        switch($collection){
-			case 'packages':
-                \Sequode\Application\Modules\Package\Routes\Collections\Collections::owned();
-                return;
-			case 'tokens':
-               \Sequode\Application\Modules\Token\Routes\Collections\Collections::owned();
-                return;
-			case 'user_search':
-                \Sequode\Application\Modules\User\Routes\Collections::search();
-                return;
-			case 'session_search':
-                \Sequode\Application\Modules\Session\Routes\Collections\Collections::search();
-                return;
-			case 'package_search':
-                \Sequode\Application\Modules\Package\Routes\Collections\Collections::search();
-                return;
-			case 'token_search':
-                \Sequode\Application\Modules\Token\Routes\Collections\Collections::search();
-                return;
-			case 'palette':
-                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::palette();
-                return;
-			case 'sequodes':
-                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::main($key);
-                return;
-			case 'my_sequodes':
-                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::owned();
-                return;
-			case 'sequode_favorites':
-                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::favorited();
-                return;
-			case 'sequode_search':
-                \Sequode\Application\Modules\Sequode\Routes\Collections\Collections::search();
-                return;
-            default:
-			case 'collections':
-                echo '{';
-                echo  "\n";
-                foreach($collections as $loop_key => $collection){
-                    if($loop_key != 0){echo ",\n";}
-                    echo '"'.$collection.'":';
-                    echo self::collections($collection);
+        if ($collection == 'collections'){
+            
+            echo '{';
+            echo  "\n";
+            foreach($collections as $loop_key => $collection){
+                if($loop_key != 0){
+                    echo ",\n";
                 }
+                echo '"'.$collection.'":';
+                echo self::collections($collection);
+            }
+            echo  "\n";
+            echo '}';
+            
+            return;
+            
+        }
+        
+        $modules = ModuleRegistry::models();
+        
+        foreach($modules as $module){
+            
+            if(!empty($module->collections)){
                 
-                echo  "\n";
-                echo '}';
-                return;
-		}
+                if(isset($collection) && in_array($collection, ApplicationRoutes::routes($module->collections))){
+                    
+                    forward_static_call_array(array($module->collections, ApplicationRoutes::route($module->collections, $collection)), ($key != null) ? array($key) : array());
+					return;
+                    
+				}
+                
+            }
+            
+        }
+        
+        return;
+        
 	}
 }

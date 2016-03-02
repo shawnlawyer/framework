@@ -26,7 +26,7 @@ class Collections {
         $where[] = array('field'=> $_i->field,'operator'=>$_i->position,'value'=>$_i->search);
         
         $_model = new $modeler::$model;
-        $_model->getAll($where,'id,username',false, $limit);
+        $_model->getAll($where, 'id,username', $limit);
         $results = $_model->all;
         
         unset($_model);

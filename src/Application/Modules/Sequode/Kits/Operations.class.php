@@ -344,7 +344,7 @@ class Operations{
                     if($type == 'property' && $loop_member == 'Run_Process'){
                         $form_object->$loop_member = json_decode('{"Component":"checkboxSwitch","Label":"Run Process","On_Value":"true","On_Text":"On","Off_Value":"false","Off_Text":"Off","Value":"false"}');
                     }else{
-                        $component = new \Sequode\Application\Models\ORM\Components;
+                        $component = new \Sequode\Application\Modules\FormInput\Model;
                         $component->exists('str','name');
                         $form_object->$loop_member = json_decode($component->component_object);
                         $form_object->$loop_member->Label = $loop_member;

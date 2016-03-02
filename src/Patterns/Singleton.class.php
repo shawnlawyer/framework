@@ -1,5 +1,5 @@
 <?php
-namespace Sequode\Patterns;
+namespace Sequode\Foundation;
 
 abstract class Singleton{
     public static function getInstances($class,$dump=false) {

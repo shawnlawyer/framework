@@ -145,7 +145,7 @@ class ORM {
 		}
 	}
 
-	public function getAll($where='',$fields='*',$singleArray=false,$limit=''){
+	public function getAll($where='', $fields='*', $limit='', $singleArray=false){
 		$sql = "SELECT ".$fields." FROM {$this->table} ";
 		if($where != '' && !is_array($where)){
 			return false;

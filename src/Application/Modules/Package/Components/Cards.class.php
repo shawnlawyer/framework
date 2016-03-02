@@ -16,22 +16,51 @@ use Sequode\Application\Modules\Package\Module;
 class Cards {
     
     public static $module = Module::class;
+    public static $tiles = array('myTile');
     
     public static function menu(){
+        
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  self::menuItems();
+        $_o->menu->items =  array_merge(self::menuItems(),self::collectionOwnedMenuItems());
+        
         return $_o;
+        
     }
     public static function menuItems(){
+        
         $_o = array();
+        
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Packages','cards/package/search');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Package','operations/package/newPackage');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('My Packages','cards/package/my');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sequodes','cards/package/search');
+        
         return $_o;
+        
+    }
+    public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
+        
+        if($user_model == null ){
+            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+        }
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        $operations = $module::model($package)->operations;
+        $context = $module::model($package)->context;
+        $models = $operations::getOwnedModels($user_model, $fields, 10)->all;
+        $items = array();
+        if(count($models) > 0){
+            $items[] = CardKit::onTapEventsXHRCallMenuItem('My Packages', 'cards/'.$context.'/my');
+            foreach($models as $model){
+                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
+            }
+        }
+        return $items;
+        
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){
         
@@ -41,6 +70,7 @@ class Cards {
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details','cards/package/details',array($_model->id));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete','cards/package/delete',array($_model->id));
+        
         return $_o;
     }
     public static function details($_model = null){
@@ -71,9 +101,12 @@ class Cards {
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
+        
         return $_o;
+        
     }
     public static function my(){
+        
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->head = 'My Packages';
@@ -91,7 +124,9 @@ class Cards {
         );
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'packages','icon'=>'atom','card_route'=>'cards/package/my','details_route'=>'cards/package/details'));
+        
         return $_o;
+        
     }
     public static function search(){
         
@@ -116,6 +151,36 @@ class Cards {
         }
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'package_search','icon'=>'atom','card_route'=>'cards/package/search','details_route'=>'cards/package/details'));
+        
         return $_o;
+        
     }
+    
+    public static function myTile($user_model=null){
+        
+        $module = static::$module;
+        $context = $module::model()->context;
+        
+        if($user_model == null ){
+            
+            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+            
+        }
+        
+        $_o = (object) null;
+        $_o->head = 'Sequence Sets';
+        $_o->size = 'xsmall';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'atom-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items =  array();
+        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Set','operations/'.$context.'/newPackage');
+        $_o->body = array();
+        $_o->body[] = '';
+        $_o->body[] = CardKit::collectionTile('Package', 'Sets Created : ', $user_model);
+        
+        return $_o;
+        
+    }
+    
 }

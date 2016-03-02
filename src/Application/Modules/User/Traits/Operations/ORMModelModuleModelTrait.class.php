@@ -24,7 +24,7 @@ trait ORMModelModuleModelTrait {
         if($owner_id != null){
             $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$owner_id);
         }
-        $model->getAll($where,'id',false,1);
+        $model->getAll($where,'id',1);
         $id = false;
         foreach($model->all as $key => $object){
             $id = $object->id;

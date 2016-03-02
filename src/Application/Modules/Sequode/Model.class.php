@@ -1,11 +1,10 @@
 <?php
 
-use Sequode\Application\Models\ORM\Sequodes;
-namespace Sequode\Application\Models\ORM;
+namespace Sequode\Application\Modules\Sequode;
 
 use Sequode\Model\Database\SQL\ORM;
 
-class Sequodes extends ORM {
+class Model extends ORM {
     public $database_connection     =   'sequodes_database';
 	public $table 					=	'sequodes';
 	public $usage_types				=	array(0=>'code',1=>'sequence',2=>'set');

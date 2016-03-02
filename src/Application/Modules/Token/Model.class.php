@@ -1,12 +1,12 @@
 <?php
 
-namespace Sequode\Application\Models\ORM;
+namespace Sequode\Application\Modules\Token;
 
 use Sequode\Model\Database\SQL\ORM;
 
-class Packages extends ORM {
+class Model extends ORM {
     public $database_connection     =   'accounts_database';
-	public $table 					=	'packages';
+	public $table 					=	'tokens';
 	public function __construct() {
 		parent::__construct();
 		return true;
@@ -14,14 +14,12 @@ class Packages extends ORM {
 	public function create(){
 		$sql = "
 			INSERT INTO {$this->table}
-		 	(`id`,`sequode_id`,`owner_id`,`name`,`token`,`routes`)
+		 	(`id`,`owner_id`,`name`,`token`)
 			VALUES
 		 	(''
 			,0
-			,0
-			,'New Package'
-            ,".$this->safedSQLData(sha1(substr(md5(uniqid(rand(), true)), 0, 25)), 'text')."
-            ,'{}'
+			,'New Token'
+            ,".$this->safedSQLData('TOK' . sha1(microtime().uniqid(rand(), true)), 'text')."
             )
 			";
 		$this->database->query($sql);

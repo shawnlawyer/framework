@@ -3,7 +3,6 @@
 namespace Sequode\Application\Modules\Package\Routes\Collections;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-use Sequode\Model\Module\Registry as ModuleRegistry;
 
 use Sequode\Application\Modules\Package\Module;
 
@@ -11,20 +10,14 @@ class Collections{
     
     public static $module = Module::class;
     
-	public static $merge = true;
+	public static $merge = false;
 	public static $routes = array(
 		'packages',
-		'my',
-		'my_packages',
 		'package_search',
-		'package_favorites'
 	);
 	public static $routes_to_methods = array(
 		'packages' => 'owned',
-		'my' => 'owned',
-		'my_packages' => 'owned',
 		'package_search' => 'search',
-		'package_favorites' => 'favorited'
 	);
 	public static function owned(){
         

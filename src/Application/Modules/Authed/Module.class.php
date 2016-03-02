@@ -8,7 +8,7 @@ class Module {
     public static $modeler = Modeler::class;
 	public static function model(){
         $_o = (object)  array (
-            'context' => 'auth',
+            'context' => 'authed',
             'modeler' => Modeler::class,
             'components' => (object) array (
                 'cards' => Components\Cards::class,

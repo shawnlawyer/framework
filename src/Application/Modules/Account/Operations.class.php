@@ -10,11 +10,11 @@ use Sequode\Application\Modules\User\Traits\Operations\ORMModelSetEmailTrait;
 
 class Operations {
     
-    use  ORMModelOwnedModuleModelsTrait,
-            ORMModelSetNameTrait,
-            ORMModelSetPasswordTrait,
-            ORMModelSetEmailTrait,
-            ORMModelFavoritedModuleModelsTrait;
+    use ORMModelOwnedModuleModelsTrait,
+        ORMModelSetNameTrait,
+        ORMModelSetPasswordTrait,
+        ORMModelSetEmailTrait,
+        ORMModelFavoritedModuleModelsTrait;
     
     public static $modeler = Modeler::class;
     

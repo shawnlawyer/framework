@@ -25,7 +25,7 @@ trait ORMModelSetFormInputComponentSettingsTrait {
         }
         
 		$form_object = json_decode($modeler::model()->$object_member);
-		$component = new \Sequode\Application\Models\ORM\Components;
+		$component = new \Sequode\Application\Modules\FormInput\Model;
 		if(!$component->exists($input_object->Component,'name')){
             
             $component->exists('str','name');

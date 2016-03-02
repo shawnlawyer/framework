@@ -14,23 +14,46 @@ use Sequode\Application\Modules\Sequode\Module;
 
 class Cards {
     public static $module = Module::class;
+    public static $tiles = array('myTile');
+    
     public static function menu(){
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  self::menuItems();
+        $_o->menu->items =  array_merge(self::menuItems(),self::collectionOwnedMenuItems());
         return $_o;
     }
     public static function menuItems(){
         $dom_id = FormInputComponent::uniqueHash('','');
         $_o = array();
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/sequode/newSequence');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('My Sequodes','cards/sequode/my');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sequodes','cards/sequode/search');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Favorited Sequodes','cards/sequode/favorites');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/sequode/newSequence');
         return $_o;
+    }
+    public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
+        
+        if($user_model == null ){
+            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+        }
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
+        $operations = $module::model($package)->operations;
+        $context = $module::model($package)->context;
+        $models = $operations::getOwnedModels($user_model, $fields, 10)->all;
+        $items = array();
+        if(count($models) > 0){
+            $items[] = CardKit::onTapEventsXHRCallMenuItem('My Sequodes', 'cards/'.$context.'/my');
+            foreach($models as $model){
+                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
+            }
+        }
+        return $items;
+        
     }
     public static function modelOperationsMenuItems($filter='', $_model = null){
         $module = static::$module;
@@ -493,6 +516,34 @@ class Cards {
         
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'sequode_favorites','icon'=>'sequode','card_route'=>'cards/sequode/favorites','details_route'=>'cards/sequode/details'));
+        
+        return $_o;
+        
+    }
+    
+    public static function myTile($user_model=null){
+        
+        $module = static::$module;
+        $context = $module::model()->context;
+        
+        if($user_model == null ){
+            
+            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+            
+        }
+        
+        $_o = (object) null;
+        $_o->head = 'Sequodes';
+        $_o->size = 'xsmall';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'sequode-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items =  array();
+        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/'.$context.'/newSequence');
+        $_o->body = array();
+        $_o->body[] = '';
+        $_o->body[] = CardKit::collectionTile($module::$registry_key, 'Sequodes : ', $user_model);
+        
         
         return $_o;
         

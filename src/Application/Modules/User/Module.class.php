@@ -9,12 +9,14 @@ class Module {
             'context' => 'user',
             'modeler' => Modeler::class,
             'components' => (object) array (
+                'form_inputs' => Components\FormInputs::class,
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
             ),
             'operations' => Operations::class,
+            'authority' => Authority::class,
             'finder' => Collections::class,
-            'collections' => Routes\Collections::class,
+            'collections' => Routes\Collections\Collections::class,
             'xhr' => (object) array (
                 'operations' => Routes\XHR\Operations::class,
                 'forms' => Routes\XHR\Forms::class,

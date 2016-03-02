@@ -3,24 +3,25 @@
 namespace Sequode\Application\Modules\Sequode\Routes\Collections;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-use Sequode\Model\Module\Registry as ModuleRegistry;
 
 use Sequode\Application\Modules\Sequode\Module;
 
 class Collections{
     public static $module = Module::class;
-	public static $merge = true;
+	public static $merge = false;
 	public static $routes = array(
 		'sequodes',
 		'my_sequodes',
 		'sequode_search',
-		'sequode_favorites'
+		'sequode_favorites',
+		'palette',
 	);
 	public static $routes_to_methods = array(
 		'sequodes' => 'main',
 		'my_sequodes' => 'owned',
 		'sequode_search' => 'search',
-		'sequode_favorites' => 'favorited'
+		'sequode_favorites' => 'favorited',
+		'palette' => 'palette',
 	);
 	public static function main($key = null){
         

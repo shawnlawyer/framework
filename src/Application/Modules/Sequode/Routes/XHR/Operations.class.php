@@ -66,11 +66,13 @@ class Operations {
                 return;
         }
         $previous_form_object = json_decode($modeler::model()->$model_member);
-        forward_static_call_array($operations, __FUNCTION__), array($type, $member, $form_member_object));
+        forward_static_call_array(array($operations, __FUNCTION__), array($type, $member, $form_member_object));
         if($previous_form_object->$member->Component != $form_member_object->Component){
+            
             $js = array();
             $js[] = 'new XHRCall({route:"forms/sequode/componentSettings",inputs:[\''.$type.'\', \''.$member.'\', '.$modeler::model()->id.', \''.$dom_id.'\']});';
 			return implode(' ',$js);
+            
         }
     }
     public static function cloneSequence($_model_id){
@@ -304,7 +306,7 @@ class Operations {
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
         && \Sequode\Application\Modules\Account\Authority::canEdit()
         )){ return; }
-        forward_static_call_array(array(ModuleRegistry::model($operations, __FUNCTION__), array($receiver_type, $transmitter_key, $receiver_key));
+        forward_static_call_array(array($operations, __FUNCTION__), array($receiver_type, $transmitter_key, $receiver_key));
 		return;
 	}
 	public static function addExternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){

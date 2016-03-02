@@ -144,9 +144,10 @@ class Operations {
         
     }
     public static function search($json){
+        $module = static::$module;  
         $_o = json_decode(stripslashes($json));
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
-        $collection = 'user_search';
+        $collection = $module::model()->context . '_' . __FUNCTION__;
         SessionStore::set($collection, $_o);
 		$js=array();
         $js[] = DOMElementKitJS::fetchCollection($collection);

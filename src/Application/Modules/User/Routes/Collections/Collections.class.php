@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\User\Routes\Collectons;
+namespace Sequode\Application\Modules\User\Routes\Collections;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
@@ -11,7 +11,7 @@ class Collections{
     
     public static $module = Module::class;
     
-	public static $merge = true;
+	public static $merge = false;
 	public static $routes = array(
 		'user_search'
 	);

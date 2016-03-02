@@ -21,6 +21,13 @@ class Registry {
         
     }
     
+    public static function clear(){
+        
+        self::container('clear');
+        
+        return true;
+    }
+    
     public static function model($key){
         
         $module = self::container('get', $key);
@@ -43,11 +50,35 @@ class Registry {
         return $_o;
         
     }
+        
+    public static function module($key){
+        
+        return self::container('get', $key);
+        
+    }
     
-    public static function clear(){
+    public static function modules(){
         
-        self::container('clear');
+        return self::container('getAll');
         
-        return true;
+    }
+    
+    public static function modulesContext(){
+        
+        $modules = self::container('getAll');
+        
+        $_o = array();
+        foreach($modules as $key => $module){
+            
+            if(isset($module::model()->context)){
+                
+                $_o[$module::model()->context] = $key;
+                
+            }
+            
+        }
+        
+        return $_o;
+        
     }
 }

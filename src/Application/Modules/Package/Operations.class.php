@@ -8,14 +8,17 @@ use Sequode\Application\Modules\Package\Traits\Operations\ORMModelSetNameTrait;
 use Sequode\Application\Modules\Package\Traits\Operations\ORMModelSetPropertiesTrait;
 use Sequode\Application\Modules\Package\Traits\Operations\ORMModelExportSequenceSetTrait;
 
+use Sequode\Application\Modules\Token\Traits\Operations\ORMModelGetOwnedModelsTrait;
+
 
 class Operations {
     
-    use  ORMModelCreateTrait,
-            ORMModelDeleteTrait,
-            ORMModelSetNameTrait,
-            ORMModelSetPropertiesTrait,
-            ORMModelExportSequenceSetTrait;
+    use ORMModelCreateTrait,
+        ORMModelDeleteTrait,
+        ORMModelGetOwnedModelsTrait,
+        ORMModelSetNameTrait,
+        ORMModelSetPropertiesTrait,
+        ORMModelExportSequenceSetTrait;
 
     public static $modeler = Modeler::class;
     

@@ -11,6 +11,7 @@ class Module {
             'collections' => Routes\Collections\Collections::class,
             'modeler' => Modeler::class,
             'components' => (object) array (
+                'form_inputs' => Components\FormInputs::class,
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
             ),

@@ -21,8 +21,8 @@ class Operations {
         forward_static_call_array(array($operations, __FUNCTION__), array(\Sequode\Application\Modules\Account\Modeler::model()->id));
         $js = array();
         $collection = 'tokens';
-        $js[] = DOMElementKitJS::fetchCollection(ModuleRegistry::model($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array(ModuleRegistry::model($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
         return implode(' ', $js);
     }
     public static function updateName($_model_id, $json){ 
@@ -48,7 +48,7 @@ class Operations {
         if(!eregi("^([A-Za-z0-9_])*$",$name)){
             return ' alert(\'Token name must be alphanumeric and all spaces will convert to underscore.\');';
         }
-        forward_static_call_array(array(ModuleRegistry::model($operations, __FUNCTION__) , array($name));
+        forward_static_call_array(array($operations, __FUNCTION__) , array($name));
         $js = array();
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);

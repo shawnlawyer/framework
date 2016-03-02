@@ -16,18 +16,24 @@ class Cards {
     public static $module = Module::class;
     
     public static function menu(){
+        
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'session-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
         $_o->menu->items =  self::menuItems();
+        
         return $_o;
+        
     }
     public static function menuItems(){
+        
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sessions','cards/session/search');
+        
         return $_o;
+        
     }
     public static function details($_model=null){
         
@@ -42,7 +48,6 @@ class Cards {
         $_o->icon_background = 'session-icon-background';
         $_o->menu = (object) null;
         $_o->menu->items =  array();
-        
         
         $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session','cards/session/delete',array($_model->id));
         
@@ -96,7 +101,9 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Last Sign In');
         $_o->body[] = CardKit::deleteInCollection((object) array('route'=>'operations/session/delete','model_id'=>$_model->id));
         $_o->body[] = CardKitHTML::modelId($_model);
+        
         return $_o;
+        
     }
     public static function search($_model = null){
         
@@ -123,6 +130,8 @@ class Cards {
         }
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'session_search','icon'=>'atom','card_route'=>'cards/session/search','details_route'=>'cards/session/details'));
+        
         return $_o;
+        
     }
 }

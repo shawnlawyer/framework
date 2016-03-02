@@ -19,10 +19,12 @@ class Operations {
 		'login' => 'login'
     );
     public static function login($json = null){
-        
+               
         $module = static::$module;
-        $dialog = $module::model()->xhr->dialogs[__FUNCTION__];
-        if(!SessionStore::is($dialog['session_store_key'])){ return; }
+        $dialogs = $module::model()->components->dialogs;
+        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
+        
+        if(!SessionStore::is($dialog->session_store_key)){ return; }
         $xhr_cards = $module::model()->xhr->cards;
         $operations_xhr = $module::model()->xhr->operations;
         $operations = $module::model()->operations;
@@ -30,12 +32,12 @@ class Operations {
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
-                    SessionStore::set($dialog['session_store_key'], $dialog['session_store_setup']);
-                    return forward_static_call_array(array($xhr_cards,__FUNCTION__),array());  
+                    SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
+                    return forward_static_call_array(array($xhr_cards, __FUNCTION__), array());  
                 }
         }
-        $dialog_store = SessionStore::get($dialog['session_store_key']);
-        $dialog_step = $dialog['steps'][$dialog_store->step];
+        $dialog_store = SessionStore::get($dialog->session_store_key);
+        $dialog_step = $dialog->steps[$dialog_store->step];
         if(isset($dialog_step->prep) && $dialog_step->prep == true){
             if(isset($dialog_step->required_members)){
                 foreach($dialog_step->required_members as $m){
@@ -52,7 +54,7 @@ class Operations {
                     && \Sequode\Application\Modules\Account\Authority::isActive($modeler::model())
                     ){
                         $dialog_store->prep->user_id = $modeler::model()->id;
-                        SessionStore::set($dialog['session_store_key'], $dialog_store);
+                        SessionStore::set($dialog->session_store_key, $dialog_store);
                     }
                     else
                     {
@@ -74,16 +76,14 @@ class Operations {
             }
         }
         if(isset($dialog_step->operation) && is_array($_a)){
-            if(!(forward_static_call_array(array($operations, $dialog_step->operation),$_a))){
+            if(!(forward_static_call_array(array($operations, $dialog_step->operation), $_a))){
                 $error = 3;
             }
         }
         if(!isset($error)){
             $dialog_store->step++;
-            SessionStore::set($dialog['session_store_key'], $dialog_store);
+            SessionStore::set($dialog->session_store_key, $dialog_store);
             return (intval($dialog_store->step) == 2) ? \Sequode\Application\Modules\Console\Routes\Routes::js(false) : forward_static_call_array(array($xhr_cards,__FUNCTION__),array());
-        }else{
-                echo $error;
         }
     }
 }
