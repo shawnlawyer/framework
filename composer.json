@@ -1,0 +1,24 @@
+{
+    "name": "sequode/framework",
+    "description": "Sequode PHP Sequencing Framework",
+    "keywords": ["framework", "sequode"],
+    "license": "MIT",
+    "homepage": "http://sequode.com",
+    "support": {
+        "source": "https://github.com/shawnlawyer/framework"
+    },
+    "authors": [
+        {
+            "name": "Shawn Lawyer",
+            "email": "shawnlawyer@gmail.com"
+        }
+    ],
+    "require": {
+        "php": ">=5.5.9",
+    }
+    "autoload": {
+        "psr-4": {
+            "Sequode\\": "src/"
+        }
+    }
+}
