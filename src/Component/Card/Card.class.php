@@ -4,6 +4,7 @@ namespace Sequode\Component\Card;
 use Sequode\Component\Traits\FetchObjectTrait;
 
 class Card {
+    
     use FetchObjectTrait;
     
     public static function cardMenuComponent($menu_object){

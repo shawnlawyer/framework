@@ -1,7 +1,7 @@
 <?php
 namespace Sequode\Component\Traits;
 
-class MergeComponentObjectsTrait {
+trait MergeComponentObjectsTrait {
     
 	public static function mergeComponents($component_a, $component_b){
         
