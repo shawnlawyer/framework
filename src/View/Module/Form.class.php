@@ -11,7 +11,9 @@ class Form {
         
         $component_source = ModuleRegistry::model($registry_key)->components->forms;
         
-		return FormComponent::render($component_source, $component, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters);
+        $component_object = FormComponent::fetchObject($component_source, $component, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters);
+        
+		return FormComponent::render($component_object);
         
 	}
     

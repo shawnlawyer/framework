@@ -10,7 +10,9 @@ class Card {
         
         $component_source = ModuleRegistry::model($registry_key)->components->cards;
         
-		return CardComponent::render($component_source, $component, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters );
+        $component_object = CardComponent::fetchObject($component_source, $component, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters 
+        
+		return CardComponent::render($component_object);
         
 	}
     
