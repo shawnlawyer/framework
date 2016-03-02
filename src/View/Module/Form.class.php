@@ -11,7 +11,7 @@ class Form {
         
         $component_source = ModuleRegistry::model($registry_key)->components->forms;
         
-		return CardComponent::render($component_source, $component, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters));
+		return FormComponent::render($component_source, $component, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters);
         
 	}
     
