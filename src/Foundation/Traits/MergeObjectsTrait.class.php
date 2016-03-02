@@ -5,14 +5,7 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Application\Modules\FormInput\Modeler;
 
-use Sequode\Component\Traits\MergeComponentObjectsTrait;
-use Sequode\Component\Traits\FetchObjectTrait;
-
 class FormInput {
-    
-    use MergeComponentObjectsTrait,
-        FetchObjectTrait;
-    
     public static $modeler = Modeler::class;
     
 	public static function uniqueHash($seed='',$prefix='SQDE'){
@@ -550,6 +543,17 @@ class FormInput {
         
     }
     
+	public static function mergeComponents($component_a, $component_b){
+        
+        foreach($component_b as $member => $value){
+            
+            $component_a->$member = (!isset($component_a->$member)) ? $value : $component_a->$member . $value;
+            
+        }
+        
+        return $component_a;
+        
+    }
     
     public static function render($component_object, $component_model = null){
         

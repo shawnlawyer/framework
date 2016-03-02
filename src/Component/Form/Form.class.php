@@ -1,15 +1,15 @@
 <?php
 namespace Sequode\Component\Form;
 
-use Sequode\Patterns\Mason;
 
 
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
+use Sequode\Component\Traits\FetchObjectTrait;
 
-class Form extends Mason {
+class Form {
     
-    public static $mason = 'form';
+    use FetchObjectTrait;
     
     public static $collection_replacement_hook = '[%COLLECTION_JS%]';
     

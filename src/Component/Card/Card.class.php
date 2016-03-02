@@ -1,12 +1,12 @@
 <?php
 namespace Sequode\Component\Card;
 
-use Sequode\Patterns\Mason;
+use Sequode\Component\Traits\FetchObjectTrait;
 
 class Card extends Mason {
-    public static $mason = 'card';
-
+    
    public static function cardMenuComponent($menu_object){
+       
         $html = $js = array();
         $position_adjuster = (isset($menu_object->position_adjuster)) ? ' '.$menu_object->position_adjuster : '';
 
@@ -31,14 +31,19 @@ class Card extends Mason {
         }
         $html[] = '</div>';
         $html[] = '</div>';
+        
         return (object) array('html' => implode('',$html), 'js' => implode(' ',$js));
+        
 	}
     public static function cardBodyContentComponent($body_components ,$seperator=''){
+        
         if(!is_array($body_components)){
             $body_components = array($body_components);
         }
+        
         $html = array();
         $js = array();
+        
         if(count($body_components) > 1){
             foreach($body_components as $component){
                 if(is_object($component)){
@@ -66,15 +71,20 @@ class Card extends Mason {
                 $html[] = $body_components[0];
             }
         }
+        
         return (object) array('html' => implode('',$html), 'js' => implode(' ',$js));
+        
 	}
     public static function render($card_object){
+        
         $html = array();
         $js = array();
         $html[] = '<div class="automagic-card">';
+        
         if(!isset($card_object->component_seperator)){
             $card_object->component_seperator = '<div class="automagic-content-row-divider"></div>';
         }
+        
         if(isset($card_object->head) || isset($card_object->menu)){
             $html[] = '<div class="automagic-card-head"';
             $html[] = (isset($card_object->size) && $card_object->size == 'fullscreen') ? ' style="position:fixed !important; left: 2.1em !important; top: 0 !important; padding: .3em .3em !important; height:0px !important; overflow:visible !important; vertical-align: bottom;"' : '';
@@ -107,6 +117,7 @@ class Card extends Mason {
             }
             $html[] = '</div>';
         }
+        
         if(isset($card_object->body)){
             $body_component = self::cardBodyContentComponent($card_object->body, $card_object->component_seperator);
             if(is_object($body_component)){
@@ -125,6 +136,8 @@ class Card extends Mason {
             }
         }
         $html[] = '</div>';
+        
         return (object) array('html' => implode('',$html), 'js' => implode('',$js));
+        
     }
 }

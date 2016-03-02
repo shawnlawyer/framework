@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\Session;
 
 use Sequode\Application\Modules\Session\Model;
 
-class Modeler extends \Sequode\Patterns\Modeler {
+class Modeler extends \Sequode\Foundation\Modeler {
     
     public static $model = Model::class;
     
