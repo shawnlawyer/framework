@@ -2,7 +2,7 @@
 
 namespace Sequode\Component\Traits;
 
-class FetchObjectTrait {
+trait FetchObjectTrait {
 
     public static function fetchObject($class, $method, $parameters = null){
         
