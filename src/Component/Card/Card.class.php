@@ -4,8 +4,9 @@ namespace Sequode\Component\Card;
 use Sequode\Component\Traits\FetchObjectTrait;
 
 class Card {
+    use FetchObjectTrait;
     
-   public static function cardMenuComponent($menu_object){
+    public static function cardMenuComponent($menu_object){
        
         $html = $js = array();
         $position_adjuster = (isset($menu_object->position_adjuster)) ? ' '.$menu_object->position_adjuster : '';
