@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\FormInputs\Model;
+namespace Sequode\Application\Modules\FormInput;
 
 use Sequode\Model\Database\SQL\ORM;
 
