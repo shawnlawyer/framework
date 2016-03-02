@@ -2,11 +2,17 @@
 namespace Sequode\Component\Form;
 
 use Sequode\Patterns\Mason;
+
+
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 
 class Form extends Mason {
+    
     public static $mason = 'form';
+    
     public static $collection_replacement_hook = '[%COLLECTION_JS%]';
+    
 	public static function domIds($_i){
         $dom_ids = array();
         if(is_object($_i)){
@@ -16,6 +22,7 @@ class Form extends Mason {
         }
         return $dom_ids;
 	}
+    
 	public static function xhrCall($route, $inputs){
         $js = array();
         $js[] = 'new XHRCall({';
@@ -26,13 +33,17 @@ class Form extends Mason {
         $js[] = '});';
         return implode('',$js);
 	}
+    
 	public static function xhrCallRoute($context, $channel, $route){        
         return $channel .'/'. $context .'/'. $route;
 	}
+    
 	public static function jsQuotedValue($value=''){
         return '\''. $value .'\'';
 	}
+    
 	public static function collectValues($form_object, $dom_ids){
+        
         $js = array();
         $js[] = "''";
         if(is_object($form_object)){
@@ -51,29 +62,40 @@ class Form extends Mason {
             $js[] = 'return d;';
             $js[] = '}())';
         }
+        
         return implode(' ',$js);
+        
 	}
 	public static function registerTimeout($variable_name, $javascript, $milliseconds=0){
+        
         $js = array();
         $js[] = 'registry.timeout(\''.$variable_name.'\', function(){';
         $js[] = $javascript;
         $js[] = 'registry.timeouts[\''.$variable_name.'\'] = null; },'.$milliseconds.');';
+        
         return implode(' ',$js);
+        
 	}
 	public static function enterPressed($javascript){
+        
         $js = array();
         $js[] = 'if (event.keyCode == 13){';
         $js[] = $javascript;
         $js[] = '}';
         return implode(' ',$js);
+        
 	}
 	public static function attachComponentObjectEvents($component_object, $js_events_object){
+        
         foreach($js_events_object as $member => $value){
             $component_object->$member = $value;
         }
 		return $component_object;
+        
 	}
+    
 	public static function renderFormInputs($form_object, $dom_ids, $js_events_array){
+        
 		$components_array = array();
 		$i = $j = 0;
         foreach($form_object as $member => $component_object){
@@ -88,7 +110,9 @@ class Form extends Mason {
 		}
 		return $components_array;
 	}
+    
     public static function render($_i){
+        
         $timeout_var_name = FormInputComponent::uniqueHash();
 		$dom_ids = self::domIds($_i->form_inputs);
         $js_event = (object) null;
@@ -111,12 +135,12 @@ class Form extends Mason {
         $components_array = self::renderFormInputs($_i->form_inputs, $dom_ids, array($js_event));
         
         if($_i->submit_button != null){
-            FormInputComponent::exists('button','name');
-            $button_component = json_decode(FormInputComponent::model()->component_object);
+            FormInputModeler::exists('button','name');
+            $button_component = json_decode(FormInputModeler::model()->component_object);
             $button_component->Value = $_i->submit_button;
             $button_component->CSS_Class = 'btn';
             $button_component->On_Click = self::registerTimeout($timeout_var_name, $submit_js);
-            $components_array[] = FormInputComponent::render($button_component);
+            $components_array[] = FormInputModeler::render($button_component);
         }
 		return $components_array;
 	}

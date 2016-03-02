@@ -19,19 +19,26 @@ class Cards {
     public static $tiles = array('myTile');
     
     public static function menu(){
+        
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
         $_o->menu->items =  array_merge(self::menuItems(),self::collectionOwnedMenuItems());
+        
         return $_o;
+        
     }
     public static function menuItems(){
+        
         $_o = array();
+        
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Packages','cards/package/search');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Package','operations/package/newPackage');
+        
         return $_o;
+        
     }
     public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
         
@@ -63,6 +70,7 @@ class Cards {
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details','cards/package/details',array($_model->id));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete','cards/package/delete',array($_model->id));
+        
         return $_o;
     }
     public static function details($_model = null){
@@ -93,9 +101,12 @@ class Cards {
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
+        
         return $_o;
+        
     }
     public static function my(){
+        
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->head = 'My Packages';
@@ -113,7 +124,9 @@ class Cards {
         );
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'packages','icon'=>'atom','card_route'=>'cards/package/my','details_route'=>'cards/package/details'));
+        
         return $_o;
+        
     }
     public static function search(){
         

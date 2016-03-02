@@ -1,16 +1,18 @@
 <?php
 
-namespace Sequode\Application\Models\ORM;
+namespace Sequode\Application\Modules\FormInputs\Model;
 
 use Sequode\Model\Database\SQL\ORM;
 
-class Components extends ORM {
+class Model extends ORM {
+    
     public $database_connection     =   'system_database';
 	public $table 				    =	'components';
 	public function __construct() {
 		parent::__construct();
 		return true;
 	}
+    
 	public function create($name, $printable_name, $usage_type){
 		$sql = "
 			INSERT INTO {$this->table}
@@ -24,4 +26,5 @@ class Components extends ORM {
 		$this->id = $this->database->insertId;
 		return true;
 	}
+    
 }

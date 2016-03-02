@@ -43,7 +43,6 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items =  array();
         
-        
         $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session','cards/session/delete',array($_model->id));
         
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/session/details'));

@@ -2,8 +2,7 @@
 
 namespace Sequode\Application\Modules\Package\Components;
 
-use Sequode\Component\FormInput\FormInput as FormInputComponent;
-use Sequode\Model\Module\Registry as ModuleRegistry;
+use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 
 use Sequode\Application\Modules\Package\Module;
 
@@ -18,8 +17,8 @@ class FormInputs {
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
         $_o = (object) null;
         
-        FormInputComponent::exists('str','name');
-        $_o->name = json_decode(FormInputComponent::model()->component_object);
+        FormInputModeler::exists('str','name');
+        $_o->name = json_decode(FormInputModeler::model()->component_object);
         $_o->name->Label = '';
         $_o->name->Value = $_model->name;
         $_o->name->Width = 200;
@@ -31,15 +30,15 @@ class FormInputs {
         
         $_o = (object) null;
         
-        FormInputComponent::exists('str','name');
-        $_o->search = json_decode(FormInputComponent::model()->component_object);
+        FormInputModeler::exists('str','name');
+        $_o->search = json_decode(FormInputModeler::model()->component_object);
         $_o->search->Label = '';
         $_o->search->Value = '';
         $_o->search->Width = 200;
         $_o->search->CSS_Class = 'focus-input';
         
-        FormInputComponent::exists('select','name');
-        $_o->position = json_decode(FormInputComponent::model()->component_object);
+        FormInputModeler::exists('select','name');
+        $_o->position = json_decode(FormInputModeler::model()->component_object);
         $_o->position->Label = '';
         $_o->position->Values = "[{'value':'=%','printable':'Starts With'},{'value':'%=%','printable':'Contains'},{'value':'%=','printable':'Ends With'},{'value':'=','printable':'Exact'}]";
         $_o->position->Value = '=%';
@@ -75,8 +74,8 @@ class FormInputs {
         foreach( $sequodes_model->all as $object){
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
         }
-        FormInputComponent::exists('select','name');
-        $_o->sequode = json_decode(FormInputComponent::model()->component_object);
+        FormInputModeler::exists('select','name');
+        $_o->sequode = json_decode(FormInputModeler::model()->component_object);
         $_o->sequode->Label = '';
         $_o->sequode->Values = '[' . implode(',',$values) . ']';
         $_o->sequode->Value = $_model->sequode_id;
