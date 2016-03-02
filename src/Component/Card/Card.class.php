@@ -3,7 +3,7 @@ namespace Sequode\Component\Card;
 
 use Sequode\Component\Traits\FetchObjectTrait;
 
-class Card extends Mason {
+class Card {
     
    public static function cardMenuComponent($menu_object){
        
