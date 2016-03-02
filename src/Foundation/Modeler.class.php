@@ -1,7 +1,7 @@
 <?php
 namespace Sequode\Foundation;
 
-class Modeler extends Sequode\Foundation\Singleton {
+class Modeler extends Singleton {
     
 	public static function model($replace = false){
         
