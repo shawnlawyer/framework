@@ -140,7 +140,7 @@ class Form extends Mason {
             $button_component->Value = $_i->submit_button;
             $button_component->CSS_Class = 'btn';
             $button_component->On_Click = self::registerTimeout($timeout_var_name, $submit_js);
-            $components_array[] = FormInputModeler::render($button_component);
+            $components_array[] = FormInputComponent::render($button_component);
         }
 		return $components_array;
 	}
