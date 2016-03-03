@@ -8,10 +8,10 @@ trait ORMModelExportSequenceSetTrait {
     
     public static function download(){
         $used_ids = array();
-        $package_sequode_model_ids = array_unique(json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->sequence));
+        $sequence_set_model_ids = array_unique(json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->sequence));
         
 		$sequode_model = new \Sequode\Application\Modules\Sequode\Modeler::$model;
-        foreach($package_sequode_model_ids as $id){
+        foreach($sequence_set_model_ids as $id){
             $used_ids[] = $id;
             $sequode_model->exists($id,'id');
             $used_ids = array_merge($used_ids, json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->sequence));
@@ -31,7 +31,7 @@ trait ORMModelExportSequenceSetTrait {
         
         $name_to_id = array();
         foreach($sequode_model->all as $key => $object){
-            if(in_array($object->id, $package_sequode_model_ids)){
+            if(in_array($object->id, $sequence_set_model_ids)){
                 $name_to_id[$object->name] = $object->id;
             }
         }
@@ -88,41 +88,19 @@ trait ORMModelExportSequenceSetTrait {
         
         $_o = '<?php
 class ' . \Sequode\Application\Modules\Package\Modeler::model()->name . ' {
-    public static $name = \'' . \Sequode\Application\Modules\Package\Modeler::model()->name . '\';
-    public static $token = \'' . \Sequode\Application\Modules\Package\Modeler::model()->token . '\';
+    
+    use \Sequode\Application\Modules\Package\Traits\Operations\SequenceSetExpressTrait;
+    
     public static $name_to_id = ' . PHPClosure::export($name_to_id, true) . ';
     public static $id_to_key = ' . PHPClosure::export($id_to_key, true) . ';
-    public static $index = ' . $package_sequode_model_ids[0] . ';
-    ' . file_get_contents('php/SQDE_PackageExpressor.class.phps',true) . '
-    public static function collection(){
+    public static $index = ' . $sequence_set_model_ids  [0] . ';
+    public static function models(){
         return ' . str_replace('Inp_Obj','i', str_replace('Prop_Obj','p', str_replace('Out_Obj','o', str_replace('\'%START_CLOSURE_REPLACEMENT_HOOK%','function($_s){ ',str_replace('%END_CLOSURE_REPLACEMENT_HOOK%\'',' return; }',PHPClosure::export($filtered_models, true)))))) . ';
     }
-    public static function exists($value, $by=\'id\'){
-        if($by == \'name\'){
-            return (isset(static::$name_to_id[$value])) ? static::$id_to_key[static::$name_to_id[$value]] : false;
-        }else{ 
-            return (isset(static::$id_to_key[intval($value)])) ? static::$id_to_key[intval($value)] : false;
-        }
-    }
-    
-    public static function node($value, $by = null){
-        switch($by){
-            case \'id\':
-            case \'name\':
-                break;
-            default:
-                $by = \'id\';
-                break;
-        }
-        $key = self::exists($value,$by);
-        
-        if($key !== false){
-            return self::collection()[$key];
-        }
-        return false;   
-	}
 }
 ';
+
         return $_o;
+        
     }
 }
