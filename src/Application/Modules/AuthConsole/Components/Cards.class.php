@@ -1,9 +1,15 @@
 <?php
 
-namespace Sequode\Application\Modules\Site\Components;
+namespace Sequode\Application\Modules\AuthConsole\Components;
+
+use Sequode\Application\Modules\AuthConsole\Module;
 
 class Cards {
-    public static function sequode(){
+    
+    public static $module = Module::class;
+    
+    
+    public static function feature(){
         $_o = (object) null;
         $_o->head = 'Sequencer for PHP';
         $_o->component_seperator = '';

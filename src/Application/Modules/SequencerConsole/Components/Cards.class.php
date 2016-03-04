@@ -1,22 +1,19 @@
 <?php
 
-namespace Sequode\Application\Modules\Console\Components;
+namespace Sequode\Application\Modules\SequencerConsole\Components;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 
-use Sequode\Application\Modules\Console\Module;
+use Sequode\Application\Modules\SequencerConsole\Module;
 
 class Cards {
     
     public static $module = Module::class;
     
     public static function index(){
-        return self::tiles();
-    }
-    public static function tiles(){
         
         $module = static::$module;
         
@@ -27,6 +24,7 @@ class Cards {
         $_o->head = 'Sequode';
         $_o->icon_background = 'sequode-icon-background';
         $_o->body = array();
+        
         $modules = ModuleRegistry::modules();
         $cards = array();
         foreach($modules as $registry_key => $module){
@@ -56,6 +54,7 @@ class Cards {
         $html[] = '</div>';
         $_o->body[] = (object) array('html' => implode('',$html),'js' => implode('',$js));
         return $_o;
-    }
     
+    }
+        
 }
