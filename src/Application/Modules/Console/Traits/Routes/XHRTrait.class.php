@@ -4,6 +4,7 @@ namespace Sequode\Application\Modules\Console\Traits\Routes;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Model\Application\Routes as ApplicationRoutes;
+use Sequode\Controller\Application\HTTPRequest\XHR as XHRRequest;
 
 trait XHRTrait {
 	
