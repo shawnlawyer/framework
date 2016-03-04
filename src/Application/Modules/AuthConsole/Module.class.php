@@ -24,10 +24,10 @@ class Module {
                     'css/client.css'
                 ),
                 'javascript' => array(
-                    'js/auth-main.js'
                     'js/XHR.js',
                     'js/AuthConsole.js',
-                    'js/AuthConsoleRegistry.js'
+                    'js/AuthConsoleRegistry.js',
+                    'js/auth-main.js'
                 ),
             ),
             'components' => (object) array (
