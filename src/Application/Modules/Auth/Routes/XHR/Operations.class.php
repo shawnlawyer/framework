@@ -83,7 +83,7 @@ class Operations {
         if(!isset($error)){
             $dialog_store->step++;
             SessionStore::set($dialog->session_store_key, $dialog_store);
-            return (intval($dialog_store->step) == 2) ? \Sequode\Application\Modules\Console\Routes\Routes::js(false) : forward_static_call_array(array($xhr_cards,__FUNCTION__),array());
+            return (intval($dialog_store->step) == 2) ? \Sequode\Application\Modules\SequencerConsole\Routes\Routes::js(false) : forward_static_call_array(array($xhr_cards,__FUNCTION__),array());
         }
     }
 }
