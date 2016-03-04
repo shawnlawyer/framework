@@ -16,7 +16,7 @@ class Routes{
     use IndexTrait,
         CSSTrait,
         JavascriptTrait,
-        VendorJavascript,
+        VendorJavascriptTrait,
         XHRTrait,
         CollectionsTrait;
 
