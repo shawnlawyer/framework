@@ -20,7 +20,7 @@ class Cards {
     public static $module = Module::class;
     
     public static function index($dom_id = 'CardsContainer'){
-        
+        $module = static::$module;
         $js = array();
         $deck = array();
         $deck[] = ModuleCard::render($module::$registry_key, 'feature', true, true, true);
