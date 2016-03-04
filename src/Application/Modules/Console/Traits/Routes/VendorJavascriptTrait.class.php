@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Console\Traits\Routes;
 
-trait VendorJavascriptTraits {
+trait VendorJavascriptTrait {
 
 	public static function vendorJS(){
         
