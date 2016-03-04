@@ -22,7 +22,7 @@ class Module {
                     'css/text.css',
                     'css/sequode.css',
                     'css/client.css'
-                '),
+                ),
                 'javascript' => array(
                     'js/auth-main.js'
                     'js/XHR.js',
