@@ -37,10 +37,11 @@ trait XHRTrait {
             return;
         }
         $routes_class = ModuleRegistry::model($module_key)->xhr->$request_type;
-        if(!in_array($call_pieces[2], ApplicationRoutes::routes('\\'.$routes_class))){
+        if(!in_array($call_pieces[2], ApplicationRoutes::routes($routes_class))){
             return;
         }
-        $route = ApplicationRoutes::route('\\'.$routes_class, $call_pieces[2]);
+        
+        $route = ApplicationRoutes::route($routes_class, $call_pieces[2]);
         
 		if(isset($_POST['args']) && !empty($_POST['args'])){
             if( 500000 < strlen(http_build_query($_POST))){ return; }
@@ -51,7 +52,7 @@ trait XHRTrait {
 			$args = $_GET['args'];
 		}
 
-        echo XHRRequest::call('\\'.$routes_class, $route, $args);
+        echo XHRRequest::call($routes_class, $route, $args);
         return true;
     }
     
