@@ -62,7 +62,7 @@ class Module {
             ),
             
             'routes' =>  array(
-                Routes\Routes::class
+                'http' => Routes\Routes::class
             ),
             
             'xhr' => (object) array (

@@ -34,7 +34,7 @@ class Module {
                 'cards' => Components\Cards::class
             ),
             'routes' =>  array(
-                 Routes\Routes::class
+                'http' => Routes\Routes::class
             ),
             'xhr' => (object) array (
                 'cards' => Routes\XHR\Cards::class
