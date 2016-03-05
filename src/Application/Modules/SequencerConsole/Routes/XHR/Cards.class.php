@@ -11,7 +11,11 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 use Sequode\Application\Modules\Console\Module;
 
+use Sequode\Application\Modules\Console\Traits\Routes\XHR\CardsConsoleMenusTrait;
+
 class Cards {
+    
+    use CardsConsoleMenusTrait;
     
     public static $module = Module::class;
     
@@ -20,20 +24,5 @@ class Cards {
         $module = static::$module;
         return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, __FUNCTION__, array(\Sequode\Application\Modules\Account\Modeler::model())), $dom_id);
     }
-    public static function menus($dom_id = 'MenusContainer'){
-        $html = $js = array();
-        $modules = ModuleRegistry::models();
-        $i = count($modules);
-        foreach($modules as $module => $model){
-            if(isset($model->components->cards)){
-                if(in_array('menu',get_class_methods($model->components->cards))){
-                    $i--;
-					$card = ModuleCard::render($module,'menu');
-                    $html[] = CardKitHTML::menuCardHidingContainer($card->html,$i);
-                    $js[] = $card->js;
-				}
-            }
-        }
-        return DOMElementKitJS::addIntoDom($dom_id, implode('',$html), 'replace'). implode(' ',$js);
-    }
+    
 }
