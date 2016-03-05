@@ -10,20 +10,11 @@ trait CollectionsTrait {
 	
 	public static function collections($collection='collections', $key = null){
         
-        if(!SessionStore::is('console')){
-            return;
-        }
+        $module = static::$module;
         
-        switch(SessionStore::get('console')){
+        if ($collection == 'collections' && isset($module::model()->assets->boot_collections)){
             
-            case 'Sequode':
-                $collections = array('my_sequodes', 'sequode_favorites', 'palette', 'sequodes', 'tokens', 'packages');
-                break;
-                
-        }
-        
-        if ($collection == 'collections'){
-            
+            $collections = $module::model()->assets->boot_collections;
             echo '{';
             echo  "\n";
             foreach($collections as $loop_key => $collection){
