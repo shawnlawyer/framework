@@ -9,7 +9,7 @@ use Sequode\Component\Card\Kit\JS as CardKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
-use Sequode\Application\Modules\Console\Module;
+use Sequode\Application\Modules\ApplicationConsole\Module;
 
 use Sequode\Application\Modules\Console\Traits\Routes\XHR\CardsConsoleMenusTrait;
 
