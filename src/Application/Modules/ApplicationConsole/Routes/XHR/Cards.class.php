@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\SequencerConsole\Routes\XHR;
+namespace Sequode\Application\Modules\ApplicationConsole\Routes\XHR;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Card as ModuleCard;

@@ -1,8 +1,8 @@
 <?php
 
-namespace Sequode\Application\Modules\SequencerConsole\Routes;
+namespace Sequode\Application\Modules\ApplicationConsole\Routes;
 
-use Sequode\Application\Modules\SequencerConsole\Module;
+use Sequode\Application\Modules\ApplicationConsole\Module;
 
 use Sequode\Application\Modules\Console\Traits\Routes\IndexTrait;
 use Sequode\Application\Modules\Console\Traits\Routes\CSSTrait;

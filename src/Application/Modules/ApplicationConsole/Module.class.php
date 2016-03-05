@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\SequencerConsole;
+namespace Sequode\Application\Modules\ApplicationConsole;
 
 class Module {
     public static $registry_key = 'Console';

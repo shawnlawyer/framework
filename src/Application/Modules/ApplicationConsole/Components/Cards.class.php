@@ -1,13 +1,13 @@
 <?php
 
-namespace Sequode\Application\Modules\SequencerConsole\Components;
+namespace Sequode\Application\Modules\ApplicationConsole\Components;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 
-use Sequode\Application\Modules\SequencerConsole\Module;
+use Sequode\Application\Modules\ApplicationConsole\Module;
 
 class Cards {
     
