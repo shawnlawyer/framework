@@ -81,4 +81,5 @@ class Registry {
         return $_o;
         
     }
+    
 }

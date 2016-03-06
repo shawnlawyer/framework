@@ -48,7 +48,10 @@ class Cards {
         return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, __FUNCTION__), $dom_id);
     }
     public static function internalPositionForms($_model_id=0, $position=0, $dom_id = 'CardsContainer'){
-        $modeler = ModuleRegistry::model($module::$registry_key)->modeler;
+        
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        
         if(!(
         $modeler::exists($_model_id,'id')
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )

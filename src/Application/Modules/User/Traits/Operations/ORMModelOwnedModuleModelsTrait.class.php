@@ -6,15 +6,16 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 
 trait ORMModelOwnedModuleModelsTrait {
     
-	public static function getOwnedModuleModels($registry_key, $_model = null, $fields='id'){
+	public static function getOwnedModuleModels($module_registry_key, $_model = null, $fields='id'){
         
         $modeler = static::$modeler;
         
         ($_model == null)
             ? forward_static_call_array(array($modeler, 'model'), array())
             : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
-            
-        $module_modeler = ModuleRegistry::model($registry_key)->modeler;
+        
+        $module = ModuleRegistry::module($module_registry_key);
+        $module_modeler = $module::model()->modeler;
         
         $where = array();
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$modeler::model()->id);

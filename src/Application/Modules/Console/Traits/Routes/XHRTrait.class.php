@@ -33,10 +33,13 @@ trait XHRTrait {
         }
         $module_key = $modules_context[$context];    
         $request_type = $call_pieces[0];
-        if(!isset(ModuleRegistry::model($module_key)->xhr->$request_type)){
+        
+        $module = ModuleRegistry::module($module_key);
+        
+        if(!isset($module::model()->xhr->$request_type)){
             return;
         }
-        $routes_class = ModuleRegistry::model($module_key)->xhr->$request_type;
+        $routes_class = $module::model()->xhr->$request_type;
         if(!in_array($call_pieces[2], ApplicationRoutes::routes($routes_class))){
             return;
         }
