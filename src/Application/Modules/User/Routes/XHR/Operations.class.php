@@ -63,7 +63,8 @@ class Operations {
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::login();
-        return forward_static_call_array(array(ModuleRegistry::model()['Console']->routes->http, 'js'), array());
+        $console_module =  ModuleRegistry::model()['Console'];
+        return forward_static_call_array(array($console_module::model()->routes->http, 'js'), array());
     }
     public static function updatePassword($_model_id, $json){
     
