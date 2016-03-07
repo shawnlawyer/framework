@@ -49,7 +49,7 @@ class Operations {
                     if(
                     (
                         $modeler::exists(rawurldecode($input->login),'email')
-                        || $modeler::exists(rawurldecode($input->login),'username')
+                        || $modeler::exists(rawurldecode($input->login),'name')
                     )
                     && \Sequode\Application\Modules\Account\Authority::isActive($modeler::model())
                     ){

@@ -28,8 +28,8 @@ class FormInputs{
         FormInputModeler::exists('select','name');
         $_o->field = json_decode(FormInputModeler::model()->component_object);
         $_o->field->Label = '';
-        $_o->field->Values = "[{'value':'username','printable':'Search By Username'},{'value':'ip_address','printable':'Search By IP'}]";
-        $_o->field->Value = 'username';
+        $_o->field->Values = "[{'value':'name','printable':'Search By Name'},{'value':'ip_address','printable':'Search By IP'}]";
+        $_o->field->Value = 'name';
         $_o->field->Value_Key = 'value';
         $_o->field->Printable_Key = 'printable';
         
