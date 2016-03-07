@@ -97,7 +97,7 @@ class Operations {
             SessionStore::set($dialog->session_store_key, $dialog_store);
             
             return (intval($dialog_store->step) == 2)
-                ? forward_static_call_array(array(ModuleRegistry::model()['Console']->routes->http, 'js'), array()),
+                ? forward_static_call_array(array(ModuleRegistry::model()['Console']->routes->http, 'js'), array())
                 : forward_static_call_array(array($xhr_cards, __FUNCTION__), array());
                 
         }
