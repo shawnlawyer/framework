@@ -89,7 +89,7 @@ class Operations {
             echo 'alert(\''.$console_module::$registry_key.'\');';
             
             return (intval($dialog_store->step) == 2)
-                ? forward_static_call_array(array($console_module::model()->routes->http, 'js'), array(false))
+        ? forward_static_call_array(array($console_module::model()->routes['http'], 'js'), array(false))
                 : forward_static_call_array(array($xhr_cards, __FUNCTION__), array());
         }
     }
