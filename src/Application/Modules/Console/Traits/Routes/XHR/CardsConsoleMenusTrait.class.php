@@ -13,17 +13,18 @@ trait CardsConsoleMenusTrait {
 	
     public static function menus($dom_id = 'MenusContainer'){
         
-        $modules = ModuleRegistry::models();
+        $modules = ModuleRegistry::modules();
         
         $html = $js = array();
         $i = count($modules);
-        foreach($modules as $module => $model){
+        foreach($modules as $module){
+            $model = $module::model();
             
             if(isset($model->components->cards)){
                 
                 if(in_array('menu',get_class_methods($model->components->cards))){
                     $i--;
-					$card = ModuleCard::render($module,'menu');
+					$card = ModuleCard::render($module::$registy_key, 'menu');
                     $html[] = CardKitHTML::menuCardHidingContainer($card->html,$i);
                     $js[] = $card->js;
                     

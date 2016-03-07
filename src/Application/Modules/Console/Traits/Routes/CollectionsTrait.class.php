@@ -31,15 +31,15 @@ trait CollectionsTrait {
             
         }
         
-        $modules = ModuleRegistry::models();
+        $modules = ModuleRegistry::modules();
         
         foreach($modules as $module){
             
-            if(!empty($module->collections)){
+            if(!empty($module::model()->collections)){
                 
-                if(isset($collection) && in_array($collection, ApplicationRoutes::routes($module->collections))){
+                if(isset($collection) && in_array($collection, ApplicationRoutes::routes($module::model()->collections))){
                     
-                    forward_static_call_array(array($module->collections, ApplicationRoutes::route($module->collections, $collection)), ($key != null) ? array($key) : array());
+                    forward_static_call_array(array($module::model()->collections, ApplicationRoutes::route($module::model()->collections, $collection)), ($key != null) ? array($key) : array());
 					return;
                     
 				}

@@ -63,7 +63,7 @@ class Operations {
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::login();
-        return \Sequode\Application\Modules\Sequencer\Console\Routes\Routes::js(false);
+        return forward_static_call_array(array(ModuleRegistry::model()['Console']->routes->http, 'js'), array());
     }
     public static function updatePassword($_model_id, $json){
     
