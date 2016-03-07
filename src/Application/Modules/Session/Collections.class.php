@@ -18,15 +18,15 @@ class Collections {
             $_i->position = '=%';
         }
         
-        if(!in_array($_i->field, array('username','ip_address'))){
-            $_i->field = 'username';
+        if(!in_array($_i->field, array('name','ip_address'))){
+            $_i->field = 'name';
         }
         
         $where = array();
         $where[] = array('field'=> $_i->field,'operator'=>$_i->position,'value'=>$_i->search);
         
         $_model = new $modeler::$model;
-        $_model->getAll($where, 'id,username', $limit);
+        $_model->getAll($where, 'id,name', $limit);
         $results = $_model->all;
         
         unset($_model);

@@ -12,7 +12,6 @@ use Sequode\Application\Modules\User\Module;
 class Cards {
     
     public static $module = Module::class;
-    public static $tiles = array('myTile');
     
     public static function menu(){
         
@@ -73,8 +72,8 @@ class Cards {
         $_o->head = 'User Detail';
         $_o->body = array('');
         
-        $_o->body[] = CardKitHTML::sublineBlock('Username');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', array($modeler::model()->id)), $modeler::model()->username, 'settings');
+        $_o->body[] = CardKitHTML::sublineBlock('Name');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', array($modeler::model()->id)), $modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Password');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($modeler::model()->id)), 'Set Password', 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Role');
@@ -134,28 +133,5 @@ class Cards {
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'user_search','icon'=>'user','card_route'=>'cards/user/search','details_route'=>'cards/user/details'));
         return $_o;
     }
-    
-    
-    public static function myTile($user_model=null){
         
-        if($user_model == null ){
-            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
-        }
-        
-        $_o = (object) null;
-        $_o->head = 'Tokens';
-        $_o->size = 'xsmall';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'atom-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items =  array();
-        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Token','operations/token/newToken');
-        $_o->body = array();
-        $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', 'Tokens Created : ', $user_model);
-        
-        return $_o;
-        
-    }
-    
 }
