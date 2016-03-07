@@ -25,7 +25,7 @@ class CardKit {
         return $items;
     }
     
-    public static function collectionTile($module_registry_key, $headline='', $user_model){
+    public static function ownedItemsCollectionTile($module_registry_key, $headline='', $user_model){
         
         $module = ModuleRegistry::module($module_registry_key);
         $operations = $module::model()->operations;

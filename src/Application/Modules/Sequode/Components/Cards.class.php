@@ -542,7 +542,7 @@ class Cards {
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/'.$context.'/newSequence');
         $_o->body = array();
         $_o->body[] = '';
-        $_o->body[] = CardKit::collectionTile($module::$registry_key, 'Sequodes : ', $user_model);
+        $_o->body[] = CardKit::ownedItemsCollectionTile($module::$registry_key, 'Sequodes : ', $user_model);
         
         
         return $_o;

@@ -12,6 +12,7 @@ use Sequode\Application\Modules\User\Module;
 class Cards {
     
     public static $module = Module::class;
+    public static $tiles = array('myTile');
     
     public static function menu(){
         
@@ -89,9 +90,9 @@ class Cards {
         $_o->body[] = $modeler::model()->sequode_favorites;
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $modeler::model()->email;
-        $_o->body[] = CardKit::collectionTile('Sequode', 'Sequodes Created : ', $modeler::model());
-        $_o->body[] = CardKit::collectionTile('Package', 'Packages Created : ', $modeler::model());
-        $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $modeler::model());
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', 'Sequodes Created : ', $modeler::model());
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', 'Packages Created : ', $modeler::model());
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', 'Tokens Created : ', $modeler::model());
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$modeler::model()->id,'details_route'=>'cards/user/details'));
         
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
@@ -133,4 +134,28 @@ class Cards {
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'user_search','icon'=>'user','card_route'=>'cards/user/search','details_route'=>'cards/user/details'));
         return $_o;
     }
+    
+    
+    public static function myTile($user_model=null){
+        
+        if($user_model == null ){
+            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+        }
+        
+        $_o = (object) null;
+        $_o->head = 'Tokens';
+        $_o->size = 'xsmall';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'atom-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items =  array();
+        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Token','operations/token/newToken');
+        $_o->body = array();
+        $_o->body[] = '';
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', 'Tokens Created : ', $user_model);
+        
+        return $_o;
+        
+    }
+    
 }
