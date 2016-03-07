@@ -23,7 +23,7 @@ class Operations {
         $operations = $module::model()->operations;
         forward_static_call_array(array($operations, __FUNCTION__), array());
         $console_module =  ModuleRegistry::model()['Console'];
-        forward_static_call_array(array($console_module::model()->routes->http, 'js'), array());
+        forward_static_call_array(array($console_module::model()->routes->http, 'js'), array(false));
         
     }
 }

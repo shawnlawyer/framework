@@ -64,7 +64,7 @@ class Operations {
         )){return;}
         $operations::login();
         $console_module =  ModuleRegistry::model()['Console'];
-        return forward_static_call_array(array($console_module::model()->routes->http, 'js'), array());
+        return forward_static_call_array(array($console_module::model()->routes->http, 'js'), array(false));
     }
     public static function updatePassword($_model_id, $json){
     

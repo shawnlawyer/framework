@@ -39,19 +39,12 @@ class Operations {
         $dialog_store = SessionStore::get($dialog->session_store_key);
         $dialog_step = $dialog->steps[$dialog_store->step];
         if(isset($dialog_step->prep) && $dialog_step->prep == true){
-            
             if(isset($dialog_step->required_members)){
-                
                 foreach($dialog_step->required_members as $m){
-                    
                     if(!isset($input->$m)){ return;}
-                    
                 }
-                
             }
-            
             switch($dialog_store->step){
-                
                 case 0:
                     if(
                     (
@@ -80,27 +73,22 @@ class Operations {
                         $error = 2;
                     }
                     break;
-                    
             }
-            
         }
         if(isset($dialog_step->operation) && is_array($_a)){
-            
             if(!(forward_static_call_array(array($operations, $dialog_step->operation), $_a))){
                 $error = 3;
             }
-            
         }
         if(!isset($error)){
-            
             $dialog_store->step++;
             SessionStore::set($dialog->session_store_key, $dialog_store);
             
+            
             $console_module =  ModuleRegistry::model()['Console'];
             return (intval($dialog_store->step) == 2)
-                ? forward_static_call_array(array($console_module::model()->routes->http, 'js'), array())
+                ? forward_static_call_array(array($console_module::model()->routes->http, 'js'), array(false))
                 : forward_static_call_array(array($xhr_cards, __FUNCTION__), array());
-                
         }
     }
 }
