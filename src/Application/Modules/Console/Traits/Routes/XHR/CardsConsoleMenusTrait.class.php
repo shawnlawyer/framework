@@ -22,9 +22,9 @@ trait CardsConsoleMenusTrait {
             
             if(isset($model->components->cards)){
                 
-                if(in_array('menu',get_class_methods($model->components->cards))){
+                if(in_array('menu', get_class_methods($model->components->cards))){
                     $i--;
-					$card = ModuleCard::render($module::$registy_key, 'menu');
+					$card = ModuleCard::render($module::$registry_key, 'menu');
                     $html[] = CardKitHTML::menuCardHidingContainer($card->html,$i);
                     $js[] = $card->js;
                     
