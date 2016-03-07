@@ -22,8 +22,7 @@ class Operations {
         $module = static::$module;
         $operations = $module::model()->operations;
         forward_static_call_array(array($operations, __FUNCTION__), array());
-        
-        forward_static_call_array(array(ModuleRegistry::model()['Console']->routes->http, 'js'), array())
+        forward_static_call_array(array(ModuleRegistry::model()['Console']->routes->http, 'js'), array());
         
     }
 }
