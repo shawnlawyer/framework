@@ -21,7 +21,6 @@ trait ORMModelSignInTrait {
         SessionStore::set('user_id', $modeler::model()->id, false);
         SessionStore::set('name', $modeler::model()->name, false);
         SessionStore::set('role_id', $modeler::model()->role_id, false);
-		SessionStore::set('console','Sequode');
         
         return $modeler::model();
         

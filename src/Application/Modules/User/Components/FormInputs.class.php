@@ -153,10 +153,10 @@ class FormInputs{
 		
         $_o = (object) null;
         FormInputModeler::exists('str','name');
-		$_o->username = json_decode(FormInputModeler::model()->component_object);
-        $_o->username->Label = '';
-        $_o->username->Value = $_model->username;
-        $_o->username->Width = 200;
+		$_o->name = json_decode(FormInputModeler::model()->component_object);
+        $_o->name->Label = '';
+        $_o->name->Value = $_model->name;
+        $_o->name->Width = 200;
         
 		return $_o;
         
