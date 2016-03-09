@@ -9,6 +9,7 @@ use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 
 use Sequode\Application\Modules\Sequode\Module;
 
@@ -234,8 +235,8 @@ class Cards {
                 $_o->body[] = CardKitHTML::sublineBlock($type_title);
                 foreach($type_object as $member => $value){
                     $_o->body[] = $member . ' (' . $type_object_detail->$member->type. ') ' . (($type_object_detail->$member->required == true) ? 'required' : 'optional');
-                    FormInputComponent::exists($type_form_object->$member->Component,'name');
-                    $text = 'Form Component : '. FormInputComponent::model()->printable_name;
+                    FormInputModeler::exists($type_form_object->$member->Component,'name');
+                    $text = 'Form Component : '. FormInputModeler::model()->printable_name;
                     $_o->body[] = (\Sequode\Application\Modules\Account\Authority::canEdit()) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('cards/sequode/componentSettings', array(\Sequode\Component\Form\Form::jsQuotedValue($type), \Sequode\Component\Form\Form::jsQuotedValue($member), $_model->id)), $text, 'settings') : $text;
                 }
             }
