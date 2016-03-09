@@ -25,6 +25,22 @@ class CardKit {
         return $items;
     }
     
+    public static function modelsTileBody(){
+        
+        $module = ModuleRegistry::module($module_registry_key);
+        $operations = $module::model()->operations;
+        $context = $module::model()->context;
+        
+        $dom_id = FormInputComponent::uniqueHash('','');
+        $html = $js = array();
+        $models = $operations::getOwnedModels($user_model, 'id,name')->all;
+        
+        $items[] = array();
+        foreach($models as $i => $object){
+            $items[] = self::onTapEventsXHRCallMenuItem($object->name, 'cards/'.$context.'/details', array($object->id));
+        }
+        return $items;
+    }
     public static function ownedItemsCollectionTile($module_registry_key, $headline='', $user_model){
         
         $module = ModuleRegistry::module($module_registry_key);
