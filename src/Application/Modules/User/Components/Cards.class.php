@@ -133,5 +133,5 @@ class Cards {
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'user_search','icon'=>'user','card_route'=>'cards/user/search','details_route'=>'cards/user/details'));
         return $_o;
     }
-        
+    
 }
