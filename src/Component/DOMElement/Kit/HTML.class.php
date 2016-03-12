@@ -1,13 +1,18 @@
 <?php
 namespace Sequode\Component\DOMElement\Kit;
+
+use Sequode\Model\Application\Configuration;
+
 class HTML {
     public static function headTags(){
         $html = array();
+        
+        
         $html[] ='<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
         $html[] ='<meta charset="utf-8">';
         $html[] ='<meta name="viewport" content="width=device-width, initial-scale=1">';
-        $html[] ='<title>'.Configuration::model()->site->display_name.'</title>';
-        $html[] ='<meta name="description" content="'.Configuration::model()->site->description.'" /> ';
+        $html[] ='<title>'. Configuration::model()->site->display_name .'</title>';
+        $html[] ='<meta name="description" content="'. Configuration::model()->site->meta_description .'" /> ';
         $html[] ='<link rel="icon" href="/favicon.ico" type="image/x-icon" />';
         $html[] ='<link href="/application.css" rel="stylesheet" type="text/css">';
         $html[] ='<script src="/vendor.js" defer="defer"></script>';
