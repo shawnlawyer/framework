@@ -6,8 +6,8 @@ class HTML {
         $html[] ='<meta http-equiv="Content-Type" content="text/html; charset=utf-8">';
         $html[] ='<meta charset="utf-8">';
         $html[] ='<meta name="viewport" content="width=device-width, initial-scale=1">';
-        $html[] ='<title>Sequode</title>';
-        $html[] ='<meta name="description" content="Sequode visual programming tool." ';
+        $html[] ='<title>'.Configuration::model()->site->display_name.'</title>';
+        $html[] ='<meta name="description" content="'.Configuration::model()->site->description.'" /> ';
         $html[] ='<link rel="icon" href="/favicon.ico" type="image/x-icon" />';
         $html[] ='<link href="/application.css" rel="stylesheet" type="text/css">';
         $html[] ='<script src="/vendor.js" defer="defer"></script>';
