@@ -2,6 +2,7 @@
 
 namespace Sequode\Component\DOMElement\Kit;
 
+
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 
@@ -13,14 +14,12 @@ class JS {
         $js[] = '\');';
         return implode('',$js);
     }
-    
 	public static function addEventListenerJS($dom_id, $event, $event_js){
         $js[] = '$(\'#'.$dom_id.'\').on(\''.$event.'\',(function(event) {';
         $js[] = $event_js;
         $js[] = '}));';
         return implode('',$js);
     }
-    
     public static function placeForm($form, $dom_id){
         $html = $js = array();
         if(count($form) == 1){
@@ -48,7 +47,6 @@ class JS {
         $js[] = '$(\'.focus-input\').select();';    
         return implode(' ',$js);
     }
-    
     public static function googleAnalytics(){
         $js = array();
         $js[] = '(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){';
@@ -59,7 +57,6 @@ class JS {
         $js[] = 'ga(\'send\', \'pageview\');';
         return implode('',$js);
 	}
-    
     public static function forceSSL(){
         $js = array();
         $js[] = 'if(document.location.protocol != "https:"){';
@@ -67,15 +64,12 @@ class JS {
         $js[] = '}';
         return implode('',$js);
 	}
-    
     public static function jsQuotedValue($value=''){
         return '\''. $value .'\'';
 	}
-    
 	public static function documentEventOff($event){
 		return '$(document).off(\''.$event.'\');';
 	}
-    
     public static function onTapEvents($dom_id,$javascript){
         $js = array();
         $js[] = '$(\'#'.$dom_id.'\').on("click touch", function(){';
@@ -83,11 +77,9 @@ class JS {
         $js[] = '});';
         return implode('',$js);
 	}
-    
     public static function onTapEventsXHRCall($dom_id, $xhr_call_object){
         return self::onTapEvents($dom_id,self::xhrCall($xhr_call_object));
 	}
-    
 	public static function xhrCallObject($route='', $inputs=null, $done_callback=false){
         $object = (object) null;
         $object->route = $route;
@@ -95,7 +87,6 @@ class JS {
         $object->done_callback = $done_callback;
 		return $object;
 	}
-    
 	public static function xhrCall($call_object){
         if(is_array($call_object) && isset($call_object['route'])){
             $call_object = (object) $call_object;
@@ -112,7 +103,6 @@ class JS {
         $js[] = '});';
         return implode('',$js);
 	}
-    
     public static function loadComponentHere($call_object, $contents='', $icon = 'atom'){
         $html = $js = array();
         $dom_id = FormInputComponent::uniqueHash();
@@ -136,11 +126,9 @@ class JS {
         $components_object->js = implode('',$js);
         return $components_object;
 	}
-    
     public static function fetchCollection($collection, $key=null){
         return ($key == null) ? 'registry.fetch({collection:\''.$collection.'\'});' : 'registry.fetch({collection:\''.$collection.'\', key:'.$key.'});';
 	}
-    
     public static function addIntoDom($element,$code,$mode='replace'){
 		$stream = ' ';
 		switch($mode){
@@ -158,17 +146,14 @@ class JS {
 		}
 		return $stream;
 	}
-    
 	public static function removeInDom($element,$depth=0){
 		$stream .= " ";
 		$stream .= ' $(\''.$element.'\').parentNode.removeChild(document.getElementById(\''.$element.'\'));';
 		return self::depth($stream,$depth);
 	}
-    
     public static function formatForJS($input){
 		return str_replace("\r",'\r',str_replace("\n",'\n',addslashes($input)));
 	}
-    
 	public static function collectValues($form_object, $dom_ids){
         $js = array();
         $js[] = "''";
@@ -190,7 +175,6 @@ class JS {
         }
         return implode(' ',$js);
 	}
-    
 	public static function registeyTimeout($variable_name, $javascript, $milliseconds=0){
         $js = array();
         $js[] = 'registry.timeout(\''.$variable_name.'\', function(){';
@@ -198,7 +182,6 @@ class JS {
         $js[] = 'registry.timeouts[\''.$variable_name.'\'] = null; },'.$milliseconds.');';
         return implode(' ',$js);
 	}
-    
 	public static function enterPressed($javascript){
         $js = array();
         $js[] = 'if (event.keyCode == 13){';
@@ -207,6 +190,4 @@ class JS {
         return implode(' ',$js);
 	}
     
-    
-    */
 }
