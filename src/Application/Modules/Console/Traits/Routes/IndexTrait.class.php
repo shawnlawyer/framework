@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Console\Traits\Routes;
 
-use Sequode\Component\DOMElement\Kit\HTML as DOMElementKitHTML;
+use Sequode\Model\Module\Registry as ModuleRegistry;
 
 trait IndexTrait {
 	
