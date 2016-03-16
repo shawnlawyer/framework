@@ -8,8 +8,10 @@ trait IndexTrait {
 	
     public static function index(){
     
-        echo DOMElementKitHTML::page();
-		exit;
+        $console_module =  ModuleRegistry::model()['Console'];
+        $file = $console_module::model()->assets->html['page'];
+        header("Content-type: text/html", true);
+        echo file_get_contents($file, true);
 	
     }
     
