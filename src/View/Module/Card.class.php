@@ -6,9 +6,10 @@ use Sequode\Component\Card\Card as CardComponent;
 
 class Card {
     
-	public static function render($registry_key, $component, $parameters = null){
+	public static function render($module_registry_key, $component, $parameters = null){
         
-        $component_source = ModuleRegistry::model($registry_key)->components->cards;
+        $module = ModuleRegistry::module($module_registry_key);
+        $component_source = $module::model()->components->cards;
         
         $component_object = CardComponent::fetchObject($component_source, $component, ($parameters == null) ? array() : (!is_array($parameters)) ? array($parameters) : $parameters);
         

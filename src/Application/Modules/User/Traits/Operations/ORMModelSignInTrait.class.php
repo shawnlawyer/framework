@@ -17,11 +17,10 @@ trait ORMModelSignInTrait {
             : forward_static_call_array(array($modeler,'model'),array($_model)) ;
             
         $modeler::model()->updateField(($time === false) ? time() : $time ,'last_sign_in');
-        SessionModeler::model()->updateField($modeler::model()->email,'username');
+        SessionModeler::model()->updateField($modeler::model()->email,'name');
         SessionStore::set('user_id', $modeler::model()->id, false);
-        SessionStore::set('username', $modeler::model()->username, false);
+        SessionStore::set('name', $modeler::model()->name, false);
         SessionStore::set('role_id', $modeler::model()->role_id, false);
-		SessionStore::set('console','Sequode');
         
         return $modeler::model();
         

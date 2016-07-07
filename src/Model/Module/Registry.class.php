@@ -7,6 +7,55 @@ class Registry {
     
     use StaticStoreTrait;
     
+	public static function model($set_class = false){
+        
+        static $class;
+        
+        if(empty($class)){
+            
+            $class = false;
+            
+        }
+        
+        if($set_class !== false){
+            
+            $class = $set_class;
+            
+        }
+        
+        $_o = array();
+        
+        if ($class !== false){
+            
+            $_o = forward_static_call_array(array($class, 'model'), array());
+            
+            if($set_class !== false){
+                
+                self::load();
+                
+            }
+        }
+        
+        return $_o;
+        
+    }
+    
+    public static function load(){
+        
+        self::clear();
+        
+        $array = self::model();
+        
+        foreach($array as $value){
+            
+            self::add($value);
+            
+        }
+        
+        return true;
+        
+    }
+    
     public static function is($key){
         
         return self::container('is', $key);
@@ -17,7 +66,7 @@ class Registry {
         
         self::container('set', $class::$registry_key, $class);
         
-        return self::container('is', $class::$registry_key);
+        return true;
         
     }
     
@@ -27,30 +76,7 @@ class Registry {
         
         return true;
     }
-    
-    public static function model($key){
-        
-        $module = self::container('get', $key);
-        
-        return $module::model();
-        
-    }
-    
-    public static function models(){
-        
-        $modules = self::container('getAll');
-        
-        $_o = array();
-        foreach($modules as $key => $module){
             
-            $_o[$key] = $module::model(); 
-            
-        }
-        
-        return $_o;
-        
-    }
-        
     public static function module($key){
         
         return self::container('get', $key);
@@ -81,4 +107,5 @@ class Registry {
         return $_o;
         
     }
+    
 }

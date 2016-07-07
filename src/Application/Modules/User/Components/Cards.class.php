@@ -72,8 +72,8 @@ class Cards {
         $_o->head = 'User Detail';
         $_o->body = array('');
         
-        $_o->body[] = CardKitHTML::sublineBlock('Username');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', array($modeler::model()->id)), $modeler::model()->username, 'settings');
+        $_o->body[] = CardKitHTML::sublineBlock('Name');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', array($modeler::model()->id)), $modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Password');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($modeler::model()->id)), 'Set Password', 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Role');
@@ -89,9 +89,9 @@ class Cards {
         $_o->body[] = $modeler::model()->sequode_favorites;
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $modeler::model()->email;
-        $_o->body[] = CardKit::collectionTile('Sequode', 'Sequodes Created : ', $modeler::model());
-        $_o->body[] = CardKit::collectionTile('Package', 'Packages Created : ', $modeler::model());
-        $_o->body[] = CardKit::collectionTile('Token', 'Tokens Created : ', $modeler::model());
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', 'Sequodes Created : ', $modeler::model());
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', 'Packages Created : ', $modeler::model());
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', 'Tokens Created : ', $modeler::model());
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$modeler::model()->id,'details_route'=>'cards/user/details'));
         
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
@@ -133,4 +133,5 @@ class Cards {
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'user_search','icon'=>'user','card_route'=>'cards/user/search','details_route'=>'cards/user/details'));
         return $_o;
     }
+    
 }

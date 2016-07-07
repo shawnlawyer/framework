@@ -18,8 +18,8 @@ class Collections {
         if(!in_array($search_object->position, array('=%','%=%','%=','='))){
             $search_object->position = '=%';
         }
-        if(!in_array($search_object->field, array('username','email'))){
-            $search_object->field = 'username';
+        if(!in_array($search_object->field, array('name','email'))){
+            $search_object->field = 'name';
         }
         $results = array();
         $where = array();
@@ -31,7 +31,7 @@ class Collections {
         }
         $where[] = array('field'=>$search_object->field,'operator'=>$search_object->position,'value'=>$search_object->search);
         $_model = new $modeler::$model;
-        $_model->getAll($where, 'id,username', $limit);
+        $_model->getAll($where, 'id,name', $limit);
         $results = array_merge($results, $_model->all);
         unset($_model);
         return $results;

@@ -84,8 +84,8 @@ class Cards {
         $js[] = '}));';
         
         
-        $_o->body[] = CardKitHTML::sublineBlock('Username');
-        $_o->body[] = $_model->username;
+        $_o->body[] = CardKitHTML::sublineBlock('Name');
+        $_o->body[] = $_model->name;
         $_o->body[] = CardKitHTML::sublineBlock('Ip Address');
         $_o->body[] = $_model->ip_address;
         $_o->body[] = CardKitHTML::sublineBlock('Data');

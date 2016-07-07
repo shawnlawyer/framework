@@ -27,7 +27,7 @@ class Collections{
         if(SessionStore::is($collection)){
             $_array = $finder::search(SessionStore::get($collection));
             foreach($_array as $_object){
-                $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->username.'"}';
+                $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->name.'"}';
             }
         }
         echo '{'.implode(',', $nodes).'}';

@@ -22,6 +22,8 @@ class Operations {
         $module = static::$module;
         $operations = $module::model()->operations;
         forward_static_call_array(array($operations, __FUNCTION__), array());
-        return \Sequode\Application\Modules\Console\Routes\Routes::js(false);
+        $console_module =  ModuleRegistry::model()['Console'];
+        forward_static_call_array(array($console_module::model()->routes['http'], 'js'), array(false));
+        
     }
 }

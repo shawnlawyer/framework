@@ -12,16 +12,16 @@ class Model extends ORM {
 		return true;
     }
     
-	public function create($username, $password, $email){
+	public function create($name, $password, $email){
 
         $sql = "
             INSERT INTO {$this->table}
-            (`id`,`role_id`,`username`,`password`,`email`,`sign_up_date`,`sequode_favorites`,`activation_token`)
+            (`id`,`role_id`,`name`,`password`,`email`,`sign_up_date`,`sequode_favorites`,`activation_token`)
             VALUES
             (
             ''
             ,100
-            ,".$this->safedSQLData($username, 'text')."
+            ,".$this->safedSQLData($name, 'text')."
             ,".$this->safedSQLData($password, 'text')."
             ,".$this->safedSQLData($email, 'text')."
             ,".time()."

@@ -14,7 +14,6 @@ trait ORMModelSignOutTrait {
 		SessionOperations::end();
         $modeler::model(null);
 		SessionOperations::start();
-		SessionStore::set('console','Auth');
         
         return;
         

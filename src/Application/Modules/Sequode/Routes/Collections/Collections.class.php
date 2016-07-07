@@ -143,7 +143,9 @@ class Collections{
 	}
     /*
 	public static function palette(){
-        $finder = ModuleRegistry::model(static::$registry_key)->finder;
+        
+        $module = static::$module;
+        $finder = $module::model()->finder;
         if(in_array(SessionStore::get(__FUNCTION__),static::$routes)){
             $method = static::$routes_to_methods[static::$routes];
             self::$method();

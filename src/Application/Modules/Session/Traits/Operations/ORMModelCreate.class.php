@@ -20,7 +20,7 @@ trait ORMModelCreate {
         $modeler::model()->updateField(serialize(array()), 'session_data');
         $modeler::model()->updateField(time(), 'session_start');
         $modeler::model()->updateField($ip_address, 'ip_address');
-        $modeler::model()->updateField('anon', 'username');
+        $modeler::model()->updateField('anon', 'name');
         
         return $modeler::model();
         

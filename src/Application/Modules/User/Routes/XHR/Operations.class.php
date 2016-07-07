@@ -63,7 +63,8 @@ class Operations {
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::login();
-        return \Sequode\Application\Modules\Console\Routes\Routes::js(false);
+        $console_module =  ModuleRegistry::model()['Console'];
+        return forward_static_call_array(array($console_module::model()->routes['http'], 'js'), array(false));
     }
     public static function updatePassword($_model_id, $json){
     
@@ -122,7 +123,7 @@ class Operations {
             $modeler::exists($_model_id,'id')
         )){ return; }
         $input = json_decode($json);
-        $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($input->username))));
+        $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($input->name))));
         if(strlen($name)==0){
             return ' alert(\'Name cannot be empty\');';
         }
@@ -130,9 +131,9 @@ class Operations {
             return ' alert(\'Name can be alphanumeric and contain spaces only\');';
         }
         
-        if($modeler::exists($name,'username') && $modeler::model()->id != $_model_id){
+        if($modeler::exists($name,'name') && $modeler::model()->id != $_model_id){
             return ' alert(\'Name already exists\');';
-        }elseif($modeler::exists($name,'username') && $modeler::model()->id == $_model_id){
+        }elseif($modeler::exists($name,'name') && $modeler::model()->id == $_model_id){
             return;
         }
         

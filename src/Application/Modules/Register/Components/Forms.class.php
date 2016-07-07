@@ -87,7 +87,7 @@ class Forms {
         
 	}
     
-    public static function username(){
+    public static function name(){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;

@@ -154,7 +154,6 @@ class JS {
     public static function formatForJS($input){
 		return str_replace("\r",'\r',str_replace("\n",'\n',addslashes($input)));
 	}
-    /*
 	public static function collectValues($form_object, $dom_ids){
         $js = array();
         $js[] = "''";
@@ -191,6 +190,4 @@ class JS {
         return implode(' ',$js);
 	}
     
-    
-    */
 }

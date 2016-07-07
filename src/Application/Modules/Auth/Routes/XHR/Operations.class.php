@@ -49,7 +49,7 @@ class Operations {
                     if(
                     (
                         $modeler::exists(rawurldecode($input->login),'email')
-                        || $modeler::exists(rawurldecode($input->login),'username')
+                        || $modeler::exists(rawurldecode($input->login),'name')
                     )
                     && \Sequode\Application\Modules\Account\Authority::isActive($modeler::model())
                     ){
@@ -83,7 +83,11 @@ class Operations {
         if(!isset($error)){
             $dialog_store->step++;
             SessionStore::set($dialog->session_store_key, $dialog_store);
-            return (intval($dialog_store->step) == 2) ? \Sequode\Application\Modules\Console\Routes\Routes::js(false) : forward_static_call_array(array($xhr_cards,__FUNCTION__),array());
+            
+            $console_module = ModuleRegistry::model()['Console'];
+            return (intval($dialog_store->step) == 2)
+                ? forward_static_call_array(array($console_module::model()->routes['http'], 'js'), array(false))
+                : forward_static_call_array(array($xhr_cards, __FUNCTION__), array());
         }
     }
 }

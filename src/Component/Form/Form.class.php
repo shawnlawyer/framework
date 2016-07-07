@@ -150,21 +150,7 @@ class Form {
         return forward_static_call_array(array($class, $method),($parameters == null) ? array() : $parameters);
         
 	}
-    
-    public static function formObject2($object_class, $object_method, $parameters = null){
         
-        $_o = (object) null;
-        $_o->form_inputs = forward_static_call_array(array($object_class, $object_method),($parameters == null) ? array() : $parameters);
-        $_o->submit_js = null;
-        $_o->submit_button = null;
-        $_o->submit_on_enter = true;
-        $_o->auto_submit_time = null;
-        $_o->submit_xhr_call_route = '';
-        $_o->submit_xhr_call_parameters = array(static::$collection_replacement_hook);
-                
-        return $_o;
-	}
-    
     public static function formObject($_i = null){
         
         $_o = (object) array(
