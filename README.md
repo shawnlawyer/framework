@@ -8,6 +8,6 @@ The sequencing programming logic is not a code replacement. The tool abstracts t
 
 If your considering contributing or find a security vulnerability or bug, please e-mail Shawn Lawyer at shawnlawyer@gmail.com.
 
-# License
+# MIT License
 
 The Sequode PHP Sequencing Framework is open-sourced software licensed under the MIT license.
