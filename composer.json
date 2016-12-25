@@ -12,4 +12,12 @@
             "email": "shawnlawyer@gmail.com"
         }
     ]
+    {
+    "autoload": {
+        "psr-4": {
+            "Sequode\\": "src/"
+        }
+    }
+}
+
 }
