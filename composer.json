@@ -1,0 +1,20 @@
+{
+    "name": "shawnlawyer/sequode",
+    "description": "framework for sequode",
+    "type": "library",
+    "require": {
+        "phpmailer/phpmailer": "^5.2"
+    },
+    "license": "MIT",
+    "autoload": {
+        "psr-4": {
+            "Sequode\\":"src/Sequode/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Shawn Lawyer",
+            "email": "shawnlawyer@gmail.com"
+        }
+    ]
+}
