@@ -4,6 +4,12 @@ namespace Sequode\Application\Modules\User;
 
 use Sequode\Application\Modules\User\Model;
 
-class Modeler extends \Sequode\Foundation\Modeler {
-	public static $model = Model::class;
+use Sequode\Model\Traits\ModelerTrait;
+
+class Modeler {
+
+    use ModelerTrait;
+
+    public static $model = Model::class;
+
 }

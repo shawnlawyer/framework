@@ -13,7 +13,7 @@ class Model extends ORM {
 		parent::__construct();
 		return true;
 	}
-	public function create($name, $printable_name, $usage_type, $version){
+	public function create($name = '', $printable_name = '', $usage_type = '', $version = ''){
 		$sql = "
 			INSERT INTO {$this->table}
 		 	(`id`,`name`,`printable_name`,`usage_type`,`version`)

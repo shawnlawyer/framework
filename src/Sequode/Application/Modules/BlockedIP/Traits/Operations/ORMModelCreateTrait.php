@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\BlockedIP\Traits\Operations;
 
 trait ORMModelCreateTrait {
     
-    public static function create($_session_model){
+    public static function create($_session_model = ''){
         
         $modeler = static::$modeler;
         

@@ -14,17 +14,23 @@ trait JavascriptTrait {
         header('Content-type: application/javascript');
         echo "\n";
         if($closure == true){
-            echo '!function() {';
+            if($_ENV['FRONTEND_CLOSURE_ENABLED']) {
+                echo '!function() {';
+            }
         }
         if($force_SSL == true){
-            //echo DOMElementKitJS::forceSSL();
+            if($_ENV['SSL_ENABLED']) {
+                echo DOMElementKitJS::forceSSL();
+            }
         }
 		foreach($files as $file){
 			echo file_get_contents($file,true);
 			echo "\n";
 		}
         if($closure != false){
-            echo '}();';
+            if($_ENV['FRONTEND_CLOSURE_ENABLED']) {
+                echo '}();';
+            }
         }
 	
     }

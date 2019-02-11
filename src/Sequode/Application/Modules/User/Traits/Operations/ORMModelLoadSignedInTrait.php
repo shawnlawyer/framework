@@ -7,17 +7,17 @@ use Sequode\Application\Modules\Session\Modeler as SessionModeler;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 
 trait ORMModelLoadSignedInTrait {
-	
+
     public static function load(){
-    
+
         $modeler = static::$modeler;
-        
+
         if(SessionAuthority::isCookieValid() && SessionModeler::exists(SessionModeler::model()->session_id, 'session_id')){
-            
+
             $modeler::exists(SessionStore::get('user_id'),'id');
-            
+
         }
-    
+
     }
-    
+
 }

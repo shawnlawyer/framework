@@ -45,12 +45,13 @@ class ORM {
 			FROM {$this->table}
 			WHERE {$by} = ".$this->safedSQLData($value, $this->members[$by]['saveType'])."
 			";
-		$query = $this->database->query($sql);
-		if(mysql_num_rows($query) != 0){
-			$row = mysql_fetch_object($query);
+
+        $result = $this->database->query($sql, true);
+        if($result){
+
 			foreach($this->members as $member=>$value){
-				$this->$member = $row->$member;
-				$this->members[$member]['value'] = $row->$member;
+				$this->$member = $result->$member;
+				$this->members[$member]['value'] = $result->$member;
 			}
 			//$this->id				=	$row->id;
 			//$this->parameters		=	$this->getRelationship(0);
@@ -65,7 +66,7 @@ class ORM {
 			INSERT INTO {$this->table}
 		 	(`id`)
 			VALUES
-		 	(NULL)
+		 	(0)
 			";
 		$this->database->query($sql);
 		$this->id = $this->database->insertId;
@@ -177,22 +178,20 @@ class ORM {
 		if($limit != ''){
 			$sql .= ' LIMIT '.$limit .'';
 		}
-		$query = $this->database->query($sql);
-		$this->all = array();
-        if(strpos(',',$fields) === false && $fields != '*' && $singleArray == true){
-            while($row = mysql_fetch_object($query)) {
-                $this->all[] = $row->$fields;
-            }
-        }else{
-             while($row = mysql_fetch_object($query)) {
-                $this->all[] = $row;
+		$results = $this->database->query($sql);
+		$this->all = [];
+		if($results){
+            if (strpos(',', $fields) === false && $fields != '*' && $singleArray == true) {
+                while ($row = $results->fetch_object()) {
+                    $this->all[] = $row->$fields;
+                }
+            } else {
+                while ($row = $results->fetch_object()) {
+                    $this->all[] = $row;
+                }
             }
         }
-		if(count($this->all)>0){
-			return true;
-		}else{
-			return false;
-		}
+		return $results ? true : false;
 	}
     
 	public function getCount($where='',$fields='*',$singleArray=false,$limit=''){
@@ -227,42 +226,28 @@ class ORM {
 		if($limit != ''){
 			$sql .= ' LIMIT '.$limit .'';
 		}
-		$query = $this->database->query($sql);
-        while($row = mysql_fetch_object($query)) {
-            $this->results_count = $row->results_count;
-        }
-		if($this->results_count>0){
-			return true;
-		}else{
-			return false;
-		}
+		$results = $this->database->query($sql, true);
+
+		$this->results_count = $results->results_count;
+
+        return $results ? true : false;
 	}
     
 	public function getPreviousId(){
         if(!isset($this->id)){return false;}
 		$sql = "SELECT id as previous_id FROM {$this->table} where  AND id < {$this->id} LIMIT 1;";
-		$query = $this->database->query($sql);
-        while($row = mysql_fetch_object($query)) {
-            $this->previous_id = $row->previous_id;
-        }
-		if(isset($this->previous_id)){
-			return true;
-		}else{
-			return false;
-		}
+		$results = $this->database->query($sql, true);
+        $this->previous_id = $results->previous_id;
+
+        return $results ? true : false;
 	}
 	public function getNextId(){
         if(!isset($this->id)){return false;}
 		$sql = "SELECT id as next_id FROM {$this->table} where  AND id > {$this->id} LIMIT 1;";
-		$query = $this->database->query($sql);
-        while($row = mysql_fetch_object($query)) {
-            $this->next_id = $row->next_id;
-        }
-		if(isset($this->next_id)){
-			return true;
-		}else{
-			return false;
-		}
+        $results = $this->database->query($sql, true);
+        $this->next_id = $results->next_id;
+
+        return $results ? true : false;
 	}
 	public function statementWhereClauseSnippit($field,$type,$operator,$value){
 		if(strpos(strtolower($this->statementWhereClauseOperator($operator,$type)), 'like') === false){
@@ -314,7 +299,7 @@ class ORM {
 		}
 	}
 	public function safedSQLData($input,$type,$localsource=false){
-		$input = ($localsource) ? $input : ((get_magic_quotes_gpc()) ? $input : mysql_real_escape_string($input));
+		$input = ($localsource) ? $input : ((get_magic_quotes_gpc()) ? $input : $this->database->connection->real_escape_string($input));
 		switch (strtolower($type)){
 			case 'int':
 				$output = ($input != "") ? intval($input) : "NULL";
@@ -333,35 +318,38 @@ class ORM {
 	}
 	public function getMembers(){
 		$sql = "SHOW COLUMNS FROM {$this->table}";
-		$query = $this->database->query($sql);
-        $raw_members = array();
-		while($row = mysql_fetch_object($query)){
-			$raw_members[$row->Field] = $row;
-		}
-		$members = array();
-		foreach($raw_members as $row){
-			$members[$row->Field] = array();
-			if(strpos($row->Type, '(') === false){
-				$type = $row->Type;
-				if(strpos($row->Type, 'long') === false){
-					$length=1024;
-				}else{
-					$length=10240000000;
-				}
-			}else{
-				list($type, $length) = sscanf(trim(str_replace(array('(',')'), ' ', $row->Type)), "%s %d");
-			}
-			$members[$row->Field]['saveType'] = $this->memberBasicType($type);
-			$members[$row->Field]['basictype'] = $this->memberBasicType($type);
-			$members[$row->Field]['type'] = $type;
-			$members[$row->Field]['length'] = $length;
-			$members[$row->Field]['default'] = $row->Default;
-			$members[$row->Field]['unique'] = ($row->Key == 'UNI' || $row->Key == 'PRI') ? 1 : 0;
-			$members[$row->Field]['blank'] = ($row->Null == 'YES') ? 1 : 0;
-			$members[$row->Field]['key'] = (!empty($row->Key)) ? 1 : 0;
-			$members[$row->Field]['extra'] = $row->Extra;
-		}
-		return $members;
+		$results = $this->database->query($sql);
+		$raw_members = [];
+        $members = [];
+        if($results){
+            while($object = $results->fetch_object()){
+                $raw_members[$object->Field] = $object;
+            }
+            $members = array();
+            foreach($raw_members as $row){
+                $members[$row->Field] = array();
+                if(strpos($row->Type, '(') === false){
+                    $type = $row->Type;
+                    if(strpos($row->Type, 'long') === false){
+                        $length=1024;
+                    }else{
+                        $length=10240000000;
+                    }
+                }else{
+                    list($type, $length) = sscanf(trim(str_replace(array('(',')'), ' ', $row->Type)), "%s %d");
+                }
+                $members[$row->Field]['saveType'] = $this->memberBasicType($type);
+                $members[$row->Field]['basictype'] = $this->memberBasicType($type);
+                $members[$row->Field]['type'] = $type;
+                $members[$row->Field]['length'] = $length;
+                $members[$row->Field]['default'] = $row->Default;
+                $members[$row->Field]['unique'] = ($row->Key == 'UNI' || $row->Key == 'PRI') ? 1 : 0;
+                $members[$row->Field]['blank'] = ($row->Null == 'YES') ? 1 : 0;
+                $members[$row->Field]['key'] = (!empty($row->Key)) ? 1 : 0;
+                $members[$row->Field]['extra'] = $row->Extra;
+            }
+        }
+        return $members;
 	}
 	public function memberBasicType($type){
 		switch(strtolower($type)){

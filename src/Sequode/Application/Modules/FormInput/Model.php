@@ -13,7 +13,7 @@ class Model extends ORM {
 		return true;
 	}
     
-	public function create($name, $printable_name, $usage_type){
+	public function create($name = '', $printable_name = '', $usage_type = ''){
 		$sql = "
 			INSERT INTO {$this->table}
 			(`id`,`name`,`printable_name`,`usage_type`)

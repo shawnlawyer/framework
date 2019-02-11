@@ -12,7 +12,7 @@ class Model extends ORM {
 		return true;
 	}
     
-	public function create($ip_address){
+	public function create($ip_address = ''){
 
         $sql = "
             INSERT INTO {$this->table}

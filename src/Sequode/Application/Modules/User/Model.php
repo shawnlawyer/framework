@@ -12,7 +12,7 @@ class Model extends ORM {
 		return true;
     }
     
-	public function create($name, $password, $email){
+	public function create($name = '', $password = '', $email = ''){
 
         $sql = "
             INSERT INTO {$this->table}

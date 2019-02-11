@@ -23,12 +23,12 @@ class Operations {
         $module = static::$module;
         $dialogs = $module::model()->components->dialogs;
         $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
-        
         if(!SessionStore::is($dialog->session_store_key)){ return; }
         $xhr_cards = $module::model()->xhr->cards;
         $operations_xhr = $module::model()->xhr->operations;
         $operations = $module::model()->operations;
         $modeler = $module::model()->modeler;
+        $error = null;
         if($json != null){
                 $input = json_decode(rawurldecode($json)); 
                 if(isset($input->reset)){ 
@@ -80,7 +80,7 @@ class Operations {
                 $error = 3;
             }
         }
-        if(!isset($error)){
+        if(!$error){
             $dialog_store->step++;
             SessionStore::set($dialog->session_store_key, $dialog_store);
             
@@ -88,6 +88,8 @@ class Operations {
             return (intval($dialog_store->step) == 2)
                 ? forward_static_call_array(array($console_module::model()->routes['http'], 'js'), array(false))
                 : forward_static_call_array(array($xhr_cards, __FUNCTION__), array());
+        }else{
+            echo "alert('$error');";
         }
     }
 }

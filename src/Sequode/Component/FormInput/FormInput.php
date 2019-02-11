@@ -573,7 +573,7 @@ class FormInput {
             
         }
         
-		return forward_static_call_array(array(self, $modeler::model()->component), array($component_object));
+		return forward_static_call_array(array(self::class, $modeler::model()->component), array($component_object));
         
     }
     

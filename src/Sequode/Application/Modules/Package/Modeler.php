@@ -4,6 +4,12 @@ namespace Sequode\Application\Modules\Package;
 
 use Sequode\Application\Modules\Package\Model;
 
-class Modeler extends \Sequode\Foundation\Modeler {
+use Sequode\Model\Traits\ModelerTrait;
+
+class Modeler {
+
+    use ModelerTrait;
+
     public static $model = Model::class;
+
 }

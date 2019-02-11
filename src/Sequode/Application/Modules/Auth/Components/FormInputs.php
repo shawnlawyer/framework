@@ -12,7 +12,7 @@ class FormInputs {
     public static function login(){
         
         $_o = (object) null;
-        
+
         FormInputModeler::exists('str','name');
         $_o->login = json_decode(FormInputModeler::model()->component_object);
         $_o->login->Label = '';

@@ -13,7 +13,6 @@ trait ORMModelCreate {
         $ip_address = ($ip_address == null)
             ? explode(',',((!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"]))[0]
             : $ip_address ;
-        
         $modeler::model()->create();
         $modeler::model()->exists($modeler::model()->id, 'id');
         $modeler::model()->updateField(Hashes::uniqueHash(), 'session_id');

@@ -12,18 +12,16 @@ trait ManageSessionStore {
         $modeler = static::$modeler;
         
         $ip_address = explode(',',((!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"]))[0];
-        
+
         if($modeler::exists(self::getCookieValue()) && $modeler::model()->ip_address == $ip_address /* &&  time() < self::model()->session_start + 86400 */){
-            
+
             self::load();
         
         }elseif($auto_create == true && $_SERVER['HTTP_HOST'] == Configuration::model()->sessions->create_domain){
-            
             self::create($ip_address);
             self::setCookie();
             
         }
-        
     }
     
 	public static function end(){
