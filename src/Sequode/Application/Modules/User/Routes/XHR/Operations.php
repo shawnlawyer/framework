@@ -70,11 +70,10 @@ class Operations {
         $modeler = $module::model()->modeler;
         $operations = $module::model()->operations;
         $xhr_cards = $module::model()->xhr->cards;
-        
-        $input = json_decode(rawurldecode($json));
+
         if(!(
-        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
-        && $modeler::exists($_model_id,'id')
+            \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+            && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::login();
         $console_module =  ModuleRegistry::model()['Console'];
