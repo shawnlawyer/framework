@@ -332,7 +332,7 @@ class Operations{
                 return false;
         }
 		$object = json_decode($sequode_model->$type_object);
-        if(count($object) < 1){return (object) null;}
+        if(!$object){return (object) null;}
 		$form_object = json_decode($sequode_model->$type_form);
         foreach($object as $loop_member => $loop_value){
             //this is temporary till all sequodes can have maintenance run. 
@@ -443,8 +443,8 @@ class Operations{
                 $new_object->Success = self::makeDefaultProcessObjectDetailMember('Success');
                 break;
         }
-		$object = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->$type_object);
-		$object_detail = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->$type_detail);
+		$object = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->{$type_detail});
+		$object_detail = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->{$type_detail});
         foreach($object as $loop_member => $loop_value){
             $new_object->$loop_member = $object_detail->$loop_member;
 		}
@@ -465,7 +465,7 @@ class Operations{
                 return false;
         }
 		$object = json_decode($sequode_model->$type_object);
-        if(count($object) < 1){return (object) null;}
+        if(!$object){return (object) null;}
 		$form_object = json_decode($sequode_model->$type_form);
         $new_object = (object) null;
         foreach($object as $loop_member => $loop_value){

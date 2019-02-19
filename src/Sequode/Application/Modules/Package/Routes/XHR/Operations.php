@@ -55,7 +55,7 @@ class Operations {
         
 	}
     
-    public static function updateName($_model_id, $json
+    public static function updateName($_model_id, $json){
     
         $module = static::$module;
         $modeler = $module::model()->modeler;
@@ -72,10 +72,10 @@ class Operations {
         if(strlen($name) < 2){
             return ' alert(\'Package name should be more than 1 character long.\');';
         }
-        if(!eregi("^([A-Za-z_])*$", substr($name,0,1))){
+        if(!preg_match("^/([A-Za-z_])*$/i", substr($name,0,1))){
             return ' alert(\'Package name should start with a letter or underscore\');';
         }
-        if(!eregi("^([A-Za-z0-9_])*$", $name)){
+        if(!preg_match("^/([A-Za-z0-9_])*$/i", $name)){
             return ' alert(\'Package name must be alphanumeric and all spaces will convert to underscore.\');';
         }
         forward_static_call_array(array($operations, __FUNCTION__), array($name));
@@ -95,7 +95,7 @@ class Operations {
         $modeler = $module::model()->modeler;
         $operations = $module::model()->operations;
         $xhr_cards = $module::model()->xhr->cards;
-        
+
         if(!(
         $modeler::exists($_model_id,'id')
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )

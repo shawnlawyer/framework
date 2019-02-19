@@ -13,37 +13,20 @@ class Operations {
     
     public static $module = Module::class;
     
-    public static function delete($_model_id){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $xhr_cards = $module::model()->xhr->cards;
-        
-        if(!(
-            $modeler::exists($_model_id,'id')
-        )){ return; }
-        $modeler::destroy();
-        return $xhr_cards::search();
-    }
-    /* this should replace the above at a later day.
-    public static function delete($_model_id){
+    public static function destroy($_model_id){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $operations = $module::model()->operations;
         $xhr_cards = $module::model()->xhr->cards;
         
-        if(!(
-        $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
-        )){ return; }
+        if(
+            !($modeler::exists($_model_id,'id')
+            && \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        ){ return; }
         forward_static_call_array(array($operations,__FUNCTION__),array());
-        $js = array();
-        $js[] = forward_static_call_array(array($xhr_cards,'my'),array());
-        return implode(' ', $js);
+        return $xhr_cards::search();
     }
-    */
     public static function blockIP($_model_id){
         
         $module = static::$module;

@@ -8,9 +8,7 @@ trait ORMModelSetEmailTrait {
         
         $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model)) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $modeler::model()->updateField($email,'email');
         

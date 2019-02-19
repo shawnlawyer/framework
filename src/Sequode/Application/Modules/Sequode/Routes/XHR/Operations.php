@@ -128,7 +128,7 @@ class Operations {
         if(strlen($name)==0){
             return ' alert(\'Name cannot be empty\');';
         }
-        if(!eregi("^([A-Za-z0-9_])*$",$name)){
+        if(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             return ' alert(\'Name can be alphanumeric and contain spaces only\');';
         }
         if(!\Sequode\Application\Modules\Account\Authority::canRename($name)){
@@ -182,7 +182,7 @@ class Operations {
         
         $modeler::exists($_model_id,'id')
         && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && \Sequode\Application\Modules\Account\Authority::canRun()
         
         )){ return; }
         

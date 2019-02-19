@@ -21,7 +21,7 @@ trait ORMModelSetPropertySwitchesTrait {
             
         }
         
-        $modeler::model()->updateField($value,'safe');
+        //$modeler::model()->updateField($value,'safe');
         
         return $modeler::model();
         

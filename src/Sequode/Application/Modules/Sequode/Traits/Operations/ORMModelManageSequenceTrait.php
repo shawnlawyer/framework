@@ -20,7 +20,7 @@ trait ORMModelManageSequenceTrait {
             $modeler::model()->updateField(json_encode($kit::makeProcessObject('input')),'input_object');
             $modeler::model()->updateField(json_encode($kit::makeProcessObject('property')),'property_object');
             $modeler::model()->updateField(json_encode($kit::makeProcessObject('output')),'output_object');
-            $modeler::model()->updateField(json_encode($kit::makeProcessInstanceObject()),'process_instance_object');
+            //$modeler::model()->updateField(json_encode($kit::makeProcessInstanceObject()),'process_instance_object');
             $modeler::model()->updateField(json_encode($kit::removeKeys(json_decode($modeler::model()->input_object_map))),'input_object_map');
             $modeler::model()->updateField(json_encode($kit::removeKeys(json_decode($modeler::model()->property_object_map))),'property_object_map');
             $modeler::model()->updateField(json_encode($kit::removeKeys(json_decode($modeler::model()->output_object_map))),'output_object_map');
@@ -81,7 +81,7 @@ trait ORMModelManageSequenceTrait {
         $modeler::model()->updateField('[]','grid_areas');
         $modeler::model()->updateField(json_encode($kit::makeDefaultProcessObject('input')),'input_object');
         $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('input',$modeler::model())),'input_object_map');
-        $modeler::model()->updateField(json_encode($kit::makeDefaultProcessInstanceObject($modeler::model())),'process_instance_object');
+        //$modeler::model()->updateField(json_encode($kit::makeDefaultProcessInstanceObject($modeler::model())),'process_instance_object');
         $modeler::model()->updateField('{}','input_form_object');
         $modeler::model()->updateField(json_encode($kit::makeDefaultProcessObject('output')),'output_object');
         $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('output',$modeler::model())),'output_object_map');
@@ -101,8 +101,8 @@ trait ORMModelManageSequenceTrait {
         */
         $modeler::model()->updateField('{}','output_object_detail');
         $modeler::model()->updateField($owner_id,'owner_id');
-        $modeler::model()->updateField(0,'safe');
-        $modeler::model()->updateField(0,'level');
+        //$modeler::model()->updateField(0,'safe');
+        //`$modeler::model()->updateField(0,'level');
         $modeler::model()->updateField('{"display_name":"'.$modeler::model()->name.'"}','detail');
         
         self::maintenance();

@@ -263,7 +263,7 @@ class Operations{
         $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($name))));
         if(strlen($name)==0){
             $object->Error = 'Name cannot be empty';
-        }elseif(!eregi("^([A-Za-z0-9_])*$",$name)){
+        }elseif(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             $object->Error = 'Name can be alphanumeric and contain spaces only';
         }elseif(!\Sequode\Application\Modules\Account\Authority::canRename($name)){
             $object->Error = 'Name already used';

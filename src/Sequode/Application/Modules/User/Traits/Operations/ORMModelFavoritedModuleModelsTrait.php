@@ -2,18 +2,17 @@
 
 namespace Sequode\Application\Modules\User\Traits\Operations;
 
+use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
+
 trait ORMModelFavoritedModuleModelsTrait {
     
     public static function emptySequodeFavorites($_model = null){
         
         $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model)) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $modeler::model()->updateField('[]','sequode_favorites');
-        
         return $modeler::model();
     }
     
@@ -21,14 +20,12 @@ trait ORMModelFavoritedModuleModelsTrait {
         
         $modeler = static::$modeler;
         
-        if($sequode_model != null ){ \Sequode\Application\Modules\Sequode\Modeler::model($sequode_model); }
+        if($sequode_model != null ){ SequodeModeler::model($sequode_model); }
         
-        ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model)) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-		$palette = json_decode($_model->sequode_favorites);
-		$palette[] = \Sequode\Application\Modules\Sequode\Modeler::model()->id;
+		$palette = json_decode($modeler::model()->sequode_favorites);
+		$palette[] = SequodeModeler::model()->id;
         
         $modeler::model()->updateField(json_encode(array_unique($palette)),'sequode_favorites');
         
@@ -39,16 +36,14 @@ trait ORMModelFavoritedModuleModelsTrait {
         
         $modeler = static::$modeler;
         
-        if($sequode_model != null ){ \Sequode\Application\Modules\Sequode\Modeler::model($sequode_model); }
+        if($sequode_model != null ){ SequodeModeler::model($sequode_model); }
         
-        ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model)) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
 		$palette = json_decode($modeler::model()->sequode_favorites);
         $array = array();
 		foreach($palette as $value){
-			if(intval($value) != \Sequode\Application\Modules\Sequode\Modeler::model()->id){
+			if(intval($value) != SequodeModeler::model()->id){
 				$array[] = $value;
 			}
 		}

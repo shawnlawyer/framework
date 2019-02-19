@@ -16,8 +16,9 @@ use Sequode\Application\Modules\Package\Module;
 class Cards {
     
     public static $module = Module::class;
+    public static $registry_key = 'Package';
     public static $tiles = array('myTile');
-    
+
     public static function menu(){
         
         $_o = (object) null;
@@ -69,7 +70,7 @@ class Cards {
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details','cards/package/details',array($_model->id));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete','cards/package/delete',array($_model->id));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete','operations/package/delete',array($_model->id));
         
         return $_o;
     }
@@ -84,7 +85,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+            $_o->menu->items = self::modelOperationsMenuItems();
         
         $_o->head = 'Package Details';
         $_o->body = array('');
@@ -92,7 +93,7 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/package/name', array($_model->id)), $_model->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Package Sequode');
-        $_o->body[] = ($_model->sequode_id != 0 && \Sequode\Application\Modules\Sequode\Modeler::exists($_model->sequode_id,'id')) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/package/packageSequode', array($_model->id)), \Sequode\Application\Modules\Sequode\Modeler::model()->name, 'settings') : ModuleForm::render(static::$registry_key,'packageSequode')[0];
+        $_o->body[] = ($_model->sequode_id != 0 && \Sequode\Application\Modules\Sequode\Modeler::exists($_model->sequode_id,'id')) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/package/packageSequode', array($_model->id)), \Sequode\Application\Modules\Sequode\Modeler::model()->name, 'settings') : ModuleForm::render($module::$registry_key,'packageSequode')[0];
         $_o->body[] = CardKitHTML::sublineBlock('Package Token');
         $_o->body[] = $_model->token;
         $_o->body[] = CardKitHTML::sublineBlock('<a target="_blank" href="/source/'.$_model->token.'">Download</a>');
@@ -168,16 +169,16 @@ class Cards {
         }
         
         $_o = (object) null;
-        $_o->head = 'Sequence Sets';
+        $_o->head = 'Sequence Packages';
         $_o->size = 'xsmall';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
         $_o->menu->items =  array();
-        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Set','operations/'.$context.'/newPackage');
+        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Package','operations/'.$context.'/newPackage');
         $_o->body = array();
         $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', 'Sets Created : ', $user_model);
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', 'Packages Created : ', $user_model);
         
         return $_o;
         

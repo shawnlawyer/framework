@@ -54,9 +54,9 @@ trait ManageSessionStore {
         
         $modeler = static::$modeler;
         $store = static::$store;
-        
+
         $store::container('setAll', null, unserialize($modeler::model()->session_data));
-        
+
     }
     
 	public static function save(){

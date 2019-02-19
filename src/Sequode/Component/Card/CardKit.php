@@ -81,9 +81,21 @@ class CardKit {
         $js[] = 'cards.icon = \''.$component->icon.'\';';
         $js[] = 'cards.details_route = \''.$component->details_route.'\';';
         $js[] = 'cards.collection = \''.$component->collection.'\';';
-        $js[] = 'registry.setContext({card:\''.$component->card_route.'\',collection:\''.$component->collection.'\',tearDown:function(){cards = undefined;}});';
-        $js[] = 'registry.subscribeToUpdates({type:\'context\', collection:\''.$component->collection.'\', call: cards.run});';
-        $js[] = 'registry.fetch({collection:\''.$component->collection.'\'});';
+
+        $context = (object)[
+            'card' => $component->card_route,
+            'collection' => $component->collection,
+            'teardown' => 'function(){cards = undefined;}'
+        ];
+        $js[] = DOMElementKitJS::registrySetContext($context);
+
+        $subscription = (object)[
+            'type' => 'context',
+            'collection' => $component->collection,
+            'call' => 'cards.run'
+        ];
+        $js[] = DOMElementKitJS::registrySubscribeToUpdates($subscription);
+        $js[] = DOMElementKitJS::fetchCollection($component->collection);
         return (object) array('html' => implode('', $html), 'js' => implode(' ', $js));
     }
     public static function nextInCollection($component){
@@ -141,5 +153,25 @@ class CardKit {
         $html[] = '<span class="btn" id="'.$dom_id.'">'.$contents.'</span>';
         $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($route,$inputs,$callback));
         return (object) array('html' => implode('',$html),'js' => implode('',$js));
+    }
+    public static function setContext($content, $raw_members=[]){
+
+        $js[] = 'registry.setContext({';
+        $js[] = 'card:\''.$content->card_route.'\'';
+        if($content->collection){
+            $js[] = !in_array('collection', $raw_members)
+                ? ', collection:\''.$component->collection.'\''
+                : ', collection:'.$component->collection;
+        }
+        if($content->node){
+            $js[] = !in_array('node', $raw_members)
+                ? ', node:\''.$component->node.'\''
+                : ', node:'.$component->node;
+        }
+        if($content->tearDown){
+            $js[] = ',tearDown:'.$component->tearDown;
+        }
+        $js[] = ');';
+        return (object) ['html' => '','js' => $js];
     }
 }

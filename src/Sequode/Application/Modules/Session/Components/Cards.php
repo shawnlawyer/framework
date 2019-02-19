@@ -36,9 +36,11 @@ class Cards {
         
     }
     public static function details($_model=null){
-        
+
         $module = static::$module;
         $modeler = $module::model()->modeler;
+        $operations = $module::model()->operations;
+
         
         $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
         
@@ -60,37 +62,36 @@ class Cards {
         $js[] = '$(document).on(\'keydown\',(function(e){';
         
         $js[] = 'if (e.keyCode == 66){';
-        
         $js[] = 'new XHRCall({route:"operations/session/blockIP",inputs:['.$_model->id.']});';
         $js[] = '}';
         
         $js[] = 'if(next_id != \''.$_model->id.'\'){';
-        
         $js[] = 'if (e.keyCode == 39){';
         $js[] = 'new XHRCall({route:"cards/session/details",inputs:[next_id]});';
         $js[] = '}';
-        
-        $js[] = 'if (e.keyCode == 46){';
-        $js[] = 'new XHRCall({route:\'operations/session/delete\',inputs: ['.$_model->id.'],done_callback:function(){ new XHRCall({route:\'cards/session/details\',inputs:[next_id]});} });';
         $js[] = '}';
-        
-        $js[] = '}else{';
-        $js[] = 'if (e.keyCode == 46){';
-        $js[] = 'new XHRCall({route:\'operations/session/delete\',inputs: ['.$_model->id.']});';
-        $js[] = '}';
-        
+        if($_model->session_id != $operations::getCookieValue()) {
+            $js[] = 'if (e.keyCode == 46){';
+            $js[] = 'new XHRCall({route:\'operations/session/destroy\',inputs: [' . $_model->id . '],done_callback:function(){ new XHRCall({route:\'cards/session/details\',inputs:[next_id]});} });';
+            $js[] = '}';
+        }
         $js[] = '}';
         
         $js[] = '}));';
-        
-        
+
+        if($_model->session_id === $operations::getCookieValue()) {
+            $_o->body[] = CardKitHTML::sublineBlock('This your current session');
+        }
+
+        $_o->body[] = CardKitHTML::sublineBlock('Session Id');
+        $_o->body[] = $_model->session_id;
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $_o->body[] = $_model->name;
         $_o->body[] = CardKitHTML::sublineBlock('Ip Address');
         $_o->body[] = $_model->ip_address;
         $_o->body[] = CardKitHTML::sublineBlock('Data');
         $_o->body[] = '<textarea style="width:20em; height:10em;">'.$_model->session_data.'</textarea>';
-        $location = geoip_record_by_name($_model->ip_address);
+        $location = false; //geoip_record_by_name($_model->ip_address);
         if ($location) {
         $_o->body[] = CardKitHTML::sublineBlock('Geo Location');
         $_o->body[] = $location['city'].((!empty($location['region'])) ? ' '.$location['region'] : ''). ', '. $location['country_name'].((!empty($location['postal_code'])) ? ', '.$location['postal_code'] : '');
@@ -99,7 +100,9 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Session Started');
         $_o->body[] = date('g:ia \o\n l jS F Y',$_model->session_start);
         $_o->body[] = CardKitHTML::sublineBlock('Last Sign In');
-        $_o->body[] = CardKit::deleteInCollection((object) array('route'=>'operations/session/delete','model_id'=>$_model->id));
+        if($_model->session_id != $operations::getCookieValue()) {
+            $_o->body[] = CardKit::deleteInCollection((object)array('route' => 'operations/session/destroy', 'model_id' => $_model->id));
+        }
         $_o->body[] = CardKitHTML::modelId($_model);
         
         return $_o;

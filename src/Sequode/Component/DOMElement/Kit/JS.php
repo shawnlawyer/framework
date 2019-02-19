@@ -189,5 +189,44 @@ class JS {
         $js[] = '}';
         return implode(' ',$js);
 	}
-    
+    public static function registrySetContext($context, $raw_members=[]){
+
+        $js[] = 'registry.setContext({';
+        $js[] = 'card:\''.$context->card.'\'';
+        if($context->collection){
+            $js[] = !in_array('collection', $raw_members)
+                ? ', collection:\''.$context->collection.'\''
+                : ', collection:'.$context->collection;
+        }
+        if($context->node){
+            $js[] = !in_array('node', $raw_members)
+                ? ', node:\''.$context->node.'\''
+                : ', node:'.$context->node;
+        }
+        if($context->tearDown){
+            $js[] = ',tearDown:'.$context->tearDown;
+        }
+        $js[] = '});';
+        return implode(' ',$js);
+    }
+    public static function registrySubscribeToUpdates($subscription, $raw_members=[]){
+
+        $js[] = 'registry.subscribeToUpdates({';
+        $js[] = 'type:\''.$subscription->type.'\'';
+        if($subscription->collection){
+            $js[] = !in_array('collection', $raw_members)
+                ? ', collection:\''.$subscription->collection.'\''
+                : ', collection:'.$subscription->collection;
+        }
+        if($subscription->key){
+            $js[] = !in_array('key', $raw_members)
+                ? ', key:\''.$subscription->key.'\''
+                : ', key:'.$subscription->key;
+        }
+        if($subscription->call){
+            $js[] = ',call:'.$subscription->call;
+        }
+        $js[] = '});';
+        return implode(' ',$js);
+    }
 }

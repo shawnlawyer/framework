@@ -8,6 +8,7 @@ class Module {
         $_o = (object) array (
             'context' => 'session',
             'modeler' => Modeler::class,
+            //'store' => Store::class,
             'operations' => Operations::class,
             'components' => (object) array (
                 'form_inputs' => Components\FormInputs::class,

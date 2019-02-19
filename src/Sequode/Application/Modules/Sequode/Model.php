@@ -18,7 +18,7 @@ class Model extends ORM {
 			INSERT INTO {$this->table}
 		 	(`id`,`name`,`printable_name`,`usage_type`,`version`)
 			VALUES
-		 	(''
+		 	(0
 			,".$this->safedSQLData($name, 'text')."
 			,".$this->safedSQLData($printable_name, 'text')."
 			,".$this->safedSQLData($usage_type, 'text')."

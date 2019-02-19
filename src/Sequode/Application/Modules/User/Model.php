@@ -19,7 +19,7 @@ class Model extends ORM {
             (`id`,`role_id`,`name`,`password`,`email`,`sign_up_date`,`sequode_favorites`,`activation_token`)
             VALUES
             (
-            ''
+            0
             ,100
             ,".$this->safedSQLData($name, 'text')."
             ,".$this->safedSQLData($password, 'text')."
@@ -35,5 +35,4 @@ class Model extends ORM {
 		return true;
         
 	}
-
 }

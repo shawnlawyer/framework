@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\Session\Components;
 
 use Sequode\Component\Form\Form as FormComponent;
 
-use Sequode\Application\Modules\User\Module;
+use Sequode\Application\Modules\Session\Module;
 
 class Forms   {
     

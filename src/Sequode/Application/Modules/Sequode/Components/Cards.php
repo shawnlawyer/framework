@@ -138,7 +138,8 @@ class Cards {
             $_o->body[] = $component->html;
         }
         return $_o;
-	}   
+	}
+
     public static function details( $_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
@@ -154,8 +155,14 @@ class Cards {
         $_o->head = 'Sequode Details';
         $_o->size = 'large';
         $_o->body = array('');
-        
-        $_o->body[] = (object) array('js' => 'registry.setContext({card:\'cards/sequode/details\',collection:\'sequodes\',node:\''.$_model->id.'\'});');
+
+        $context = (object)[
+            'card' => 'cards/sequode/details',
+            'collection' => 'sequodes',
+            'node' => $_model->id
+        ];
+        $_o->body[] = (object) array('js' => DOMElementKitJS::registrySetContext($context,['node']));
+
         $input_object = json_decode($_model->input_object);
         $property_object = json_decode($_model->property_object);
         $output_object = json_decode($_model->output_object);
@@ -254,6 +261,7 @@ class Cards {
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
+
         return $_o;
     }
     public static function internalForms( $_model = null){
@@ -492,7 +500,7 @@ class Cards {
         
         $_o->body = array();
         $_o->body[] = CardKit::collectionCard((object) array('collection'=>'my_sequodes','icon'=>'sequode','card_route'=>'cards/sequode/my','details_route'=>'cards/sequode/details'));
-        
+
         return $_o;
         
     }
@@ -512,7 +520,7 @@ class Cards {
             'css_classes'=>'automagic-card-menu-item noSelect',
             'id'=>$dom_id,
             'contents'=>'Empty Favorites',
-            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('operations/user/emptySequodeFavorites',[],'function(){registry.fetch({collection:\'sequode_favorites\'});}'))
+            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('operations/account/emptySequodeFavorites',[]/*,'function(){registry.fetch({collection:\'sequode_favorites\'});}' */))
         );
         
         $_o->body = array();

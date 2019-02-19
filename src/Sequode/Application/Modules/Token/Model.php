@@ -16,7 +16,7 @@ class Model extends ORM {
 			INSERT INTO {$this->table}
 		 	(`id`,`owner_id`,`name`,`token`)
 			VALUES
-		 	(''
+		 	(0
 			,0
 			,'New Token'
             ,".$this->safedSQLData('TOK' . sha1(microtime().uniqid(rand(), true)), 'text')."

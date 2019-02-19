@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\User\Components;
 
 use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
+use Sequode\Application\Modules\Role\Modeler as RoleModeler;
 
 use Sequode\Application\Modules\User\Module;
 
@@ -28,7 +29,7 @@ class FormInputs{
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = (object) null;
         
@@ -83,12 +84,13 @@ class FormInputs{
         $_o->active->Value_Key = 'value';
         $_o->active->Printable_Key = 'printable';
                 
-        $roles_model = new \Sequode\Application\Modules\Role\Modeler::$model;
+        $roles_model = new RoleModeler::$model;
         $roles_model->getAll();
         $values = array('{\'value\':\'all\',\'printable\':\'Any\'}');
         foreach( $roles_model->all as $object){
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
         }
+
         FormInputModeler::exists('select','name');
         $_o->role = json_decode(FormInputModeler::model()->component_object);
         $_o->role->Label = '';
@@ -105,10 +107,10 @@ class FormInputs{
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = (object) null;
-        $roles_model = new \Sequode\Application\Modules\Role\Modeler::$model;
+        $roles_model = new RoleModeler::$model;
         $roles_model->getAll();
         foreach( $roles_model->all as $object){
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
@@ -128,8 +130,8 @@ class FormInputs{
     
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        
-        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = (object) null;
         FormInputModeler::exists('checkboxSwitch','name');
@@ -139,7 +141,7 @@ class FormInputs{
         $_o->active->On_Value = 1;
         $_o->active->Off_Text = 'Suspended';
         $_o->active->Off_Value = 0;
-        $_o->active->Value = $_model->active;
+        $_o->active->Value = $modeler::model()->active;
         
 		return $_o;
         
@@ -148,14 +150,14 @@ class FormInputs{
     
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        
-        ($_model == null) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
-		
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
         $_o = (object) null;
         FormInputModeler::exists('str','name');
 		$_o->name = json_decode(FormInputModeler::model()->component_object);
         $_o->name->Label = '';
-        $_o->name->Value = $_model->name;
+        $_o->name->Value = $modeler::model()->name;
         $_o->name->Width = 200;
         
 		return $_o;
