@@ -9,6 +9,9 @@ use Sequode\Component\FormInput\FormInput as FormInputComponent;
 
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Application\Modules\Token\Module;
+
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
     
 class Cards {
     
@@ -41,7 +44,7 @@ class Cards {
     public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
         
         if($user_model == null ){
-            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+            $user_model = AccountModeler::model();
         }
         
         $module = static::$module;
@@ -66,9 +69,7 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model));
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/token/details', array($modeler::model()->id));
@@ -81,7 +82,7 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->size = 'large';
@@ -92,7 +93,13 @@ class Cards {
         
         $_o->head = 'Token Details';
         $_o->body = array('');
-        $_o->body[] = (object) array('js' => 'registry.setContext({card:\'cards/token/details\',collection:\'tokens\',node:\''.$_model->id.'\'});');
+        $context = (object)[
+            'card' => 'cards/token/details',
+            'collection' => 'tokens',
+            'node' => $_model->id
+        ];
+        $_o->body[] = (object) array('js' => DOMElementKitJS::registrySetContext($context,['node']));
+
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/token/name', array($_model->id)), $_model->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Token');
@@ -100,7 +107,7 @@ class Cards {
         
         
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/token/details'));
-        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+        if(AccountAuthorty::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         return $_o;
@@ -156,7 +163,7 @@ class Cards {
     public static function myTile($user_model=null){
         
         if($user_model == null ){
-            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+            $user_model = AccountModeler::model();
         }
         
         $_o = (object) null;

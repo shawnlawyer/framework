@@ -42,9 +42,7 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model));
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = array();
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/user/details', array($modeler::model()->id));
@@ -58,9 +56,7 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        ($_model == null)
-            ? forward_static_call_array(array($modeler,'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model));
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = (object) null;
         $_o->size = 'large';

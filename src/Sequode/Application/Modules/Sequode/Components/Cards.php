@@ -128,7 +128,7 @@ class Cards {
     public static function sequode($dom_id, $_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->head = 'Component';
@@ -143,7 +143,7 @@ class Cards {
     public static function details( $_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler, 'model'), array()) : forward_static_call_array(array($modeler, 'model'), array($_model));
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->size = 'large';

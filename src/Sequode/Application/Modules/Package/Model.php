@@ -16,7 +16,7 @@ class Model extends ORM {
 			INSERT INTO {$this->table}
 		 	(`id`,`sequode_id`,`owner_id`,`name`,`token`,`routes`)
 			VALUES
-		 	(''
+		 	(0
 			,0
 			,0
 			,'New Package'

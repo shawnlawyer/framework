@@ -6,7 +6,13 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
+
 use Sequode\Application\Modules\Package\Module;
+
+use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
+use AccountModeler as AccountModeler;
 
 class Operations {
     
@@ -19,11 +25,11 @@ class Operations {
         $operations = $module::model()->operations;
         $xhr_cards = $module::model()->xhr->cards;
         
-        forward_static_call_array(array($operations, __FUNCTION__), array(\Sequode\Application\Modules\Account\Modeler::model()->id));
+        forward_static_call_array(array($operations, __FUNCTION__), array(AccountModeler::model()->id));
         $js = array();
         $collection = 'packages';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array(xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
         
         return implode(' ', $js);
         
@@ -39,9 +45,9 @@ class Operations {
         $_o = json_decode($json);
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Modeler::exists($_o->sequode,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isPackage(\Sequode\Application\Modules\Sequode\Modeler::model())
-        && ( \Sequode\Application\Modules\Account\Authority::isOwner($modeler::model()) || \Sequode\Application\Modules\Account\Authority::isSystemOwner() )
+        && SequodeModeler::exists($_o->sequode,'id')
+        && SequodeAuthority::isPackage(SequodeModeler::model())
+        && ( AccountAuthority::isOwner($modeler::model()) || AccountAuthority::isSystemOwner() )
         )){ return; }
         
         forward_static_call_array(array($operations, __FUNCTION__), array($_o->sequode));
@@ -64,8 +70,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){ return; }
         $_o = json_decode($json);
         $name = trim(str_replace('-', '_', str_replace(' ', '_', urldecode($_o->name))));
@@ -98,8 +104,8 @@ class Operations {
 
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array());
         $js = array();
