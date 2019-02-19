@@ -36,7 +36,7 @@ class Operations {
         )){ return; }
         return $xhr_cards::details($operations::newGuest()->id);
     }
-    public static function delete($_model_id){
+    public static function delete($_model_id, $confirmed=false){
     
         $module = static::$module;
         $modeler = $module::model()->modeler;
@@ -47,8 +47,22 @@ class Operations {
         \Sequode\Application\Modules\Account\Authority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
-        $operations::delete();
-        return $xhr_cards::search();
+        if ($confirmed===false){
+            $js = array();
+            $js[] = 'if(';
+            $js[] = 'confirm(\'Are you sure you want to delete this?\')';
+            $js[] = '){';
+            $js[] = 'new XHRCall({route:"operations/user/delete",inputs:['.$modeler::model()->id.', true]});';
+            $js[] = '}';
+            return implode(' ',$js);
+        }else{
+            forward_static_call_array(array($operations, __FUNCTION__), array());
+            $js = array();
+            $collection = 'users';
+            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+            $js[] = forward_static_call_array(array($xhr_cards, 'search'), array());
+            return implode(' ', $js);
+        }
     }
     public static function loginAs($_model_id){
     

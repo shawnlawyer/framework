@@ -107,7 +107,7 @@ class Cards {
         
         
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/token/details'));
-        if(AccountAuthorty::isSystemOwner()){
+        if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         return $_o;
