@@ -54,8 +54,11 @@ trait XHRTrait {
             if( 500000 < strlen(http_build_query($_GET))){ return; }
 			$args = $_GET['args'];
 		}
-
-        echo XHRRequest::call($routes_class, $route, $args);
+        if(isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
+            echo XHRRequest::call($routes_class, 'dialog', [$route, $args[0]]);
+        }else{
+            echo XHRRequest::call($routes_class, $route, $args);
+        }
         return true;
     }
     
