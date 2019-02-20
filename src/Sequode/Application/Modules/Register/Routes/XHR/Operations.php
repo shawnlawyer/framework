@@ -35,6 +35,8 @@ class Operations {
                     $dialog_store->prep->token = Hashes::generateHash();
                     SessionStore::set($dialog->session_store_key, $dialog_store);
                 } else {
+
+                    SessionStore::set('error', 'Login exists!');
                     return false;
                 }
                 break;

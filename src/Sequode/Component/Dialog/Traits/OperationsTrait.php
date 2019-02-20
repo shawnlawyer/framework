@@ -48,11 +48,12 @@ trait OperationsTrait {
                 $error = true;
             }
         }
-
-        if(!$error){
+        if(!$error) {
             $dialog_store->step++;
             SessionStore::set($dialog->session_store_key, $dialog_store);
-            return forward_static_call_array([$xhr_cards, $method], []);
+            return (isset($dialog->complete) && $dialog_store->step == count($dialog->steps))
+                ? ($dialog->complete)([])
+                : forward_static_call_array(array($xhr_cards, $method), []);
         }
     }
 }
