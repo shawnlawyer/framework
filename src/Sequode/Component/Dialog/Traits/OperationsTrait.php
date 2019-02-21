@@ -10,8 +10,7 @@ trait OperationsTrait {
         $error = false;
         $_a = [];
         $module = static::$module;
-        $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array([$dialogs, $method], []);
+        $dialog = forward_static_call_array([$module::model()->components->dialogs, $method], []);
 
         if(!SessionStore::is($dialog->session_store_key)){ return; }
 
@@ -22,7 +21,11 @@ trait OperationsTrait {
             $input = json_decode(rawurldecode($json));
             if(isset($input->reset)){
                 SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
-                return forward_static_call_array([$xhr_cards, $method], []);
+                if(!method_exists($xhr_cards, $method) && in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($xhr_cards, true))) {
+                    return forward_static_call_array([$xhr_cards, 'card'], [$method]);
+                }else{
+                    return forward_static_call_array([$xhr_cards, $method], []);
+                }
             }
         }
 
@@ -51,9 +54,15 @@ trait OperationsTrait {
         if(!$error) {
             $dialog_store->step++;
             SessionStore::set($dialog->session_store_key, $dialog_store);
-            return (isset($dialog->complete) && $dialog_store->step == count($dialog->steps))
-                ? ($dialog->complete)([])
-                : forward_static_call_array(array($xhr_cards, $method), []);
+            if(isset($dialog->complete) && $dialog_store->step == count($dialog->steps)) {
+                return ($dialog->complete)([]);
+            }else{
+                if(!method_exists($xhr_cards, $method) && in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($xhr_cards, true))) {
+                    return forward_static_call_array([$xhr_cards, 'card'], [$method]);
+                }else{
+                    return forward_static_call_array([$xhr_cards, $method], []);
+                }
+            }
         }
     }
 }

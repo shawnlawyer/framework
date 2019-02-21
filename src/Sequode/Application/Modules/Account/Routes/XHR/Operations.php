@@ -11,7 +11,7 @@ use Sequode\Controller\Email\Email;
 use Sequode\Foundation\Hashes;
 
 use Sequode\Application\Modules\Account\Module;
-
+use Sequode\Component\Dialog\Traits\OperationsTrait;
 
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
@@ -19,7 +19,9 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Operations {
     
     public static $module = Module::class;
-    
+
+    use OperationsTrait;
+    /*
 	public static $merge = false;
 	public static $routes = [
 		'addToSequodeFavorites',
@@ -36,7 +38,12 @@ class Operations {
 		'updatePassword' => 'updatePassword',
 		'updateEmail' => 'updateEmail'
     ];
+    */
 
+    public static $dialogs = [
+        'updatePassword',
+        'updateEmail'
+    ];
     public static function emptySequodeFavorites($confirmed=false){
 
         $module = static::$module;
@@ -107,188 +114,90 @@ class Operations {
         return implode(' ', $js);
     }
 
-    public static function updatePassword($json = null){
-        
+    public static function updatePassword($dialog, $dialog_store, $input){
+
         $module = static::$module;
-        $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
-        
-        if(!SessionStore::is($dialog->session_store_key)){ return; }
-        
-        $xhr_cards = $module::model()->xhr->cards;
-        $operations = $module::model()->operations;
         $modeler = $module::model()->modeler;
-        
-        if($json != null){
-            
-            $input = json_decode(rawurldecode($json)); 
-            
-            if(isset($input->reset)){ 
-            
-                SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
-                return forward_static_call_array(array($xhr_cards, __FUNCTION__), array());  
-                
-            }
-            
-        }
-        
-        $dialog_store = SessionStore::get($dialog->session_store_key);
-        $dialog_step = $dialog->steps[$dialog_store->step];
-        
-        if(isset($dialog_step->prep) && $dialog_step->prep == true){
-            
-            if(isset($dialog_step->required_members)){
-                
-                foreach($dialog_step->required_members as $m){
-                    
-                    if(!isset($input->$m)){ return;}
-                    
+
+        switch($dialog_store->step){
+            case 0:
+                if(
+                    rawurldecode($input->password) == rawurldecode($input->confirm_password)
+                    && AccountAuthority::isSecurePassword(rawurldecode($input->password))
+                ){
+                    $dialog_store->prep->new_secret = rawurldecode($input->password);
+                    SessionStore::set($dialog->session_store_key, $dialog_store);
                 }
-                
-            }
-            
-            switch($dialog_store->step){
-                case 0:
-                    if(
-                        rawurldecode($input->password) == rawurldecode($input->confirm_password)
-                        && AccountAuthority::isSecurePassword(rawurldecode($input->password))
-                    ){
-                        $dialog_store->prep->new_secret = rawurldecode($input->password);
-                        SessionStore::set($dialog->session_store_key, $dialog_store);
-                    }
-                    else
-                    {
-                        $error = true;
-                    }
-                    break;
-                case 1:
-                    if(
-                        AccountAuthority::isPassword(rawurldecode($input->password), $modeler::model())
-                    ){
-                        $_a =  array($dialog_store->prep->new_secret);
-                    }
-                    else
-                    {
-                        $error = true;
-                    }
-                    break;
-                    
-            }
-            
+                else
+                {
+                    return false;
+                }
+                break;
+            case 1:
+                if(
+                    AccountAuthority::isPassword(rawurldecode($input->password), $modeler::model())
+                ){
+                    return array($dialog_store->prep->new_secret);
+                }
+                else
+                {
+                    return false;
+                }
+                break;
+
         }
-        
-        if(isset($dialog_step->operation) && is_array($_a)){
-            
-            if(!(forward_static_call_array(array($operations, $dialog_step->operation),$_a))){
-                
-                $error = true;
-                
-            }
-            
-        }
-        
-        if(!isset($error)){
-            
-            $dialog_store->step++;
-            SessionStore::set($dialog->session_store_key, $dialog_store);
-            return forward_static_call_array(array($xhr_cards, __FUNCTION__) ,array()); 
-            
-        }
-        
+        return true;
     }
     
-    public static function updateEmail($json = null){
-        
+    public static function updateEmail($dialog, $dialog_store, $input){
+
         $module = static::$module;
-        $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
-                
-        if(!SessionStore::is($dialog->session_store_key)){ return; }
-        
-        $xhr_cards = $module::model()->xhr->cards;
-        $operations = $module::model()->operations;
         $modeler = $module::model()->modeler;
-        
-        if($json != null){
-            
-                $input = json_decode(rawurldecode($json)); 
-                if(isset($input->reset)){
-                    
-                    SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
-                    return forward_static_call_array(array($xhr_cards, __FUNCTION__), array());
-                    
-                }
+
+
+        switch($dialog_store->step){
                 
-        }
-        
-        $dialog_store = SessionStore::get($dialog->session_store_key);
-        $dialog_step = $dialog->steps[$dialog_store->step];
-        
-        if(isset($dialog_step->prep) && $dialog_step->prep == true){
-            
-            if(isset($dialog_step->required_members)){
-                
-                foreach($dialog_step->required_members as $m){
-                    if(!isset($input->$m)){ return;}
-                }
-                
-            }
-            
-            switch($dialog_store->step){
-                
-                case 0:
-                    if(
-                        !$modeler::exists(rawurldecode($input->email),'email')
-                        && AccountAuthority::isAnEmailAddress(rawurldecode($input->email))
-                    ){
-                        $dialog_store->prep->new_email = rawurldecode($input->email);
-                        $dialog_store->prep->token = Hashes::generateHash();
-                        SessionStore::set($dialog->session_store_key, $dialog_store);
-                        
+            case 0:
+                if(
+                    !$modeler::exists(rawurldecode($input->email),'email')
+                    && AccountAuthority::isAnEmailAddress(rawurldecode($input->email))
+                ){
+
+                    $dialog_store->prep->new_email = rawurldecode($input->email);
+                    $dialog_store->prep->token = Hashes::generateHash();
+                    SessionStore::set($dialog->session_store_key, $dialog_store);
+
+                    if ($_ENV['EMAIL_VERIFICATION'] == true) {
                         $hooks = array(
                             "searchStrs" => array('#TOKEN#'),
                             "subjectStrs" => array($dialog_store->prep->token)
                         );
                         Email::systemSend($dialog_store->prep->new_email,'Verify your email address with sequode.com', EmailContent::render('activation.txt',$hooks));
+                    }else{
+                        return array($dialog_store->prep->new_email);
                     }
-                    else
-                    {
-                        $error = true;
-                    }
-                    break;
-                    
-                case 1:
+                }
+                else
+                {
+                    return false;
+                }
+                break;
+
+            case 1:
+                if ($_ENV['EMAIL_VERIFICATION'] == true) {
                     if(
                         $dialog_store->prep->token == rawurldecode($input->token)
-                    ){  
-                        $_a =  array($dialog_store->prep->new_email);
+                    ){
+                        return array($dialog_store->prep->new_email);
                     }
                     else
                     {
-                        $error = true;
+                        return false;
                     }
-                    break;
-            }
-            
+                }
+                break;
+
         }
-        
-        if(isset($dialog_step->operation) && is_array($_a)){
-            
-            if(!(forward_static_call_array(array($operations, $dialog_step->operation), $_a))){
-                
-                $error = true;
-                
-            }
-        }
-        
-        if(!isset($error)){
-            
-            $dialog_store->step++;
-            SessionStore::set($dialog->session_store_key, $dialog_store);
-            return forward_static_call_array(array($xhr_cards, __FUNCTION__), array()); 
-            
-        }
-        
+        return true;
     }
-    
 }

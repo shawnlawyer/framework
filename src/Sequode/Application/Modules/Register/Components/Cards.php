@@ -56,7 +56,7 @@ class Cards {
         if($dialog_store->step != 0 && $dialog_store->step < count($dialog->steps) - 1){
             $_o->menu = (object) null;
             $_o->menu->items = array();
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/account/' . __FUNCTION__, array(FormComponent::jsQuotedValue('{"reset":"1"}')));
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/register/' . __FUNCTION__, array(FormComponent::jsQuotedValue('{"reset":"1"}')));
         }
         
         $_o->head = ' Create Account';

@@ -12,7 +12,7 @@ use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
 use Sequode\Application\Modules\Package\Module;
 
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
-use AccountModeler as AccountModeler;
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
 class Operations {
     
@@ -78,10 +78,10 @@ class Operations {
         if(strlen($name) < 2){
             return ' alert(\'Package name should be more than 1 character long.\');';
         }
-        if(!preg_match("^/([A-Za-z_])*$/i", substr($name,0,1))){
+        if(!preg_match("/^([A-Za-z_])*$/i", substr($name,0,1))){
             return ' alert(\'Package name should start with a letter or underscore\');';
         }
-        if(!preg_match("^/([A-Za-z0-9_])*$/i", $name)){
+        if(!preg_match("/^([A-Za-z0-9_])*$/i", $name)){
             return ' alert(\'Package name must be alphanumeric and all spaces will convert to underscore.\');';
         }
         forward_static_call_array(array($operations, __FUNCTION__), array($name));

@@ -6,6 +6,10 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Model\Application\Routes as ApplicationRoutes;
 use Sequode\Controller\Application\HTTPRequest\XHR as XHRRequest;
 
+
+use Sequode\Component\Dialog\Traits\OperationsTrait;
+use Sequode\Component\Card\Traits\CardsTrait;
+
 trait XHRTrait {
 	
 	public static function xhr(){
@@ -54,8 +58,10 @@ trait XHRTrait {
             if( 500000 < strlen(http_build_query($_GET))){ return; }
 			$args = $_GET['args'];
 		}
-        if(isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
+        if(in_array('Sequode\\Component\\Dialog\\Traits\\OperationsTrait', class_uses($routes_class, true)) && isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
             echo XHRRequest::call($routes_class, 'dialog', [$route, $args[0]]);
+        }elseif(!method_exists($routes_class, $method) && in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($routes_class, true))) {
+            echo XHRRequest::call($routes_class, 'card', [$route]);
         }else{
             echo XHRRequest::call($routes_class, $route, $args);
         }
