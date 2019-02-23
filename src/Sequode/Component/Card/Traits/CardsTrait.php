@@ -8,7 +8,7 @@ use Sequode\View\Module\Card as ModuleCard;
 
 trait CardsTrait {
 
-    public static function card($method){
+    public static function card($method, $parameters = []){
         $module = static::$module;
         $cards = $module::model()->components->cards;
         if(in_array('Sequode\\Component\\Dialog\\Traits\\OperationsTrait', class_uses($cards, true)) && isset($cards::$dialogs) && in_array($method, $cards::$dialogs)) {
@@ -18,6 +18,6 @@ trait CardsTrait {
             }
         }
         $dom_id = 'CardsContainer';
-        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, $method), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, $method, $parameters), $dom_id);
     }
 }

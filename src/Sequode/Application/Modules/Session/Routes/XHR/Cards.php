@@ -7,24 +7,26 @@ use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 
 use Sequode\Application\Modules\Session\Module;
-    
+
+use Sequode\Component\Card\Traits\CardsTrait;
+
 class Cards {
-    
+
+    use CardsTrait;
+
     public static $module = Module::class;
-    
-    public static function details($_model_id=0, $dom_id = 'CardsContainer'){
+
+    public static $routes = [
+        'details',
+        'search'
+    ];
+
+    public static function details($_model_id=0){
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
         if(!(
             $modeler::exists($_model_id,'id')
-        )){ return; }
-        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, __FUNCTION__), $dom_id);
+        )){ return false; }
     }
-    
-    public static function search($dom_id = 'CardsContainer'){
-        $module = static::$module;
-        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, __FUNCTION__), $dom_id);
-    }
-    
 }

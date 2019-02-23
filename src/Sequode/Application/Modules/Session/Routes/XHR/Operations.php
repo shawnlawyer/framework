@@ -23,9 +23,9 @@ class Operations {
         if(
             !($modeler::exists($_model_id,'id')
             && \Sequode\Application\Modules\Account\Authority::isSystemOwner())
-        ){ return; }
-        forward_static_call_array(array($operations,__FUNCTION__),array());
-        return $xhr_cards::search();
+        ){ return false; }
+        forward_static_call_array([$operations,__FUNCTION__],[]);
+        return forward_static_call_array([$xhr_cards,'card'],['search']);
     }
     public static function blockIP($_model_id){
         
@@ -36,7 +36,7 @@ class Operations {
         if(!(
             $modeler::exists($_model_id,'id')
             && $modeler::model()->ip_address != $session_ip
-        )){ return; }
+        )){ return false; }
         \Sequode\Application\Modules\BlockedIP\Modeler::model()->create($modeler::model()->ip_address);
     }
     public static function search($json){
@@ -44,8 +44,6 @@ class Operations {
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
         $collection = 'session_search';
         SessionStore::set($collection, $_o);
-		$js=array();
-        $js[] = DOMElementKitJS::fetchCollection($collection);
-        return implode(' ',$js);
+        return DOMElementKitJS::fetchCollection($collection);
     }
 }

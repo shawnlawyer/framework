@@ -32,7 +32,7 @@ class Operations
                     )
                     && \Sequode\Application\Modules\Account\Authority::isActive($modeler::model())
                 ) {
-                    $dialog_store->prep->user_id = $modeler::model()->id;
+                    $dialog_store->prep->owner_id = $modeler::model()->id;
                     SessionStore::set($dialog->session_store_key, $dialog_store);
                 } else {
                     return false;
@@ -40,7 +40,7 @@ class Operations
                 break;
             case 1:
                 if (
-                    $modeler::exists($dialog_store->prep->user_id, 'id')
+                    $modeler::exists($dialog_store->prep->owner_id, 'id')
                     && \Sequode\Application\Modules\Account\Authority::isPassword(rawurldecode($input->secret), $modeler::model())
                 ) {
                     return  [$modeler::model()];

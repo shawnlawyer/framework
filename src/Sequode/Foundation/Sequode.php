@@ -9,13 +9,13 @@ if(!is_dir( SEQUODE_DIRECTORY ) && !mkdir( SEQUODE_DIRECTORY , 0777, true)) {
     
 }
 
-function SequodeSDK($token = false) {
+function Sequode($token = false) {
     
-    return new SequodeSDK($token);
+    return new Sequode($token);
     
 }
 
-class SDK{
+class Sequode{
    
     private $package = false;
     private $origin_host = 'https://api.sequode.com/';

@@ -12,7 +12,7 @@ class Authority {
     public static function isAuthenticated($_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return (SessionStore::get('user_id')) ? true : false;
+        return (SessionStore::get('owner_id')) ? true : false;
     }
     public static function isOwner($test_model, $_model = null){
         $modeler = static::$modeler;

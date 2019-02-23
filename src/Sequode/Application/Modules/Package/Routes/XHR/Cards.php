@@ -21,14 +21,13 @@ class Cards {
         'search',
         'my'
     ];
-    public static function details($_model_id=0, $dom_id = 'CardsContainer'){
+    public static function details($_model_id=0){
         $module = static::$module;
         $modeler = $module::model()->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
         && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
         || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
-        )){return;}
-        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, __FUNCTION__), $dom_id);
+        )){return false;}
     }
 }

@@ -12,7 +12,7 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 trait CardsConsoleMenusTrait {
 	
     public static function menus($dom_id = 'MenusContainer'){
-        
+
         $modules = ModuleRegistry::modules();
         
         $html = $js = array();
@@ -33,7 +33,6 @@ trait CardsConsoleMenusTrait {
             }
             
         }
-        
         return DOMElementKitJS::addIntoDom($dom_id, implode('',$html), 'replace'). implode(' ',$js);
         
     }

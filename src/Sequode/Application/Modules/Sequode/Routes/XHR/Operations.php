@@ -92,7 +92,7 @@ class Operations {
         $js = array();
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
         return implode(' ', $js);
     }
     public static function newSequence(){
@@ -101,7 +101,8 @@ class Operations {
         $modeler = $module::model()->modeler;
         $operations = $module::model()->operations;
         $xhr_cards = $module::model()->xhr->cards;
-        
+        $cards = $module::model()->xhr->cards;
+
         if(!(
         \Sequode\Application\Modules\Account\Authority::canCreate()
         )){ return; }
@@ -109,7 +110,7 @@ class Operations {
         $js = array();
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
         return implode(' ', $js);
     }
     public static function updateName($_model_id, $json){
@@ -137,7 +138,7 @@ class Operations {
         $modeler::exists($_model_id,'id');
         forward_static_call_array(array($operations, __FUNCTION__), array($name));
         $js = array();
-        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
     
         return implode(' ', $js);
 
@@ -168,7 +169,7 @@ class Operations {
             $js = array();
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-            $js[] = forward_static_call_array(array($xhr_cards, 'my'), array());
+            $js[] = forward_static_call_array([$xhr_cards, 'card'], ['my']);
             return implode(' ', $js);
         }
     }

@@ -15,7 +15,7 @@ trait XHRTrait {
 	public static function xhr(){
         
 		$call = false;
-		$args = array();
+		$args = [];
 
 		if(isset($_POST['sub']) && !empty($_POST['sub'])){
 			$call = $_POST['sub'];
@@ -58,11 +58,22 @@ trait XHRTrait {
             if( 500000 < strlen(http_build_query($_GET))){ return; }
 			$args = $_GET['args'];
 		}
+
         if(in_array('Sequode\\Component\\Dialog\\Traits\\OperationsTrait', class_uses($routes_class, true)) && isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
             echo XHRRequest::call($routes_class, 'dialog', [$route, $args[0]]);
-        }elseif(!method_exists($routes_class, $method) && in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($routes_class, true))) {
-            echo XHRRequest::call($routes_class, 'card', [$route]);
+        }elseif(in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($routes_class, true)) && isset($routes_class::$routes) && in_array($route, $routes_class::$routes)) {
+
+            if(method_exists($routes_class, $route)){
+                $parameters = forward_static_call_array([$routes_class, $route], $args);
+
+                if($parameters === false){
+                    return;
+                }
+                $parameters = is_array($parameters) ? $parameters : [];
+            }
+            echo XHRRequest::call($routes_class, 'card', [$route, $parameters]);
         }else{
+
             echo XHRRequest::call($routes_class, $route, $args);
         }
         return true;

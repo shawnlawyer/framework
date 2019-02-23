@@ -14,7 +14,7 @@ trait ORMModelLoadSignedInTrait {
 
         if(SessionAuthority::isCookieValid() && SessionModeler::exists(SessionModeler::model()->session_id, 'session_id')){
 
-            $modeler::exists(SessionStore::get('user_id'),'id');
+            $modeler::exists(SessionStore::get('owner_id'),'id');
 
         }
 

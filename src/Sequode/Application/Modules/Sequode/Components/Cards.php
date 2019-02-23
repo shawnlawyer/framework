@@ -144,7 +144,7 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
+
         $_o = (object) null;
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';

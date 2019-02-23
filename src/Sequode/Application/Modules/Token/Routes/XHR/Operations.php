@@ -6,9 +6,13 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+
 use Sequode\Application\Modules\Token\Module;
 
 class Operations {
+
     public static $module = Module::class;
     
     public static function newToken(){   
@@ -18,11 +22,11 @@ class Operations {
         $operations = $module::model()->operations;
         $xhr_cards = $module::model()->xhr->cards;
         
-        forward_static_call_array(array($operations, __FUNCTION__), array(\Sequode\Application\Modules\Account\Modeler::model()->id));
-        $js = array();
+        forward_static_call_array(array($operations, __FUNCTION__), array(AccountModeler::model()->id));
+        $js = [];
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
         return implode(' ', $js);
     }
     public static function updateName($_model_id, $json){ 
@@ -34,8 +38,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){ return; }
         $_o = json_decode($json);
         $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($_o->name))));
@@ -48,11 +52,11 @@ class Operations {
         if(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             return ' alert(\'Token name must be alphanumeric and all spaces will convert to underscore.\');';
         }
-        forward_static_call_array(array($operations, __FUNCTION__) , array($name));
-        $js = array();
+        forward_static_call_array([$operations, __FUNCTION__] , [$name]);
+        $js = [];
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
         return implode(' ', $js);
     }
     public static function delete($_model_id){   
@@ -64,15 +68,16 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){ return; }
         
-        forward_static_call_array(array($operations, __FUNCTION__), array());
+        forward_static_call_array([$operations, __FUNCTION__], []);
         
-        $js = array();
-        $js[] = forward_static_call_array(array($xhr_cards, 'my'), array());
-        
+        $js = [];
+        $collection = 'tokens';
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['my']);
         return implode(' ', $js);
         
     }
@@ -84,7 +89,6 @@ class Operations {
         SessionStore::set($collection, $_o);
 		$js = array();
         $js[] = DOMElementKitJS::fetchCollection($collection);
-        
         return implode(' ',$js);
         
     }
