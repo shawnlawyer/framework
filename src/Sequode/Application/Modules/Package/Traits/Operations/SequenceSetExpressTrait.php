@@ -1,8 +1,7 @@
 <?php
-
 namespace Sequode\Application\Modules\Package\Traits\Operations;
 
-trait SequenceExpressionTrait {
+trait SequenceSetExpressTrait {
         
     public static function exists($value, $by='id'){
         
@@ -17,7 +16,7 @@ trait SequenceExpressionTrait {
     }
     
     public static function node($value, $by = null){
-        
+
         switch($by){
             case 'id':
             case 'name':
@@ -26,17 +25,11 @@ trait SequenceExpressionTrait {
                 $by = 'id';
                 break;
         }
-        
-        $key = self::exists($value,$by);
-        
-        if($key !== false){
-            
-            return self::collection()[$key];
-            
-        }
-        
-        return false; 
-        
+
+        $key = static::exists($value, $by);
+        $models = static::models();
+        return ($key !== false) ? $models[$key] : false;
+
 	}
     
     public static function express(&$sm){
@@ -45,7 +38,7 @@ trait SequenceExpressionTrait {
         $_s = array(array());
         foreach($sm->s as $id){
             
-            $_s[] = self::node($sm->s[$_ks]);
+            $_s[] = static::node($sm->s[$_ks]);
             $_ks++;
             foreach($_s[$_ks]->i as $_m => $_v){
                 
@@ -93,7 +86,7 @@ trait SequenceExpressionTrait {
             
             (isset($_s[$_ks]->c))
                 ? call_user_func_array($_s[$_ks]->c, array(&$_s[$_ks]))
-                : self::express($_s[$_ks]);
+                : static::express($_s[$_ks]);
                 
             foreach($_s[$_ks]->o as $_m => $_v){
                 

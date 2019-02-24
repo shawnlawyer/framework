@@ -3,6 +3,8 @@ namespace Sequode;
 header('Access-Control-Allow-Origin: *');
 define('MACHINE_TEMP_DIRECTORY',((!empty($_SERVER['WINDIR'])) ? '%TEMP%' : '/tmp'));
 define('SEQUODE_DIRECTORY', MACHINE_TEMP_DIRECTORY . DIRECTORY_SEPARATOR . 'sequode');
+define('SEQUODE_API_HOST', $_ENV['SEQUODE_API_HOST'] . $_ENV['SEQUODE_API_TOKEN'] . '/');
+define('SEQUODE_API_TOKEN', $_ENV['SEQUODE_API_TOKEN']);
 if(!is_dir( SEQUODE_DIRECTORY ) && !mkdir( SEQUODE_DIRECTORY , 0777, true)) {
 
     echo 'no cache directory:' . SEQUODE_DIRECTORY;
@@ -18,11 +20,12 @@ function Sequode($token = false) {
 class Sequode{
 
     private $package = false;
-    private $origin_host = $_ENV['SEQUODE_API_HOST'];
+    private $origin_host = SEQUODE_API_HOST;
     private $name = null;
     private $token = null;
     public function __construct($token = false){
         if($token != false && !class_exists($token)){
+            $this->token = $token;
             $this->loadPackage($token, true);
         }
         return ($this->package != false && $this->package == $token) ? $this : false;
@@ -63,7 +66,7 @@ class Sequode{
         echo "\n:";
         $line = fgets(STDIN);
         if(strpos(trim($line),'origin/')  === 0){
-            $url = $this->origin_host . $this->token . '/' . substr_replace(trim($line), '', 0 ,strlen('origin/'));
+            $url = $this->origin_host . '/' . substr_replace(trim($line), '', 0 ,strlen('origin/'));
             $this->apiRequest($url, true);
         }elseif(strpos(trim($line),'-b')  === 0){
             $this->installPackage($this->token);
@@ -91,7 +94,9 @@ class Sequode{
     }
     private function installPackage($token){
         $filepath = SEQUODE_DIRECTORY . DIRECTORY_SEPARATOR . $token.'.class.php';
-        $url = $this->origin_host . $token . '/downloads/package';
+        $url = $this->origin_host .'downloads/package/source/' . $token;
+        echo 'Pulling from: ';
+        echo $url . PHP_EOL;
         $read = fopen($url, "rb");
         if($read){
             $write = fopen($filepath, "wb");
@@ -117,18 +122,20 @@ class Sequode{
     private function loadPackage($token, $try_install = false){
         if(!class_exists($token)){
             $filepath = SEQUODE_DIRECTORY . DIRECTORY_SEPARATOR . $token.'.class.php';
-            if(!@include($filepath)){
+            if(!file_exists($filepath)){
                 if($try_install == true){
                     $this->installPackage($token);
                     $this->loadPackage($token);
                 }
+            } else {
+                include($filepath);
             }
         }
+
         if(class_exists($token)){
             $this->package = $token;
-            $this->name = $token::$name;
-            $this->token = $token::$token;
-            $this->origin_host = $token::$origin_host;
+            $this->name = $token;
+            $this->token = $token;
         }
     }
     private function expressRequest($request_pieces, $buffer_output=true){
@@ -144,6 +151,7 @@ class Sequode{
                 $route = str_replace('.json', '', $route);
             }
             array_shift($request_pieces);
+
             $_sm = $_package::node($route, 'name');
             if($_sm === false){
                 echo 'Unknown: '.$route;

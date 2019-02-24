@@ -6,7 +6,7 @@ use Sequode\View\Export\PHPClosure;
 
 trait ORMModelExportSequenceSetTrait {
     
-    public static function download(){
+    public static function source(){
         $used_ids = array();
         $sequence_set_model_ids = array_unique(json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->sequence));
         
@@ -87,7 +87,7 @@ trait ORMModelExportSequenceSetTrait {
         }
         
         $_o = '<?php
-class ' . \Sequode\Application\Modules\Package\Modeler::model()->name . ' {
+class ' . \Sequode\Application\Modules\Package\Modeler::model()->token . ' {
     
     use \Sequode\Application\Modules\Package\Traits\Operations\SequenceSetExpressTrait;
     
