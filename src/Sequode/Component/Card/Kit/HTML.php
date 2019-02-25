@@ -10,7 +10,7 @@ class HTML {
         return '<div class="subline ">'.$content.'</div>';
     }
     public static function shim($break_before = false,$break_after = false){
-        $html = array();
+        $html = [];
         if($break_before != false){
             $html[] = '<br />';
         }
@@ -21,7 +21,7 @@ class HTML {
         return implode('',$html);
 	}
     public static function divider($break_before = false){
-        $html = array();
+        $html = [];
         if($break_before != false){
             $html[] = '<br />';
         }
@@ -29,7 +29,7 @@ class HTML {
         return implode('',$html);
 	}
     public static function contentRowDivider(){
-        $html = array();
+        $html = [];
         if($break_before != false){
             $html[] = '<br />';
         }
@@ -40,7 +40,7 @@ class HTML {
         return implode('',$html);
 	}
     public static function menuCardHidingContainer($contents, $z_index=0){
-        $html = array();
+        $html = [];
         $html[] = '<div class="menu-container-wrapper" style="z-index: '.$z_index.'; position: relative;">';
         $html[] = '<div class="menu-container" style="z-index: '.$z_index.'; position: relative;">';
         $html[] = $contents;

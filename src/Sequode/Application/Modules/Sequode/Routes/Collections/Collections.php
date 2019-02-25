@@ -10,20 +10,20 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 class Collections{
     public static $module = Module::class;
 	public static $merge = false;
-	public static $routes = array(
+	public static $routes = [
 		'sequodes',
 		'my_sequodes',
 		'sequode_search',
 		'sequode_favorites',
 		'palette',
-	);
-	public static $routes_to_methods = array(
+    ];
+	public static $routes_to_methods = [
 		'sequodes' => 'main',
 		'my_sequodes' => 'owned',
 		'sequode_search' => 'search',
 		'sequode_favorites' => 'favorited',
 		'palette' => 'palette',
-	);
+    ];
 	public static function main($key = null){
         
         $module = static::$module;
@@ -35,25 +35,25 @@ class Collections{
             
             if(AccountAuthority::isSystemOwner()){
                 
-                $where = array();
+                $where = [];
                 $_model->getAll($where,'id, process_description_node');
-                $nodes = array();
+                $nodes = [];
                 foreach($_model->all as $object){
                     $nodes[] = '"' . $object->id . '":' . $object->process_description_node;
                 }
                 
             }else{
                 
-                $nodes = array();
-                $where = array();
-                $where[] = array('field'=>'owner_id','operator'=>'!=','value'=>AccountModeler::model()->id);
-                $where[] = array('field'=>'shared','operator'=>'=','value'=>'1');
+                $nodes = [];
+                $where = [];
+                $where[] = ['field'=>'owner_id','operator'=>'!=','value'=>AccountModeler::model()->id];
+                $where[] = ['field'=>'shared','operator'=>'=','value'=>'1'];
                 $_model->getAll($where,'id, process_description_node');
                 foreach($_model->all as $object){
                     $nodes[] = '"' . $object->id . '":' . $object->process_description_node;
                 }
-                $where = array();
-                $where[] = array('field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id);
+                $where = [];
+                $where[] = ['field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id];
                 $_model->getAll($where,'id, process_description_node');
                 foreach($_model->all as $object){
                     $nodes[] = '"' . $object->id . '":' . $object->process_description_node;
@@ -94,7 +94,7 @@ class Collections{
         
         $finder = $module::model()->finder;
         $collection = 'sequode_search';
-        $nodes = array();
+        $nodes = [];
         if(SessionStore::is($collection)){
             $_array = $finder::search(SessionStore::get($collection));
             foreach($_array as $_object){
@@ -112,10 +112,10 @@ class Collections{
         $modeler = $module::model()->modeler;
         
         $_model = new $modeler::$model;
-        $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id);
+        $where = [];
+        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id];
         $_model->getAll($where,'id,name');
-        $nodes = array();
+        $nodes = [];
         foreach($_model->all as $object){
             $nodes[] = '"'.$object->id.'":{"id":"'.$object->id.'","n":"'.$object->name.'"}';
         }
@@ -130,7 +130,7 @@ class Collections{
         $modeler = $module::model()->modeler;
         
         $collection = 'sequode_favorites';
-        $nodes = array();
+        $nodes = [];
         if(!empty(AccountModeler::model()->$collection)){
             $_model_ids = json_decode(AccountModeler::model()->$collection);
             foreach($_model_ids as $_model_id){
@@ -177,7 +177,7 @@ class Collections{
             $sequode_model = new $modeler::$model;
             $sequode_model->exists(SessionStore::get('palette'),'id');
             $sequence = array_unique(json_decode($sequode_model->sequence));
-            $nodes = array();
+            $nodes = [];
             foreach($sequence as $id){
                 $sequode_model->exists($id,'id');
                 $nodes[] = '"'.$sequode_model->id.'":{"id":"'.$sequode_model->id.'","n":"'.$sequode_model->name.'"}';

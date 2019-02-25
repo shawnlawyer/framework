@@ -17,36 +17,36 @@ class Dialogs {
     
     public static function login(){
         
-        $_o = (object) array(
+        $_o = (object) [
             'session_store_key' => 'login',
-            'session_store_setup' => (object) array('step'=>0, 'prep'=> (object) null),
+            'session_store_setup' => (object) ['step'=>0, 'prep'=> (object) null],
             'card'=> 'login',
-            'steps' => array(
-                (object) array(
-                    'forms'=> array('login'),
-                    'content'=> (object) array(
+            'steps' => [
+                (object) [
+                    'forms'=> ['login'],
+                    'content'=> (object) [
                         'head' => 'Login',
                         'body' => 'Enter your email address / login key'
-                    ),
+                    ],
                     'prep' => true,
-                    'required_members' => array('login')
-                ),
-                (object) array(
-                    'forms'=> array('secret'),
-                    'content'=> (object) array(
+                    'required_members' => ['login']
+                ],
+                (object) [
+                    'forms'=> ['secret'],
+                    'content'=> (object) [
                         'head' => 'Login Secret',
                         'body' => 'Enter your password / secret key'
-                    ),
+                    ],
                     'prep' => true,
-                    'required_members' => array('secret'),
+                    'required_members' => ['secret'],
                     'operation' => 'login'
-                )
-            ),
+                ]
+            ],
             'complete' => function(){
                 $console_module = ModuleRegistry::model()['Console'];
                 forward_static_call_array([$console_module::model()->routes['http'], 'js'], [false]);
             }
-        );
+        ];
 		return $_o; 
     }  
 }

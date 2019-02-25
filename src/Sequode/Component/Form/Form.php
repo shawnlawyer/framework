@@ -14,7 +14,7 @@ class Form {
     public static $collection_replacement_hook = '[%COLLECTION_JS%]';
     
 	public static function domIds($_i){
-        $dom_ids = array();
+        $dom_ids = [];
         if(is_object($_i)){
             foreach($_i as $loop_member => $loop_value){
                 $dom_ids[] = FormInputComponent::uniqueHash();
@@ -24,7 +24,7 @@ class Form {
 	}
     
 	public static function xhrCall($route, $inputs){
-        $js = array();
+        $js = [];
         $js[] = 'new XHRCall({';
         $js[] = 'route:\''. $route .'\'';
         if(is_array($inputs) && count($inputs) != 0){
@@ -44,7 +44,7 @@ class Form {
     
 	public static function collectValues($form_object, $dom_ids){
         
-        $js = array();
+        $js = [];
         $js[] = "''";
         if(is_object($form_object)){
             $replacement_object = (object) null;
@@ -53,7 +53,7 @@ class Form {
                 $replacement_object->$loop_member = $dom_ids[$i];
                 $i++;
             }
-            $js = array();
+            $js = [];
             $js[] = '(function(){';
             $js[] = 'var d = decodeURIComponent(\''.rawurlencode(json_encode($replacement_object)).'\');';
             foreach($dom_ids as $dom_id){
@@ -68,7 +68,7 @@ class Form {
 	}
 	public static function registerTimeout($variable_name, $javascript, $milliseconds=0){
         
-        $js = array();
+        $js = [];
         $js[] = 'registry.timeout(\''.$variable_name.'\', function(){';
         $js[] = $javascript;
         $js[] = 'registry.timeouts[\''.$variable_name.'\'] = null; },'.$milliseconds.');';
@@ -78,7 +78,7 @@ class Form {
 	}
 	public static function enterPressed($javascript){
         
-        $js = array();
+        $js = [];
         $js[] = 'if (event.keyCode == 13){';
         $js[] = $javascript;
         $js[] = '}';
@@ -96,7 +96,7 @@ class Form {
     
 	public static function renderFormInputs($form_object, $dom_ids, $js_events_array){
         
-		$components_array = array();
+		$components_array = [];
 		$i = $j = 0;
         foreach($form_object as $member => $component_object){
 			$component_object = self::attachComponentObjectEvents($component_object,$js_events_array[$j]);
@@ -122,17 +122,17 @@ class Form {
         }else{
             $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCall($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters));
         }
-        $event_js = array();
+        $event_js = [];
         if($_i->auto_submit_time != null){
             $event_js[] = self::registerTimeout($timeout_var_name, $submit_js, $_i->auto_submit_time);
             $js_event->Value_Changed = implode(' ',$event_js);
         }
-        $event_js = array();
+        $event_js = [];
         if($_i->submit_on_enter == true){
             $event_js[] = self::enterPressed(self::registerTimeout($timeout_var_name, $submit_js));
             $js_event->On_Key_Up = implode(' ',$event_js);
         }
-        $components_array = self::renderFormInputs($_i->form_inputs, $dom_ids, array($js_event));
+        $components_array = self::renderFormInputs($_i->form_inputs, $dom_ids, [$js_event]);
         
         if($_i->submit_button != null){
             FormInputModeler::exists('button','name');
@@ -147,21 +147,21 @@ class Form {
     
     public static function formInputs($class, $method, $parameters = null){
         
-        return forward_static_call_array(array($class, $method),($parameters == null) ? array() : $parameters);
+        return forward_static_call_array([$class, $method],($parameters == null) ? [] : $parameters);
         
 	}
         
     public static function formObject($_i = null){
         
-        $_o = (object) array(
-            'form_inputs' => array(),
+        $_o = (object) [
+            'form_inputs' => [],
             'submit_js' => null,
             'submit_button' => null,
             'submit_on_enter' => true,
             'auto_submit_time' => null,
             'submit_xhr_call_route' => '',
-            'submit_xhr_call_parameters' => array(static::$collection_replacement_hook),
-        );
+            'submit_xhr_call_parameters' => [static::$collection_replacement_hook],
+        ];
         
         if(is_object($_i)){
             

@@ -17,14 +17,14 @@ class Operations{
     }
     public static function makeFunction($node, $add_php=false){
             $input_object = (object) null;
-            $input_members = array();
+            $input_members = [];
             $parameters = $node->i;
             foreach($parameters as $member => $value){
                 $input_object->$member = null;
                 $input_members[] = '$_s->i->'.$member;
                 
             }
-            $code = array();
+            $code = [];
             $code[] = '$_s->o->Success = true;';
             $code[] = 'if($_s->p->Run_Process === true || intval($_s->p->Run_Process) == 1){';
             $code[] = '    try{';
@@ -63,9 +63,9 @@ class Operations{
         $node->id = $sequode_model->id;
         $node->n = $sequode_model->name;
         $node->u = intval($sequode_model->usage_type);
-        $node->i = array();
-        $node->p = array();
-        $node->o = array();
+        $node->i = [];
+        $node->p = [];
+        $node->o = [];
         
         switch($sequode_model->usage_type){
             case 0:
@@ -73,7 +73,7 @@ class Operations{
                 break;
             case 1:
                 $node->s = json_decode($sequode_model->sequence);
-                $node->m = array();
+                $node->m = [];
                 $node->grid_areas = json_decode($sequode_model->grid_areas);
                 $node = self::addOnForSequodeSequenceNode($node,$sequode_model);
                 break;
@@ -136,9 +136,9 @@ class Operations{
     public static function addOnForSequodeSequenceNode($node, $sequode_model = null){
         if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         
-        $input_nodes = array();
-        $output_nodes = array();
-        $property_nodes = array();
+        $input_nodes = [];
+        $output_nodes = [];
+        $property_nodes = [];
         
         $internal_input_key = 0;
         $internal_output_key = 0;
@@ -165,8 +165,8 @@ class Operations{
         }
         $property_object_map = json_decode($sequode_model->property_object_map);
         $sequence = json_decode($sequode_model->sequence);
-        $model_object_cache = array();
-        $object_cache = array();
+        $model_object_cache = [];
+        $object_cache = [];
         foreach($sequence as $loop_sequence_key => $loop_model_id){
             if(!array_key_exists($loop_model_id, $model_object_cache)){
                 $model_object_cache[$loop_model_id] = new SequodeModeler::$model;
@@ -181,9 +181,9 @@ class Operations{
             $loop_output_object = $object_cache[$loop_model_id]->output_object;
             
             $sub_node = (object) null;
-            $sub_node->i = array();
-            $sub_node->p = array();
-            $sub_node->o = array();
+            $sub_node->i = [];
+            $sub_node->p = [];
+            $sub_node->o = [];
             if($loop_input_object != (object) null){
                 
                 foreach($loop_input_object as $loop_member => $loop_value){
@@ -244,7 +244,7 @@ class Operations{
         if($output_object != (object) null){
             $output_object_map = json_decode($sequode_model->output_object_map);
             $default_output_object_map = json_decode($sequode_model->default_output_object_map);
-            $output_source_keys = array();
+            $output_source_keys = [];
             foreach($output_object_map as $loop_key => $loop_object){
                 if(intval($loop_object->Key) != 0 || (intval($loop_object->Key) == 0 && $loop_object->Member == 'Root')){
                     continue;
@@ -314,7 +314,7 @@ class Operations{
 		return json_decode('{"Request": "'.$sequode_model->name.'", "Parameters":"'.$sequode_model->input_object.'"}');
 	}
     public static function removeKeys($keyed_array){
-        $new_array = array();
+        $new_array = [];
         foreach((array)$keyed_array as $value){
             $new_array[] = $value;
         }
@@ -390,7 +390,7 @@ class Operations{
         if($type == 'property'  && !isset($detail->Run_Process)){
             $detail->Run_Process = self::makeDefaultProcessObjectDetailMember('Run_Process');
         }
-        $add_members = array();
+        $add_members = [];
         foreach($object as $loop_member => $loop_value){
             if(!isset($detail->$loop_member) || $detail->$loop_member == null){
                 $add_members[$loop_member] = null;
@@ -411,7 +411,7 @@ class Operations{
 				$add_members[$location_object->Member] = $map_key;
 			}
 		}
-        $object_cache = array();
+        $object_cache = [];
 		foreach( $add_members as $add_member => $value ){
 			$external_member = $map[$value]->Member;
 			$internal_member = $default_map[$value]->Member;
@@ -492,8 +492,8 @@ class Operations{
             default:
                 return false;
         }
-        $object_cache = array();
-        $map = array();
+        $object_cache = [];
+        $map = [];
 		$map[] = self::makeMapLocationObject($type,0,'Root','');
         $sequence = json_decode($sequode_model->sequence);
         foreach( $sequence as $key => $id ){
@@ -543,7 +543,7 @@ class Operations{
         return $object;
     }
 	public static function makeUpdateSequenceInputMap($sequence){
-        $map = array(); 
+        $map = [];
 		foreach($sequence as $key => $value){
 			$loop_object = (object) NULL;
 			$loop_object->id = $value;
@@ -553,7 +553,7 @@ class Operations{
 		return $map;
 	}
 	public static function addToUpdateSequenceInputMap($map, $id, $position){
-		$new_map = array();
+		$new_map = [];
 		if(count($map) == 0){
 			$new_object = (object) NULL;
 			$new_object->id = $id;
@@ -585,7 +585,7 @@ class Operations{
 			array_shift($map);
 			array_reverse($map);
 		}else{
-			$new_map = array();
+			$new_map = [];
 			foreach($map as $key => $object){
 				if(intval($key) == intval($position)){
 					continue;
@@ -598,7 +598,7 @@ class Operations{
 	}
 	public static function reorderUpdateSequenceInputMap($map, $from_position, $to_position){
 		if($from_position == $to_position){return $map;}
-		$new_map = array();
+		$new_map = [];
 		foreach($map as $key => $object){
 			if(intval($key) == $from_position){	continue; }
 			if(intval($key) == $to_position){
@@ -685,7 +685,7 @@ class Operations{
 	}
 	public static function removeZeroCountGridAreas($grid_areas){
 		if(count($grid_areas) == 1){return $grid_areas;}
-		$new_grid_areas = array();
+		$new_grid_areas = [];
 		foreach($grid_areas as $grid_area){
 			if($grid_area->count > 0){
 				$new_grid_areas[] = $grid_area;
@@ -753,7 +753,7 @@ class Operations{
         $cell_height = 250;
         $cell_width = 50;
         $grid_area_width_padding = 200;
-        $new_grid_areas = array();
+        $new_grid_areas = [];
         foreach($grid_areas as $key => $grid_area){
             if($grid_area_key == $key ){
                 switch($modify){
@@ -829,7 +829,7 @@ class Operations{
 		return $grid_area;
     }
 	public static function defaultGridAreas($count=0){
-		return array(self::defaultGridArea($count));
+		return [self::defaultGridArea($count)];
     }
 	
 }

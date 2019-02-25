@@ -7,7 +7,7 @@ use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 class JS {
     
     public static function placeCard($card, $dom_id = 'CardsContainer'){
-        $html = $js = array();
+        $html = $js = [];
         if($dom_id == 'CardsContainer'){
             $html[] = CardKitHTML::divider();
         }
@@ -17,7 +17,7 @@ class JS {
         return implode(' ',$js);
     }
     public static function placeDeck($deck, $dom_id = 'CardsContainer', $clear=true, $divide=true, $shim=true){
-        $html = $js = array();
+        $html = $js = [];
         if($divide != false){
             $html[] = CardKitHTML::divider(($shim != false) ? false : true);
         }

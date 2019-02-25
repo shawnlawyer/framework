@@ -7,11 +7,11 @@ class Module {
     public static $registry_key = 'FormInput';
     
 	public static function model(){
-        $_o = (object)  array (
+        $_o = (object)  [
         
             'context' => 'form_input',
             'modeler' => Modeler::class
-        );
+        ];
         
 		return $_o;
         

@@ -35,7 +35,7 @@ trait SequenceSetExpressTrait {
     public static function express(&$sm){
             
         $_ks = $_ki = $_kp = $_ko = 0;
-        $_s = array(array());
+        $_s = [[]];
         foreach($sm->s as $id){
             
             $_s[] = static::node($sm->s[$_ks]);
@@ -54,7 +54,7 @@ trait SequenceSetExpressTrait {
                     
                 }
                 
-                if(is_string($_s[$_ks]->i->{$_m}) && in_array(strtolower($_s[$_ks]->i->{$_m}), array('true','false'))){
+                if(is_string($_s[$_ks]->i->{$_m}) && in_array(strtolower($_s[$_ks]->i->{$_m}), ['true','false'])){
                     
                     $_s[$_ks]->i->{$_m} = (strtolower($_s[$_ks]->i->{$_m}) == 'true') ? true : false;
                     
@@ -76,7 +76,7 @@ trait SequenceSetExpressTrait {
                     
                 }
                 
-                if(is_string($_s[$_ks]->p->{$_m}) && in_array(strtolower($_s[$_ks]->p->{$_m}), array('true','false'))){
+                if(is_string($_s[$_ks]->p->{$_m}) && in_array(strtolower($_s[$_ks]->p->{$_m}), ['true','false'])){
                     
                     $_s[$_ks]->p->{$_m} = (strtolower($_s[$_ks]->p->{$_m}) == 'true') ? true : false;
                     
@@ -85,7 +85,7 @@ trait SequenceSetExpressTrait {
             }
             
             (isset($_s[$_ks]->c))
-                ? call_user_func_array($_s[$_ks]->c, array(&$_s[$_ks]))
+                ? call_user_func_array($_s[$_ks]->c, [&$_s[$_ks]])
                 : static::express($_s[$_ks]);
                 
             foreach($_s[$_ks]->o as $_m => $_v){

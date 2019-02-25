@@ -57,16 +57,16 @@ class Operations {
                     rawurldecode($input->accept) == 1
                 ) {
                     if ($_ENV['EMAIL_VERIFICATION'] == true) {
-                        $hooks = array(
-                            "searchStrs" => array('#TOKEN#'),
-                            "subjectStrs" => array($dialog_store->prep->token)
-                        );
+                        $hooks = [
+                            "searchStrs" => ['#TOKEN#'],
+                            "subjectStrs" => [$dialog_store->prep->token]
+                        ];
                         Email::systemSend($dialog_store->prep->email, 'Verify your email address with sequode.com', EmailContent::render('activation.txt', $hooks));
                     } else {
                         if (
                         !$modeler::exists($dialog_store->prep->email, 'email')
                         ) {
-                            return array($dialog_store->prep->email, $dialog_store->prep->password);
+                            return [$dialog_store->prep->email, $dialog_store->prep->password];
                         } else {
                             return false;
                         }
@@ -81,7 +81,7 @@ class Operations {
                         !$modeler::exists($dialog_store->prep->email, 'email')
                         && $dialog_store->prep->token == trim(rawurldecode($input->token))
                     ) {
-                        return array($dialog_store->prep->email, $dialog_store->prep->password);
+                        return [$dialog_store->prep->email, $dialog_store->prep->password];
                     } else {
                         return false;
                     }

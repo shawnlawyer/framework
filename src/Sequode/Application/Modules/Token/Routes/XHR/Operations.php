@@ -22,7 +22,7 @@ class Operations {
         $operations = $module::model()->operations;
         $xhr_cards = $module::model()->xhr->cards;
         
-        forward_static_call_array(array($operations, __FUNCTION__), array(AccountModeler::model()->id));
+        forward_static_call_array([$operations, __FUNCTION__], [AccountModeler::model()->id]);
         $js = [];
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
@@ -87,7 +87,7 @@ class Operations {
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
         $collection = 'token_search';
         SessionStore::set($collection, $_o);
-		$js = array();
+		$js = [];
         $js[] = DOMElementKitJS::fetchCollection($collection);
         return implode(' ',$js);
         

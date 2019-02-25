@@ -15,12 +15,12 @@ class CardKit {
         $context = $module::model()->context;
         
         $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = array();
+        $html = $js = [];
         $models = $operations::getOwnedModels($user_model, 'id,name')->all;
         
-        $items[] = array();
+        $items[] = [];
         foreach($models as $i => $object){
-            $items[] = self::onTapEventsXHRCallMenuItem($object->name, 'cards/'.$context.'/details', array($object->id));
+            $items[] = self::onTapEventsXHRCallMenuItem($object->name, 'cards/'.$context.'/details', [$object->id]);
         }
         return $items;
     }
@@ -32,12 +32,12 @@ class CardKit {
         $context = $module::model()->context;
         
         $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = array();
+        $html = $js = [];
         $models = $operations::getOwnedModels($user_model, 'id,name')->all;
         
-        $items[] = array();
+        $items[] = [];
         foreach($models as $i => $object){
-            $items[] = self::onTapEventsXHRCallMenuItem($object->name, 'cards/'.$context.'/details', array($object->id));
+            $items[] = self::onTapEventsXHRCallMenuItem($object->name, 'cards/'.$context.'/details', [$object->id]);
         }
         return $items;
     }
@@ -48,20 +48,20 @@ class CardKit {
         $context = $module::model()->context;
         
         $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = array();
+        $html = $js = [];
         $models = $operations::getOwnedModels($user_model, 'id,name')->all;
         
         $html[] = '<div class="automagic-content-area-xsmall-tile-container">';
         $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.'">'.$headline . count($models).'</div>';
-        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('cards/'.$context.'/my', array($object->id)));
+        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('cards/'.$context.'/my', [$object->id]));
         foreach($models as $i => $object){
             $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.$i.'">';
             $html[] = $object->name;
             $html[] = '</div> ';
-            $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id.$i, DOMElementKitJS::xhrCallObject('cards/'.$context.'/details', array($object->id)));
+            $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id.$i, DOMElementKitJS::xhrCallObject('cards/'.$context.'/details', [$object->id]));
         }
         $html[] = '</div>';
-        return (object) array('html' => implode('', $html), 'js' => implode(' ', $js));
+        return (object) ['html' => implode('', $html), 'js' => implode(' ', $js)];
     }
     public static function collectionCard($component){
         if(!(
@@ -70,10 +70,10 @@ class CardKit {
             && isset($component->details_route)
             && isset($component->card_route)
         )){
-            return (object) array('html' => '', 'js' => '');
+            return (object) ['html' => '', 'js' => ''];
         }
         $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = array();
+        $html = $js = [];
         
         $html[] = '<div  class="fitBlock alignCenter" id="'.$dom_id.'"></div>';
         $js[] = 'var cards = new CollectionCards();';
@@ -96,26 +96,26 @@ class CardKit {
         ];
         $js[] = DOMElementKitJS::registrySubscribeToUpdates($subscription);
         $js[] = DOMElementKitJS::fetchCollection($component->collection);
-        return (object) array('html' => implode('', $html), 'js' => implode(' ', $js));
+        return (object) ['html' => implode('', $html), 'js' => implode(' ', $js)];
     }
     public static function nextInCollection($component){
         if(!(
             isset($component->model_id) 
             && isset($component->details_route)
         )){ 
-            return (object) array('html' => '', 'js' => '');
+            return (object) ['html' => '', 'js' => ''];
         }
-        $html = $js = array();
+        $html = $js = [];
         $dom_id = FormInputComponent::uniqueHash('','');
         $html[] = '<span class="automagic-card-next noSelect " id="'.$dom_id.'"></span>';
         if(isset($component->model_id) && isset($component->details_route)){
             $js[] = 'var next_id = registry.nextNode(registry.collection(registry.active_collection), \''.$component->model_id.'\');';
             $js[] = 'if(next_id != \''.$_model->id.'\'){';
             $js[] = 'document.getElementById(\''.$dom_id.'\').innerHTML = registry.node(registry.active_collection, next_id).n + \' &gt;\';';
-            $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($component->details_route, array('next_id')));
+            $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($component->details_route, ['next_id']));
             $js[] = '}';
         }
-        return (object) array('html' => implode('', $html), 'js' => implode(' ', $js));
+        return (object) ['html' => implode('', $html), 'js' => implode(' ', $js)];
     }
     public static function deleteInCollection($component){
         if(!(
@@ -123,36 +123,36 @@ class CardKit {
             && isset($component->route)
             
         )){ 
-            return (object) array('html' => '', 'js' => '');
+            return (object) ['html' => '', 'js' => ''];
         }
         $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = array();
+        $html = $js = [];
         $html[] = '<span class="automagic-card-delete noSelect " id="'.$dom_id.'">x</span>';
-        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($component->route, array($component->model_id)));
-        return (object) array('html' => implode('',$html),'js' => implode('',$js));
+        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($component->route, [$component->model_id]));
+        return (object) ['html' => implode('',$html),'js' => implode('',$js)];
     }
     public static function onTapEventsXHRCallMenuItem($contents, $route, $inputs=null, $callback=null){
         $dom_id = FormInputComponent::uniqueHash('','');
-        return array(
+        return [
             'css_classes'=>'automagic-card-menu-item noSelect',
             'id'=>$dom_id,
             'contents'=> $contents,
             'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($route,$inputs,$callback))
-        );
+        ];
     }
     public static function resetDialogButton($route){
         $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = array();
+        $html = $js = [];
         $html[] = '<span class="btn" id="'.$dom_id.'">Reset</span>';
-        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($route, array(Form::jsQuotedValue('{"reset":"1"}'))));
-        return (object) array('html' => implode('',$html),'js' => implode('',$js));
+        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($route, [Form::jsQuotedValue('{"reset":"1"}')]));
+        return (object) ['html' => implode('',$html),'js' => implode('',$js)];
     }
     public static function onTapEventsXHRCallButton($contents, $route, $inputs=null, $callback=null){
         $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = array();
+        $html = $js = [];
         $html[] = '<span class="btn" id="'.$dom_id.'">'.$contents.'</span>';
         $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($route,$inputs,$callback));
-        return (object) array('html' => implode('',$html),'js' => implode('',$js));
+        return (object) ['html' => implode('',$html),'js' => implode('',$js)];
     }
     public static function setContext($content, $raw_members=[]){
 

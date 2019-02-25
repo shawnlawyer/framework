@@ -46,9 +46,9 @@ class Forms {
         $modeler::exists($_model_id,'id')
         && (AccountAuthority::isOwner( $modeler::model() )
         || AccountAuthority::isSystemOwner())
-        && in_array($type, array('input','property'))
+        && in_array($type, ['input','property'])
         )){return;}
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__, array($type, $map_key)), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__, [$type, $map_key]), $dom_id);
     }
     public static function componentSettings($type, $member, $_model_id, $dom_id){
         
@@ -59,9 +59,9 @@ class Forms {
         $modeler::exists($_model_id,'id')
         && (AccountAuthority::isOwner( $modeler::model() )
         || AccountAuthority::isSystemOwner())
-        && in_array($type, array('input','property'))
+        && in_array($type, ['input','property'])
         )){return;}
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__, array($type, $member, $dom_id)), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__, [$type, $member, $dom_id]), $dom_id);
     }
     public static function sequode($_model_id, $dom_id){
         

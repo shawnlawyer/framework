@@ -10,8 +10,8 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $kit = static::$kit;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
             
         if (intval($modeler::model()->usage_type) === 0){
             
@@ -111,8 +111,8 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $kit = static::$kit;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
             
         if($receiver_key == 0 || $transmitter_key == 0){return $modeler::model();}
         if(intval($modeler::model()->usage_type) === 0 ){return $modeler::model();}
@@ -153,8 +153,8 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $kit = static::$kit;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
             
         if(intval($modeler::model()->usage_type) === 0 ){
             return $modeler::model();
@@ -230,8 +230,8 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $modeler = static::$modeler;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
             
         if(intval($modeler::model()->usage_type) === 0 ){
             return $modeler::model();

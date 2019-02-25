@@ -6,16 +6,16 @@ use Sequode\Model\Application\Configuration;
 
 class EmailContent {
 	public static function render($template,$hooks){
-        $default_hooks = array(
+        $default_hooks = [
             "#WEBSITENAME#",
             "#WEBSITEURL#",
             "#DATE#"
-        );
-        $default_replace = array(
+        ];
+        $default_replace = [
             Configuration::model()->site->display_name,
             Configuration::model()->site->domain,
             date("l \\t\h\e jS")
-        );
+        ];
 		$message = file_get_contents('/opts/includes/mail-templates/'.$template);
         $message = str_replace($default_hooks, $default_replace, $message);
         $message = str_replace($hooks["searchStrs"], $hooks["subjectStrs"], $message);

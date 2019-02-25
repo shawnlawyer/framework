@@ -10,8 +10,8 @@ trait ORMModelGetOwnedModelsTrait {
         
         $modeler = static::$modeler;
         
-        $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$user_model->id);
+        $where = [];
+        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>$user_model->id];
         
         $model = new $modeler::$model;
         if($limit = 0){

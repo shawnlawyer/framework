@@ -29,7 +29,7 @@ class Cards {
     }
     public static function menuItems(){
         
-        $_o = array();
+        $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sessions','cards/session/search');
         
         return $_o;
@@ -42,22 +42,22 @@ class Cards {
         $operations = $module::model()->operations;
 
         
-        $_model = ($_model == null ) ? forward_static_call_array(array($modeler,'model'),array()) : forward_static_call_array(array($modeler,'model'), array($_model));
+        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
         
         $_o = (object) null;
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'session-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items =  array();
+        $_o->menu->items =  [];
         
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session','cards/session/delete',array($_model->id));
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session','cards/session/delete', [$_model->id]);
         
-        $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/session/details'));
+        $_o->body[] = CardKit::nextInCollection((object) ['model_id'=>$_model->id,'details_route'=>'cards/session/details']);
         
-        $_o->body = array();
+        $_o->body = [];
         $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = array();
+        $html = $js = [];
         $js[] = DOMElementKitJS::documentEventOff('keydown');
         $js[] = '$(document).on(\'keydown\',(function(e){';
         
@@ -101,7 +101,7 @@ class Cards {
         $_o->body[] = date('g:ia \o\n l jS F Y',$_model->session_start);
         $_o->body[] = CardKitHTML::sublineBlock('Last Sign In');
         if($_model->session_id != $operations::getCookieValue()) {
-            $_o->body[] = CardKit::deleteInCollection((object)array('route' => 'operations/session/destroy', 'model_id' => $_model->id));
+            $_o->body[] = CardKit::deleteInCollection((object)['route' => 'operations/session/destroy', 'model_id' => $_model->id]);
         }
         $_o->body[] = CardKitHTML::modelId($_model);
         
@@ -118,21 +118,21 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'session-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items = array();
+        $_o->menu->items = [];
         
         $search_components_array = ModuleForm::render($module::$registry_key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         
         foreach($search_components_array as $key => $object){
-            $_o->menu->items[] = array(
+            $_o->menu->items[] = [
                 'css_classes'=>'automagic-card-menu-item noSelect',
                 'contents'=>$object->html,
-                'js_action'=> $object->js                
-            );
+                'js_action'=> $object->js
+            ];
         }
-        $_o->body = array();
-        $_o->body[] = CardKit::collectionCard((object) array('collection'=>'session_search','icon'=>'atom','card_route'=>'cards/session/search','details_route'=>'cards/session/details'));
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'session_search','icon'=>'atom','card_route'=>'cards/session/search','details_route'=>'cards/session/details']);
         
         return $_o;
         

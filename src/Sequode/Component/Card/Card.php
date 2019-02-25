@@ -9,7 +9,7 @@ class Card {
     
     public static function cardMenuComponent($menu_object){
        
-        $html = $js = array();
+        $html = $js = [];
         $position_adjuster = (isset($menu_object->position_adjuster)) ? ' '.$menu_object->position_adjuster : '';
 
         $html[] = '<div class="automagic-card-menu-container">';
@@ -34,17 +34,17 @@ class Card {
         $html[] = '</div>';
         $html[] = '</div>';
         
-        return (object) array('html' => implode('',$html), 'js' => implode(' ',$js));
+        return (object) ['html' => implode('',$html), 'js' => implode(' ',$js)];
         
 	}
     public static function cardBodyContentComponent($body_components ,$seperator=''){
         
         if(!is_array($body_components)){
-            $body_components = array($body_components);
+            $body_components = [$body_components];
         }
         
-        $html = array();
-        $js = array();
+        $html = [];
+        $js = [];
         
         if(count($body_components) > 1){
             foreach($body_components as $component){
@@ -74,13 +74,13 @@ class Card {
             }
         }
         
-        return (object) array('html' => implode('',$html), 'js' => implode(' ',$js));
+        return (object) ['html' => implode('',$html), 'js' => implode(' ',$js)];
         
 	}
     public static function render($card_object){
         
-        $html = array();
-        $js = array();
+        $html = [];
+        $js = [];
         $html[] = '<div class="automagic-card">';
         
         if(!isset($card_object->component_seperator)){
@@ -139,7 +139,7 @@ class Card {
         }
         $html[] = '</div>';
         
-        return (object) array('html' => implode('',$html), 'js' => implode('',$js));
+        return (object) ['html' => implode('',$html), 'js' => implode('',$js)];
         
     }
 }

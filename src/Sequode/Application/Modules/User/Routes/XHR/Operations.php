@@ -51,7 +51,7 @@ class Operations {
         && $modeler::exists($_model_id,'id')
         )){return;}
         if ($confirmed===false){
-            $js = array();
+            $js = [];
             $js[] = 'if(';
             $js[] = 'confirm(\'Are you sure you want to delete this?\')';
             $js[] = '){';
@@ -59,11 +59,11 @@ class Operations {
             $js[] = '}';
             return implode(' ',$js);
         }else{
-            forward_static_call_array(array($operations, __FUNCTION__), array());
-            $js = array();
+            forward_static_call_array([$operations, __FUNCTION__], []);
+            $js = [];
             $collection = 'users';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-            $js[] = forward_static_call_array(array($xhr_cards, 'search'), array());
+            $js[] = forward_static_call_array([$xhr_cards, 'search'], []);
             return implode(' ', $js);
         }
     }
@@ -80,7 +80,7 @@ class Operations {
         )){return;}
         $operations::login();
         $console_module =  ModuleRegistry::model()['Console'];
-        return forward_static_call_array(array($console_module::model()->routes['http'], 'js'), array(false));
+        return forward_static_call_array([$console_module::model()->routes['http'], 'js'], [false]);
     }
     public static function updatePassword($_model_id, $json){
     
@@ -166,7 +166,7 @@ class Operations {
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
         $collection = $module::model()->context . '_' . __FUNCTION__;
         SessionStore::set($collection, $_o);
-		$js=array();
+		$js= [];
         $js[] = DOMElementKitJS::fetchCollection($collection);
         return implode(' ',$js);
     }

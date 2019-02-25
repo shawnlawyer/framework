@@ -3,7 +3,9 @@
     "description": "framework for sequode",
     "type": "library",
     "require": {
-        "phpmailer/phpmailer": "^5.2"
+        "phpmailer/phpmailer": "^5.2",
+      "ext-json": "*",
+      "ext-mysqli": "*"
     },
     "license": "MIT",
     "autoload": {

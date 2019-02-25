@@ -9,8 +9,8 @@ trait ORMModelUpdateNameTrait {
         $modeler = static::$modeler;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
             
         $modeler::model()->updateField(str_replace(" ","_",$name),'name');
         

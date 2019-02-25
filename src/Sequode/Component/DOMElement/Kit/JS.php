@@ -21,7 +21,7 @@ class JS {
         return implode('',$js);
     }
     public static function placeForm($form, $dom_id){
-        $html = $js = array();
+        $html = $js = [];
         if(count($form) == 1){
             foreach($form as $key => $object){
                 if(isset($object->html)){
@@ -48,7 +48,7 @@ class JS {
         return implode(' ',$js);
     }
     public static function googleAnalytics(){
-        $js = array();
+        $js = [];
         $js[] = '(function(i,s,o,g,r,a,m){i[\'GoogleAnalyticsObject\']=r;i[r]=i[r]||function(){';
         $js[] = '(i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),';
         $js[] = 'm=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)';
@@ -58,7 +58,7 @@ class JS {
         return implode('',$js);
 	}
     public static function forceSSL(){
-        $js = array();
+        $js = [];
         $js[] = 'if(document.location.protocol != "https:"){';
         $js[] = 'document.location = document.URL.replace(/^http:/i, "https:");';
         $js[] = '}';
@@ -71,7 +71,7 @@ class JS {
 		return '$(document).off(\''.$event.'\');';
 	}
     public static function onTapEvents($dom_id,$javascript){
-        $js = array();
+        $js = [];
         $js[] = '$(\'#'.$dom_id.'\').on("click touch", function(){';
         $js[] = $javascript;
         $js[] = '});';
@@ -83,7 +83,7 @@ class JS {
 	public static function xhrCallObject($route='', $inputs=null, $done_callback=false){
         $object = (object) null;
         $object->route = $route;
-        $object->inputs = ($inputs == null) ? array() : $inputs;
+        $object->inputs = ($inputs == null) ? [] : $inputs;
         $object->done_callback = $done_callback;
 		return $object;
 	}
@@ -91,7 +91,7 @@ class JS {
         if(is_array($call_object) && isset($call_object['route'])){
             $call_object = (object) $call_object;
         }
-        $js = array();
+        $js = [];
         $js[] = 'new XHRCall({';
         $js[] = 'route:\''. $call_object->route .'\'';
         if(is_array($call_object->inputs) && count($call_object->inputs) != 0){
@@ -104,7 +104,7 @@ class JS {
         return implode('',$js);
 	}
     public static function loadComponentHere($call_object, $contents='', $icon = 'atom'){
-        $html = $js = array();
+        $html = $js = [];
         $dom_id = FormInputComponent::uniqueHash();
         
         $html[] = '<span id="'.$dom_id.'c">';
@@ -115,7 +115,7 @@ class JS {
         }
         $html[] = '</span>';
         $html[] = '</span>';
-        $call_object->inputs = array_merge($call_object->inputs, array(self::jsQuotedValue($dom_id.'c')));
+        $call_object->inputs = array_merge($call_object->inputs, [self::jsQuotedValue($dom_id.'c')]);
         $js[] = '$(\'#'.$dom_id.'b\').on("click touchend", function(){';
         $js[] = self::xhrCall($call_object);
         $js[] = '});';
@@ -155,7 +155,7 @@ class JS {
 		return str_replace("\r",'\r',str_replace("\n",'\n',addslashes($input)));
 	}
 	public static function collectValues($form_object, $dom_ids){
-        $js = array();
+        $js = [];
         $js[] = "''";
         if(is_object($form_object)){
             $replacement_object = (object) null;
@@ -164,7 +164,7 @@ class JS {
                 $replacement_object->$loop_member = $dom_ids[$i];
                 $i++;
             }
-            $js = array();
+            $js = [];
             $js[] = '(function(){';
             $js[] = 'var d = decodeURIComponent(\''.rawurlencode(json_encode($replacement_object)).'\');';
             foreach($dom_ids as $dom_id){
@@ -176,14 +176,14 @@ class JS {
         return implode(' ',$js);
 	}
 	public static function registeyTimeout($variable_name, $javascript, $milliseconds=0){
-        $js = array();
+        $js = [];
         $js[] = 'registry.timeout(\''.$variable_name.'\', function(){';
         $js[] = $javascript;
         $js[] = 'registry.timeouts[\''.$variable_name.'\'] = null; },'.$milliseconds.');';
         return implode(' ',$js);
 	}
 	public static function enterPressed($javascript){
-        $js = array();
+        $js = [];
         $js[] = 'if (event.keyCode == 13){';
         $js[] = $javascript;
         $js[] = '}';

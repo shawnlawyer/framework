@@ -36,8 +36,8 @@ class FormInput {
     
     public static function select($component){
         
-        $html = $js = $class = $style = array();
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $html = $js = $class = $style = [];
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
         if(!is_array($component->Values) && !is_object($component->Values)){
@@ -113,8 +113,8 @@ class FormInput {
     
     public static function password($component){
         
-        $html = $js = $class = $style = array();
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $html = $js = $class = $style = [];
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
         if(isset($component->Value)){   
@@ -179,8 +179,8 @@ class FormInput {
     
     public static function input($component){
         
-        $html = $js = $class = $style = array();
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $html = $js = $class = $style = [];
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
         if(isset($component->Value)){   
@@ -244,8 +244,8 @@ class FormInput {
     
     public static function textarea($component){
         
-        $html = $js = $class = $style = array();
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $html = $js = $class = $style = [];
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $dom_id = '';
 		
         if(isset($component->Dom_Id)){   
@@ -324,9 +324,9 @@ class FormInput {
     
 	public static function hiddenInput($component){
         
-        $html = array();
-        $js = array();
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $html = [];
+        $js = [];
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
         if(isset($component->Value)){   
@@ -353,8 +353,8 @@ class FormInput {
     
     public static function label($component){
         
-        $html = array();
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $html = [];
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $for_dom_id = $value = '';
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         
@@ -377,8 +377,8 @@ class FormInput {
     
     public static function divLabel($component){
         
-        $html = array();
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $html = [];
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $dom_id = $value = '';
 		
         if(isset($component->Dom_Id)){   
@@ -399,9 +399,9 @@ class FormInput {
     
     public static function button($component){	
     
-        $html = $js = $class = $style = array();
+        $html = $js = $class = $style = [];
         
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $dom_id = (isset($component->Dom_Id)) ? $component->Dom_Id : self::uniqueHash();
         $value = 'Button';
         
@@ -438,8 +438,8 @@ class FormInput {
     
     public static function checkbox($component){
         
-        $html = $js = $class = $style = array();
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $html = $js = $class = $style = [];
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         $dom_id = $value = '';
 		
         if(isset($component->Dom_Id)){   
@@ -505,7 +505,7 @@ class FormInput {
         $label_component->Dom_Id = $dom_id.'LabelText"';
         $label_component->For_Dom_Id = $dom_id;
         $label_component->Value = $component->Display_Value;
-        $output_component = self::mergeComponents($output_component,(object) array('html' => implode(' ',$html),'js' => implode(' ',$js)));
+        $output_component = self::mergeComponents($output_component,(object) ['html' => implode(' ',$html),'js' => implode(' ',$js)]);
         $output_component = self::mergeComponents($output_component,self::label($label_component));
         
         return $output_component;
@@ -514,17 +514,17 @@ class FormInput {
     
     public static function checkboxSwitch($component){
         
-        $output_component = (object) array('dom_id'=>'','html'=>'','js'=>'');
+        $output_component = (object) ['dom_id'=>'','html'=>'','js'=>''];
         
         $checkbox_dom_id = $component->Dom_Id.'CheckBox';
         $checkbox_labeltext_dom_id = $checkbox_dom_id . 'LabelText';
         
-        $html = array();
+        $html = [];
         $html[] = '<span';
         $html[] = 'id="'.$checkbox_labeltext_dom_id.'"';
         $html[] = '>'.(($component->Value == $component->On_Value) ? $component->On_Text : $component->Off_Text).'</span>';
         
-        $js = array();
+        $js = [];
         $js[] = '$(\'#'.$checkbox_labeltext_dom_id.'\').html(($(\'#'.$checkbox_dom_id.'\').is(\':checked\')) ? decodeURIComponent(\''.rawurlencode($component->On_Text).'\') : decodeURIComponent(\''.rawurlencode($component->Off_Text).'\'));';
         $js[] = 'document.getElementById(\''.$component->Dom_Id.'\').value = ($(\'#'.$checkbox_dom_id.'\').is(\':checked\')) ? decodeURIComponent(\''.rawurlencode($component->On_Value).'\') : decodeURIComponent(\''.rawurlencode($component->Off_Value).'\');';
         
@@ -573,7 +573,7 @@ class FormInput {
             
         }
         
-		return forward_static_call_array(array(self::class, $modeler::model()->component), array($component_object));
+		return forward_static_call_array([self::class, $modeler::model()->component], [$component_object]);
         
     }
     

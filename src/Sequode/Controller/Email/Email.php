@@ -6,7 +6,7 @@ use PHPMailer;
 use Sequode\Model\Application\Configuration;
 
 class Email {
-	public static function send($to_email, $reply_email, $reply_name, $from_email, $from_name, $subject, $body, $attachments = array()){
+	public static function send($to_email, $reply_email, $reply_name, $from_email, $from_name, $subject, $body, $attachments = []){
         if(Configuration::model()->emailer->relay == 'SMTP'){
             $email = new PHPMailer();
             
@@ -34,7 +34,7 @@ class Email {
         }
         $email->send();
     }
-	public static function systemSend($to, $subject, $body, $attachments = array()){
+	public static function systemSend($to, $subject, $body, $attachments = []){
         self::send(
             $to,
             Configuration::model()->email->system->reply_email,

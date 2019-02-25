@@ -15,35 +15,35 @@ class Collections {
         $modeler = $module::model()->modeler;
         
         if($_i->coded == 0 && $_i->sequenced == 0){
-            return array();
+            return [];
         }elseif($_i->coded == 1 && $_i->sequenced == 0){
-            $shared_where = array('field'=>'usage_type','operator'=>'=','value'=>'0');
+            $shared_where = ['field'=>'usage_type','operator'=>'=','value'=>'0'];
         }elseif($_i->coded == 0 && $_i->sequenced == 1){
-            $shared_where = array('field'=>'usage_type','operator'=>'=','value'=>'1');
+            $shared_where = ['field'=>'usage_type','operator'=>'=','value'=>'1'];
         };
         $_i->position = urldecode($_i->position);
-        if(!in_array($_i->position, array('=%','%=%','%=','='))){
+        if(!in_array($_i->position, ['=%','%=%','%=','='])){
             $_i->position = '=%';
         }
         if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
-            $where = array();
+            $where = [];
             if(isset($shared_where)){
                 $where[] = $shared_where;
             }
-            $where[] = array('field'=>'name','operator'=>$_i->position,'value'=>$_i->search);
+            $where[] = ['field'=>'name','operator'=>$_i->position,'value'=>$_i->search];
             $_model = new $modeler::$model;
             $_model->getAll($where,'id,name', $limit);
             $results = $_model->all;
             unset($_model);
         }else{
-            $results = array();
+            $results = [];
             if($_i->my_sequodes == 1){
-                $where = array();
+                $where = [];
                 if(isset($shared_where)){
                     $where[] = $shared_where;
                 }
-                $where[] = array('field'=>'name','operator'=>$_i->position,'value'=>$_i->search);
-                $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
+                $where[] = ['field'=>'name','operator'=>$_i->position,'value'=>$_i->search];
+                $where[] = ['field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id];
                 
                 $_model = new $modeler::$model;
                 $_model->getAll($where, 'id,name', $limit);
@@ -51,14 +51,14 @@ class Collections {
                 unset($_model);
             }
             if($_i->shared_sequodes == 1){
-                $where = array();
+                $where = [];
                 
                 if(isset($shared_where)){
                     $where[] = $shared_where;
                 }
-                $where[] = array('field'=>'name','operator'=>$_i->position,'value'=>$_i->search);
-                $where[] = array('field'=>'owner_id','operator'=>'!=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
-                $where[] = array('field'=>'shared','operator'=>'=','value'=>'1');
+                $where[] = ['field'=>'name','operator'=>$_i->position,'value'=>$_i->search];
+                $where[] = ['field'=>'owner_id','operator'=>'!=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id];
+                $where[] = ['field'=>'shared','operator'=>'=','value'=>'1'];
                 
                 $_model = new $modeler::$model;
                 $_model->getAll($where, 'id,name', $limit);

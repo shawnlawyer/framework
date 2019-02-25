@@ -15,7 +15,7 @@ trait CardsConsoleMenusTrait {
 
         $modules = ModuleRegistry::modules();
         
-        $html = $js = array();
+        $html = $js = [];
         $i = count($modules);
         foreach($modules as $module){
             $model = $module::model();

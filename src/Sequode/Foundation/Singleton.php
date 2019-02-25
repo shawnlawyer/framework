@@ -6,7 +6,7 @@ abstract class Singleton{
     
     public static function getInstances($class, $dump=false) {
         
-        static $instances = array();
+        static $instances = [];
         
         if (is_string($class) && $instances[$class] === null) {
             

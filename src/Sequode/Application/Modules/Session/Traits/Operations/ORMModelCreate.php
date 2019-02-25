@@ -16,7 +16,7 @@ trait ORMModelCreate {
         $modeler::model()->create();
         $modeler::model()->exists($modeler::model()->id, 'id');
         $modeler::model()->updateField(Hashes::uniqueHash(), 'session_id');
-        $modeler::model()->updateField(serialize(array()), 'session_data');
+        $modeler::model()->updateField(serialize([]), 'session_data');
         $modeler::model()->updateField(time(), 'session_start');
         $modeler::model()->updateField($ip_address, 'ip_address');
         $modeler::model()->updateField('anon', 'name');

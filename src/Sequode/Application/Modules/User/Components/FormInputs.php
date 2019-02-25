@@ -86,7 +86,7 @@ class FormInputs{
                 
         $roles_model = new RoleModeler::$model;
         $roles_model->getAll();
-        $values = array('{\'value\':\'all\',\'printable\':\'Any\'}');
+        $values = ['{\'value\':\'all\',\'printable\':\'Any\'}'];
         foreach( $roles_model->all as $object){
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
         }

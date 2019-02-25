@@ -37,18 +37,18 @@ class Sequode{
                 $request_pieces = $line;
                 $request_pieces = explode('?',$request_pieces)[0];
                 $request_pieces = explode('#',$request_pieces)[0];
-                return (strpos($request_pieces, '/') === false) ? array($request_pieces) : explode('/',$request_pieces);
+                return (strpos($request_pieces, '/') === false) ? [$request_pieces] : explode('/',$request_pieces);
             case 'console':
                 $request_pieces = fgets(STDIN);
                 $request_pieces = explode('?',$request_pieces)[0];
                 $request_pieces = explode('#',$request_pieces)[0];
-                return (strpos($request_pieces, '/') === false) ? array($request_pieces) : explode('/',$request_pieces);
+                return (strpos($request_pieces, '/') === false) ? [$request_pieces] : explode('/',$request_pieces);
             case 'cli':
                 global $argv;
                 $request_pieces = $argv[1];
                 $request_pieces = explode('?',$request_pieces)[0];
                 $request_pieces = explode('#',$request_pieces)[0];
-                return (strpos($request_pieces, '/') === false) ? array($request_pieces) : explode('/',$request_pieces);
+                return (strpos($request_pieces, '/') === false) ? [$request_pieces] : explode('/',$request_pieces);
             case 'http':
             default:
                 $request_pieces = $_SERVER['REQUEST_URI'];
@@ -157,7 +157,7 @@ class Sequode{
                 echo 'Unknown: '.$route;
                 return;
             }
-            $parameters = array();
+            $parameters = [];
             if(isset($request_pieces[0])){
                 $parameters = $request_pieces;
             }

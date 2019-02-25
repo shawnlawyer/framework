@@ -234,23 +234,23 @@ class FormInputs {
         }
         
         $components_object = (object) null;
-        $values = $where = array();
+        $values = $where = [];
         
         $values[] = '{\'value\':\'0\',\'printable\':\'Select Sequodes Palette\'}';
         //$values[] = '{\'value\':\'sequode_search\',\'printable\':\'Sequode Search Results\'}';
         $values[] = '{\'value\':\'sequode_favorites\',\'printable\':\'My Sequode Favorites\'}';
         
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>5);
-        $where[] = array('field'=>'shared','operator'=>'=','value'=>1);
-        $where[] = array('field'=>'palette','operator'=>'=','value'=>1);
+        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>5];
+        $where[] = ['field'=>'shared','operator'=>'=','value'=>1];
+        $where[] = ['field'=>'palette','operator'=>'=','value'=>1];
         $sequodes_model = new SequodeModeler::$model;
         $sequodes_model->getAll($where);
         foreach( $sequodes_model->all as $object){
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
         }
-        $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id);
-        $where[] = array('field'=>'palette','operator'=>'=','value'=>1);
+        $where = [];
+        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id];
+        $where[] = ['field'=>'palette','operator'=>'=','value'=>1];
         $sequodes_model->getAll($where);
         foreach( $sequodes_model->all as $object){
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';

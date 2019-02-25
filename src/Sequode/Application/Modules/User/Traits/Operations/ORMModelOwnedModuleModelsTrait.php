@@ -11,14 +11,14 @@ trait ORMModelOwnedModuleModelsTrait {
         $modeler = static::$modeler;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
         
         $module = ModuleRegistry::module($module_registry_key);
         $module_modeler = $module::model()->modeler;
         
-        $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$modeler::model()->id);
+        $where = [];
+        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>$modeler::model()->id];
         
         $model = new $module_modeler::$model;
         $model->getAll($where, $fields);

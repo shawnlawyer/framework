@@ -10,8 +10,8 @@ trait ORMModelManageSequenceGridTrait {
         $kit = static::$kit;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
             
 		$sequence = json_decode($modeler::model()->sequence);
 		$position = $kit::getSequencePosition($position, $sequence, 1);
@@ -31,8 +31,8 @@ trait ORMModelManageSequenceGridTrait {
         $kit = static::$kit;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
             
         $grid_area_key = intval($grid_area_key);
 		$x = intval($x); 

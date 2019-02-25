@@ -16,9 +16,9 @@ class HTTPRequest {
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) == ''){
 			foreach($routes_classes as $routes_class){
 				if(in_array('index',get_class_methods('\\'.$routes_class))){
-					$parameters = array(); 
+					$parameters = [];
 					unset($request_pieces);
-					forward_static_call_array(array('\\'.$routes_class ,'index'), $parameters);
+					forward_static_call_array(['\\'.$routes_class ,'index'], $parameters);
 					return;
 				}
 			}
@@ -28,18 +28,18 @@ class HTTPRequest {
 				if(isset($request_pieces[0]) && in_array($request_pieces[0], Routes::routes('\\'.$routes_class))){
 					$route = Routes::route('\\'.$routes_class, trim($request_pieces[0]));
 					array_shift($request_pieces);
-					$parameters = array(); 
+					$parameters = [];
 					if(isset($request_pieces[0])){
 						$parameters = $request_pieces;
 					}
 					unset($request_pieces);
-					forward_static_call_array(array('\\'.$routes_class ,$route), $parameters);
+					forward_static_call_array(['\\'.$routes_class ,$route], $parameters);
 					return;
 				}
 			}
 		}
 		if(isset(Runtime::model()->module)){
-			return forward_static_call_array(array('\\' . Runtime::model()->module ,'run'), array());	
+			return forward_static_call_array(['\\' . Runtime::model()->module ,'run'], []);
 		}
     }
     public static function requestUriPieces(){

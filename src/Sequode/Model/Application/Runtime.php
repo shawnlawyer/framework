@@ -16,7 +16,7 @@ class Runtime {
         
         if($store === false && $set !== false){
             
-            $store = forward_static_call_array(array($set ,'model'), array());
+            $store = forward_static_call_array([$set ,'model'], []);
             
         }
         

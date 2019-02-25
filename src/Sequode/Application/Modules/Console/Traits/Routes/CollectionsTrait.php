@@ -39,7 +39,7 @@ trait CollectionsTrait {
                 
                 if(isset($collection) && in_array($collection, ApplicationRoutes::routes($module::model()->collections))){
                     
-                    forward_static_call_array(array($module::model()->collections, ApplicationRoutes::route($module::model()->collections, $collection)), ($key != null) ? array($key) : array());
+                    forward_static_call_array([$module::model()->collections, ApplicationRoutes::route($module::model()->collections, $collection)], ($key != null) ? [$key] : []);
 					return;
                     
 				}

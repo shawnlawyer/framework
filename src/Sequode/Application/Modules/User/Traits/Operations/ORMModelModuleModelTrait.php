@@ -19,10 +19,10 @@ trait ORMModelModuleModelTrait {
                 break;
         }
         if($value != null){
-            $where[] = array('field'=>$by,'operator'=>'=','value'=>$value);
+            $where[] = ['field'=>$by,'operator'=>'=','value'=>$value];
         }
         if($owner_id != null){
-            $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$owner_id);
+            $where[] = ['field'=>'owner_id','operator'=>'=','value'=>$owner_id];
         }
         $model->getAll($where,'id',1);
         $id = false;

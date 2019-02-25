@@ -3,43 +3,44 @@
 namespace Sequode\Application\Modules\Account\Components;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
+use Sequode\Application\Modules\Account\Module;
 
 class Dialogs {
     
     public static $module = Module::class;
     
     public static function updatePassword(){
-        $_o = (object) array(
+        $_o = (object) [
             'session_store_key' => 'update_password',
-            'session_store_setup' => (object) array('step'=>0, 'prep'=> (object) null),
+            'session_store_setup' => (object) ['step'=>0, 'prep'=> (object) null],
             'card'=> 'updatePassword',
-            'steps' => array(
-                (object) array(
-                    'forms'=> array('updatePassword'),
-                    'content'=> (object)  array(
+            'steps' => [
+                (object) [
+                    'forms'=> ['updatePassword'],
+                    'content'=> (object)  [
                         'head' => 'New Password',
                         'body' => 'A password must be at least 8 characters long and contain at least 1 capital letter (A), 1 lowercase letter (a), 1 number (1) and one symbol character(!).'
-                    ),
+                    ],
                     'prep' => true,
-                    'required_members' => array('password','confirm_password')
-                ),
-                (object) array(
-                    'forms'=> array('password'),
-                    'content'=> (object) array(
+                    'required_members' => ['password','confirm_password']
+                ],
+                (object) [
+                    'forms'=> ['password'],
+                    'content'=> (object) [
                         'head' => 'Current Password',
                         'body' => 'Enter your current password.'
-                    ),
+                    ],
                     'prep' => true,
                     'operation' => 'updatePassword'
-                ),
-                (object) array(
-                    'content'=> (object) array(
+                ],
+                (object) [
+                    'content'=> (object) [
                         'head' => 'Password Updated',
                         'body' => 'Be sure to use the new password the next time you login.'
-                    )
-                )
-            )
-        );
+                    ]
+                ]
+            ]
+        ];
         
         return $_o;
         

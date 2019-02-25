@@ -29,7 +29,7 @@ class Cards {
     }
     public static function menuItems(){
         
-        $_o = array();
+        $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Signup','cards/register/signup');
         
         return $_o;
@@ -40,7 +40,7 @@ class Cards {
         
         $module = static::$module;
         $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
+        $dialog = forward_static_call_array([$dialogs, __FUNCTION__], []);
         
         if(!SessionStore::is($dialog->session_store_key)){
             SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
@@ -55,12 +55,12 @@ class Cards {
         
         if($dialog_store->step != 0 && $dialog_store->step < count($dialog->steps) - 1){
             $_o->menu = (object) null;
-            $_o->menu->items = array();
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/register/' . __FUNCTION__, array(FormComponent::jsQuotedValue('{"reset":"1"}')));
+            $_o->menu->items = [];
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/register/' . __FUNCTION__, [FormComponent::jsQuotedValue('{"reset":"1"}')]);
         }
         
         $_o->head = ' Create Account';
-        $_o->body = array('');
+        $_o->body = [''];
         
         if(isset($step->content)){
             if(isset($step->content->head)){
@@ -81,7 +81,7 @@ class Cards {
             $_o->body[] = CardKit::resetDialogButton('operations/register/' . __FUNCTION__);
         }
         
-        $_o->body[] = (object) array('js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();');
+        $_o->body[] = (object) ['js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();'];
         
         return $_o;
         

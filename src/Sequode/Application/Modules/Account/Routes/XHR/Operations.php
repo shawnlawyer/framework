@@ -50,7 +50,7 @@ class Operations {
         $modeler = $module::model()->modeler;
         $operations = $module::model()->operations;
         if ($confirmed===false && is_array($sequence) && count(json_decode($modeler::model()->sequence)) != 0){
-            $js = array();
+            $js = [];
             $js[] = 'if(';
             $js[] = 'confirm(\'Are you sure you want to empty your sequode favorites?\')';
             $js[] = '){';
@@ -59,7 +59,7 @@ class Operations {
             return implode(' ',$js);
         } else {
             forward_static_call_array([$operations, __FUNCTION__], []);
-            $js = array();
+            $js = [];
             $collection = 'sequode_favorites';
             $js[] = DOMElementKitJS::fetchCollection($collection);
             return implode(' ', $js);
@@ -80,7 +80,7 @@ class Operations {
         )){ return; }
 
         forward_static_call_array([$operations, __FUNCTION__], []);
-        $js = array();
+        $js = [];
         $collection = 'sequode_favorites';
         $js[] = DOMElementKitJS::fetchCollection($collection);
         $js[] = DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id);
@@ -104,7 +104,7 @@ class Operations {
         )){ return; }
 
         forward_static_call_array([$operations, __FUNCTION__], []);
-        $js = array();
+        $js = [];
         $collection = 'sequode_favorites';
         $js[] = DOMElementKitJS::fetchCollection($collection);
         $js[] = DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id);
@@ -137,7 +137,7 @@ class Operations {
                 if(
                     AccountAuthority::isPassword(rawurldecode($input->password), $modeler::model())
                 ){
-                    return array($dialog_store->prep->new_secret);
+                    return [$dialog_store->prep->new_secret];
                 }
                 else
                 {
@@ -168,13 +168,13 @@ class Operations {
                     SessionStore::set($dialog->session_store_key, $dialog_store);
 
                     if ($_ENV['EMAIL_VERIFICATION'] == true) {
-                        $hooks = array(
-                            "searchStrs" => array('#TOKEN#'),
-                            "subjectStrs" => array($dialog_store->prep->token)
-                        );
+                        $hooks = [
+                            "searchStrs" => ['#TOKEN#'],
+                            "subjectStrs" => [$dialog_store->prep->token]
+                        ];
                         Email::systemSend($dialog_store->prep->new_email,'Verify your email address with sequode.com', EmailContent::render('activation.txt',$hooks));
                     }else{
-                        return array($dialog_store->prep->new_email);
+                        return [$dialog_store->prep->new_email];
                     }
                 }
                 else
@@ -188,7 +188,7 @@ class Operations {
                     if(
                         $dialog_store->prep->token == rawurldecode($input->token)
                     ){
-                        return array($dialog_store->prep->new_email);
+                        return [$dialog_store->prep->new_email];
                     }
                     else
                     {

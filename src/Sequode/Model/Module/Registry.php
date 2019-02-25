@@ -23,11 +23,11 @@ class Registry {
             
         }
         
-        $_o = array();
+        $_o = [];
         
         if ($class !== false){
             
-            $_o = forward_static_call_array(array($class, 'model'), array());
+            $_o = forward_static_call_array([$class, 'model'], []);
             
             if($set_class !== false){
                 
@@ -93,7 +93,7 @@ class Registry {
         
         $modules = self::container('getAll');
         
-        $_o = array();
+        $_o = [];
         foreach($modules as $key => $module){
             
             if(isset($module::model()->context)){

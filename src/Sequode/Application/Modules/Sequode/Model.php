@@ -7,8 +7,8 @@ use Sequode\Model\Database\SQL\ORM;
 class Model extends ORM {
     public $database_connection     =   'sequodes_database';
 	public $table 					=	'sequodes';
-	public $usage_types				=	array(0=>'code',1=>'sequence',2=>'set');
-	public $coding_types			=	array(0=>'structured',1=>'object_oriented');
+	public $usage_types				=	[0=>'code',1=>'sequence',2=>'set'];
+	public $coding_types			=	[0=>'structured',1=>'object_oriented'];
 	public function __construct() {
 		parent::__construct();
 		return true;

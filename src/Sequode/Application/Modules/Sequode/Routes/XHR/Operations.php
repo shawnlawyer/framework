@@ -38,7 +38,7 @@ class Operations {
                 return false;
         }
         $object_map = json_decode($modeler::model()->$model_member);
-        forward_static_call_array(array($operations, __FUNCTION__), array($type, $map_key, rawurldecode($input->location)));
+        forward_static_call_array([$operations, __FUNCTION__], [$type, $map_key, rawurldecode($input->location)]);
         if(empty($object_map[$map_key]->Value)){
 			$js = [];
             $collection = 'sequodes';
@@ -70,7 +70,7 @@ class Operations {
                 return;
         }
         $previous_form_object = json_decode($modeler::model()->$model_member);
-        forward_static_call_array(array($operations, __FUNCTION__), array($type, $member, $form_member_object));
+        forward_static_call_array([$operations, __FUNCTION__], [$type, $member, $form_member_object]);
         if($previous_form_object->$member->Component != $form_member_object->Component){
             
             $js = [];
@@ -92,7 +92,7 @@ class Operations {
         && SequodeAuthority::isSequence()
         && AccountAuthority::canCopy()
         )){ return; }
-        forward_static_call_array(array($operations, 'makeSequenceCopy'), array(AccountModeler::model()->id));
+        forward_static_call_array([$operations, 'makeSequenceCopy'], [AccountModeler::model()->id]);
         $js = [];
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
@@ -110,7 +110,7 @@ class Operations {
         if(!(
         AccountAuthority::canCreate()
         )){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array(AccountModeler::model()->id));
+        forward_static_call_array([$operations, __FUNCTION__], [AccountModeler::model()->id]);
         $js = [];
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
@@ -140,7 +140,7 @@ class Operations {
             return ' alert(\'Name already exists\');';
         }
         $modeler::exists($_model_id,'id');
-        forward_static_call_array(array($operations, __FUNCTION__), array($name));
+        forward_static_call_array([$operations, __FUNCTION__], [$name]);
         $js = [];
         $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
     
@@ -161,7 +161,7 @@ class Operations {
         )){ return; }
         $sequence = json_decode($modeler::model()->sequence);
         if ($confirmed===false && is_array($sequence) && count(json_decode($modeler::model()->sequence)) != 0){
-            $js = array();
+            $js = [];
 			$js[] = 'if(';
 			$js[] = 'confirm(\'Are you sure you want to delete this?\')';
 			$js[] = '){';
@@ -169,8 +169,8 @@ class Operations {
 			$js[] = '}';
 			return implode(' ',$js);
         }else{
-            forward_static_call_array(array($operations, __FUNCTION__), array());
-            $js = array();
+            forward_static_call_array([$operations, __FUNCTION__], []);
+            $js = [];
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
             $js[] = forward_static_call_array([$xhr_cards, 'card'], ['my']);
@@ -191,7 +191,7 @@ class Operations {
         
         )){ return; }
         
-        $js = array();
+        $js = [];
         if ($confirmed===false){
 			$js[] = 'if(';
 			$js[] = 'confirm(\'Are you sure you want to format '.$modeler::model()->id.'?\')';
@@ -199,7 +199,7 @@ class Operations {
             $js[] = 'new XHRCall({route:"operations/sequode/formatSequence",inputs:['.$modeler::model()->id.', true]});';
 			$js[] = '}';
         }else{
-            forward_static_call_array(array($operations, 'makeDefaultSequencedSequode'), array());
+            forward_static_call_array([$operations, 'makeDefaultSequencedSequode'], []);
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
             $js[] = 'if(typeof registry.active_context != \'undefined\' && typeof registry.active_context.card != \'undefined\'){';
@@ -222,7 +222,7 @@ class Operations {
         && SequodeAuthority::isSequence()
         && !SequodeAuthority::isFullSequence()
 		)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array($add_model_id, $position, $position_tuner, $grid_modifier));
+        forward_static_call_array([$operations, __FUNCTION__], [$add_model_id, $position, $position_tuner, $grid_modifier]);
 		return;
 	}
 	public static function reorderSequence($_model_id, $from_position=0, $to_position=0, $position_tuner = null, $grid_modifier = null){
@@ -236,7 +236,7 @@ class Operations {
         && SequodeAuthority::isSequence()
 		&& AccountAuthority::canEdit()
 		)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array($from_position, $to_position, $position_tuner, $grid_modifier));
+        forward_static_call_array([$operations, __FUNCTION__], [$from_position, $to_position, $position_tuner, $grid_modifier]);
 		return;
 	}
 	public static function removeFromSequence($_model_id, $position){
@@ -250,7 +250,7 @@ class Operations {
         && SequodeAuthority::isSequence()
 		&& AccountAuthority::canEdit()
 		)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array($position));
+        forward_static_call_array([$operations, __FUNCTION__], [$position]);
 		return;
 	}
 	public static function modifyGridAreas($_model_id, $position){
@@ -264,7 +264,7 @@ class Operations {
         && SequodeAuthority::isSequence()
 		&& AccountAuthority::canEdit()
 		)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array($position));
+        forward_static_call_array([$operations, __FUNCTION__], [$position]);
 		return;
 	}
 	public static function emptySequence($_model_id){
@@ -278,7 +278,7 @@ class Operations {
         && SequodeAuthority::isSequence()
         && AccountAuthority::canEdit()
         )){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array());
+        forward_static_call_array([$operations, __FUNCTION__], []);
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
         $js[] = 'if(registry.active_context != false && registry.active_context.card != \'\' && registry.active_context.node != \'\'){';
@@ -297,7 +297,7 @@ class Operations {
         && SequodeAuthority::isSequence()
         && AccountAuthority::canEdit()
         )){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array($grid_area_key, $x, $y));
+        forward_static_call_array([$operations, __FUNCTION__], [$grid_area_key, $x, $y]);
 		return;
 	}
 	public static function addInternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
@@ -311,7 +311,7 @@ class Operations {
         && SequodeAuthority::isSequence()
         && AccountAuthority::canEdit()
         )){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array($receiver_type, $transmitter_key, $receiver_key));
+        forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);
 		return;
 	}
 	public static function addExternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
@@ -325,7 +325,7 @@ class Operations {
         && SequodeAuthority::isSequence()
         && AccountAuthority::canEdit()
         )){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array($receiver_type, $transmitter_key, $receiver_key));
+        forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);
 		return;
 	}
 	public static function removeReceivingConnection($_model_id, $connection_type = false, $restore_key = 0){
@@ -341,7 +341,7 @@ class Operations {
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array($connection_type, $restore_key));
+        forward_static_call_array([$operations, __FUNCTION__], [$connection_type, $restore_key]);
 		return;
 	}
 	public static function updateSharing($_model_id,$json){
@@ -356,7 +356,7 @@ class Operations {
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array(rawurldecode($_o->sharing)));
+        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->sharing)]);
 		return;
 	}
 	public static function updateIsPalette($_model_id,$json){
@@ -371,7 +371,7 @@ class Operations {
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array(rawurldecode($_o->palette)));
+        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->palette)]);
 		return;
 	}
 	public static function updateIsPackage($_model_id,$json){
@@ -386,7 +386,7 @@ class Operations {
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array(rawurldecode($_o->package)));
+        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->package)]);
 		return;
 	}
 	public static function updateDescription($_model_id, $json){
@@ -401,7 +401,7 @@ class Operations {
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array(rawurldecode($_o->description)));
+        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->description)]);
 		return;
 	}
     public static function search($json){

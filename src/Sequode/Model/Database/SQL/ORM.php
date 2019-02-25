@@ -8,9 +8,9 @@ class ORM {
 	public $table 			=	'';
 	public $orderBy			=	'id';
 	public $order			=	'ASC';
-	public $all				=	array();
-	public $members			= 	array();
-	public $relationships	= 	array();
+	public $all				=	[];
+	public $members			= 	[];
+	public $relationships	= 	[];
     public $database_connection = 'system_database';
 	//object constructor
 	public function __construct($lookupMembers=true){
@@ -142,7 +142,7 @@ class ORM {
 		if(count($object->all) > 0){
 			return $object->all;
 		}else{	
-			return array();
+			return [];
 		}
 	}
 
@@ -325,9 +325,9 @@ class ORM {
             while($object = $results->fetch_object()){
                 $raw_members[$object->Field] = $object;
             }
-            $members = array();
+            $members = [];
             foreach($raw_members as $row){
-                $members[$row->Field] = array();
+                $members[$row->Field] = [];
                 if(strpos($row->Type, '(') === false){
                     $type = $row->Type;
                     if(strpos($row->Type, 'long') === false){
@@ -336,7 +336,7 @@ class ORM {
                         $length=10240000000;
                     }
                 }else{
-                    list($type, $length) = sscanf(trim(str_replace(array('(',')'), ' ', $row->Type)), "%s %d");
+                    list($type, $length) = sscanf(trim(str_replace(['(',')'], ' ', $row->Type)), "%s %d");
                 }
                 $members[$row->Field]['saveType'] = $this->memberBasicType($type);
                 $members[$row->Field]['basictype'] = $this->memberBasicType($type);

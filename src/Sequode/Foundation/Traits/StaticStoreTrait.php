@@ -10,14 +10,14 @@ trait StaticStoreTrait {
         
         if(!is_array($store)){
             
-            $store = array();
+            $store = [];
             
         }
         
         switch($mode){
             
             case 'clear':
-                $store = array();
+                $store = [];
                 return;
             case 'is':
                 return (array_key_exists($key, $store)) ? true : false ;

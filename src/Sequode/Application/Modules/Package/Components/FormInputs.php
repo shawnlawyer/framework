@@ -16,7 +16,7 @@ class FormInputs {
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
+        $_model = ($_model == null) ? forward_static_call_array([$modeler,'model'], []) : $_model;
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
@@ -52,11 +52,11 @@ class FormInputs {
     public static function packageSequode($_model = null, $user_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
+        $_model = ($_model == null) ? forward_static_call_array([$modeler,'model'], []) : $_model;
         $_user_model = ($_user_model == null) ? AccountModeler::model() : $_user_model;
         
         $_o = (object) null;
-        $values = $where = array();
+        $values = $where = [];
         
         $values[] = '{\'value\':\'0\',\'printable\':\'Select Package Sequode\'}';
         $sequodes_model = new SequodeModeler::$model;
@@ -69,9 +69,9 @@ class FormInputs {
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
         }
         */
-        $where = array();
-        $where[] = array('field'=>'owner_id', 'operator'=>'=', 'value'=>$_user_model->id);
-        $where[] = array('field'=>'package', 'operator'=>'=', 'value'=>1);
+        $where = [];
+        $where[] = ['field'=>'owner_id', 'operator'=>'=', 'value'=>$_user_model->id];
+        $where[] = ['field'=>'package', 'operator'=>'=', 'value'=>1];
         $sequodes_model->getAll($where);
         foreach( $sequodes_model->all as $object){
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';

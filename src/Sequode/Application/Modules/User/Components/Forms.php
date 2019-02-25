@@ -17,13 +17,13 @@ class Forms  {
         $form_inputs = $module::model()->components->form_inputs;
         
         ($_model == null) 
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model));
+            ? forward_static_call_array([$modeler,'model'], [])
+            : forward_static_call_array([$modeler,'model'], [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateDomain');
-        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         $_o->submit_button = 'Save';
@@ -40,13 +40,13 @@ class Forms  {
         $form_inputs = $module::model()->components->form_inputs;
         
         ($_model == null) 
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model));
+            ? forward_static_call_array([$modeler,'model'], [])
+            : forward_static_call_array([$modeler,'model'], [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateEmail');
-        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         $_o->submit_button = 'Save';
@@ -63,13 +63,13 @@ class Forms  {
         $form_inputs = $module::model()->components->form_inputs;
         
         ($_model == null) 
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model));
+            ? forward_static_call_array([$modeler,'model'], [])
+            : forward_static_call_array([$modeler,'model'], [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updatePassword');
-        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         $_o->submit_button = 'Save';
@@ -86,8 +86,8 @@ class Forms  {
         $form_inputs = $module::model()->components->form_inputs;
         
         ($_model == null) 
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model));
+            ? forward_static_call_array([$modeler,'model'], [])
+            : forward_static_call_array([$modeler,'model'], [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
@@ -109,7 +109,7 @@ class Forms  {
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateRole');
         $_o->auto_submit_time = 1;
-        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         
@@ -123,14 +123,14 @@ class Forms  {
         $form_inputs = $module::model()->components->form_inputs;
         
         ($_model == null) 
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model));
+            ? forward_static_call_array([$modeler,'model'], [])
+            : forward_static_call_array([$modeler,'model'], [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateActive');
         $_o->auto_submit_time = 1;
-        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
 		
@@ -146,14 +146,14 @@ class Forms  {
         $form_inputs = $module::model()->components->form_inputs;
         
         ($_model == null) 
-            ? forward_static_call_array(array($modeler,'model'),array())
-            : forward_static_call_array(array($modeler,'model'),array($_model));
+            ? forward_static_call_array([$modeler,'model'], [])
+            : forward_static_call_array([$modeler,'model'], [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateName');
         $_o->auto_submit_time = 2000;
-        $_o->submit_xhr_call_parameters = array();
+        $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         

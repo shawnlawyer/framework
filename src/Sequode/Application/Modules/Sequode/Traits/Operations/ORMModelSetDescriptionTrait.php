@@ -10,8 +10,8 @@ trait ORMModelSetDescriptionTrait {
         $kit = static::$kit;
         
         ($_model == null)
-            ? forward_static_call_array(array($modeler, 'model'), array())
-            : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
+            ? forward_static_call_array([$modeler, 'model'], [])
+            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
             
         $description = htmlentities(strip_tags($description), ENT_NOQUOTES);
         $description = (strlen($description) <= 1000) ? $description : substr($description, 0, 1000);

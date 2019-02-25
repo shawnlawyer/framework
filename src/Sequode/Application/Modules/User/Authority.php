@@ -28,7 +28,7 @@ class Authority {
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
         $all_models = new \Sequode\Application\Modules\Sequode\Modeler::$model;
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$_model->id);
+        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>$_model->id];
         $all_models->getCount($where);
         $count = $all_models->results_count;
         unset($all_models);
@@ -83,9 +83,9 @@ class Authority {
         if($_model == null ){ $_model = $modeler::model(); }
         if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
         $all_models = new \Sequode\Application\Modules\Sequode\Modeler::$model;
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>$_model->id);
-        $where[] = array('field'=>'name','operator'=>'=','value'=>$name);
-        $where[] = array('field'=>'id','operator'=>'!=','value'=>$test_model->id);
+        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>$_model->id];
+        $where[] = ['field'=>'name','operator'=>'=','value'=>$name];
+        $where[] = ['field'=>'id','operator'=>'!=','value'=>$test_model->id];
         $all_models->getCount($where);
         $count = $all_models->results_count;
         unset($all_models);

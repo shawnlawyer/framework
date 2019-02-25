@@ -16,7 +16,7 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Cards {
     
     public static $module = Module::class;
-    public static $tiles = array('myTile');
+    public static $tiles = ['myTile'];
     
     public static function menu(){
         $_o = (object) null;
@@ -33,7 +33,7 @@ class Cards {
         $modeler = $module::model()->modeler;
         $context = $module::model($package)->context;
         
-        $_out = array();
+        $_out = [];
         $_out[] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', 'cards/token/search');
         $_out[] = CardKit::onTapEventsXHRCallMenuItem('New Token', 'operations/token/newToken');
         
@@ -53,11 +53,11 @@ class Cards {
         $operations = $module::model($package)->operations;
         $context = $module::model($package)->context;
         $models = $operations::getOwnedModels($user_model, $fields, 20)->all;
-        $items = array();
+        $items = [];
         if(count($models) > 0){
             $items[] = CardKit::onTapEventsXHRCallMenuItem('My Tokens', 'cards/'.$context.'/my');
             foreach($models as $model){
-                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', array($model->id));
+                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, 'cards/'.$context.'/details', [$model->id]);
             }
         }
         return $items;
@@ -71,9 +71,9 @@ class Cards {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
-        $_o = array();
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/token/details', array($modeler::model()->id));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'operations/token/delete', array($modeler::model()->id));
+        $_o = [];
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/token/details', [$modeler::model()->id]);
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'operations/token/delete', [$modeler::model()->id]);
         return $_o;
     }
     
@@ -92,21 +92,21 @@ class Cards {
         $_o->menu->items = self::modelOperationsMenuItems();
         
         $_o->head = 'Token Details';
-        $_o->body = array('');
+        $_o->body = [''];
         $context = (object)[
             'card' => 'cards/token/details',
             'collection' => 'tokens',
             'node' => $_model->id
         ];
-        $_o->body[] = (object) array('js' => DOMElementKitJS::registrySetContext($context,['node']));
+        $_o->body[] = (object) ['js' => DOMElementKitJS::registrySetContext($context,['node'])];
 
         $_o->body[] = CardKitHTML::sublineBlock('Name');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/token/name', array($_model->id)), $_model->name, 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/token/name', [$_model->id]), $_model->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Token');
         $_o->body[] = $_model->token;
         
         
-        $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/token/details'));
+        $_o->body[] = CardKit::nextInCollection((object) ['model_id'=>$_model->id,'details_route'=>'cards/token/details']);
         if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
@@ -120,17 +120,17 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items =  array();
+        $_o->menu->items =  [];
         
         $dom_id = FormInputComponent::uniqueHash('','');
-        $_o->menu->items[] = array(
+        $_o->menu->items[] = [
             'css_classes'=>'automagic-card-menu-item noSelect',
             'id'=>$dom_id,
             'contents'=>'New Token',
             'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('operations/token/newToken'))
-        );
-        $_o->body = array();
-        $_o->body[] = CardKit::collectionCard((object) array('collection'=>'tokens','icon'=>'atom','card_route'=>'cards/token/my','details_route'=>'cards/token/details'));
+        ];
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'tokens','icon'=>'atom','card_route'=>'cards/token/my','details_route'=>'cards/token/details']);
         return $_o;
     }
     public static function search(){
@@ -142,21 +142,21 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items = array();
+        $_o->menu->items = [];
         
         $search_components_array = ModuleForm::render($module::$registry_key, 'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         
         foreach($search_components_array as $key => $object){
-            $_o->menu->items[] = array(
+            $_o->menu->items[] = [
                 'css_classes'=>'automagic-card-menu-item noSelect',
                 'contents'=>$object->html,
-                'js_action'=> $object->js                
-            );
+                'js_action'=> $object->js
+            ];
         }
-        $_o->body = array();
-        $_o->body[] = CardKit::collectionCard((object) array('collection'=>'token_search','icon'=>'atom','card_route'=>'cards/token/my','details_route'=>'cards/token/details'));
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'token_search','icon'=>'atom','card_route'=>'cards/token/my','details_route'=>'cards/token/details']);
         return $_o;
     }
     
@@ -172,9 +172,9 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items =  array();
+        $_o->menu->items =  [];
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Token','operations/token/newToken');
-        $_o->body = array();
+        $_o->body = [];
         $_o->body[] = '';
         $_o->body[] = CardKit::ownedItemsCollectionTile('Token', 'Tokens Created : ', $user_model);
         

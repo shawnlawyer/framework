@@ -12,7 +12,7 @@ use Sequode\Application\Modules\Package\Modeler as PackageModeler;
 trait ORMModelExportSequenceSetTrait {
     
     public static function source(){
-        $used_ids = array();
+        $used_ids = [];
         $sequence_set_model_ids = array_unique(json_decode(SequodeModeler::model()->sequence));
         
 		$sequode_model = new SequodeModeler::$model;
@@ -22,30 +22,30 @@ trait ORMModelExportSequenceSetTrait {
             $used_ids = array_merge($used_ids, json_decode(SequodeModeler::model()->sequence));
         }
 		$sequode_model = new SequodeModeler::$model;
-        $models = array();
-        $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'!=','value'=>AccountModeler::model()->id);
-        $where[] = array('field'=>'shared','operator'=>'=','value'=>'1');
-        $where[] = array('field'=>'palette','operator'=>'=','value'=>'0');
+        $models = [];
+        $where = [];
+        $where[] = ['field'=>'owner_id','operator'=>'!=','value'=>AccountModeler::model()->id];
+        $where[] = ['field'=>'shared','operator'=>'=','value'=>'1'];
+        $where[] = ['field'=>'palette','operator'=>'=','value'=>'0'];
         $sequode_model->getAll($where,'id,name,detail,usage_type,coding_type,sequence,input_object,property_object,output_object,input_object_detail,property_object_detail,output_object_detail,input_object_map,property_object_map,output_object_map,input_form_object,property_form_object');
         
         $models = $sequode_model->all;
-        $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id);
+        $where = [];
+        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id];
         $sequode_model->getAll($where,'id,name,detail,usage_type,coding_type,sequence,input_object,property_object,output_object,input_object_detail,property_object_detail,output_object_detail,input_object_map,property_object_map,output_object_map,input_form_object,property_form_object');
         
-        $name_to_id = array();
+        $name_to_id = [];
         foreach($sequode_model->all as $key => $object){
             if(in_array($object->id, $sequence_set_model_ids)){
                 $name_to_id[$object->name] = $object->id;
             }
         }
         $models = array_merge($models, $sequode_model->all);
-        $model_id_to_key = array();
+        $model_id_to_key = [];
         foreach($models as $key => $object){
             $model_id_to_key[$object->id] = $key;
         }
-        $used_ids = array();
+        $used_ids = [];
         foreach($models as $key => $model){
             $node = (object) null;
             $node->id = intval($model->id);
@@ -78,7 +78,7 @@ trait ORMModelExportSequenceSetTrait {
             $models[$key] = $node;
         }
         $used_ids = array_unique($used_ids);
-        $filtered_models = array();
+        $filtered_models = [];
         foreach($models as $key => $model){
             if(in_array($model->id, $used_ids)){
                 $filtered_models[] = $model;
@@ -86,7 +86,7 @@ trait ORMModelExportSequenceSetTrait {
             }
         }
         unset($models);
-        $id_to_key = array();
+        $id_to_key = [];
         foreach($filtered_models as $key => $object){
             $id_to_key[$object->id] = $key;
         }

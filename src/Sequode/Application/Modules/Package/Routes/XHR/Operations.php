@@ -25,11 +25,11 @@ class Operations {
         $operations = $module::model()->operations;
         $xhr_cards = $module::model()->xhr->cards;
         
-        forward_static_call_array(array($operations, __FUNCTION__), array(AccountModeler::model()->id));
-        $js = array();
+        forward_static_call_array([$operations, __FUNCTION__], [AccountModeler::model()->id]);
+        $js = [];
         $collection = 'packages';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array([$xhr_cards, 'details'], [$modeler::model()->id]);
         
         return implode(' ', $js);
         
@@ -50,12 +50,12 @@ class Operations {
         && ( AccountAuthority::isOwner($modeler::model()) || AccountAuthority::isSystemOwner() )
         )){ return; }
         
-        forward_static_call_array(array($operations, __FUNCTION__), array($_o->sequode));
+        forward_static_call_array([$operations, __FUNCTION__], [$_o->sequode]);
         $collection = 'packages';
         
-        $js = array();
+        $js = [];
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array([$xhr_cards, 'details'], [$modeler::model()->id]);
         
         return implode(' ', $js);
         
@@ -84,12 +84,12 @@ class Operations {
         if(!preg_match("/^([A-Za-z0-9_])*$/i", $name)){
             return ' alert(\'Package name must be alphanumeric and all spaces will convert to underscore.\');';
         }
-        forward_static_call_array(array($operations, __FUNCTION__), array($name));
-        $js = array();
+        forward_static_call_array([$operations, __FUNCTION__], [$name]);
+        $js = [];
         
         $collection = 'packages';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array(array($xhr_cards, 'details'), array($modeler::model()->id));
+        $js[] = forward_static_call_array([$xhr_cards, 'details'], [$modeler::model()->id]);
         
         return implode(' ', $js);
         
@@ -107,9 +107,9 @@ class Operations {
         && (AccountAuthority::isOwner( $modeler::model() )
         || AccountAuthority::isSystemOwner())
         )){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array());
-        $js = array();
-        $js[] = forward_static_call_array(array($xhr_cards, 'my'), array());
+        forward_static_call_array([$operations, __FUNCTION__], []);
+        $js = [];
+        $js[] = forward_static_call_array([$xhr_cards, 'my'], []);
         
         return implode(' ', $js);
         
@@ -124,7 +124,7 @@ class Operations {
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
         $collection = $context . '_search';
         SessionStore::set($collection, $_o);
-		$js=array();
+		$js= [];
         $js[] = DOMElementKitJS::fetchCollection($collection);
         
         return implode(' ',$js);
