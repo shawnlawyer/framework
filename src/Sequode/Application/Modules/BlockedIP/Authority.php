@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Application\Modules\BlockedIP
+namespace Sequode\Application\Modules\BlockedIP;
 
 use Sequode\Foundation\Hashes;
 use Sequode\Model\Application\Configuration;

@@ -3,12 +3,11 @@
 namespace Sequode\Application\Modules\Session\Routes\XHR;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
-
-
 use Sequode\Application\Modules\Session\Module;
-    
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\BlockedIP\Modeler as BlockedIPModeler;
+
 class Operations {
     
     public static $module = Module::class;
@@ -22,7 +21,7 @@ class Operations {
         
         if(
             !($modeler::exists($_model_id,'id')
-            && \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+            && AccountAuthority::isSystemOwner())
         ){ return false; }
         forward_static_call_array([$operations,__FUNCTION__],[]);
         return forward_static_call_array([$xhr_cards,'card'],['search']);
@@ -37,7 +36,7 @@ class Operations {
             $modeler::exists($_model_id,'id')
             && $modeler::model()->ip_address != $session_ip
         )){ return false; }
-        \Sequode\Application\Modules\BlockedIP\Modeler::model()->create($modeler::model()->ip_address);
+        BlockedIPModeler::model()->create($modeler::model()->ip_address);
     }
     public static function search($json){
         $_o = json_decode(stripslashes($json));

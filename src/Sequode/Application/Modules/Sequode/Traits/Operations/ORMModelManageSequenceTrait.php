@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\Sequode\Traits\Operations;
 
 use Sequode\Foundation\Hashes;
+use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
 
 trait ORMModelManageSequenceTrait {
     
@@ -15,7 +16,7 @@ trait ORMModelManageSequenceTrait {
             ? forward_static_call_array(array($modeler, 'model'), array())
             : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
             
-        if(\Sequode\Application\Modules\Sequode\Authority::isSequence()){
+        if(SequodeAuthority::isSequence()){
             
             $modeler::model()->updateField(json_encode($kit::makeProcessObject('input')),'input_object');
             $modeler::model()->updateField(json_encode($kit::makeProcessObject('property')),'property_object');
@@ -39,7 +40,7 @@ trait ORMModelManageSequenceTrait {
         $modeler::model()->updateField(json_encode($kit::pruneProcessObjectDetails('property')),'property_object_detail');
         $modeler::model()->updateField(json_encode($kit::pruneProcessObjectDetails('output')),'output_object_detail');
         
-        if(\Sequode\Application\Modules\Sequode\Authority::isSequence()){
+        if(SequodeAuthority::isSequence()){
             
             $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('input',$modeler::model())),'default_input_object_map');
             $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('property',$modeler::model())),'default_property_object_map');
@@ -157,7 +158,7 @@ trait ORMModelManageSequenceTrait {
             ? forward_static_call_array(array($modeler, 'model'), array())
             : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
             
-        if(!\Sequode\Application\Modules\Sequode\Authority::isSequence()){return $modeler::model();}
+        if(!SequodeAuthority::isSequence()){return $modeler::model();}
         
         $modeler::model()->updateField(json_encode($kit::defaultGridAreas(count(json_decode($modeler::model()->sequence)))),'grid_areas');
 		$modeler::model()->updateField('{}','input_object');
@@ -188,7 +189,7 @@ trait ORMModelManageSequenceTrait {
             ? forward_static_call_array(array($modeler, 'model'), array())
             : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
             
-        if(!\Sequode\Application\Modules\Sequode\Authority::isSequence()){return $modeler::model();}
+        if(!SequodeAuthority::isSequence()){return $modeler::model();}
         $modeler::model()->delete($modeler::model()->id);
         return $modeler::model();
         

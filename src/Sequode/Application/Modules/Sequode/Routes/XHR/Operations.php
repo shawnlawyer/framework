@@ -7,6 +7,10 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 use Sequode\Application\Modules\Sequode\Module;
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
+
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
 class Operations {
     
@@ -20,8 +24,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
         $input = json_decode($json);
         if (!is_object($input)){ return; }
@@ -36,7 +40,7 @@ class Operations {
         $object_map = json_decode($modeler::model()->$model_member);
         forward_static_call_array(array($operations, __FUNCTION__), array($type, $map_key, rawurldecode($input->location)));
         if(empty($object_map[$map_key]->Value)){
-			$js = array();
+			$js = [];
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
 			return implode(' ',$js);
@@ -50,7 +54,7 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && AccountAuthority::canEdit()
         )){ return; }
         $form_member_object = json_decode(stripslashes($member_json));
         if(!is_object($form_member_object)){return;}
@@ -69,7 +73,7 @@ class Operations {
         forward_static_call_array(array($operations, __FUNCTION__), array($type, $member, $form_member_object));
         if($previous_form_object->$member->Component != $form_member_object->Component){
             
-            $js = array();
+            $js = [];
             $js[] = 'new XHRCall({route:"forms/sequode/componentSettings",inputs:[\''.$type.'\', \''.$member.'\', '.$modeler::model()->id.', \''.$dom_id.'\']});';
 			return implode(' ',$js);
             
@@ -83,13 +87,13 @@ class Operations {
         $xhr_cards = $module::model()->xhr->cards;
         
         if(!(
-        \Sequode\Application\Modules\Account\Authority::canCreate()
+        AccountAuthority::canCreate()
         && $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canCopy()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canCopy()
         )){ return; }
-        forward_static_call_array(array($operations, 'makeSequenceCopy'), array(\Sequode\Application\Modules\Account\Modeler::model()->id));
-        $js = array();
+        forward_static_call_array(array($operations, 'makeSequenceCopy'), array(AccountModeler::model()->id));
+        $js = [];
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
         $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
@@ -104,10 +108,10 @@ class Operations {
         $cards = $module::model()->xhr->cards;
 
         if(!(
-        \Sequode\Application\Modules\Account\Authority::canCreate()
+        AccountAuthority::canCreate()
         )){ return; }
-        forward_static_call_array(array($operations, __FUNCTION__), array(\Sequode\Application\Modules\Account\Modeler::model()->id));
-        $js = array();
+        forward_static_call_array(array($operations, __FUNCTION__), array(AccountModeler::model()->id));
+        $js = [];
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
         $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
@@ -122,7 +126,7 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && AccountAuthority::canEdit()
         )){ return; }
         $_o = json_decode($json);
         $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($_o->name))));
@@ -132,12 +136,12 @@ class Operations {
         if(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             return ' alert(\'Name can be alphanumeric and contain spaces only\');';
         }
-        if(!\Sequode\Application\Modules\Account\Authority::canRename($name)){
+        if(!AccountAuthority::canRename($name)){
             return ' alert(\'Name already exists\');';
         }
         $modeler::exists($_model_id,'id');
         forward_static_call_array(array($operations, __FUNCTION__), array($name));
-        $js = array();
+        $js = [];
         $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
     
         return implode(' ', $js);
@@ -152,8 +156,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canDelete()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canDelete()
         )){ return; }
         $sequence = json_decode($modeler::model()->sequence);
         if ($confirmed===false && is_array($sequence) && count(json_decode($modeler::model()->sequence)) != 0){
@@ -182,8 +186,8 @@ class Operations {
         if(!(
         
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canRun()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canRun()
         
         )){ return; }
         
@@ -212,11 +216,11 @@ class Operations {
         
         if(!(
 		$modeler::exists($add_model_id,'id')
-		&& \Sequode\Application\Modules\Account\Authority::canRun()
+		&& AccountAuthority::canRun()
 		&& $modeler::exists($_model_id,'id')
-		&& \Sequode\Application\Modules\Account\Authority::canEdit()
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && !\Sequode\Application\Modules\Sequode\Authority::isFullSequence()
+		&& AccountAuthority::canEdit()
+        && SequodeAuthority::isSequence()
+        && !SequodeAuthority::isFullSequence()
 		)){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array($add_model_id, $position, $position_tuner, $grid_modifier));
 		return;
@@ -229,8 +233,8 @@ class Operations {
         
         if(!(
 		$modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+		&& AccountAuthority::canEdit()
 		)){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array($from_position, $to_position, $position_tuner, $grid_modifier));
 		return;
@@ -243,8 +247,8 @@ class Operations {
         
         if(!(
 		$modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+		&& AccountAuthority::canEdit()
 		)){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array($position));
 		return;
@@ -257,8 +261,8 @@ class Operations {
         
         if(!(
 		$modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+		&& AccountAuthority::canEdit()
 		)){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array($position));
 		return;
@@ -271,8 +275,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array());
         $collection = 'sequodes';
@@ -290,8 +294,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array($grid_area_key, $x, $y));
 		return;
@@ -304,8 +308,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array($receiver_type, $transmitter_key, $receiver_key));
 		return;
@@ -318,8 +322,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
         forward_static_call_array(array($operations, __FUNCTION__), array($receiver_type, $transmitter_key, $receiver_key));
 		return;
@@ -332,8 +336,8 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -348,7 +352,7 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::canShare()
+        && AccountAuthority::canShare()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -363,7 +367,7 @@ class Operations {
         
         if(!(
             $modeler::exists($_model_id,'id')
-            && \Sequode\Application\Modules\Account\Authority::canEdit()
+            && AccountAuthority::canEdit()
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -378,7 +382,7 @@ class Operations {
         
         if(!(
             $modeler::exists($_model_id,'id')
-            && \Sequode\Application\Modules\Account\Authority::canEdit()
+            && AccountAuthority::canEdit()
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -393,7 +397,7 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        && AccountAuthority::canEdit()
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -405,7 +409,7 @@ class Operations {
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
         $collection = 'sequode_search';
         SessionStore::set($collection, $_o);
-		$js=array();
+		$js=[];
         if(SessionStore::get('palette') == $collection){
             $js[] = DOMElementKitJS::fetchCollection('palette');
         }
@@ -433,7 +437,7 @@ class Operations {
                 default:
                     if((
                     $modeler::exists($_o->palette, 'id')
-                    && \Sequode\Application\Modules\Account\Authority::canView()
+                    && AccountAuthority::canView()
                     )){
                     SessionStore::set('palette', $_o->palette);
                     }
@@ -442,6 +446,7 @@ class Operations {
             }
             
         }
+        $js = [];
         $js[]=  DOMElementKitJS::fetchCollection('palette');
         return implode(' ',$js);
     }

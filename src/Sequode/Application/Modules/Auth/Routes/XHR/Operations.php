@@ -4,13 +4,11 @@ namespace Sequode\Application\Modules\Auth\Routes\XHR;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
-
 use Sequode\Application\Modules\Auth\Module;
-
 use Sequode\Component\Dialog\Traits\OperationsTrait;
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
-class Operations
-{
+class Operations {
 
     use OperationsTrait;
 
@@ -30,7 +28,7 @@ class Operations
                         $modeler::exists(rawurldecode($input->login), 'email')
                         || $modeler::exists(rawurldecode($input->login), 'name')
                     )
-                    && \Sequode\Application\Modules\Account\Authority::isActive($modeler::model())
+                    && AccountAuthority::isActive($modeler::model())
                 ) {
                     $dialog_store->prep->owner_id = $modeler::model()->id;
                     SessionStore::set($dialog->session_store_key, $dialog_store);
@@ -41,7 +39,7 @@ class Operations
             case 1:
                 if (
                     $modeler::exists($dialog_store->prep->owner_id, 'id')
-                    && \Sequode\Application\Modules\Account\Authority::isPassword(rawurldecode($input->secret), $modeler::model())
+                    && AccountAuthority::isPassword(rawurldecode($input->secret), $modeler::model())
                 ) {
                     return  [$modeler::model()];
                 } else {

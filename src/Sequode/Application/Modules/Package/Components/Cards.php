@@ -2,16 +2,15 @@
 
 namespace Sequode\Application\Modules\Package\Components;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
-
 use Sequode\Component\Card\CardKit as CardKit;
-use Sequode\Component\Card\Kit\JS as CardKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
-
 use Sequode\Application\Modules\Package\Module;
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 
 class Cards {
     
@@ -44,7 +43,7 @@ class Cards {
     public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
         
         if($user_model == null ){
-            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+            $user_model = AccountModeler::model();
         }
         
         $module = static::$module;
@@ -93,13 +92,13 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/package/name', array($_model->id)), $_model->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Package Sequode');
-        $_o->body[] = ($_model->sequode_id != 0 && \Sequode\Application\Modules\Sequode\Modeler::exists($_model->sequode_id,'id')) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/package/packageSequode', array($_model->id)), \Sequode\Application\Modules\Sequode\Modeler::model()->name, 'settings') : ModuleForm::render($module::$registry_key,'packageSequode')[0];
+        $_o->body[] = ($_model->sequode_id != 0 && SequodeModeler::exists($_model->sequode_id,'id')) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/package/packageSequode', array($_model->id)), SequodeModeler::model()->name, 'settings') : ModuleForm::render($module::$registry_key,'packageSequode')[0];
         $_o->body[] = CardKitHTML::sublineBlock('Package Token');
         $_o->body[] = $_model->token;
         $_o->body[] = CardKitHTML::sublineBlock('<a target="_blank" href="/source/'.$_model->token.'">Download</a>');
         
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$_model->id,'details_route'=>'cards/package/details'));
-        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+        if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         
@@ -164,7 +163,7 @@ class Cards {
         
         if($user_model == null ){
             
-            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+            $user_model = AccountModeler::model();
             
         }
         

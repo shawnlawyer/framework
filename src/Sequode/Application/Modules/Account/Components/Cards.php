@@ -10,6 +10,7 @@ use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Form\Form as FormComponent;
 
 use Sequode\Application\Modules\Account\Module;
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Cards {
     
@@ -30,7 +31,7 @@ class Cards {
     
     public static function menuItems(){
         
-        $_o = array();
+        $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Account Details','cards/account/details');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Password','cards/account/updatePassword');
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Email','cards/account/updateEmail');
@@ -44,7 +45,7 @@ class Cards {
         $modeler = $module::model()->modeler;
         $operations = $module::model()->operations;
         
-        $_model = forward_static_call_array(array($modeler,'model'),array());
+        $_model = forward_static_call_array([$modeler,'model'],[]);
         
         $_o = (object) null;
         $_o->head = 'Account Detail';
@@ -52,7 +53,7 @@ class Cards {
         $_o->icon_background = 'user-icon-background';
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $_model->email;
-        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+        if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
         return $_o;
@@ -62,7 +63,7 @@ class Cards {
         
         $module = static::$module;
         $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
+        $dialog = forward_static_call_array([$dialogs, __FUNCTION__], []);
         
         if(!SessionStore::is($dialog->session_store_key)){
             SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
@@ -78,13 +79,13 @@ class Cards {
         if($dialog_store->step != 0){
             
             $_o->menu = (object) null;
-            $_o->menu->items = array();
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over','operations/account/' . __FUNCTION__,array(FormComponent::jsQuotedValue('{"reset":"1"}')));
+            $_o->menu->items = [];
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over','operations/account/' . __FUNCTION__, [FormComponent::jsQuotedValue('{"reset":"1"}')]);
         
         }
         
         $_o->head = 'Account Password';
-        $_o->body = array('');
+        $_o->body = [''];
         
         if(isset($step->content)){
             
@@ -118,7 +119,7 @@ class Cards {
             
         }
         
-        $_o->body[] = (object) array('js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();');
+        $_o->body[] = (object) ['js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();'];
         
         return $_o;
         
@@ -128,7 +129,7 @@ class Cards {
         
         $module = static::$module;
         $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array(array($dialogs, __FUNCTION__), array());
+        $dialog = forward_static_call_array([$dialogs, __FUNCTION__], []);
         
         
         if(!SessionStore::is($dialog->session_store_key)){
@@ -145,13 +146,13 @@ class Cards {
         if($dialog_store->step != 0){
             
             $_o->menu = (object) null;
-            $_o->menu->items = array();
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/account/' . __FUNCTION__, array(FormComponent::jsQuotedValue('{"reset":"1"}')));
+            $_o->menu->items = [];
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/account/' . __FUNCTION__, [FormComponent::jsQuotedValue('{"reset":"1"}')]);
         
         }
         
         $_o->head = 'Account Email';
-        $_o->body = array('');
+        $_o->body = [''];
         
         if(isset($step->content)){
             
@@ -185,7 +186,7 @@ class Cards {
             
         }
         
-        $_o->body[] = (object) array('js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();');
+        $_o->body[] = (object) ['js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();'];
         
         return $_o;
         

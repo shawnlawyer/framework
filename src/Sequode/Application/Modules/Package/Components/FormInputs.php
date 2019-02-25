@@ -6,6 +6,8 @@ use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 
 use Sequode\Application\Modules\Package\Module;
 
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 class FormInputs {
     
     public static $module = Module::class;
@@ -51,13 +53,13 @@ class FormInputs {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $_model = ($_model == null) ? forward_static_call_array(array($modeler,'model'),array()) : $_model;
-        $_user_model = ($_user_model == null) ? \Sequode\Application\Modules\Account\Modeler::model() : $_user_model;
+        $_user_model = ($_user_model == null) ? AccountModeler::model() : $_user_model;
         
         $_o = (object) null;
         $values = $where = array();
         
         $values[] = '{\'value\':\'0\',\'printable\':\'Select Package Sequode\'}';
-        $sequodes_model = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+        $sequodes_model = new SequodeModeler::$model;
         /*
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>5);
         $where[] = array('field'=>'shared','operator'=>'=','value'=>1);

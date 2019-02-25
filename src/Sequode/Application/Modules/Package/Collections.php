@@ -2,7 +2,7 @@
 namespace Sequode\Application\Modules\Package;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
-
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Collections {
     
     public static $modeler = Modeler::class;
@@ -18,7 +18,7 @@ class Collections {
             $_i->field = 'name';
         //}
         
-        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+        if(AccountAuthority::isSystemOwner()){
             $where = array();
             if(isset($shared_where)){
                 $where[] = $shared_where;

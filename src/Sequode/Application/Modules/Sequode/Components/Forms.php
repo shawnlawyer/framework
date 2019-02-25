@@ -137,7 +137,7 @@ class Forms {
         $_o->submit_xhr_call_parameters = array();
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
-		$_o->submit_button = \Sequode\Application\Modules\Sequode\Modeler::model()->name;
+		$_o->submit_button = $modeler::model()->name;
         
 		return $_o;
         

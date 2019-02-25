@@ -5,7 +5,7 @@ namespace Sequode\Application\Modules\Token\Routes\Collections;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 
 use Sequode\Application\Modules\Token\Module;
-
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 class Collections{
     
     public static $module = Module::class;
@@ -25,7 +25,7 @@ class Collections{
         
         $_model = new $modeler::$model;
         $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
+        $where[] = array('field'=>'owner_id','operator'=>'=','value'=> AccountModeler::model()->id);
         $_model->getAll($where,'id,name');
         $nodes = array();
         foreach($_model->all as $object){

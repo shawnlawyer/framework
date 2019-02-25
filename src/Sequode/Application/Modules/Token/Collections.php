@@ -2,8 +2,7 @@
 
 namespace Sequode\Application\Modules\Token;
 
-use Sequode\Application\Modules\Token\Module;
-    
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Collections {
     
     public static $module = Module::class;
@@ -22,7 +21,7 @@ class Collections {
             $_i->field = 'name';
         //}
         
-        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+        if(AccountAuthority::isSystemOwner()){
             $where = array();
             if(isset($shared_where)){
                 $where[] = $shared_where;

@@ -9,6 +9,9 @@ use Sequode\Component\Card\CardKit as CardKit;
 
 use Sequode\Application\Modules\User\Module;
 
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Role\Modeler as RoleModeler;
+
 class Cards {
     
     public static $module = Module::class;
@@ -73,8 +76,8 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Password');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', array($modeler::model()->id)), 'Set Password', 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Role');
-        \Sequode\Application\Modules\Role\Modeler::exists($modeler::model()->role_id,'id');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($modeler::model()->id)), \Sequode\Application\Modules\Role\Modeler::model()->name, 'settings');
+        RoleModeler::exists($modeler::model()->role_id,'id');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', array($modeler::model()->id)), RoleModeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Active Status');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateActive', array($modeler::model()->id)), (($modeler::model()->active == 1) ? 'Active' : 'Suspended'), 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Sign Up Date');
@@ -90,7 +93,7 @@ class Cards {
         $_o->body[] = CardKit::ownedItemsCollectionTile('Token', 'Tokens Created : ', $modeler::model());
         $_o->body[] = CardKit::nextInCollection((object) array('model_id'=>$modeler::model()->id,'details_route'=>'cards/user/details'));
         
-        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+        if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($modeler::model());
         }
         

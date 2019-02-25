@@ -3,8 +3,9 @@
 namespace Sequode\Application\Modules\Sequode\Routes\Collections;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-
 use Sequode\Application\Modules\Sequode\Module;
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
 class Collections{
     public static $module = Module::class;
@@ -32,7 +33,7 @@ class Collections{
         
         if($key == null){
             
-            if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+            if(AccountAuthority::isSystemOwner()){
                 
                 $where = array();
                 $_model->getAll($where,'id, process_description_node');
@@ -45,14 +46,14 @@ class Collections{
                 
                 $nodes = array();
                 $where = array();
-                $where[] = array('field'=>'owner_id','operator'=>'!=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
+                $where[] = array('field'=>'owner_id','operator'=>'!=','value'=>AccountModeler::model()->id);
                 $where[] = array('field'=>'shared','operator'=>'=','value'=>'1');
                 $_model->getAll($where,'id, process_description_node');
                 foreach($_model->all as $object){
                     $nodes[] = '"' . $object->id . '":' . $object->process_description_node;
                 }
                 $where = array();
-                $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
+                $where[] = array('field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id);
                 $_model->getAll($where,'id, process_description_node');
                 foreach($_model->all as $object){
                     $nodes[] = '"' . $object->id . '":' . $object->process_description_node;
@@ -73,7 +74,7 @@ class Collections{
         }elseif(
         
         $modeler::exists($key,'id')
-        && \Sequode\Application\Modules\Account\Authority::canView()
+        && AccountAuthority::canView()
         ){
             
             echo $modeler::model()->process_description_node;
@@ -112,7 +113,7 @@ class Collections{
         
         $_model = new $modeler::$model;
         $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
+        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id);
         $_model->getAll($where,'id,name');
         $nodes = array();
         foreach($_model->all as $object){
@@ -130,8 +131,8 @@ class Collections{
         
         $collection = 'sequode_favorites';
         $nodes = array();
-        if(!empty(\Sequode\Application\Modules\Account\Modeler::model()->$collection)){
-            $_model_ids = json_decode(\Sequode\Application\Modules\Account\Modeler::model()->$collection);
+        if(!empty(AccountModeler::model()->$collection)){
+            $_model_ids = json_decode(AccountModeler::model()->$collection);
             foreach($_model_ids as $_model_id){
                 if($modeler::exists($_model_id,'id')){
                     $nodes[] = '"'. $modeler::model()->id .'":{"id":"'.$modeler::model()->id.'","n":"'.$modeler::model()->name.'"}';

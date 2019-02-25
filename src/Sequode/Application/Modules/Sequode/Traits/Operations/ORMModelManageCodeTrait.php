@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Sequode\Traits\Operations;
 
+use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
+
 trait ORMModelManageCodeTrait {
     
     public static function deleteCode($_model = null){
@@ -12,7 +14,7 @@ trait ORMModelManageCodeTrait {
             ? forward_static_call_array(array($modeler, 'model'), array())
             : forward_static_call_array(array($modeler, 'model'), array($_model)) ;
             
-        if(!\Sequode\Application\Modules\Sequode\Authority::isCode()){
+        if(!SequodeAuthority::isCode()){
             return $modeler::model();
         }
         

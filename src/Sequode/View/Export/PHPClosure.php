@@ -1,9 +1,11 @@
 <?php
 namespace Sequode\View\Export;
 
+use stdClass;
+
 class PHPClosure {
     public static function export($variable, $return = false, $delimeter_nl = true ) {
-        if ($variable instanceof \stdClass) {
+        if ($variable instanceof stdClass) {
             $result = '(object) '.self::export(get_object_vars($variable), true, false);
         } else if (is_array($variable)) {
             $array = [];

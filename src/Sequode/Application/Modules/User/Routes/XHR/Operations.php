@@ -8,6 +8,9 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 use Sequode\Application\Modules\User\Module;
 
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Role\Modeler as RoleModeler;
+
 class Operations {
     
     public static $module = Module::class;
@@ -20,7 +23,7 @@ class Operations {
         $xhr_cards = $module::model()->xhr->cards;
         
         if(!(
-        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+        AccountAuthority::isSystemOwner()
         )){ return; }
         return $xhr_cards::details($operations::newUser()->id);
     }
@@ -32,7 +35,7 @@ class Operations {
         $xhr_cards = $module::model()->xhr->cards;
         
         if(!(
-        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+        AccountAuthority::isSystemOwner()
         )){ return; }
         return $xhr_cards::details($operations::newGuest()->id);
     }
@@ -44,7 +47,7 @@ class Operations {
         $xhr_cards = $module::model()->xhr->cards;
         
         if(!(
-        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+        AccountAuthority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         if ($confirmed===false){
@@ -72,7 +75,7 @@ class Operations {
         $xhr_cards = $module::model()->xhr->cards;
 
         if(!(
-            \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+            AccountAuthority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::login();
@@ -88,7 +91,7 @@ class Operations {
         
         $input = json_decode(rawurldecode($json));
         if(!(
-        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+        AccountAuthority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::updatePassword($input->password);
@@ -103,9 +106,9 @@ class Operations {
         
         $input = json_decode(rawurldecode($json));
         if(!(
-            \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+            AccountAuthority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
-            && \Sequode\Application\Modules\Role\Modeler::exists($input->role,'id')
+            && RoleModeler::exists($input->role,'id')
         )){return;}
         $operations::updateRole();
         return $xhr_cards::details($modeler::model()->id);
@@ -119,7 +122,7 @@ class Operations {
         
         $input = json_decode(rawurldecode($json));
         if(!(
-            \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+            AccountAuthority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
         )){return;}
         $operations::updateActive($input->active);

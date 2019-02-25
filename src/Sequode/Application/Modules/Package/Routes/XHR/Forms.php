@@ -7,6 +7,7 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 use Sequode\Application\Modules\Package\Module;
 
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Forms {
     
     public static $module = Module::class;
@@ -16,8 +17,8 @@ class Forms {
         $modeler = $module::model()->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key,__FUNCTION__), $dom_id);
     }
@@ -26,8 +27,8 @@ class Forms {
         $modeler = $module::model()->modeler;
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key,__FUNCTION__), $dom_id);
     }

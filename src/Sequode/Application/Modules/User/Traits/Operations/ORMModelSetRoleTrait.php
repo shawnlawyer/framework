@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\User\Traits\Operations;
 
+use Sequode\Application\Modules\Role\Modeler as RoleModeler;
+
 trait ORMModelSetRoleTrait {
     
     public static function updateRole($role_model = null, $_model = null){
@@ -9,7 +11,7 @@ trait ORMModelSetRoleTrait {
         $modeler = static::$modeler;
         
         if($role_model == null ){
-            $role_model = \Sequode\Application\Modules\Role\Modeler::model();
+            $role_model = RoleModeler::model();
         }
         
         ($_model == null)

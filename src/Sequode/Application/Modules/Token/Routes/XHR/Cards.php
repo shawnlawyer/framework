@@ -9,7 +9,7 @@ use Sequode\Component\Card\Kit\JS as CardKitJS;
 use Sequode\Application\Modules\Token\Module;
 
 use Sequode\Component\Card\Traits\CardsTrait;
-
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Cards {
 
     use CardsTrait;
@@ -28,8 +28,8 @@ class Cards {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){return false;}
     }
 }

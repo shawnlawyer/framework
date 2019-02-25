@@ -2,9 +2,12 @@
 
 namespace Sequode\Application\Modules\Sequode\Kits;
 
+use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
+use Sequode\Application\Modules\FormInput\Model as FormInputModel;
+
 class Operations{
     public static function makeSequodeFromModel($sequode_model = null, $add_php=true){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         return self::makeCodeFromNode($sequode_model, $add_php);
     }
     public static function makeCodeFromNode($node, $add_php=false){
@@ -50,11 +53,11 @@ class Operations{
         return str_replace('    ','',implode(' ', $code));
     }
     public static function makeStaticMethod($sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         return self::makeFunction($sequode_model);
     }
     public static function makeSequodeProcessDescriptionNode($sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
     
         $node = (object) null;
         $node->id = $sequode_model->id;
@@ -78,7 +81,7 @@ class Operations{
         return $node;
     }
     public static function addOnForSequodeCodeNode($node, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
             
         if(!empty($sequode_model->input_object)){
             foreach(json_decode($sequode_model->input_object) as $loop_member => $loop_value){
@@ -131,7 +134,7 @@ class Operations{
         return $detail_member;
     }
     public static function addOnForSequodeSequenceNode($node, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         
         $input_nodes = array();
         $output_nodes = array();
@@ -151,7 +154,7 @@ class Operations{
             }
         }
         $input_object_map = json_decode($sequode_model->input_object_map);
-        $property_object = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->property_object);
+        $property_object = json_decode(SequodeModeler::model()->property_object);
         if($property_object != (object) null){
             foreach($property_object as $loop_member => $loop_value){
                 $property_nodes[md5('Prop_Obj' .'0'. $loop_member)] = intval(count($property_nodes));
@@ -166,7 +169,7 @@ class Operations{
         $object_cache = array();
         foreach($sequence as $loop_sequence_key => $loop_model_id){
             if(!array_key_exists($loop_model_id, $model_object_cache)){
-                $model_object_cache[$loop_model_id] = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+                $model_object_cache[$loop_model_id] = new SequodeModeler::$model;
                 $model_object_cache[$loop_model_id]->exists($loop_model_id,'id');
                 $object_cache[$loop_model_id] = (object) null;
                 $object_cache[$loop_model_id]->input_object = json_decode($model_object_cache[$loop_model_id]->input_object);
@@ -237,7 +240,7 @@ class Operations{
             }
             $node->m[] = $sub_node;
         }
-        $output_object = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->output_object);
+        $output_object = json_decode(SequodeModeler::model()->output_object);
         if($output_object != (object) null){
             $output_object_map = json_decode($sequode_model->output_object_map);
             $default_output_object_map = json_decode($sequode_model->default_output_object_map);
@@ -272,7 +275,7 @@ class Operations{
 		return $_o;
 	}
     public static function makeProcessObject($type, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         $new_object = self::makeDefaultProcessObject($type);
         switch($type){
             case 'input':
@@ -303,11 +306,11 @@ class Operations{
 		return $new_object;
 	}
     public static function makeDefaultProcessInstanceObject( $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
 		return json_decode('{"Request": "'.$sequode_model->name.'", "Parameters":{}}');
 	}
     public static function makeProcessInstanceObject( $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
 		return json_decode('{"Request": "'.$sequode_model->name.'", "Parameters":"'.$sequode_model->input_object.'"}');
 	}
     public static function removeKeys($keyed_array){
@@ -318,7 +321,7 @@ class Operations{
         return $new_array;
     }
     public static function updateFormObjectMembers($type, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         switch($type){
             case 'input':
                 $type_object = 'input_object';
@@ -344,7 +347,7 @@ class Operations{
                     if($type == 'property' && $loop_member == 'Run_Process'){
                         $form_object->$loop_member = json_decode('{"Component":"checkboxSwitch","Label":"Run Process","On_Value":"true","On_Text":"On","Off_Value":"false","Off_Text":"Off","Value":"false"}');
                     }else{
-                        $component = new \Sequode\Application\Modules\FormInput\Model;
+                        $component = new FormInputModel;
                         $component->exists('str','name');
                         $form_object->$loop_member = json_decode($component->component_object);
                         $form_object->$loop_member->Label = $loop_member;
@@ -355,7 +358,7 @@ class Operations{
         return $form_object;
     }
     public static function updateProcessObjectDetails($type,  $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         $sequence = json_decode($sequode_model->sequence);
         switch($type){
             case 'input':
@@ -414,7 +417,7 @@ class Operations{
 			$internal_member = $default_map[$value]->Member;
             $internal_id = $sequence[intval($default_map[$value]->Key)-1];
 			if(!array_key_exists($internal_id, $object_cache)){
-				$object_cache[$internal_id] = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+				$object_cache[$internal_id] = new SequodeModeler::$model;
 				$object_cache[$internal_id]->exists($internal_id,'id');
 			}
 			$loop_object = $object_cache[$internal_id];
@@ -425,7 +428,7 @@ class Operations{
         return $detail;
     }
     public static function pruneProcessObjectDetails($type, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         $new_object = (object) null;
 		switch($type){
             case 'input':
@@ -443,15 +446,15 @@ class Operations{
                 $new_object->Success = self::makeDefaultProcessObjectDetailMember('Success');
                 break;
         }
-		$object = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->{$type_detail});
-		$object_detail = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->{$type_detail});
+		$object = json_decode(SequodeModeler::model()->{$type_detail});
+		$object_detail = json_decode(SequodeModeler::model()->{$type_detail});
         foreach($object as $loop_member => $loop_value){
             $new_object->$loop_member = $object_detail->$loop_member;
 		}
 		return $new_object;
 	}
     public static function pruneFormObject($type, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         switch($type){
             case 'input':
                 $type_object = 'input_object';
@@ -474,7 +477,7 @@ class Operations{
 		return $new_object;
 	}
     public static function makeDefaultSequenceObjectMap($type, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         
         switch($type){
             case 'input':
@@ -495,7 +498,7 @@ class Operations{
         $sequence = json_decode($sequode_model->sequence);
         foreach( $sequence as $key => $id ){
 			if(!array_key_exists($id, $object_cache)){
-				$object_cache[$id] = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+				$object_cache[$id] = new SequodeModeler::$model;
 				$object_cache[$id]->exists($id,'id');
 			}
 			$loop_object = json_decode($object_cache[$id]->$type_object);
@@ -633,7 +636,7 @@ class Operations{
     
     */
 	public static function getGridAreasKeyFromPosition($position, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
 		$sequence = json_decode($sequode_model->sequence);
 		$grid_areas = json_decode($sequode_model->grid_areas);
 		if($position == count($sequence)){
@@ -691,13 +694,13 @@ class Operations{
 		return $new_grid_areas;
 	}
 	public static function addToGridArea($position, $grid_areas, $grid_modifier, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
 		$grid_area_key = self::getGridAreasKeyFromPosition($position, $sequode_model);
 		$grid_areas = self::increaseGridAreaCount($grid_areas, $grid_area_key);
 		return $grid_areas;
     }
 	public static function moveFromGridAreaToGridArea($from_position, $to_position, $grid_areas, $sequode_model = null ){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
 		$grid_area_key_from = self::getGridAreasKeyFromPosition($from_position, $sequode_model);
 		$grid_area_key_to = self::getGridAreasKeyFromPosition($to_position, $sequode_model);
 
@@ -710,7 +713,7 @@ class Operations{
 		return $grid_areas;
     }
 	public static function tuneGridAreaPosition($position, $grid_areas, $position_tuner, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
 		$grid_area_key = self::getGridAreasKeyFromPosition($position, $sequode_model);
 		$grid_area_position = self::getGridAreaPosition($position, $grid_areas);
 		
@@ -733,7 +736,7 @@ class Operations{
 		return $grid_areas;
     }
 	public static function modifyGridAreas($position, $grid_areas, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
 		$grid_area_key = self::getGridAreasKeyFromPosition($position, $sequode_model);
 		$grid_area_position = self::getGridAreaPosition($position, $grid_areas);
         
@@ -796,7 +799,7 @@ class Operations{
         return self::removeZeroCountGridAreas($new_grid_areas);
     }
     public static function moveGridArea($gridarea_key, $grid_areas, $x = 0, $y = 0, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
         if($gridarea_key == 0 || ( $x == 0 && $y == 0 )){return $grid_areas;}
         
         $cell_height = 250;
@@ -809,7 +812,7 @@ class Operations{
         return $grid_areas;
     }
 	public static function removeFromGridArea($position, $grid_areas, $sequode_model = null ){
-        if($sequode_model == null ){ $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
 		$grid_area_key = self::getGridAreasKeyFromPosition($position, $sequode_model);
 		$grid_areas = self::reduceGridAreaCount($grid_areas,$grid_area_key);
 		$grid_areas = self::removeZeroCountGridAreas($grid_areas);

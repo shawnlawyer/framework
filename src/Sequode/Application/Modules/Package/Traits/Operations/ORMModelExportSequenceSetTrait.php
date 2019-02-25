@@ -4,29 +4,34 @@ namespace Sequode\Application\Modules\Package\Traits\Operations;
 
 use Sequode\View\Export\PHPClosure;
 
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
+use Sequode\Application\Modules\Sequode\Kits\Operations as SequodeOperationsKit;
+use Sequode\Application\Modules\Package\Modeler as PackageModeler;
+
 trait ORMModelExportSequenceSetTrait {
     
     public static function source(){
         $used_ids = array();
-        $sequence_set_model_ids = array_unique(json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->sequence));
+        $sequence_set_model_ids = array_unique(json_decode(SequodeModeler::model()->sequence));
         
-		$sequode_model = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+		$sequode_model = new SequodeModeler::$model;
         foreach($sequence_set_model_ids as $id){
             $used_ids[] = $id;
             $sequode_model->exists($id,'id');
-            $used_ids = array_merge($used_ids, json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->sequence));
+            $used_ids = array_merge($used_ids, json_decode(SequodeModeler::model()->sequence));
         }
-		$sequode_model = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+		$sequode_model = new SequodeModeler::$model;
         $models = array();
         $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'!=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
+        $where[] = array('field'=>'owner_id','operator'=>'!=','value'=>AccountModeler::model()->id);
         $where[] = array('field'=>'shared','operator'=>'=','value'=>'1');
         $where[] = array('field'=>'palette','operator'=>'=','value'=>'0');
         $sequode_model->getAll($where,'id,name,detail,usage_type,coding_type,sequence,input_object,property_object,output_object,input_object_detail,property_object_detail,output_object_detail,input_object_map,property_object_map,output_object_map,input_form_object,property_form_object');
         
         $models = $sequode_model->all;
         $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
+        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id);
         $sequode_model->getAll($where,'id,name,detail,usage_type,coding_type,sequence,input_object,property_object,output_object,input_object_detail,property_object_detail,output_object_detail,input_object_map,property_object_map,output_object_map,input_form_object,property_form_object');
         
         $name_to_id = array();
@@ -68,7 +73,7 @@ trait ORMModelExportSequenceSetTrait {
                 $used_ids = array_merge($used_ids,$node->s);
             }elseif($model->usage_type == 0){
                 $node->ct = intval($model->coding_type);
-                $node->c = '%START_CLOSURE_REPLACEMENT_HOOK%'.\Sequode\Application\Modules\Sequode\Kits\Operations::makeCodeFromNode($node).'%END_CLOSURE_REPLACEMENT_HOOK%';
+                $node->c = '%START_CLOSURE_REPLACEMENT_HOOK%'.SequodeOperationsKit::makeCodeFromNode($node).'%END_CLOSURE_REPLACEMENT_HOOK%';
             }
             $models[$key] = $node;
         }
@@ -87,7 +92,7 @@ trait ORMModelExportSequenceSetTrait {
         }
         
         $_o = '<?php
-class ' . \Sequode\Application\Modules\Package\Modeler::model()->token . ' {
+class ' . PackageModeler::model()->token . ' {
     
     use \Sequode\Application\Modules\Package\Traits\Operations\SequenceSetExpressTrait;
     

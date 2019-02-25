@@ -9,8 +9,9 @@ use Sequode\Foundation\Hashes;
 
 use Sequode\Component\Dialog\Traits\OperationsTrait;
 
-
 use Sequode\Application\Modules\Register\Module;
+
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Operations {
 
@@ -29,7 +30,7 @@ class Operations {
             case 0:
                 if (
                     !$modeler::exists(rawurldecode($input->email), 'email')
-                    && \Sequode\Application\Modules\Account\Authority::isAnEmailAddress(rawurldecode($input->email))
+                    && AccountAuthority::isAnEmailAddress(rawurldecode($input->email))
                 ) {
                     $dialog_store->prep->email = rawurldecode($input->email);
                     $dialog_store->prep->token = Hashes::generateHash();
@@ -43,7 +44,7 @@ class Operations {
             case 1:
                 if (
                     rawurldecode($input->password) == rawurldecode($input->confirm_password)
-                    && \Sequode\Application\Modules\Account\Authority::isSecurePassword(rawurldecode($input->password))
+                    && AccountAuthority::isSecurePassword(rawurldecode($input->password))
                 ) {
                     $dialog_store->prep->password = rawurldecode($input->password);
                     SessionStore::set($dialog->session_store_key, $dialog_store);

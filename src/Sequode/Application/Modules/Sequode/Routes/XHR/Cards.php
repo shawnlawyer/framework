@@ -17,7 +17,6 @@ class Cards {
 
     public static $module = Module::class;
 
-
     public static $routes = [
         'componentSettings',
         'details',

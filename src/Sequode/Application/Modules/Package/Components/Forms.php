@@ -6,6 +6,7 @@ use Sequode\Component\Form\Form as FormComponent;
 
 use Sequode\Application\Modules\Package\Module;
 
+
 class Forms {
     
     public static $module = Module::class;
@@ -13,6 +14,7 @@ class Forms {
     public static function name($_model = null){
         
         $module = static::$module;
+        $modeler = $module::model()->modeler;
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
@@ -21,7 +23,7 @@ class Forms {
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateName');
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = array();
-        $_o->submit_xhr_call_parameters[] = \Sequode\Application\Modules\Package\Modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         
 		return $_o;
@@ -31,6 +33,7 @@ class Forms {
     public static function packageSequode($_model = null){
         
         $module = static::$module;
+        $modeler = $module::model()->modeler;
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
@@ -39,7 +42,7 @@ class Forms {
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updatePackageSequode');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = array();
-        $_o->submit_xhr_call_parameters[] = \Sequode\Application\Modules\Package\Modeler::model()->id;
+        $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
         
 		return $_o;

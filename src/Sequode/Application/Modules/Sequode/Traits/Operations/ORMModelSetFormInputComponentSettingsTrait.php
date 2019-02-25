@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Sequode\Traits\Operations;
 
+use Sequode\Application\Modules\FormInput\Model as FormInputModel;
+
 trait ORMModelSetFormInputComponentSettingsTrait {
     
     public static function updateComponentSettings($type, $member, $input_object, $_model = null){
@@ -25,7 +27,7 @@ trait ORMModelSetFormInputComponentSettingsTrait {
         }
         
 		$form_object = json_decode($modeler::model()->$object_member);
-		$component = new \Sequode\Application\Modules\FormInput\Model;
+		$component = new FormInputModel;
 		if(!$component->exists($input_object->Component,'name')){
             
             $component->exists('str','name');

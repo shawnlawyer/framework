@@ -3,13 +3,17 @@
 namespace Sequode\Application\Modules\Sequode\Components;
 
 use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
+use Sequode\Application\Modules\Sequode\Kits\Operations as SequodeOperationsKit;
 
+use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
+use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 class FormInputs {
     
     public static function name($sequode_model = null){
         
         if($sequode_model != null ){
-            \Sequode\Application\Modules\Sequode\Modeler::model($sequode_model);
+            SequodeModeler::model($sequode_model);
         }
         
         $components_object = (object) null;
@@ -17,7 +21,7 @@ class FormInputs {
         FormInputModeler::exists('str','name');
         $components_object->name = json_decode(FormInputModeler::model()->component_object);
         $components_object->name->Label = '';
-        $components_object->name->Value = \Sequode\Application\Modules\Sequode\Modeler::model()->name;
+        $components_object->name->Value = SequodeModeler::model()->name;
         $components_object->name->Width = 200;
         $components_object->name->CSS_Class = 'focus-input';
         
@@ -28,7 +32,7 @@ class FormInputs {
     public static function description($sequode_model = null){
         
         if($sequode_model != null ){
-            \Sequode\Application\Modules\Sequode\Modeler::model($sequode_model);
+            SequodeModeler::model($sequode_model);
         }
         
         $components_object = (object) null;
@@ -36,7 +40,7 @@ class FormInputs {
         FormInputModeler::exists('text','name');
         $components_object->description = json_decode(FormInputModeler::model()->component_object);
         $components_object->description->Label = '';
-        $components_object->description->Value = @json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->detail)->description;
+        $components_object->description->Value = @json_decode(SequodeModeler::model()->detail)->description;
         $components_object->description->Width = 30;
         $components_object->description->Height = 20;
         $components_object->description->CSS_Class = 'focus-input';
@@ -104,21 +108,21 @@ class FormInputs {
     public static function component($type, $map_key, $sequode_model = null){
         
         if($sequode_model != null ){
-            \Sequode\Application\Modules\Sequode\Modeler::model($sequode_model);
+            SequodeModeler::model($sequode_model);
         }
         
-        $default_map = \Sequode\Application\Modules\Sequode\Kits\Operations::makeDefaultSequenceObjectMap($type,$sequode_model);
-        $sequence =  json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->sequence);
+        $default_map = SequodeOperationsKit::makeDefaultSequenceObjectMap($type,$sequode_model);
+        $sequence =  json_decode(SequodeModeler::model()->sequence);
         $location_object = $default_map[$map_key];
 		$sequence_key = $location_object->Key - 1;
         $member = $location_object->Member;
-        $temp_model = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+        $temp_model = new SequodeModeler::$model;
 		$temp_model->exists($sequence[$sequence_key],'id');
 		$components_object = (object) null;
 		$model_member = $type.'_form_object';
 		$components_object->location = json_decode($temp_model->$model_member)->$member;
 		$model_member = $type.'_object_map';
-		$components_object->location->Value = json_decode(\Sequode\Application\Modules\Sequode\Modeler::model()->$model_member)[$map_key]->Value;
+		$components_object->location->Value = json_decode(SequodeModeler::model()->$model_member)[$map_key]->Value;
         
 		return $components_object;
         
@@ -127,7 +131,7 @@ class FormInputs {
 	public static function componentSettings($type, $member, $dom_id, $sequode_model = null){
         
         if($sequode_model == null ){
-            $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model();
+            $sequode_model = SequodeModeler::model();
         }
         
         $components_object = (object) null;
@@ -156,7 +160,7 @@ class FormInputs {
     public static function sequode($dom_id, $sequode_model = null){
         
         if($sequode_model == null ){
-            $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model();
+            $sequode_model = SequodeModeler::model();
         }
         
         return json_decode($sequode_model->input_form_object);
@@ -166,7 +170,7 @@ class FormInputs {
     public static function sharing($sequode_model = null){
         
         if($sequode_model == null ){
-            $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model();
+            $sequode_model = SequodeModeler::model();
         }
         
         $components_object = (object) null;
@@ -177,7 +181,7 @@ class FormInputs {
         $components_object->sharing->On_Value = 1;
         $components_object->sharing->Off_Text = 'Private Restricted';
         $components_object->sharing->Off_Value = 0;
-        $components_object->sharing->Value = (\Sequode\Application\Modules\Sequode\Authority::isShared($sequode_model)) ? 1 : 0;
+        $components_object->sharing->Value = (SequodeAuthority::isShared($sequode_model)) ? 1 : 0;
         
 		return $components_object;
         
@@ -186,7 +190,7 @@ class FormInputs {
     public static function updateIsPalette($sequode_model = null){
         
         if($sequode_model == null ){
-            $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model();
+            $sequode_model = SequodeModeler::model();
         }
         
         $components_object = (object) null;
@@ -197,7 +201,7 @@ class FormInputs {
         $components_object->palette->On_Value = 1;
         $components_object->palette->Off_Text = 'Hidden from Palettes';
         $components_object->palette->Off_Value = 0;
-        $components_object->palette->Value = (\Sequode\Application\Modules\Sequode\Authority::isPalette($sequode_model)) ? 1 : 0;
+        $components_object->palette->Value = (SequodeAuthority::isPalette($sequode_model)) ? 1 : 0;
         
 		return $components_object;
         
@@ -206,7 +210,7 @@ class FormInputs {
     public static function updateIsPackage($sequode_model = null){
         
         if($sequode_model == null ){
-            $sequode_model = \Sequode\Application\Modules\Sequode\Modeler::model();
+            $sequode_model = SequodeModeler::model();
         }
         
         $components_object = (object) null;
@@ -217,7 +221,7 @@ class FormInputs {
         $components_object->package->On_Value = 1;
         $components_object->package->Off_Text = 'Not Used As Package';
         $components_object->package->Off_Value = 0;
-        $components_object->package->Value = (\Sequode\Application\Modules\Sequode\Authority::isPackage($sequode_model)) ? 1 : 0;
+        $components_object->package->Value = (SequodeAuthority::isPackage($sequode_model)) ? 1 : 0;
         
 		return $components_object;
         
@@ -226,7 +230,7 @@ class FormInputs {
     public static function selectPalette($user_model = null){
         
         if($user_model == null ){
-            $user_model = \Sequode\Application\Modules\Account\Modeler::model();
+            $user_model = AccountModeler::model();
         }
         
         $components_object = (object) null;
@@ -239,13 +243,13 @@ class FormInputs {
         $where[] = array('field'=>'owner_id','operator'=>'=','value'=>5);
         $where[] = array('field'=>'shared','operator'=>'=','value'=>1);
         $where[] = array('field'=>'palette','operator'=>'=','value'=>1);
-        $sequodes_model = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+        $sequodes_model = new SequodeModeler::$model;
         $sequodes_model->getAll($where);
         foreach( $sequodes_model->all as $object){
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
         }
         $where = array();
-        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id);
+        $where[] = array('field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id);
         $where[] = array('field'=>'palette','operator'=>'=','value'=>1);
         $sequodes_model->getAll($where);
         foreach( $sequodes_model->all as $object){

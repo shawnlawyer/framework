@@ -1,5 +1,7 @@
 <?php
 namespace Sequode\Controller\Database;
+use mysqli;
+
 class MySQL {
 	
 	public $connection;
@@ -7,7 +9,7 @@ class MySQL {
 	public $dbName;
 	
 	public function __construct($dbHost='',$dbUser='',$dbPass='',$dbName='') {
-		$this->connection = new \mysqli($dbHost, $dbUser, $dbPass, $dbName);
+		$this->connection = new mysqli($dbHost, $dbUser, $dbPass, $dbName);
         $this->dbName = $dbName;
  	}
 	public function query($sql, $returnAsObject=false) {

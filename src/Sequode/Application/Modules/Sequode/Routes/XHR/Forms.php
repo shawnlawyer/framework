@@ -7,6 +7,8 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 use Sequode\Application\Modules\Sequode\Module;
 
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+
 class Forms {
     
     public static $module = Module::class;
@@ -18,8 +20,8 @@ class Forms {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
     }
@@ -30,8 +32,8 @@ class Forms {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
     }
@@ -42,8 +44,8 @@ class Forms {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         && in_array($type, array('input','property'))
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__, array($type, $map_key)), $dom_id);
@@ -55,8 +57,8 @@ class Forms {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         && in_array($type, array('input','property'))
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__, array($type, $member, $dom_id)), $dom_id);
@@ -68,8 +70,8 @@ class Forms {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
     }
@@ -80,8 +82,8 @@ class Forms {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
     }
@@ -92,8 +94,8 @@ class Forms {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && (\Sequode\Application\Modules\Account\Authority::isOwner( $modeler::model() )
-        || \Sequode\Application\Modules\Account\Authority::isSystemOwner())
+        && (AccountAuthority::isOwner( $modeler::model() )
+        || AccountAuthority::isSystemOwner())
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
     }
@@ -104,7 +106,7 @@ class Forms {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+        && AccountAuthority::isSystemOwner()
         )){return;}
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
     }

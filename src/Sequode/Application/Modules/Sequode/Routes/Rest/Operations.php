@@ -2,16 +2,23 @@
 
 namespace Sequode\Application\Modules\Sequode\Routes\Rest;
 
+
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
+use Sequode\Application\Modules\Sequode\Operations as SequodeOperations;
+
 class Operations{
 	public static function surfaceMine($sequode_model_id = 0){
 		if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isCode()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isCode()
+        && AccountAuthority::canEdit()
         )){ return; }
 		
 		try{
-			\Sequode\Application\Modules\Sequode\Operations::buildSequodeCodeNodeOffMineObject();
+			SequodeOperations::buildSequodeCodeNodeOffMineObject();
 		}catch(Exception $e){
 			exit;
 		}
@@ -22,11 +29,11 @@ class Operations{
 	}
 	public static function cacheNode($sequode_model_id = 0){
 		if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && AccountAuthority::isSystemOwner()
         )){ return; }
         try{
-			\Sequode\Application\Modules\Sequode\Operations::regenerateProcessDescriptionNode();
+			SequodeOperations::regenerateProcessDescriptionNode();
 		}catch(Exception $e){
 			exit;
 		}
@@ -38,12 +45,12 @@ class Operations{
 	public static function maintenance($sequode_model_id = 0){
         
 		if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && AccountAuthority::canEdit()
         )){ return; }
         
 		try{
-            \Sequode\Application\Modules\Sequode\Operations::maintenance();
+            SequodeOperations::maintenance();
 		}catch(Exception $e){
 			exit;
 		}
@@ -54,37 +61,37 @@ class Operations{
 	}
 	public static function newSequence(){
         if(!(
-            \Sequode\Application\Modules\Account\Authority::canCreate()
+            AccountAuthority::canCreate()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::newSequence(\Sequode\Application\Modules\Account\Modeler::model()->id);
+        SequodeOperations::newSequence(AccountModeler::model()->id);
         $object = (object) null;
         $object->Success = 1;
-		$object->Model_Id = \Sequode\Application\Modules\Sequode\Modeler::model()->id;
+		$object->Model_Id = SequodeModeler::model()->id;
         echo json_encode($object);
         exit;
 	}
 	public static function cloneSequence($sequode_model_id = 0){
         if(!(
-        \Sequode\Application\Modules\Account\Authority::canCreate()
-        && \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canCopy()
+        AccountAuthority::canCreate()
+        && SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canCopy()
         )){ return; }
-		\Sequode\Application\Modules\Sequode\Operations::makeSequenceCopy(\Sequode\Application\Modules\Account\Modeler::model()->id);
+		SequodeOperations::makeSequenceCopy(AccountModeler::model()->id);
 		$object = (object) null;
         $object->Success = 1;
-		$object->Model_Id = \Sequode\Application\Modules\Sequode\Modeler::model()->id;
+		$object->Model_Id = SequodeModeler::model()->id;
         echo json_encode($object);
         exit;
 	}	
 	public static function formatSequence($sequode_model_id = 0){
 		if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
 		
-        \Sequode\Application\Modules\Sequode\Operations::makeDefaultSequencedSequode();
+        SequodeOperations::makeDefaultSequencedSequode();
 		$object = (object) null;
         $object->Success = 1;
 		echo json_encode($object);
@@ -92,11 +99,11 @@ class Operations{
 	}
 	public static function deleteSequence($sequode_model_id = 0){
 		if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canDelete()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canDelete()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::deleteSequence();
+        SequodeOperations::deleteSequence();
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -104,14 +111,14 @@ class Operations{
 	}
 	public static function addToSequence($sequode_model_id = 0, $add_sequode_model_id = 0, $position = 0, $position_tuner = null , $grid_modifier = null ){
 		if(!(
-		\Sequode\Application\Modules\Sequode\Modeler::exists($add_sequode_model_id,'id')
-		&& \Sequode\Application\Modules\Account\Authority::canRun()
-		&& \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-		&& \Sequode\Application\Modules\Account\Authority::canEdit()
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && !\Sequode\Application\Modules\Sequode\Authority::isFullSequence()
+		SequodeModeler::exists($add_sequode_model_id,'id')
+		&& AccountAuthority::canRun()
+		&& SequodeModeler::exists($sequode_model_id,'id')
+		&& AccountAuthority::canEdit()
+        && SequodeAuthority::isSequence()
+        && !SequodeAuthority::isFullSequence()
 		)){ return; }
-		\Sequode\Application\Modules\Sequode\Operations::addToSequence($add_sequode_model_id, $position, $position_tuner, $grid_modifier);
+		SequodeOperations::addToSequence($add_sequode_model_id, $position, $position_tuner, $grid_modifier);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -119,11 +126,11 @@ class Operations{
 	}
 	public static function reorderSequence($sequode_model_id = 0, $from_position = 0, $to_position = 0, $position_tuner = null , $grid_modifier = null ){
 		if(!(
-		\Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Account\Authority::canEdit()
+		SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+		&& AccountAuthority::canEdit()
 		)){ return; }
-		\Sequode\Application\Modules\Sequode\Operations::reorderSequence($from_position, $to_position, $position_tuner, $grid_modifier);
+		SequodeOperations::reorderSequence($from_position, $to_position, $position_tuner, $grid_modifier);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -131,11 +138,11 @@ class Operations{
 	}
 	public static function removeFromSequence($sequode_model_id = 0, $position = 0){
 		if(!(
-		\Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Account\Authority::canEdit()
+		SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+		&& AccountAuthority::canEdit()
 		)){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::removeFromSequence($position);
+        SequodeOperations::removeFromSequence($position);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -143,11 +150,11 @@ class Operations{
 	}
 	public static function modifyGridAreas($sequode_model_id = 0, $position = 0){
 		if(!(
-		\Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-		&& \Sequode\Application\Modules\Account\Authority::canEdit()
+		SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+		&& AccountAuthority::canEdit()
 		)){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::modifyGridAreas($position);
+        SequodeOperations::modifyGridAreas($position);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -155,11 +162,11 @@ class Operations{
 	}
 	public static function emptySequence($sequode_model_id = 0){
 		if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::emptySequence();
+        SequodeOperations::emptySequence();
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -167,11 +174,11 @@ class Operations{
 	}
 	public static function moveGridArea($sequode_model_id = 0, $grid_area_key = 0, $x = 0, $y = 0){
 		if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::moveGridArea($grid_area_key, $x, $y);
+        SequodeOperations::moveGridArea($grid_area_key, $x, $y);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -179,11 +186,11 @@ class Operations{
 	}
     public static function updateValue($sequode_model_id = 0, $type = false, $map_key = 0, $value = null){
         if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::updateValue($type, $map_key, $value);
+        SequodeOperations::updateValue($type, $map_key, $value);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -191,11 +198,11 @@ class Operations{
     }
     public static function addInternalConnection($sequode_model_id = 0 ,$receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
         if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::addInternalConnection($receiver_type, $transmitter_key, $receiver_key);
+        SequodeOperations::addInternalConnection($receiver_type, $transmitter_key, $receiver_key);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -203,11 +210,11 @@ class Operations{
     }
     public static function addExternalConnection($sequode_model_id = 0, $connection_type = false, $transmitter_key = 0, $receiver_key = 0){
         if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::addExternalConnection($connection_type, $transmitter_key, $receiver_key);
+        SequodeOperations::addExternalConnection($connection_type, $transmitter_key, $receiver_key);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -215,11 +222,11 @@ class Operations{
     }
     public static function removeReceivingConnection($sequode_model_id = 0, $connection_type = false, $restore_key = 0){
         if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isSequence()
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isSequence()
+        && AccountAuthority::canEdit()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::removeReceivingConnection($connection_type, $restore_key);
+        SequodeOperations::removeReceivingConnection($connection_type, $restore_key);
 		$object = (object) null;
         $object->Success = 1;
         echo json_encode($object);
@@ -227,34 +234,34 @@ class Operations{
     }
     public static function updateTenancy($value = 0, $sequode_model_id = 0){
         if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::isSystemOwner()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && AccountAuthority::isSystemOwner()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::updateTenancy($value);
+        SequodeOperations::updateTenancy($value);
         exit;
     }
     public static function updateSharing($value = 0, $sequode_model_id = 0){
        if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::canShare()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && AccountAuthority::canShare()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::updateSharing($value);
+        SequodeOperations::updateSharing($value);
         exit;
     }
     public static function updateCodeSharing($sequode_model_id = 0, $value = 1){
        if(!(
-        \Sequode\Application\Modules\Account\Authority::isSystemOwner()
-        && \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Sequode\Authority::isCode()
-        && \Sequode\Application\Modules\Sequode\Authority::isCodingTypeFunction()
+        AccountAuthority::isSystemOwner()
+        && SequodeModeler::exists($sequode_model_id,'id')
+        && SequodeAuthority::isCode()
+        && SequodeAuthority::isCodingTypeFunction()
         )){ return; }
-        \Sequode\Application\Modules\Sequode\Operations::updateSharing($value);
+        SequodeOperations::updateSharing($value);
         exit;
     }
     public static function updateName($sequode_model_id = 0, $name=''){
         if(!(
-        \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id')
-        && \Sequode\Application\Modules\Account\Authority::canEdit()
+        SequodeModeler::exists($sequode_model_id,'id')
+        && AccountAuthority::canEdit()
         )){ 
             return;
         }
@@ -265,12 +272,12 @@ class Operations{
             $object->Error = 'Name cannot be empty';
         }elseif(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             $object->Error = 'Name can be alphanumeric and contain spaces only';
-        }elseif(!\Sequode\Application\Modules\Account\Authority::canRename($name)){
+        }elseif(!AccountAuthority::canRename($name)){
             $object->Error = 'Name already used';
         }
         if(!isset($object->Error)){
-            \Sequode\Application\Modules\Sequode\Modeler::exists($sequode_model_id,'id');
-            \Sequode\Application\Modules\Sequode\Operations::updateName($name);
+            SequodeModeler::exists($sequode_model_id,'id');
+            SequodeOperations::updateName($name);
             $object->Success = true;
         }
         echo json_encode($object);
