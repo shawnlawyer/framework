@@ -3,43 +3,41 @@
 namespace Sequode\Controller\Application;
 
 use Sequode\Model\Application\Configuration;
-use Sequode\Model\Application\Runtime;
+use Sequode\Model\Application\RuntimeModulesRouteableClasses;
 use Sequode\Model\Application\Routes;
 
 class HTTPRequest {
 	public static function run(){
         
 		$route_class = false;
-        $routes_classes = Runtime::model()->routes;
+        $routeables = RuntimeModulesRouteableClasses::model()->routes;
 		$route = 'index';
+
         $request_pieces = self::requestUriPieces();
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) == ''){
-			foreach($routes_classes as $routes_class){
-				if(in_array('index',get_class_methods('\\'.$routes_class))){
+			foreach($routeables as $routeable){
+                if(in_array('index', get_class_methods($routeable->class))){
 					$parameters = [];
-					unset($request_pieces);
-					forward_static_call_array(['\\'.$routes_class ,'index'], $parameters);
+                    unset($request_pieces);
+					forward_static_call_array([$routeable->class , 'index'], $parameters);
 					return;
 				}
 			}
 		}
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) != ''){
-			foreach($routes_classes as $routes_class){
-				if(isset($request_pieces[0]) && in_array($request_pieces[0], Routes::routes('\\'.$routes_class))){
-					$route = Routes::route('\\'.$routes_class, trim($request_pieces[0]));
+			foreach($routeables as $routeable){
+				if(isset($request_pieces[0]) && in_array($request_pieces[0], Routes::routes($routeable->class))){
+					$route = Routes::route($routeable->class, trim($request_pieces[0]));
 					array_shift($request_pieces);
 					$parameters = [];
 					if(isset($request_pieces[0])){
 						$parameters = $request_pieces;
 					}
 					unset($request_pieces);
-					forward_static_call_array(['\\'.$routes_class ,$route], $parameters);
+					forward_static_call_array([$routeable->class ,$route], $parameters);
 					return;
 				}
 			}
-		}
-		if(isset(Runtime::model()->module)){
-			return forward_static_call_array(['\\' . Runtime::model()->module ,'run'], []);
 		}
     }
     public static function requestUriPieces(){
