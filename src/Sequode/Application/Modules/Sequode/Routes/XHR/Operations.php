@@ -90,7 +90,7 @@ class Operations {
         AccountAuthority::canCreate()
         && $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canCopy()
+        && AccountAuthority::canCopy($modeler::model())
         )){ return; }
         forward_static_call_array([$operations, 'makeSequenceCopy'], [AccountModeler::model()->id]);
         $js = [];
@@ -160,7 +160,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canDelete()
+        && AccountAuthority::canDelete($modeler::model())
         )){ return; }
         $sequence = json_decode($modeler::model()->sequence);
         $js = [];
