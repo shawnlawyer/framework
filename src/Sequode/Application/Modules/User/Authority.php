@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\User;
 
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Foundation\Hashes;
 use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
@@ -9,12 +10,7 @@ use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
 class Authority {
     
     public static $modeler = Modeler::class;
-    
-    public static function isAuthenticated($_model = null){
-        $modeler = static::$modeler;
-        if($_model == null ){ $_model = $modeler::model(); }
-        return (SessionStore::get('owner_id')) ? true : false;
-    }
+
     public static function isOwner($test_model, $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }

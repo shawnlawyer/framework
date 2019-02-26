@@ -7,11 +7,11 @@ trait ActiveModelTrait {
 
         static $store;
 
-        if(!is_object($store) || ($replace != false && $replace == null)){
+        if(!is_object($store) || $replace === null){
 
             $store = new static::$model;
 
-        }elseif($replace != false){
+        }elseif($replace !== false){
 
             $store = $replace;
 
