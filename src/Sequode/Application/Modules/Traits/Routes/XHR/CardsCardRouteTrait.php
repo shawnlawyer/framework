@@ -1,6 +1,6 @@
 <?php
 
-namespace Sequode\Component\Card\Traits;
+namespace Sequode\Application\Modules\Traits\Routes\XHR;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
@@ -9,7 +9,7 @@ use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait as XHROperationsDialogTrait;
 
 
-trait CardsTrait {
+trait CardsCardRouteTrait {
 
     public static function card($method, $parameters = []){
         $module = static::$module;

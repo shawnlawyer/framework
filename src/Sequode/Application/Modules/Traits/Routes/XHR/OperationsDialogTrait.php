@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\Traits\Routes\XHR;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
+use Sequode\Application\Modules\Traits\Routes\XHR\CardsCardRouteTrait as XHRCardsCardRouteTrait;
 
 trait OperationsDialogTrait {
 
@@ -21,7 +22,7 @@ trait OperationsDialogTrait {
             $input = json_decode(rawurldecode($json));
             if(isset($input->reset)){
                 SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
-                if(!method_exists($xhr_cards, $method) && in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($xhr_cards, true))) {
+                if(!method_exists($xhr_cards, $method) && in_array(XHRCardsCardRouteTrait::class, class_uses($xhr_cards, true))) {
                     return forward_static_call_array([$xhr_cards, 'card'], [$method]);
                 }else{
                     return forward_static_call_array([$xhr_cards, $method], []);
@@ -57,7 +58,7 @@ trait OperationsDialogTrait {
             if(isset($dialog->complete) && $dialog_store->step == count($dialog->steps)) {
                 return ($dialog->complete)([]);
             }else{
-                if(!method_exists($xhr_cards, $method) && in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($xhr_cards, true))) {
+                if(!method_exists($xhr_cards, $method) && in_array(XHRCardsCardRouteTrait::class, class_uses($xhr_cards, true))) {
                     return forward_static_call_array([$xhr_cards, 'card'], [$method]);
                 }else{
                     return forward_static_call_array([$xhr_cards, $method], []);

@@ -5,15 +5,12 @@ namespace Sequode\Application\Modules\Sequode\Routes\XHR;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
-
-use Sequode\Application\Modules\Sequode\Module;
-
-use Sequode\Component\Card\Traits\CardsTrait;
+use Sequode\Application\Modules\Traits\Routes\XHR\CardsCardRouteTrait as XHRCardsCardRouteTrait;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Cards {
 
-    use CardsTrait;
+    use XHRCardsCardRouteTrait;
 
     public static $module = Module::class;
 

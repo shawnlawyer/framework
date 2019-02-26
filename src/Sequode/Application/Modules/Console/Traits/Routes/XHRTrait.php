@@ -5,10 +5,8 @@ namespace Sequode\Application\Modules\Console\Traits\Routes;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Model\Application\Routes as ApplicationRoutes;
 use Sequode\Controller\Application\HTTPRequest\XHR as XHRRequest;
-
-
 use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait as XHROperationsDialogTrait;
-use Sequode\Component\Card\Traits\CardsTrait;
+use Sequode\Application\Modules\Traits\Routes\XHR\CardsCardRouteTrait as XHRCardsCardRouteTrait;
 
 trait XHRTrait {
 	
@@ -61,7 +59,7 @@ trait XHRTrait {
 
         if(in_array(XHROperationsDialogTrait::class, class_uses($routes_class, true)) && isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
             echo XHRRequest::call($routes_class, 'dialog', [$route, $args[0]]);
-        }elseif(in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($routes_class, true)) && isset($routes_class::$routes) && in_array($route, $routes_class::$routes)) {
+        }elseif(in_array(XHRCardsCardRouteTrait::class, class_uses($routes_class, true)) && isset($routes_class::$routes) && in_array($route, $routes_class::$routes)) {
 
             if(method_exists($routes_class, $route)){
                 $parameters = forward_static_call_array([$routes_class, $route], $args);
