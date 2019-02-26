@@ -23,7 +23,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         $input = json_decode($json);
         if (!is_object($input)){ return; }
@@ -53,7 +53,7 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         $form_member_object = json_decode(stripslashes($member_json));
         if(!is_object($form_member_object)){return;}
@@ -128,7 +128,7 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         $_o = json_decode($json);
         $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($_o->name))));
@@ -138,7 +138,7 @@ class Operations {
         if(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             return ' alert(\'Name can be alphanumeric and contain spaces only\');';
         }
-        if(!AccountAuthority::canRename($name)){
+        if(!AccountAuthority::canRenameTo($name, $modeler::model())){
             return ' alert(\'Name already exists\');';
         }
         $modeler::exists($_model_id,'id');
@@ -189,7 +189,7 @@ class Operations {
         
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canRun()
+        && AccountAuthority::canRun($modeler::model())
         
         )){ return; }
         
@@ -219,9 +219,9 @@ class Operations {
         
         if(!(
 		$modeler::exists($add_model_id,'id')
-		&& AccountAuthority::canRun()
+		&& AccountAuthority::canRun($modeler::model())
 		&& $modeler::exists($_model_id,'id')
-		&& AccountAuthority::canEdit()
+		&& AccountAuthority::canEdit($modeler::model())
         && SequodeAuthority::isSequence()
         && !SequodeAuthority::isFullSequence()
 		)){ return; }
@@ -238,7 +238,7 @@ class Operations {
         if(!(
 		$modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit()
+		&& AccountAuthority::canEdit($modeler::model())
 		)){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [$from_position, $to_position, $position_tuner, $grid_modifier]);
 		return;
@@ -253,7 +253,7 @@ class Operations {
         if(!(
 		$modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit()
+		&& AccountAuthority::canEdit($modeler::model())
 		)){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [$position]);
 		return;
@@ -268,7 +268,7 @@ class Operations {
         if(!(
 		$modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit()
+		&& AccountAuthority::canEdit($modeler::model())
 		)){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [$position]);
 		return;
@@ -283,7 +283,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         forward_static_call_array([$operations, __FUNCTION__], []);
         $collection = 'sequodes';
@@ -303,7 +303,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [$grid_area_key, $x, $y]);
 		return;
@@ -318,7 +318,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);
 		return;
@@ -333,7 +333,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);
 		return;
@@ -348,7 +348,7 @@ class Operations {
         if(!(
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -364,7 +364,7 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && AccountAuthority::canShare()
+        && AccountAuthority::canShare($modeler::model())
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -380,7 +380,7 @@ class Operations {
         
         if(!(
             $modeler::exists($_model_id,'id')
-            && AccountAuthority::canEdit()
+            && AccountAuthority::canEdit($modeler::model())
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -396,7 +396,7 @@ class Operations {
         
         if(!(
             $modeler::exists($_model_id,'id')
-            && AccountAuthority::canEdit()
+            && AccountAuthority::canEdit($modeler::model())
         )){return;}
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -412,7 +412,7 @@ class Operations {
         
         if(!(
         $modeler::exists($_model_id,'id')
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit($modeler::model())
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
@@ -454,7 +454,7 @@ class Operations {
                 default:
                     if((
                     $modeler::exists($_o->palette, 'id')
-                    && AccountAuthority::canView()
+                    && AccountAuthority::canView($modeler::model())
                     )){
                     SessionStore::set('palette', $_o->palette);
                     }

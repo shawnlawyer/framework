@@ -74,7 +74,7 @@ class Collections{
         }elseif(
         
         $modeler::exists($key,'id')
-        && AccountAuthority::canView()
+        && AccountAuthority::canView($modeler::model())
         ){
             
             echo $modeler::model()->process_description_node;

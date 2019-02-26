@@ -3,12 +3,11 @@
 namespace Sequode\Application\Modules\FormInput;
 
 use Sequode\Application\Modules\FormInput\Model as Model;
-
-use Sequode\Model\Traits\ModelerTrait;
+use Sequode\Application\Modules\Traits\Modeler\ActiveModelTrait;
 
 class Modeler {
 
-    use ModelerTrait;
+    use ActiveModelTrait;
 
 	public static $model = Model::class;
 

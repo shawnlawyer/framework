@@ -177,12 +177,12 @@ class Cards {
         
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $text = $_model->name;
-        $_o->body[] = (AccountAuthority::canEdit()) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/name', [$_model->id]), $text, 'settings') : $text;
+        $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/name', [$_model->id]), $text, 'settings') : $text;
         
         $_o->body[] = CardKitHTML::sublineBlock('Description');
         $text = json_decode($_model->detail)->description;
         $text = (!empty($text)) ? $text : 'Sequode needs description.';
-        $_o->body[] = (AccountAuthority::canEdit()) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/description', [$_model->id]), $text, 'settings') : $text;
+        $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/sequode/description', [$_model->id]), $text, 'settings') : $text;
         
         if(SequodeAuthority::isCode() && $_model->owner_id == 8){
             $dom_id = FormInputComponent::uniqueHash('','');
@@ -208,7 +208,7 @@ class Cards {
                         $model_object_cache[$loop_model_id]->exists($loop_model_id,'id');
                     }
                     $text = '('.($loop_sequence_key+1).') '.$model_object_cache[$loop_model_id]->name;
-                    $_o->body[] = (AccountAuthority::canEdit()) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('cards/sequode/internalPositionForms', [$_model->id, $loop_sequence_key]), $text, 'settings') : $text;
+                    $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('cards/sequode/internalPositionForms', [$_model->id, $loop_sequence_key]), $text, 'settings') : $text;
                 }
             }else{
                     $_o->body[] = 'Sequode is empty.';   
@@ -247,7 +247,7 @@ class Cards {
                     $_o->body[] = $member . ' (' . $type_object_detail->$member->type. ') ' . (($type_object_detail->$member->required == true) ? 'required' : 'optional');
                     FormInputModeler::exists($type_form_object->$member->Component,'name');
                     $text = 'Form Component : '. FormInputModeler::model()->printable_name;
-                    $_o->body[] = (AccountAuthority::canEdit()) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('cards/sequode/componentSettings', [FormComponent::jsQuotedValue($type), FormComponent::jsQuotedValue($member), $_model->id]), $text, 'settings') : $text;
+                    $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('cards/sequode/componentSettings', [FormComponent::jsQuotedValue($type), FormComponent::jsQuotedValue($member), $_model->id]), $text, 'settings') : $text;
                 }
             }
         }

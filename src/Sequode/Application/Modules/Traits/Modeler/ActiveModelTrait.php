@@ -1,7 +1,7 @@
 <?php
-namespace Sequode\Model\Traits;
+namespace Sequode\Application\Modules\Traits\Modeler;
 
-trait ModelerTrait {
+trait ActiveModelTrait {
 
     public static function model($replace = false){
 
@@ -25,5 +25,5 @@ trait ModelerTrait {
         return (static::model(null)->exists($value, $by)) ? true : false ;
 
     }
-    
+
 }

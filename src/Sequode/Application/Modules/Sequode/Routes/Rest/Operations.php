@@ -14,7 +14,7 @@ class Operations{
 		if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isCode()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
 		
 		try{
@@ -46,7 +46,7 @@ class Operations{
         
 		if(!(
         SequodeModeler::exists($sequode_model_id,'id')
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         
 		try{
@@ -75,7 +75,7 @@ class Operations{
         AccountAuthority::canCreate()
         && SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canCopy()
+        && AccountAuthority::canCopy(SequodeModeler::model())
         )){ return; }
 		SequodeOperations::makeSequenceCopy(AccountModeler::model()->id);
 		$object = (object) null;
@@ -88,7 +88,7 @@ class Operations{
 		if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
 		
         SequodeOperations::makeDefaultSequencedSequode();
@@ -101,7 +101,7 @@ class Operations{
 		if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canDelete()
+        && AccountAuthority::canDelete(SequodeModeler::model())
         )){ return; }
         SequodeOperations::deleteSequence();
 		$object = (object) null;
@@ -112,9 +112,9 @@ class Operations{
 	public static function addToSequence($sequode_model_id = 0, $add_sequode_model_id = 0, $position = 0, $position_tuner = null , $grid_modifier = null ){
 		if(!(
 		SequodeModeler::exists($add_sequode_model_id,'id')
-		&& AccountAuthority::canRun()
+		&& AccountAuthority::canRun(SequodeModeler::model())
 		&& SequodeModeler::exists($sequode_model_id,'id')
-		&& AccountAuthority::canEdit()
+		&& AccountAuthority::canEdit(SequodeModeler::model())
         && SequodeAuthority::isSequence()
         && !SequodeAuthority::isFullSequence()
 		)){ return; }
@@ -128,7 +128,7 @@ class Operations{
 		if(!(
 		SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit()
+		&& AccountAuthority::canEdit(SequodeModeler::model())
 		)){ return; }
 		SequodeOperations::reorderSequence($from_position, $to_position, $position_tuner, $grid_modifier);
 		$object = (object) null;
@@ -140,7 +140,7 @@ class Operations{
 		if(!(
 		SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit()
+		&& AccountAuthority::canEdit(SequodeModeler::model())
 		)){ return; }
         SequodeOperations::removeFromSequence($position);
 		$object = (object) null;
@@ -152,7 +152,7 @@ class Operations{
 		if(!(
 		SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit()
+		&& AccountAuthority::canEdit(SequodeModeler::model())
 		)){ return; }
         SequodeOperations::modifyGridAreas($position);
 		$object = (object) null;
@@ -164,7 +164,7 @@ class Operations{
 		if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::emptySequence();
 		$object = (object) null;
@@ -176,7 +176,7 @@ class Operations{
 		if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::moveGridArea($grid_area_key, $x, $y);
 		$object = (object) null;
@@ -188,7 +188,7 @@ class Operations{
         if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::updateValue($type, $map_key, $value);
 		$object = (object) null;
@@ -200,7 +200,7 @@ class Operations{
         if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::addInternalConnection($receiver_type, $transmitter_key, $receiver_key);
 		$object = (object) null;
@@ -212,7 +212,7 @@ class Operations{
         if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::addExternalConnection($connection_type, $transmitter_key, $receiver_key);
 		$object = (object) null;
@@ -224,7 +224,7 @@ class Operations{
         if(!(
         SequodeModeler::exists($sequode_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::removeReceivingConnection($connection_type, $restore_key);
 		$object = (object) null;
@@ -243,7 +243,7 @@ class Operations{
     public static function updateSharing($value = 0, $sequode_model_id = 0){
        if(!(
         SequodeModeler::exists($sequode_model_id,'id')
-        && AccountAuthority::canShare()
+        && AccountAuthority::canShare(SequodeModeler::model())
         )){ return; }
         SequodeOperations::updateSharing($value);
         exit;
@@ -261,18 +261,18 @@ class Operations{
     public static function updateName($sequode_model_id = 0, $name=''){
         if(!(
         SequodeModeler::exists($sequode_model_id,'id')
-        && AccountAuthority::canEdit()
+        && AccountAuthority::canEdit(SequodeModeler::model())
         )){ 
             return;
         }
         $object = (object) null;
         $object->Success = false;
-        $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($name))));
+        $name = trim(str_replace('-','_', str_replace(' ','_',urldecode($name))));
         if(strlen($name)==0){
             $object->Error = 'Name cannot be empty';
         }elseif(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             $object->Error = 'Name can be alphanumeric and contain spaces only';
-        }elseif(!AccountAuthority::canRename($name)){
+        }elseif(!AccountAuthority::canRenameTo($name, SequodeModeler::model())){
             $object->Error = 'Name already used';
         }
         if(!isset($object->Error)){

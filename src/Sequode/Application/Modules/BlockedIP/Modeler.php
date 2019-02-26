@@ -3,12 +3,11 @@
 namespace Sequode\Application\Modules\BlockedIP;
 
 use Sequode\Application\Modules\BlockedIP\Model;
-
-use Sequode\Model\Traits\ModelerTrait;
+use Sequode\Application\Modules\Traits\Modeler\ActiveModelTrait;
 
 class Modeler {
 
-    use ModelerTrait;
+    use ActiveModelTrait;
 
     public static $model = Model::class;
 

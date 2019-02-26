@@ -3,12 +3,11 @@
 namespace Sequode\Application\Modules\Package;
 
 use Sequode\Application\Modules\Package\Model;
-
-use Sequode\Model\Traits\ModelerTrait;
+use Sequode\Application\Modules\Traits\Modeler\ActiveModelTrait;
 
 class Modeler {
 
-    use ModelerTrait;
+    use ActiveModelTrait;
 
     public static $model = Model::class;
 
