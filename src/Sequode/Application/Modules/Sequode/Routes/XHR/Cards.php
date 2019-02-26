@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Sequode\Routes\XHR;
 
+use Sequode\Application\Modules\Sequode\Module;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
@@ -46,7 +47,7 @@ class Cards {
 
         if(!(
         $modeler::exists($_model_id,'id')
-        && AccountAuthority::canView()
+        && AccountAuthority::canView( $modeler::model() )
         )){return false;}
     }
 

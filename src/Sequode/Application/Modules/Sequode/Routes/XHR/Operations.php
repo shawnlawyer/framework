@@ -2,14 +2,12 @@
 
 namespace Sequode\Application\Modules\Sequode\Routes\XHR;
 
+use Sequode\Application\Modules\Sequode\Module;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
-
-use Sequode\Application\Modules\Sequode\Module;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
-
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
 class Operations {
@@ -46,6 +44,7 @@ class Operations {
 			return implode(' ',$js);
         }
     }
+
     public static function updateComponentSettings($type, $member, $member_json, $_model_id, $dom_id='FormsContainer'){
         
         $module = static::$module;
@@ -79,6 +78,7 @@ class Operations {
             
         }
     }
+
     public static function cloneSequence($_model_id){
         
         $module = static::$module;
@@ -99,6 +99,7 @@ class Operations {
         $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         return implode(' ', $js);
     }
+
     public static function newSequence(){
         
         $module = static::$module;
@@ -117,6 +118,7 @@ class Operations {
         $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         return implode(' ', $js);
     }
+
     public static function updateName($_model_id, $json){
         
         $module = static::$module;
@@ -147,7 +149,8 @@ class Operations {
         return implode(' ', $js);
 
     }
-    public static function deleteSequence($_model_id,$confirmed=false){
+
+    public static function deleteSequence($_model_id, $confirmed=false){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
@@ -160,23 +163,22 @@ class Operations {
         && AccountAuthority::canDelete()
         )){ return; }
         $sequence = json_decode($modeler::model()->sequence);
+        $js = [];
         if ($confirmed===false && is_array($sequence) && count(json_decode($modeler::model()->sequence)) != 0){
-            $js = [];
 			$js[] = 'if(';
 			$js[] = 'confirm(\'Are you sure you want to delete this?\')';
 			$js[] = '){';
             $js[] = 'new XHRCall({route:"operations/sequode/deleteSequence",inputs:['.$modeler::model()->id.', true]});';
 			$js[] = '}';
-			return implode(' ',$js);
         }else{
             forward_static_call_array([$operations, __FUNCTION__], []);
-            $js = [];
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
             $js[] = forward_static_call_array([$xhr_cards, 'card'], ['my']);
-            return implode(' ', $js);
         }
+        return implode(' ', $js);
     }
+
     public static function formatSequence($_model_id,$confirmed=false){
         
         $module = static::$module;
@@ -208,6 +210,7 @@ class Operations {
         }
         return implode(' ',$js);
     }
+
 	public static function addToSequence($_model_id, $add_model_id, $position=0, $position_tuner = null, $grid_modifier = null){
         
         $module = static::$module;
@@ -225,6 +228,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [$add_model_id, $position, $position_tuner, $grid_modifier]);
 		return;
 	}
+
 	public static function reorderSequence($_model_id, $from_position=0, $to_position=0, $position_tuner = null, $grid_modifier = null){
         
         $module = static::$module;
@@ -239,6 +243,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [$from_position, $to_position, $position_tuner, $grid_modifier]);
 		return;
 	}
+
 	public static function removeFromSequence($_model_id, $position){
         
         $module = static::$module;
@@ -253,6 +258,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [$position]);
 		return;
 	}
+
 	public static function modifyGridAreas($_model_id, $position){
         
         $module = static::$module;
@@ -267,6 +273,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [$position]);
 		return;
 	}
+
 	public static function emptySequence($_model_id){
         
         $module = static::$module;
@@ -286,6 +293,7 @@ class Operations {
         $js[] = '}';
         return implode('',$js);
 	}
+
 	public static function moveGridArea($_model_id, $grid_area_key = 0, $x = 0, $y = 0){
         
         $module = static::$module;
@@ -300,6 +308,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [$grid_area_key, $x, $y]);
 		return;
 	}
+
 	public static function addInternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
         
         $module = static::$module;
@@ -314,6 +323,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);
 		return;
 	}
+
 	public static function addExternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
         
         $module = static::$module;
@@ -328,6 +338,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);
 		return;
 	}
+
 	public static function removeReceivingConnection($_model_id, $connection_type = false, $restore_key = 0){
         
         $module = static::$module;
@@ -344,6 +355,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [$connection_type, $restore_key]);
 		return;
 	}
+
 	public static function updateSharing($_model_id,$json){
         
         $module = static::$module;
@@ -359,6 +371,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->sharing)]);
 		return;
 	}
+
 	public static function updateIsPalette($_model_id,$json){
         
         $module = static::$module;
@@ -374,6 +387,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->palette)]);
 		return;
 	}
+
 	public static function updateIsPackage($_model_id,$json){
         
         $module = static::$module;
@@ -389,6 +403,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->package)]);
 		return;
 	}
+
 	public static function updateDescription($_model_id, $json){
         
         $module = static::$module;
@@ -404,6 +419,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->description)]);
 		return;
 	}
+
     public static function search($json){
         $_o = json_decode(stripslashes($json));
         $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
@@ -416,6 +432,7 @@ class Operations {
         $js[] = DOMElementKitJS::fetchCollection($collection);
         return implode('',$js);
     }
+
     public static function selectPalette($json){
         
         $module = static::$module;

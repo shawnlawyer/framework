@@ -5,6 +5,7 @@ namespace Sequode\Application\Modules\Package\Routes\Rest;
 use Sequode\Application\Modules\Package\Module;
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+
 class Downloads{
 
     public static $module = Module::class;

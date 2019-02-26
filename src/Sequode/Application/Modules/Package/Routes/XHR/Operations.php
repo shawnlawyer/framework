@@ -2,15 +2,12 @@
 
 namespace Sequode\Application\Modules\Package\Routes\XHR;
 
+use Sequode\Application\Modules\Package\Module;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
-
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
-
-use Sequode\Application\Modules\Package\Module;
-
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
@@ -29,7 +26,7 @@ class Operations {
         $js = [];
         $collection = 'packages';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'details'], [$modeler::model()->id]);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         
         return implode(' ', $js);
         
@@ -55,7 +52,7 @@ class Operations {
         
         $js = [];
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'details'], [$modeler::model()->id]);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         
         return implode(' ', $js);
         
@@ -89,13 +86,13 @@ class Operations {
         
         $collection = 'packages';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'details'], [$modeler::model()->id]);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         
         return implode(' ', $js);
         
     }
     
-    public static function delete($_model_id){
+    public static function delete($_model_id, $confirmed=false){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
@@ -107,12 +104,21 @@ class Operations {
         && (AccountAuthority::isOwner( $modeler::model() )
         || AccountAuthority::isSystemOwner())
         )){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], []);
+
         $js = [];
-        $js[] = forward_static_call_array([$xhr_cards, 'my'], []);
-        
+        if ($confirmed===false){
+            $js[] = 'if(';
+            $js[] = 'confirm(\'Are you sure you want to delete this?\')';
+            $js[] = '){';
+            $js[] = 'new XHRCall({route:"operations/token/delete", inputs:['.$modeler::model()->id.', true]});';
+            $js[] = '}';
+        }else{
+            forward_static_call_array([$operations, __FUNCTION__], []);
+            $collection = 'packages';
+            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+            $js[] = forward_static_call_array([$xhr_cards, 'card'], ['my']);
+        }
         return implode(' ', $js);
-        
     }
     
     public static function search($json){

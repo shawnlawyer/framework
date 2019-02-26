@@ -2,24 +2,26 @@
 
 namespace Sequode\Application\Modules\Package\Routes\Collections;
 
-use Sequode\Application\Modules\Session\Store as SessionStore;
-
 use Sequode\Application\Modules\Package\Module;
-
+use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+
 class Collections{
     
     public static $module = Module::class;
     
 	public static $merge = false;
+
 	public static $routes = [
 		'packages',
 		'package_search',
     ];
+
 	public static $routes_to_methods = [
 		'packages' => 'owned',
 		'package_search' => 'search',
     ];
+
 	public static function owned(){
         
         $module = static::$module;

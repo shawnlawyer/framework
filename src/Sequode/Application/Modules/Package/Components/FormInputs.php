@@ -2,12 +2,11 @@
 
 namespace Sequode\Application\Modules\Package\Components;
 
-use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
-
 use Sequode\Application\Modules\Package\Module;
-
+use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
+
 class FormInputs {
     
     public static $module = Module::class;
@@ -28,6 +27,7 @@ class FormInputs {
         
 		return $_o;
 	}
+
     public static function search(){
         
         $_o = (object) null;

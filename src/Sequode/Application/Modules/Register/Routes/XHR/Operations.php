@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Register\Routes\XHR;
 
+use Sequode\Application\Modules\Register\Module;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;

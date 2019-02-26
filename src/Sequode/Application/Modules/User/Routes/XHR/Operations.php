@@ -25,8 +25,15 @@ class Operations {
         if(!(
         AccountAuthority::isSystemOwner()
         )){ return; }
-        return $xhr_cards::details($operations::newUser()->id);
+
+        forward_static_call_array([$operations, __FUNCTION__], []);
+        $js = [];
+        $collection = $module::model()->context;
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
+        return implode(' ', $js);
     }
+
     public static function newGuest(){
     
         $module = static::$module;
@@ -37,8 +44,15 @@ class Operations {
         if(!(
         AccountAuthority::isSystemOwner()
         )){ return; }
-        return $xhr_cards::details($operations::newGuest()->id);
+
+        forward_static_call_array([$operations, __FUNCTION__], []);
+        $js = [];
+        $collection = $module::model()->context;
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
+        return implode(' ', $js);
     }
+
     public static function delete($_model_id, $confirmed=false){
     
         $module = static::$module;
@@ -67,6 +81,7 @@ class Operations {
             return implode(' ', $js);
         }
     }
+
     public static function loginAs($_model_id){
     
         $module = static::$module;
@@ -78,10 +93,11 @@ class Operations {
             AccountAuthority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
         )){return;}
-        $operations::login();
+        forward_static_call_array([$operations, 'login'], []);
         $console_module =  ModuleRegistry::model()['Console'];
         return forward_static_call_array([$console_module::model()->routes['http'], 'js'], [false]);
     }
+
     public static function updatePassword($_model_id, $json){
     
         $module = static::$module;
@@ -94,9 +110,15 @@ class Operations {
         AccountAuthority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
-        $operations::updatePassword($input->password);
-        return $xhr_cards::details($modeler::model()->id);
+
+        forward_static_call_array([$operations, __FUNCTION__], [$input->password]);
+        $js = [];
+        $collection = $module::model()->context;
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
+        return implode(' ', $js);
     }
+
     public static function updateRole($_model_id, $json){
     
         $module = static::$module;
@@ -110,9 +132,15 @@ class Operations {
             && $modeler::exists($_model_id,'id')
             && RoleModeler::exists($input->role,'id')
         )){return;}
-        $operations::updateRole();
-        return $xhr_cards::details($modeler::model()->id);
+
+        forward_static_call_array([$operations, __FUNCTION__], []);
+        $js = [];
+        $collection = $module::model()->context;
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
+        return implode(' ', $js);
     }
+
     public static function updateActive($_model_id, $json){
     
         $module = static::$module;
@@ -125,9 +153,15 @@ class Operations {
             AccountAuthority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
         )){return;}
-        $operations::updateActive($input->active);
-        return $xhr_cards::details($modeler::model()->id);
+
+        forward_static_call_array([$operations, __FUNCTION__], [$input->active]);
+        $js = [];
+        $collection = $module::model()->context;
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
+        return implode(' ', $js);
     }
+
     public static function updateName($_model_id, $json){
     
         $module = static::$module;
@@ -153,13 +187,16 @@ class Operations {
             return;
         }
         
-        $modeler::exists($_model_id,'id');
-        
-        $operations::updateName($name);
-        
-        return $xhr_cards::details($modeler::model()->id);
+        $modeler::exists($_model_id, 'id');
+        forward_static_call_array([$operations, __FUNCTION__], [$name]);
+        $js = [];
+        $collection = $module::model()->context;
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
+        return implode(' ', $js);
         
     }
+
     public static function search($json){
         $module = static::$module;  
         $_o = json_decode(stripslashes($json));

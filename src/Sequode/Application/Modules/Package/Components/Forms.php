@@ -2,10 +2,8 @@
 
 namespace Sequode\Application\Modules\Package\Components;
 
-use Sequode\Component\Form\Form as FormComponent;
-
 use Sequode\Application\Modules\Package\Module;
-
+use Sequode\Component\Form\Form as FormComponent;
 
 class Forms {
     

@@ -5,9 +5,7 @@ namespace Sequode\Application\Modules\Traits\Routes\XHR;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 use Sequode\View\Module\Card as ModuleCard;
-
 use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait as XHROperationsDialogTrait;
-
 
 trait CardsCardRouteTrait {
 

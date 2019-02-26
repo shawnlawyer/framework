@@ -2,9 +2,9 @@
 
 namespace Sequode\Application\Modules\Register\Components;
 
+use Sequode\Application\Modules\Register\Module;
 use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 
-use Sequode\Application\Modules\Register\Module;
 
 class FormInputs   {
     

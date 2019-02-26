@@ -2,12 +2,12 @@
 
 namespace Sequode\Application\Modules\Package\Components;
 
+use Sequode\Application\Modules\Package\Module;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\FormInput\FormInput as FormInputComponent;
-use Sequode\Application\Modules\Package\Module;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
@@ -15,7 +15,7 @@ use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 class Cards {
     
     public static $module = Module::class;
-    public static $registry_key = 'Package';
+
     public static $tiles = ['myTile'];
 
     public static function menu(){

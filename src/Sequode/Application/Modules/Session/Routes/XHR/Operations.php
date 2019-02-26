@@ -12,7 +12,7 @@ class Operations {
     
     public static $module = Module::class;
     
-    public static function destroy($_model_id){
+    public static function destroy($_model_id, $confirmed=false){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
@@ -23,8 +23,21 @@ class Operations {
             !($modeler::exists($_model_id,'id')
             && AccountAuthority::isSystemOwner())
         ){ return false; }
-        forward_static_call_array([$operations,__FUNCTION__],[]);
-        return forward_static_call_array([$xhr_cards,'card'],['search']);
+
+        $js = [];
+        if ($confirmed===false){
+            $js[] = 'if(';
+            $js[] = 'confirm(\'Are you sure you want to destroy this?\')';
+            $js[] = '){';
+            $js[] = 'new XHRCall({route:"operations/token/destroy", inputs:['.$modeler::model()->id.', true]});';
+            $js[] = '}';
+        }else{
+            forward_static_call_array([$operations, __FUNCTION__], []);
+            $collection = 'session_search';
+            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+            $js[] = forward_static_call_array([$xhr_cards, 'card'], ['search']);
+        }
+        return implode(' ', $js);
     }
     public static function blockIP($_model_id){
         

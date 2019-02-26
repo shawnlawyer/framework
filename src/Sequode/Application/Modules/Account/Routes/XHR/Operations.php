@@ -2,17 +2,13 @@
 
 namespace Sequode\Application\Modules\Account\Routes\XHR;
 
+use Sequode\Application\Modules\Account\Module;
 use Sequode\Application\Modules\Session\Store as SessionStore;
-
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
-
 use Sequode\Foundation\Hashes;
-
-use Sequode\Application\Modules\Account\Module;
 use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait as XHROperationsDialogTrait;
-
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
@@ -75,7 +71,7 @@ class Operations {
         if(!(
 
             SequodeModeler::exists($_model_id,'id')
-            && AccountAuthority::canRun()
+            && AccountAuthority::canRun(SequodeModeler::model())
 
         )){ return; }
 
@@ -99,7 +95,7 @@ class Operations {
         if(!(
 
             SequodeModeler::exists($_model_id,'id')
-            && AccountAuthority::isInSequodeFavorites()
+            && AccountAuthority::isInSequodeFavorites(SequodeModeler::model())
 
         )){ return; }
 

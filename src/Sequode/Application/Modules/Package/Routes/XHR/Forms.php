@@ -2,12 +2,11 @@
 
 namespace Sequode\Application\Modules\Package\Routes\XHR;
 
+use Sequode\Application\Modules\Package\Module;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
-
-use Sequode\Application\Modules\Package\Module;
-
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+
 class Forms {
     
     public static $module = Module::class;

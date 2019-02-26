@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Session\Routes\XHR;
 
+use Sequode\Application\Modules\Session\Module;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
