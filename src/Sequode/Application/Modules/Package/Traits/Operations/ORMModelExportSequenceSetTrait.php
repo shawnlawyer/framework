@@ -94,7 +94,7 @@ trait ORMModelExportSequenceSetTrait {
         $_o = '<?php
 class ' . PackageModeler::model()->token . ' {
     
-    use \Sequode\Application\Modules\Package\Traits\Operations\SequenceSetExpressTrait;
+    use Sequode\Application\Modules\Package\Traits\Operations\SequenceSetExpressTrait;
     
     public static $name_to_id = ' . PHPClosure::export($name_to_id, true) . ';
     public static $id_to_key = ' . PHPClosure::export($id_to_key, true) . ';

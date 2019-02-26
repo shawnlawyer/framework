@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\Token;
 
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 class Collections {
     
     public static $module = Module::class;
@@ -37,7 +38,7 @@ class Collections {
                 $where[] = $shared_where;
             }
             $where[] = ['field'=> $_i->field,'operator'=>$_i->position,'value'=>$_i->search];
-            $where[] = ['field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id];
+            $where[] = ['field'=>'owner_id','operator'=>'=','value'=> AccountModeler::model()->id];
             
             $_model = new $modeler::$model;
             $_model->getAll($where, 'id,name', $limit);

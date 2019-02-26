@@ -13,10 +13,8 @@ trait ORMModelSetRoleTrait {
         if($role_model == null ){
             $role_model = RoleModeler::model();
         }
-        
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $modeler::model()->updateField($role_model->id, 'role_id');
         

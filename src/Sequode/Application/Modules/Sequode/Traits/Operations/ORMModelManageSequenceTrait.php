@@ -12,9 +12,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if(SequodeAuthority::isSequence()){
             
@@ -59,9 +57,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $modeler::model()->updateField(json_encode($kit::makeSequodeProcessDescriptionNode()),'process_description_node');
         
@@ -154,9 +150,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if(!SequodeAuthority::isSequence()){return $modeler::model();}
         
@@ -185,9 +179,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if(!SequodeAuthority::isSequence()){return $modeler::model();}
         $modeler::model()->delete($modeler::model()->id);
@@ -200,9 +192,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
 		$modeler::model()->updateField('[]','sequence');
         
@@ -217,9 +207,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
 		if($position_tuner != null ){ $position_tuner = intval($position_tuner);}; 
 		if($grid_modifier != null ){ $grid_modifier = intval($grid_modifier);}; 
@@ -271,9 +259,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
 		$sequence = json_decode($modeler::model()->sequence);
 		$from_position = $kit::getSequencePosition($from_position, $sequence);
@@ -308,9 +294,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
 		$sequence = json_decode($modeler::model()->sequence);
 		$position = $kit::getSequencePosition($position, $sequence);
@@ -335,9 +319,7 @@ trait ORMModelManageSequenceTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
 		$old_sequence = json_decode($modeler::model()->sequence);
 		$new_sequence = [];

@@ -67,7 +67,7 @@ class Sequode{
         $line = fgets(STDIN);
         if(strpos(trim($line),'origin/')  === 0){
             $url = $this->origin_host . '/' . substr_replace(trim($line), '', 0 ,strlen('origin/'));
-            $this->apiRequest($url, true);
+            static::apiRequest($url);
         }elseif(strpos(trim($line),'-b')  === 0){
             $this->installPackage($this->token);
             echo "Rebuilt " . str_replace('_',' ', $this->name) ."\n";
@@ -110,7 +110,8 @@ class Sequode{
         }
     }
 
-    private function apiRequest($url){
+    private static function apiRequest($url){
+
         $read = fopen($url, "rb");
         if($read){
             while(!feof($read)){

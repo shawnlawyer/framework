@@ -10,9 +10,7 @@ trait ORMModelManageCodeTrait {
         
         $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if(!SequodeAuthority::isCode()){
             return $modeler::model();
@@ -29,9 +27,7 @@ trait ORMModelManageCodeTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $mine_object = json_decode($modeler::model()->mine_object);
         $detail = (object) null;
@@ -119,9 +115,7 @@ trait ORMModelManageCodeTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
 		$detail = json_decode($modeler::model()->detail);
 		$input_object_detail = json_decode($modeler::model()->input_object_detail);

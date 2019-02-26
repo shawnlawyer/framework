@@ -8,7 +8,7 @@ use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 use Sequode\Application\Modules\Sequode\Operations as SequodeOperations;
-
+use Exception;
 class Operations{
 	public static function surfaceMine($sequode_model_id = 0){
 		if(!(

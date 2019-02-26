@@ -9,9 +9,7 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if (intval($modeler::model()->usage_type) === 0){
             
@@ -110,9 +108,7 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if($receiver_key == 0 || $transmitter_key == 0){return $modeler::model();}
         if(intval($modeler::model()->usage_type) === 0 ){return $modeler::model();}
@@ -152,9 +148,7 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $modeler = static::$modeler;
         $kit = static::$kit;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if(intval($modeler::model()->usage_type) === 0 ){
             return $modeler::model();
@@ -229,9 +223,7 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         
         $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if(intval($modeler::model()->usage_type) === 0 ){
             return $modeler::model();

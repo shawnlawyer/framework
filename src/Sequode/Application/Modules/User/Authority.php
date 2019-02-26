@@ -4,6 +4,7 @@ namespace Sequode\Application\Modules\User;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Foundation\Hashes;
+use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
 
 class Authority {
     
@@ -27,7 +28,7 @@ class Authority {
     public static function canCreate($_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        $all_models = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+        $all_models = new $modeler::$model;
         $where[] = ['field'=>'owner_id','operator'=>'=','value'=>$_model->id];
         $all_models->getCount($where);
         $count = $all_models->results_count;
@@ -37,33 +38,33 @@ class Authority {
     public static function canEdit($test_model = null,  $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($test_model == null ){ $test_model = $modeler::model(); }
         return (self::isOwner($test_model, $_model) || self::isSystemOwner($_model)) ? true : false;
     }
     public static function canCopy($test_model = null,  $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($test_model == null ){ $test_model = $modeler::model(); }
         return (self::isOwner($test_model, $_model) || self::isSystemOwner($_model)) ? true : false;
     }
     public static function canDelete($test_model = null,  $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($test_model == null ){ $test_model = $modeler::model(); }
         return (self::isOwner($test_model, $_model) || self::isSystemOwner($_model)) ? true : false;
     }
     public static function canShare($test_model = null,  $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($test_model == null ){ $test_model = $modeler::model(); }
         return (self::isOwner($test_model, $_model) || self::isSystemOwner($_model)) ? true : false;
     }
     public static function canRun($test_model = null,  $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($test_model == null ){ $test_model = $modeler::model(); }
         return (
-            \Sequode\Application\Modules\Sequode\Authority::isShared($test_model)
+            SequodeAuthority::isShared($test_model)
             || self::isOwner($test_model, $_model)
             || self::isSystemOwner($_model)
         ) ? true : false;
@@ -71,9 +72,9 @@ class Authority {
     public static function canView($test_model = null, $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($test_model == null ){ $test_model = $modeler::model(); }
         return (
-            \Sequode\Application\Modules\Sequode\Authority::isShared($test_model)
+            SequodeAuthority::isShared($test_model)
             || self::isOwner($test_model, $_model)
             || self::isSystemOwner($_model)
         ) ? true : false;
@@ -81,8 +82,8 @@ class Authority {
     public static function canRename($name, $test_model = null, $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
-        $all_models = new \Sequode\Application\Modules\Sequode\Modeler::$model;
+        if($test_model == null ){ $test_model = $modeler::model(); }
+        $all_models = new $modeler::$model;
         $where[] = ['field'=>'owner_id','operator'=>'=','value'=>$_model->id];
         $where[] = ['field'=>'name','operator'=>'=','value'=>$name];
         $where[] = ['field'=>'id','operator'=>'!=','value'=>$test_model->id];
@@ -107,7 +108,7 @@ class Authority {
     public static function isInSequodeFavorites($test_model = null, $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        if($test_model == null ){ $test_model = \Sequode\Application\Modules\Sequode\Modeler::model(); }
+        if($test_model == null ){ $test_model = $modeler::model(); }
         return (in_array($test_model->id, json_decode($_model->sequode_favorites))) ? true : false;
     }
     public static function isAnEmailAddress($email){

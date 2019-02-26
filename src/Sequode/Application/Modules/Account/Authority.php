@@ -2,9 +2,9 @@
 
 namespace Sequode\Application\Modules\Account;
 
-use Sequode\Foundation\Hashes;
+use Sequode\Application\Modules\User\Authority as UserAuthority;
 
-class Authority extends  \Sequode\Application\Modules\User\Authority {
+class Authority extends UserAuthority {
     
     public static $modeler = Modeler::class;
     

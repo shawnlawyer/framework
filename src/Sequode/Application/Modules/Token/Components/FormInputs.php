@@ -15,7 +15,7 @@ class FormInputs{
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        $_model = ($_model == null) ? forward_static_call_array([$modeler, 'model'], []) : $_model;
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');

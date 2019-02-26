@@ -10,9 +10,7 @@ trait ORMModelOwnedModuleModelsTrait {
         
         $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $module = ModuleRegistry::module($module_registry_key);
         $module_modeler = $module::model()->modeler;
@@ -22,7 +20,6 @@ trait ORMModelOwnedModuleModelsTrait {
         
         $model = new $module_modeler::$model;
         $model->getAll($where, $fields);
-        
         return $model;
 	}
     

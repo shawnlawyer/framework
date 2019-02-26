@@ -177,7 +177,7 @@ class Cards {
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Package','operations/'.$context.'/newPackage');
         $_o->body = [];
         $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', 'Packages Created : ', $user_model);
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', $user_model,'Packages Created : ');
         
         return $_o;
         

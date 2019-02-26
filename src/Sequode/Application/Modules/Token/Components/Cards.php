@@ -176,7 +176,7 @@ class Cards {
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Token','operations/token/newToken');
         $_o->body = [];
         $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', 'Tokens Created : ', $user_model);
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', $user_model, 'Tokens Created : ');
         
         return $_o;
         

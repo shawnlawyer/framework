@@ -22,7 +22,6 @@ class Collections{
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        
         $_model = new $modeler::$model;
         $where = [];
         $where[] = ['field'=>'owner_id','operator'=>'=','value'=> AccountModeler::model()->id];

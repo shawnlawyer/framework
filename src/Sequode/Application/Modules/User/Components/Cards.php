@@ -88,9 +88,9 @@ class Cards {
         $_o->body[] = $modeler::model()->sequode_favorites;
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $modeler::model()->email;
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', 'Sequodes Created : ', $modeler::model());
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', 'Packages Created : ', $modeler::model());
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', 'Tokens Created : ', $modeler::model());
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', $modeler::model(), 'Sequodes Created : ');
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', $modeler::model(), 'Packages Created : ');
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', $modeler::model(), 'Tokens Created : ');
         $_o->body[] = CardKit::nextInCollection((object) ['model_id'=>$modeler::model()->id,'details_route'=>'cards/user/details']);
         
         if(AccountAuthority::isSystemOwner()){

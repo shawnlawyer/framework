@@ -8,9 +8,7 @@ trait ORMModelSetPropertySwitchesTrait {
         
        $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         switch(intval($value)){
             
@@ -31,9 +29,7 @@ trait ORMModelSetPropertySwitchesTrait {
         
        $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         switch(intval($value)){
             case 1:
@@ -53,9 +49,7 @@ trait ORMModelSetPropertySwitchesTrait {
         
        $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         switch(intval($value)){
             
@@ -76,9 +70,7 @@ trait ORMModelSetPropertySwitchesTrait {
         
        $modeler = static::$modeler;
         
-        ($_model == null)
-            ? forward_static_call_array([$modeler, 'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]) ;
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         switch(intval($value)){
             

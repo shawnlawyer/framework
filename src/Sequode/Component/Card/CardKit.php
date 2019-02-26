@@ -8,7 +8,7 @@ use Sequode\Component\FormInput\FormInput as FormInputComponent;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
 class CardKit {
-    public static function collectionMenuItems($module_registry_key, $headline='', $user_model){
+    public static function collectionMenuItems($module_registry_key, $user_model, $headline=''){
         
         $module = ModuleRegistry::module($module_registry_key);
         $operations = $module::model()->operations;
@@ -41,7 +41,7 @@ class CardKit {
         }
         return $items;
     }
-    public static function ownedItemsCollectionTile($module_registry_key, $headline='', $user_model){
+    public static function ownedItemsCollectionTile($module_registry_key, $user_model, $headline=''){
         
         $module = ModuleRegistry::module($module_registry_key);
         $operations = $module::model()->operations;

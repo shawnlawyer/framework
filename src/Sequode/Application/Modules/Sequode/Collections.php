@@ -2,9 +2,8 @@
 
 namespace Sequode\Application\Modules\Sequode;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
-
-use Sequode\Application\Modules\Sequode\Module;
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
 class Collections {
     
@@ -25,7 +24,7 @@ class Collections {
         if(!in_array($_i->position, ['=%','%=%','%=','='])){
             $_i->position = '=%';
         }
-        if(\Sequode\Application\Modules\Account\Authority::isSystemOwner()){
+        if(AccountAuthority::isSystemOwner()){
             $where = [];
             if(isset($shared_where)){
                 $where[] = $shared_where;
@@ -43,7 +42,7 @@ class Collections {
                     $where[] = $shared_where;
                 }
                 $where[] = ['field'=>'name','operator'=>$_i->position,'value'=>$_i->search];
-                $where[] = ['field'=>'owner_id','operator'=>'=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id];
+                $where[] = ['field'=>'owner_id','operator'=>'=','value'=> AccountModeler::model()->id];
                 
                 $_model = new $modeler::$model;
                 $_model->getAll($where, 'id,name', $limit);
@@ -57,7 +56,7 @@ class Collections {
                     $where[] = $shared_where;
                 }
                 $where[] = ['field'=>'name','operator'=>$_i->position,'value'=>$_i->search];
-                $where[] = ['field'=>'owner_id','operator'=>'!=','value'=>\Sequode\Application\Modules\Account\Modeler::model()->id];
+                $where[] = ['field'=>'owner_id','operator'=>'!=','value'=> AccountModeler::model()->id];
                 $where[] = ['field'=>'shared','operator'=>'=','value'=>'1'];
                 
                 $_model = new $modeler::$model;

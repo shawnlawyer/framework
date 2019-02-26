@@ -111,7 +111,7 @@ class Cards {
 	public static function componentSettings($type, $member, $_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler, 'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->head = 'Component Settings';
@@ -128,7 +128,7 @@ class Cards {
         $_o->body[] = '</div>';
         return $_o;
 	}
-    public static function sequode($dom_id, $_model = null){
+    public static function sequode($_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
@@ -554,7 +554,7 @@ class Cards {
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode','operations/'.$context.'/newSequence');
         $_o->body = [];
         $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile($module::$registry_key, 'Sequodes : ', $user_model);
+        $_o->body[] = CardKit::ownedItemsCollectionTile($module::$registry_key, $user_model, 'Sequodes : ');
         
         
         return $_o;
