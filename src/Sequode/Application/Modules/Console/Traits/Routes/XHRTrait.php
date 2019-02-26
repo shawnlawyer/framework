@@ -7,7 +7,7 @@ use Sequode\Model\Application\Routes as ApplicationRoutes;
 use Sequode\Controller\Application\HTTPRequest\XHR as XHRRequest;
 
 
-use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait;
+use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait as XHROperationsDialogTrait;
 use Sequode\Component\Card\Traits\CardsTrait;
 
 trait XHRTrait {
@@ -59,7 +59,7 @@ trait XHRTrait {
 			$args = $_GET['args'];
 		}
 
-        if(in_array(OperationsDialogTrait::class, class_uses($routes_class, true)) && isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
+        if(in_array(XHROperationsDialogTrait::class, class_uses($routes_class, true)) && isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
             echo XHRRequest::call($routes_class, 'dialog', [$route, $args[0]]);
         }elseif(in_array('Sequode\\Component\\Card\\Traits\\CardsTrait', class_uses($routes_class, true)) && isset($routes_class::$routes) && in_array($route, $routes_class::$routes)) {
 
