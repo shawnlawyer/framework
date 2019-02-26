@@ -26,7 +26,7 @@ class Operations {
         $js = [];
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         return implode(' ', $js);
     }
     public static function updateName($_model_id, $json){ 
@@ -56,7 +56,7 @@ class Operations {
         $js = [];
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         return implode(' ', $js);
     }
     public static function delete($_model_id){   

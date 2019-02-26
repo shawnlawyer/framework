@@ -96,7 +96,7 @@ class Operations {
         $js = [];
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         return implode(' ', $js);
     }
     public static function newSequence(){
@@ -114,7 +114,7 @@ class Operations {
         $js = [];
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         return implode(' ', $js);
     }
     public static function updateName($_model_id, $json){
@@ -142,7 +142,7 @@ class Operations {
         $modeler::exists($_model_id,'id');
         forward_static_call_array([$operations, __FUNCTION__], [$name]);
         $js = [];
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details',[$modeler::model()->id]]);
+        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
     
         return implode(' ', $js);
 

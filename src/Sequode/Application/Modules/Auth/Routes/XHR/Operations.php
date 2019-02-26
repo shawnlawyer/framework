@@ -5,12 +5,12 @@ namespace Sequode\Application\Modules\Auth\Routes\XHR;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Application\Modules\Auth\Module;
-use Sequode\Component\Dialog\Traits\OperationsTrait;
+use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Operations {
 
-    use OperationsTrait;
+    use OperationsDialogTrait;
 
     public static $module = Module::class;
 

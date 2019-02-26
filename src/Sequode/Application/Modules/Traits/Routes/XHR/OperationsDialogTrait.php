@@ -1,10 +1,10 @@
 <?php
 
-namespace Sequode\Component\Dialog\Traits;
+namespace Sequode\Application\Modules\Traits\Routes\XHR;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 
-trait OperationsTrait {
+trait OperationsDialogTrait {
 
     public static function dialog($method, $json=null){
         $error = false;

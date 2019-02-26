@@ -11,7 +11,7 @@ use Sequode\Controller\Email\Email;
 use Sequode\Foundation\Hashes;
 
 use Sequode\Application\Modules\Account\Module;
-use Sequode\Component\Dialog\Traits\OperationsTrait;
+use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait;
 
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
@@ -20,7 +20,7 @@ class Operations {
     
     public static $module = Module::class;
 
-    use OperationsTrait;
+    use OperationsDialogTrait;
     /*
 	public static $merge = false;
 	public static $routes = [

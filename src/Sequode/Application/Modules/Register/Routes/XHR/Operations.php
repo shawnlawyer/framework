@@ -6,16 +6,12 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
 use Sequode\Foundation\Hashes;
-
-use Sequode\Component\Dialog\Traits\OperationsTrait;
-
-use Sequode\Application\Modules\Register\Module;
-
+use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Operations {
 
-    use OperationsTrait;
+    use OperationsDialogTrait;
     
     public static $module = Module::class;
 
