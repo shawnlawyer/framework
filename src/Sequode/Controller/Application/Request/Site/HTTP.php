@@ -3,7 +3,7 @@
 namespace Sequode\Controller\Application\Request\Site;
 
 use Sequode\Model\Application\Configuration;
-use Sequode\Model\Application\Routeable;
+use Sequode\Model\Application\Module\Routeables;
 use Sequode\Model\Application\Routes;
 use Sequode\Controller\Application\Request\Traits\RequestURIPiecesTrait;
 use Sequode\Controller\Application\Request\Traits\RequestCallTrait;
@@ -16,7 +16,7 @@ class HTTP {
 	public static function handle(){
         
 		$route_class = false;
-        $routeables = Routeable::model()->routes;
+        $routeables = Routeables::model()->routes;
 		$route = 'index';
 
         $request_pieces = static::URIPieces();
