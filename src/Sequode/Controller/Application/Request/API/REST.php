@@ -1,23 +1,23 @@
 <?php
 
-namespace Sequode\Controller\Application;
+namespace Sequode\Controller\Application\Request\API;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
-use Sequode\Controller\Application\HTTPRequest;
 use Sequode\Model\Application\Routes as ApplicationRoutes;
-use Sequode\Controller\Application\HTTPRequest\Traits\HTTPRequestCallTrait as HTTPRequestCallTrait;
-use Sequode\Controller\Application\HTTPRequest\Rest as Request;
+use Sequode\Controller\Application\Request\Traits\RequestURIPiecesTrait;
+use Sequode\Controller\Application\Request\Traits\RequestCallTrait;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Token\Modeler as TokenModeler;
 use Sequode\Application\Modules\Package\Module as PackageModule;
 use Sequode\Application\Modules\Sequode\Module as SequodeModule;
 
-class HTTPAPIRequest{
+class REST{
 
-    use HTTPRequestCallTrait;
+    use RequestCallTrait,
+        RequestURIPiecesTrait;
 
     public static function rest(){
-        $request_pieces = HTTPRequest::requestUriPieces();
+        $request_pieces = static::URIPieces();
         if(!isset($request_pieces[0]) || trim($request_pieces[0]) == ''){
             exit;
         }
@@ -58,7 +58,7 @@ class HTTPAPIRequest{
             exit;
         }
         $routes_class = $module::model()->rest->$request_type;
-        if(!in_array($request_pieces[0], Routes::routes($routes_class))){
+        if(!in_array($request_pieces[0], ApplicationRoutes::routes($routes_class))){
             exit;
         }
         $route = ApplicationRoutes::route($routes_class, $request_pieces[0]);

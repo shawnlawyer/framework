@@ -1,18 +1,18 @@
 <?php
 
-namespace Sequode\Controller\Application;
+namespace Sequode\Controller\Application\Request\Site;
 
 use Sequode\Application\Modules\Traits\Routes\XHR\CardsCardRouteTrait as XHRCardsCardRouteTrait;
 use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait as XHROperationsDialogTrait;
-use Sequode\Controller\Application\HTTPRequest\Traits\HTTPRequestCallTrait as HTTPRequestCallTrait;
+use Sequode\Controller\Application\Request\Traits\RequestCallTrait as RequestCallTrait;
 use Sequode\Model\Application\Routes as ApplicationRoutes;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 
 
-class XMLHTTPRequest{
+class XHR{
 
-    use HTTPRequestCallTrait;
+    use RequestCallTrait;
 
     public static function handle(){
 

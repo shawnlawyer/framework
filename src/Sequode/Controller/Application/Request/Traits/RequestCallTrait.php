@@ -1,7 +1,8 @@
 <?php
-namespace Sequode\Controller\Application\HTTPRequest\Traits;
+namespace Sequode\Controller\Application\Request\Traits;
 
-trait HTTPRequestCallTrait  {
+trait RequestCallTrait  {
+
 	public static function call($class, $method, $parameters = null){
 		return forward_static_call_array([$class, $method], ($parameters === null) ? [] : $parameters);
     }

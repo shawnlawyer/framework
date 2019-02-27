@@ -1,19 +1,25 @@
 <?php
 
-namespace Sequode\Controller\Application;
+namespace Sequode\Controller\Application\Request\Site;
 
 use Sequode\Model\Application\Configuration;
 use Sequode\Model\Application\RuntimeModulesRouteableClasses;
 use Sequode\Model\Application\Routes;
+use Sequode\Controller\Application\Request\Traits\RequestURIPiecesTrait;
+use Sequode\Controller\Application\Request\Traits\RequestCallTrait;
 
-class HTTPRequest {
-	public static function run(){
+class HTTP {
+
+    use RequestURIPiecesTrait,
+        RequestCallTrait;
+
+	public static function handle(){
         
 		$route_class = false;
         $routeables = RuntimeModulesRouteableClasses::model()->routes;
 		$route = 'index';
 
-        $request_pieces = self::requestUriPieces();
+        $request_pieces = static::URIPieces();
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) == ''){
 			foreach($routeables as $routeable){
                 if(in_array('index', get_class_methods($routeable->class))){
@@ -39,16 +45,6 @@ class HTTPRequest {
 				}
 			}
 		}
-    }
-    public static function requestUriPieces(){
-        
-        $request_pieces = $_SERVER['REQUEST_URI'];
-        $request_pieces = explode('?',$request_pieces)[0];
-        $request_pieces = explode('#',$request_pieces)[0];
-        $request_pieces = explode('/',$request_pieces);
-        
-        array_shift($request_pieces);
-        return $request_pieces;
     }
 	public static function setCookie($name = '', $value = '', $expire = 0){
         setcookie($name, $value, $expire, Configuration::model()->sessions->path, Configuration::model()->sessions->domain);
