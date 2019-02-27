@@ -5,7 +5,7 @@ namespace Sequode\Controller\Application\Request\Site;
 use Sequode\Application\Modules\Traits\Routes\XHR\CardsCardRouteTrait as XHRCardsCardRouteTrait;
 use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait as XHROperationsDialogTrait;
 use Sequode\Controller\Application\Request\Traits\RequestCallTrait as RequestCallTrait;
-use Sequode\Model\Application\Routes as ApplicationRoutes;
+use Sequode\Model\Application\Module\Routeables;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
 
@@ -46,11 +46,11 @@ class XHR{
             return;
         }
         $routes_class = $module::model()->xhr->$request_type;
-        if(!in_array($call_pieces[2], ApplicationRoutes::routes($routes_class))){
+        if(!in_array($call_pieces[2], Routeables::routes($routes_class))){
             return;
         }
 
-        $route = ApplicationRoutes::route($routes_class, $call_pieces[2]);
+        $route = Routeables::route($routes_class, $call_pieces[2]);
 
         if(isset($_POST['args']) && !empty($_POST['args'])){
             if( 500000 < strlen(http_build_query($_POST))){ return; }

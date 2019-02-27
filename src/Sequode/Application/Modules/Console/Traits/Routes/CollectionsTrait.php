@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\Console\Traits\Routes;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
-use Sequode\Model\Application\Routes as ApplicationRoutes;
+use Sequode\Model\Application\Module\Routeables as Routeables;
 
 trait CollectionsTrait {
 	
@@ -37,9 +37,9 @@ trait CollectionsTrait {
             
             if(!empty($module::model()->collections)){
                 
-                if(isset($collection) && in_array($collection, ApplicationRoutes::routes($module::model()->collections))){
+                if(isset($collection) && in_array($collection, Routeables::routes($module::model()->collections))){
                     
-                    forward_static_call_array([$module::model()->collections, ApplicationRoutes::route($module::model()->collections, $collection)], ($key != null) ? [$key] : []);
+                    forward_static_call_array([$module::model()->collections, Routeables::route($module::model()->collections, $collection)], ($key != null) ? [$key] : []);
 					return;
                     
 				}

@@ -18,5 +18,6 @@
             "name": "Shawn Lawyer",
             "email": "shawnlawyer@gmail.com"
         }
-    ]
+    ],
+    "bin": ["bin/sequode"]
 }

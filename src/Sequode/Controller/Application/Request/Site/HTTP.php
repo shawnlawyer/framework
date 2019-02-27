@@ -4,7 +4,6 @@ namespace Sequode\Controller\Application\Request\Site;
 
 use Sequode\Model\Application\Configuration;
 use Sequode\Model\Application\Module\Routeables;
-use Sequode\Model\Application\Routes;
 use Sequode\Controller\Application\Request\Traits\RequestURIPiecesTrait;
 use Sequode\Controller\Application\Request\Traits\RequestCallTrait;
 
@@ -32,8 +31,8 @@ class HTTP {
 		}
 		if(isset($request_pieces[0]) && trim($request_pieces[0]) != ''){
 			foreach($routeables as $routeable){
-				if(isset($request_pieces[0]) && in_array($request_pieces[0], Routes::routes($routeable->class))){
-					$route = Routes::route($routeable->class, trim($request_pieces[0]));
+				if(isset($request_pieces[0]) && in_array($request_pieces[0], Routeables::routes($routeable->class))){
+					$route = Routeables::route($routeable->class, trim($request_pieces[0]));
 					array_shift($request_pieces);
 					$parameters = [];
 					if(isset($request_pieces[0])){

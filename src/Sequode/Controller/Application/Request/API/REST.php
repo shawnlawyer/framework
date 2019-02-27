@@ -2,8 +2,8 @@
 
 namespace Sequode\Controller\Application\Request\API;
 
+use Sequode\Model\Application\Module\Routeables;
 use Sequode\Model\Module\Registry as ModuleRegistry;
-use Sequode\Model\Application\Routes as ApplicationRoutes;
 use Sequode\Controller\Application\Request\Traits\RequestURIPiecesTrait;
 use Sequode\Controller\Application\Request\Traits\RequestCallTrait;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
@@ -58,10 +58,10 @@ class REST{
             exit;
         }
         $routes_class = $module::model()->rest->$request_type;
-        if(!in_array($request_pieces[0], ApplicationRoutes::routes($routes_class))){
+        if(!in_array($request_pieces[0], Routeables::routes($routes_class))){
             exit;
         }
-        $route = ApplicationRoutes::route($routes_class, $request_pieces[0]);
+        $route = Routeables::route($routes_class, $request_pieces[0]);
 
         array_shift($request_pieces);
         if(isset($_POST['args']) && !empty($_POST['args'])){

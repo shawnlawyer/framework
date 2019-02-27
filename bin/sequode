@@ -1,0 +1,9 @@
+#!/usr/bin/php
+<?php
+define("BASE_PATH", realpath('./'));
+require_once('vendor/autoload.php');
+use Symfony\Component\Dotenv\Dotenv;
+use Sequode\Sequode;
+$dotenv = (new Dotenv())->load(BASE_PATH . '/.env');
+$sequode = new Sequode('SQDEa0b14c475d6a6ffad52060091f9a973f');
+$sequode->console();
