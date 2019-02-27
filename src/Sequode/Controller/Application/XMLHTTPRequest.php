@@ -4,20 +4,16 @@ namespace Sequode\Controller\Application;
 
 use Sequode\Application\Modules\Traits\Routes\XHR\CardsCardRouteTrait as XHRCardsCardRouteTrait;
 use Sequode\Application\Modules\Traits\Routes\XHR\OperationsDialogTrait as XHROperationsDialogTrait;
-use Sequode\Controller\Application\HTTPRequest\XHR as XHRRequest;
+use Sequode\Controller\Application\HTTPRequest\Traits\HTTPRequestCallTrait as HTTPRequestCallTrait;
 use Sequode\Model\Application\Routes as ApplicationRoutes;
 use Sequode\Model\Module\Registry as ModuleRegistry;
-use Sequode\Controller\Application\HTTPRequest;
-use Sequode\Model\Application\Routes;
-use Sequode\Controller\Application\HTTPRequest\Rest as Request;
 
-use Sequode\Application\Modules\Account\Modeler as AccountModeler;
-use Sequode\Application\Modules\Token\Modeler as TokenModeler;
 
-use Sequode\Application\Modules\Package\Module as PackageModule;
-use Sequode\Application\Modules\Sequode\Module as SequodeModule;
 
 class XMLHTTPRequest{
+
+    use HTTPRequestCallTrait;
+
     public static function handle(){
 
         $call = false;
@@ -66,7 +62,7 @@ class XMLHTTPRequest{
         }
 
         if(in_array(XHROperationsDialogTrait::class, class_uses($routes_class, true)) && isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
-            echo XHRRequest::call($routes_class, 'dialog', [$route, $args[0]]);
+            echo static::call($routes_class, 'dialog', [$route, $args[0]]);
         }elseif(in_array(XHRCardsCardRouteTrait::class, class_uses($routes_class, true)) && isset($routes_class::$routes) && in_array($route, $routes_class::$routes)) {
 
             if(method_exists($routes_class, $route)){
@@ -77,10 +73,10 @@ class XMLHTTPRequest{
                 }
                 $parameters = is_array($parameters) ? $parameters : [];
             }
-            echo XHRRequest::call($routes_class, 'card', [$route, $parameters]);
+            echo static::call($routes_class, 'card', [$route, $parameters]);
         }else{
 
-            echo XHRRequest::call($routes_class, $route, $args);
+            echo static::call($routes_class, $route, $args);
         }
         return true;
     }
