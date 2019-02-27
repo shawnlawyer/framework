@@ -4,7 +4,7 @@ namespace Sequode\Model\Application;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
 
-class RuntimeModulesRouteableClasses
+class Routeable
 {
     public static function model()
     {
