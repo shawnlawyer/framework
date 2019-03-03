@@ -25,7 +25,7 @@ class Model extends ORM {
 			,".$this->safedSQLData($version, 'text').")
 			";
 		$this->database->query($sql);
-		$this->id = $this->database->insertId;
-		return true;
+        $this->__set('id', $this->database->insertId);
+        return $this;
 	}
 }

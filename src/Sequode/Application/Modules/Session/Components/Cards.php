@@ -28,9 +28,10 @@ class Cards {
         
     }
     public static function menuItems(){
-        
+
+        $module = static::$module;
         $_o = [];
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sessions','cards/session/search');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sessions', $module::xhrCardRoute('search'));
         
         return $_o;
         
@@ -51,9 +52,9 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items =  [];
         
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session','cards/session/delete', [$_model->id]);
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$_model->id]);
         
-        $_o->body[] = CardKit::nextInCollection((object) ['model_id'=>$_model->id,'details_route'=>'cards/session/details']);
+        $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module::xhrCardRoute('details')]);
         
         $_o->body = [];
         $dom_id = FormInputComponent::uniqueHash('','');
@@ -62,17 +63,17 @@ class Cards {
         $js[] = '$(document).on(\'keydown\',(function(e){';
         
         $js[] = 'if (e.keyCode == 66){';
-        $js[] = 'new XHRCall({route:"operations/session/blockIP",inputs:['.$_model->id.']});';
+        $js[] = 'new XHRCall({route:"'.$module::xhrOperationRoute('blockIP').'",inputs:['.$_model->id.']});';
         $js[] = '}';
         
         $js[] = 'if(next_id != \''.$_model->id.'\'){';
         $js[] = 'if (e.keyCode == 39){';
-        $js[] = 'new XHRCall({route:"cards/session/details",inputs:[next_id]});';
+        $js[] = 'new XHRCall({route:"'.$module::xhrCardRoute('details').'",inputs:[next_id]});';
         $js[] = '}';
         $js[] = '}';
         if($_model->session_id != $operations::getCookieValue()) {
             $js[] = 'if (e.keyCode == 46){';
-            $js[] = 'new XHRCall({route:\'operations/session/destroy\',inputs: [' . $_model->id . '],done_callback:function(){ new XHRCall({route:\'cards/session/details\',inputs:[next_id]});} });';
+            $js[] = 'new XHRCall({route:\''.$module::xhrOperationRoute('destroy').'\',inputs: [' . $_model->id . '],done_callback:function(){ new XHRCall({route:\''.$module::xhrCardRoute('details').'\',inputs:[next_id]});} });';
             $js[] = '}';
         }
         $js[] = '}';
@@ -101,7 +102,7 @@ class Cards {
         $_o->body[] = date('g:ia \o\n l jS F Y',$_model->session_start);
         $_o->body[] = CardKitHTML::sublineBlock('Last Sign In');
         if($_model->session_id != $operations::getCookieValue()) {
-            $_o->body[] = CardKit::deleteInCollection((object)['route' => 'operations/session/destroy', 'model_id' => $_model->id]);
+            $_o->body[] = CardKit::deleteInCollection((object)['route' => $module::xhrOperationRoute('destroy'), 'model_id' => $_model->id]);
         }
         $_o->body[] = CardKitHTML::modelId($_model);
         
@@ -132,7 +133,7 @@ class Cards {
             ];
         }
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'session_search','icon'=>'atom','card_route'=>'cards/session/search','details_route'=>'cards/session/details']);
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'session_search', 'icon'=>'atom', 'card_route'=>$module::xhrCardRoute('search'), 'details_route'=>$module::xhrCardRoute('details')]);
         
         return $_o;
         

@@ -20,8 +20,9 @@ class Cards {
         return $_o;
     }
     public static function menuItems(){
+        $module = static::$module;
         return [
-            CardKit::onTapEventsXHRCallMenuItem('Logout','operations/authed/logout')
+            CardKit::onTapEventsXHRCallMenuItem('Logout', $module::xhrOperationRoute('logout'))
         ];
     }
 }

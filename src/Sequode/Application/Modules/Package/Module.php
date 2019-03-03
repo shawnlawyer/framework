@@ -2,8 +2,14 @@
 
 namespace Sequode\Application\Modules\Package;
 
+use Sequode\Application\Modules\Traits\ModuleRoutesTrait;
+
 class Module {
+
+    use ModuleRoutesTrait;
+
     public static $registry_key = 'Package';
+
 	public static function model(){
         $_o = (object)  [
             'context' => 'package',

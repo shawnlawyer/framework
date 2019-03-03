@@ -29,12 +29,12 @@ class Operations {
             $js[] = 'if(';
             $js[] = 'confirm(\'Are you sure you want to destroy this?\')';
             $js[] = '){';
-            $js[] = 'new XHRCall({route:"operations/token/destroy", inputs:['.$modeler::model()->id.', true]});';
+            $js[] = 'new XHRCall({route:"' . $module::xhrOperationRoute(__FUNCTION__) . '", inputs:['.$modeler::model()->id.', true]});';
             $js[] = '}';
         }else{
             forward_static_call_array([$operations, __FUNCTION__], []);
             $collection = 'session_search';
-            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+            $js[] = DOMElementKitJS::fetchCollection($collection, $_model_id);
             $js[] = forward_static_call_array([$xhr_cards, 'card'], ['search']);
         }
         return implode(' ', $js);

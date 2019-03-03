@@ -166,9 +166,12 @@ class Form {
         if(is_object($_i)){
             
             foreach($_o as $member => $value ){
-                
+                //something is wrong here but things work as expected so i'm wondering
+                //if i broke this on purpose or if this is a feature i never used and
+                // didn't realize was broken. looks like it should be:
+                //if(isset($_i->$member)){
                 if(!isset($_i->$member)){
-                    
+
                     $_o->$member = $_i->$member;
                     
                 }

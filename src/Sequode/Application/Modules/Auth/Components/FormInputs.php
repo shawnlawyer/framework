@@ -19,7 +19,7 @@ class FormInputs {
         $_o->login->Value = '';
         $_o->login->Width = 200;
         $_o->login->CSS_Class = 'focus-input';
-        
+
 		return $_o;
         
 	}

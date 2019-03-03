@@ -30,7 +30,7 @@ class Cards {
     public static function menuItems(){
         
         $_o = [];
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Signup','cards/register/signup');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Signup', $module::xhrCardRoute('signup'));
         
         return $_o;
         
@@ -56,7 +56,7 @@ class Cards {
         if($dialog_store->step != 0 && $dialog_store->step < count($dialog->steps) - 1){
             $_o->menu = (object) null;
             $_o->menu->items = [];
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/register/' . __FUNCTION__, [FormComponent::jsQuotedValue('{"reset":"1"}')]);
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', $module::xhrOperationRoute(__FUNCTION__), [FormComponent::jsQuotedValue('{"reset":"1"}')]);
         }
         
         $_o->head = ' Create Account';
@@ -78,7 +78,7 @@ class Cards {
         }
         
         if($dialog_store->step != 0 && $dialog_store->step < count($dialog->steps) - 1){
-            $_o->body[] = CardKit::resetDialogButton('operations/register/' . __FUNCTION__);
+            $_o->body[] = CardKit::resetDialogButton( $module::xhrOperationRoute(__FUNCTION__));
         }
         
         $_o->body[] = (object) ['js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();'];

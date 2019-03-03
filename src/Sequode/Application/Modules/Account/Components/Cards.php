@@ -30,11 +30,12 @@ class Cards {
     }
     
     public static function menuItems(){
-        
+
+        $module = static::$module;
         $_o = [];
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Account Details','cards/account/details');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Password','cards/account/updatePassword');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Email','cards/account/updateEmail');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Account Details', $module::xhrCardRoute('details'));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Password', $module::xhrCardRoute('updatePassword'));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Email', $module::xhrCardRoute('updateEmail'));
         
         return $_o;
         
@@ -80,7 +81,7 @@ class Cards {
             
             $_o->menu = (object) null;
             $_o->menu->items = [];
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over','operations/account/' . __FUNCTION__, [FormComponent::jsQuotedValue('{"reset":"1"}')]);
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', $module::xhrOperationRoute(__FUNCTION__), [FormComponent::jsQuotedValue('{"reset":"1"}')]);
         
         }
         
@@ -115,7 +116,7 @@ class Cards {
         
         if($dialog_store->step != 0){
             
-            $_o->body[] = CardKit::resetDialogButton('operations/account/' . __FUNCTION__);
+            $_o->body[] = CardKit::resetDialogButton( $module::xhrOperationRoute(__FUNCTION__));
             
         }
         
@@ -147,7 +148,7 @@ class Cards {
             
             $_o->menu = (object) null;
             $_o->menu->items = [];
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', 'operations/account/' . __FUNCTION__, [FormComponent::jsQuotedValue('{"reset":"1"}')]);
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Start Over', $module::xhrOperationRoute(__FUNCTION__), [FormComponent::jsQuotedValue('{"reset":"1"}')]);
         
         }
         
@@ -182,7 +183,7 @@ class Cards {
         
         if($dialog_store->step > 0){
             
-            $_o->body[] = CardKit::resetDialogButton('operations/account/' . __FUNCTION__);
+            $_o->body[] = CardKit::resetDialogButton( $module::xhrOperationRoute(__FUNCTION__));
             
         }
         

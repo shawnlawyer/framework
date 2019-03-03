@@ -2,10 +2,14 @@
 namespace Sequode\Application\Modules\Authed;
 
 use Sequode\Application\Modules\Account\Modeler;
+use Sequode\Application\Modules\Traits\ModuleRoutesTrait;
 
 class Module {
+
+    use ModuleRoutesTrait;
+
     public static $registry_key = 'Authed';
-    public static $modeler = Modeler::class;
+
 	public static function model(){
         $_o = (object)  [
             'context' => 'authed',

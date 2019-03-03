@@ -73,7 +73,7 @@ class Operations {
         if($previous_form_object->$member->Component != $form_member_object->Component){
             
             $js = [];
-            $js[] = 'new XHRCall({route:"forms/sequode/componentSettings",inputs:[\''.$type.'\', \''.$member.'\', '.$modeler::model()->id.', \''.$dom_id.'\']});';
+            $js[] = 'new XHRCall({route:"'. $module::xhrCardRoute('componentSettings') .'", inputs:[\''.$type.'\', \''.$member.'\', '.$modeler::model()->id.', \''.$dom_id.'\']});';
 			return implode(' ',$js);
             
         }
@@ -168,7 +168,7 @@ class Operations {
 			$js[] = 'if(';
 			$js[] = 'confirm(\'Are you sure you want to delete this?\')';
 			$js[] = '){';
-            $js[] = 'new XHRCall({route:"operations/sequode/deleteSequence",inputs:['.$modeler::model()->id.', true]});';
+            $js[] = 'new XHRCall({route:"'.$module::xhrOperationRoute(__FUNCTION__).'",inputs:['.$modeler::model()->id.', true]});';
 			$js[] = '}';
         }else{
             forward_static_call_array([$operations, __FUNCTION__], []);
@@ -189,7 +189,7 @@ class Operations {
         
         $modeler::exists($_model_id,'id')
         && SequodeAuthority::isSequence()
-        && AccountAuthority::canRun($modeler::model())
+        && AccountAuthority::isOwner($modeler::model())
         
         )){ return; }
         
@@ -198,7 +198,7 @@ class Operations {
 			$js[] = 'if(';
 			$js[] = 'confirm(\'Are you sure you want to format '.$modeler::model()->id.'?\')';
 			$js[] = '){';
-            $js[] = 'new XHRCall({route:"operations/sequode/formatSequence",inputs:['.$modeler::model()->id.', true]});';
+            $js[] = 'new XHRCall({route:"'. $module::xhrOperationRoute(__FUNCTION__).'",inputs:['.$modeler::model()->id.', true]});';
 			$js[] = '}';
         }else{
             forward_static_call_array([$operations, 'makeDefaultSequencedSequode'], []);

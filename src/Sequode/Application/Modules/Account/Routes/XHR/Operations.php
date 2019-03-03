@@ -50,7 +50,7 @@ class Operations {
             $js[] = 'if(';
             $js[] = 'confirm(\'Are you sure you want to empty your sequode favorites?\')';
             $js[] = '){';
-            $js[] = 'new XHRCall({route:"operations/account/emptySequodeFavorites",inputs:[true]});';
+            $js[] = 'new XHRCall({route:"'. $module::xhrOperationRoute(__FUNCTION__) .'",inputs:[true]});';
             $js[] = '}';
             return implode(' ',$js);
         } else {

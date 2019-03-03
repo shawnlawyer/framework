@@ -4,7 +4,11 @@ namespace Sequode\Application\Modules\Register;
 
 use Sequode\Application\Modules\User\Modeler as Modeler;
 
+use Sequode\Application\Modules\Traits\ModuleRoutesTrait;
+
 class Module {
+
+    use ModuleRoutesTrait;
 
     public static $registry_key = 'Register';
 

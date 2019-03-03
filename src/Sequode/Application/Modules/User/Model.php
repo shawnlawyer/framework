@@ -7,6 +7,13 @@ use Sequode\Model\Database\SQL\ORM;
 class Model extends ORM {
     public $database_connection     =   'accounts_database';
 	public $table                   =	'users';
+    public const normalizations = [
+        'sequode_favorites' =>
+            [
+                'get' => 'jsonToObject',
+                'set' => 'objectToJson'
+            ]
+    ];
     public function __construct() {
 		parent::__construct();
 		return true;
@@ -30,9 +37,8 @@ class Model extends ORM {
             )";
             
 		$this->database->query($sql);
-		$this->id = $this->database->insertId;
-        
-		return true;
+		$this->__set('id', $this->database->insertId);
+		return $this;
         
 	}
 }

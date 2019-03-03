@@ -2,8 +2,14 @@
 
 namespace Sequode\Application\Modules\Token;
 
+use Sequode\Application\Modules\Traits\ModuleRoutesTrait;
+
 class Module {
+
+    use ModuleRoutesTrait;
+
     public static $registry_key = 'Token';
+
 	public static function model(){
         $_o = (object)  [
             'context' => 'token',

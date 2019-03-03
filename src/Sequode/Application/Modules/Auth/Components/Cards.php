@@ -25,8 +25,10 @@ class Cards {
         return $_o;
     }
     public static function menuItems(){
+
+        $module = static::$module;
         $_o = [];
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login','cards/auth/login');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login', $module::xhrCardRoute('login'));
         return $_o;
     }
    public static function login(){
@@ -49,7 +51,7 @@ class Cards {
         if($dialog_store->step != 0){
             $_o->menu = (object) null;
             $_o->menu->items = [];
-            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Reset', 'operations/auth/' . __FUNCTION__, [FormComponent::jsQuotedValue('{"reset":"1"}')]);
+            $_o->menu->items[] = CardKit::onTapEventsXHRCallMenuItem('Reset', $module::xhrOperationRoute(__FUNCTION__), [FormComponent::jsQuotedValue('{"reset":"1"}')]);
         }
         
         $_o->head = 'Authentication';
@@ -71,7 +73,7 @@ class Cards {
         }
         
         if($dialog_store->step != 0){
-            $_o->body[] = CardKit::resetDialogButton('operations/auth/' . __FUNCTION__);
+            $_o->body[] = CardKit::resetDialogButton( $module::xhrOperationRoute(__FUNCTION__));
         }
         
         $_o->body[] = (object) ['js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();'];

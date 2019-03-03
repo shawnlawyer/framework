@@ -30,11 +30,12 @@ class Cards {
     }
     
     public static function menuItems(){
-        
+
+        $module = static::$module;
         $_o = [];
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New User','operations/user/newUser');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Guest','operations/user/newGuest');
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Users','cards/user/search');
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New User', $module::xhrOperationRoute('newUser'));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Guest', $module::xhrOperationRoute('newGuest'));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Users', $module::xhrCardRoute('search'));
         
         return $_o;
         
@@ -48,9 +49,9 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = [];
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', 'cards/user/details', [$modeler::model()->id]);
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', 'operations/user/delete', [$modeler::model()->id]);
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login As', 'operations/user/loginAs', [$modeler::model()->id]);
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login As', $module::xhrOperationRoute('loginAs'), [$modeler::model()->id]);
         
         return $_o;
     }
@@ -72,14 +73,14 @@ class Cards {
         $_o->body = [''];
         
         $_o->body[] = CardKitHTML::sublineBlock('Name');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateName', [$modeler::model()->id]), $modeler::model()->name, 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject( $module::xhrFormRoute('updateName'), [$modeler::model()->id]), $modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Password');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updatePassword', [$modeler::model()->id]), 'Set Password', 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('updatePassword'), [$modeler::model()->id]), 'Set Password', 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Role');
         RoleModeler::exists($modeler::model()->role_id,'id');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateRole', [$modeler::model()->id]), RoleModeler::model()->name, 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('updateRole'), [$modeler::model()->id]), RoleModeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Active Status');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject('forms/user/updateActive', [$modeler::model()->id]), (($modeler::model()->active == 1) ? 'Active' : 'Suspended'), 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('updateActive'), [$modeler::model()->id]), (($modeler::model()->active == 1) ? 'Active' : 'Suspended'), 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Sign Up Date');
         $_o->body[] = date('g:ia \o\n l jS F Y',$modeler::model()->sign_up_date);
         $_o->body[] = CardKitHTML::sublineBlock('Allowed Sequode Count');
@@ -91,7 +92,7 @@ class Cards {
         $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', $modeler::model(), 'Sequodes Created : ');
         $_o->body[] = CardKit::ownedItemsCollectionTile('Package', $modeler::model(), 'Packages Created : ');
         $_o->body[] = CardKit::ownedItemsCollectionTile('Token', $modeler::model(), 'Tokens Created : ');
-        $_o->body[] = CardKit::nextInCollection((object) ['model_id'=>$modeler::model()->id,'details_route'=>'cards/user/details']);
+        $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
         
         if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($modeler::model());
@@ -105,10 +106,6 @@ class Cards {
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        
-        ($_model == null)
-            ? forward_static_call_array([$modeler,'model'], [])
-            : forward_static_call_array([$modeler, 'model'], [$_model]);
 		
         $_o = (object) null;
         $_o->size = 'fullscreen';
@@ -129,7 +126,7 @@ class Cards {
             ];
         }
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'user_search','icon'=>'user','card_route'=>'cards/user/search','details_route'=>'cards/user/details']);
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'user_search','icon'=>'user', 'card_route' => $module::xhrCardRoute('search'), 'details_route' => $module::xhrCardRoute('details')]);
         return $_o;
     }
     

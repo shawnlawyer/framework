@@ -75,7 +75,7 @@ class Operations {
             $js[] = 'if(';
             $js[] = 'confirm(\'Are you sure you want to delete this?\')';
             $js[] = '){';
-            $js[] = 'new XHRCall({route:"operations/token/delete", inputs:['.$modeler::model()->id.', true]});';
+            $js[] = 'new XHRCall({route:"'. $module::xhrOperationRoute(__FUNCTION__) .'", inputs:['.$modeler::model()->id.', true]});';
             $js[] = '}';
         }else{
             forward_static_call_array([$operations, __FUNCTION__], []);

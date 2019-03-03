@@ -2,7 +2,11 @@
 
 namespace Sequode\Application\Modules\Session;
 
+use Sequode\Application\Modules\Traits\ModuleRoutesTrait;
+
 class Module {
+
+    use ModuleRoutesTrait;
 
     public static $registry_key = 'Session';
 

@@ -14,12 +14,12 @@ class Authority {
     public static function isOwner($test_model, $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return (isset($_model->id) && isset($test_model->owner_id) &&  $test_model->owner_id == $_model->id) ? true : false;
+        return ($_model->id && $test_model->owner_id &&  $test_model->owner_id === $_model->id) ? true : false;
     }
     public static function isSystemOwner($_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return (isset($_model->role_id) && $_model->role_id == 0) ? true : false;
+        return ($_model->role_id !== false && $_model->role_id == 0) ? true : false;
     }
     public static function canCreate($_model = null){
         $modeler = static::$modeler;
@@ -85,7 +85,7 @@ class Authority {
     public static function isActive($_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return (isset($_model->active) && $_model->active == 1) ? true : false;
+        return ($_model->active) ? true : false;
     }
     public static function isPassword($password, $_model = null){
         $modeler = static::$modeler;
@@ -98,7 +98,7 @@ class Authority {
     public static function isInSequodeFavorites($test_model, $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return (in_array($test_model->id, json_decode($_model->sequode_favorites))) ? true : false;
+        return (in_array($test_model->id, $_model->sequode_favorites)) ? true : false;
     }
     public static function isAnEmailAddress($email){
         return (filter_var($email,FILTER_VALIDATE_EMAIL) === false) ? false : true;

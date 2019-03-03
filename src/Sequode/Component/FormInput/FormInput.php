@@ -551,28 +551,24 @@ class FormInput {
     }
     
     
-    public static function render($component_object, $component_model = null){
+    public static function render($component_object, $_model = null){
         
         $modeler = static::$modeler;
-        
-        if($component_model != null ){
-            
-            $modeler::model($component_model);
-            
-        }
-        
+
+        if($_model !== null){ $modeler::model($_model); }
+
         if($component_object->Component == 'checkboxSwitch' && !isset($component_object->On_Value)){
             
-            $modeler::exists('checkboxSwitch','name');
+            $modeler::exists('checkboxSwitch', 'name');
             $component_object = json_decode($modeler::model()->component_object);
             
-        }elseif((!isset($component_object->Component) || $modeler::exists($component_object->Component,'name')) && !isset($modeler::model()->component)){
-    
+        }elseif((!isset($component_object->Component) || $modeler::exists($component_object->Component, 'name')) && !$modeler::model()->component){
+
             $modeler::exists('str','name');
             $component_object = json_decode($modeler::model()->component_object);
             
         }
-        
+
 		return forward_static_call_array([self::class, $modeler::model()->component], [$component_object]);
         
     }

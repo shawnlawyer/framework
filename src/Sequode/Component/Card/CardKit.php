@@ -20,7 +20,7 @@ class CardKit {
         
         $items[] = [];
         foreach($models as $i => $object){
-            $items[] = self::onTapEventsXHRCallMenuItem($object->name, 'cards/'.$context.'/details', [$object->id]);
+            $items[] = self::onTapEventsXHRCallMenuItem($object->name, $module::xhrCardRoute('details'), [$object->id]);
         }
         return $items;
     }
@@ -37,7 +37,7 @@ class CardKit {
         
         $items[] = [];
         foreach($models as $i => $object){
-            $items[] = self::onTapEventsXHRCallMenuItem($object->name, 'cards/'.$context.'/details', [$object->id]);
+            $items[] = self::onTapEventsXHRCallMenuItem($object->name, $module::xhrCardRoute('details'), [$object->id]);
         }
         return $items;
     }
@@ -53,12 +53,12 @@ class CardKit {
         
         $html[] = '<div class="automagic-content-area-xsmall-tile-container">';
         $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.'">'.$headline . count($models).'</div>';
-        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject('cards/'.$context.'/my', [$object->id]));
+        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($module::xhrCardRoute('my'), [$object->id]));
         foreach($models as $i => $object){
             $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.$i.'">';
             $html[] = $object->name;
             $html[] = '</div> ';
-            $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id.$i, DOMElementKitJS::xhrCallObject('cards/'.$context.'/details', [$object->id]));
+            $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id.$i, DOMElementKitJS::xhrCallObject($module::xhrCardRoute('details'), [$object->id]));
         }
         $html[] = '</div>';
         return (object) ['html' => implode('', $html), 'js' => implode(' ', $js)];
