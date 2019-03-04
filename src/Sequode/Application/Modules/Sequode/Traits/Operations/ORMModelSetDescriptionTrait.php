@@ -16,8 +16,9 @@ trait ORMModelSetDescriptionTrait {
         $detail = json_decode($modeler::model()->detail);
         $detail->description = $description;
         
-        $modeler::model()->updateField(json_encode($detail),'detail');
-            
+        $modeler::model()->detail = json_encode($detail);
+        $modeler::model()->save();
+
         return $modeler::model();
             
     }

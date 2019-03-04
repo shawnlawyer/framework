@@ -12,8 +12,9 @@ trait ORMModelSetPasswordTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-        $modeler::model()->updateField(Hashes::generateHash($password),'password');
-        
+        $modeler::model()->password = Hashes::generateHash($password);
+        $modeler::model()->save();
+
         return $modeler::model();
     }
 }

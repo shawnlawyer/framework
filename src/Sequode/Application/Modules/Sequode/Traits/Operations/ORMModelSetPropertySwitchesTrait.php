@@ -19,8 +19,9 @@ trait ORMModelSetPropertySwitchesTrait {
             
         }
         
-        //$modeler::model()->updateField($value,'safe');
-        
+        //$modeler::model()->safe = $value;
+
+        $modeler::model()->save();
         return $modeler::model();
         
 	}
@@ -39,8 +40,9 @@ trait ORMModelSetPropertySwitchesTrait {
             
         }
         
-        $modeler::model()->updateField($value,'shared');
-        
+        $modeler::model()->shared = $value;
+        $modeler::model()->save();
+
         return $modeler::model();
         
 	}
@@ -60,7 +62,8 @@ trait ORMModelSetPropertySwitchesTrait {
             
         }
         
-        $modeler::model()->updateField($value,'palette');
+        $modeler::model()->palette = $value;
+        $modeler::model()->save();
         
         return $modeler::model();
         
@@ -81,8 +84,10 @@ trait ORMModelSetPropertySwitchesTrait {
             
         }
         
-        $modeler::model()->updateField($value,'package');
-        
+        $modeler::model()->package = $value;
+
+        $modeler::model()->save();
+
         return $modeler::model();
         
 	}

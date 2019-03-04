@@ -98,14 +98,15 @@ trait ORMModelManageCodeTrait {
             
         }
 
-        $modeler::model()->updateField(json_encode($detail),'detail');
-        $modeler::model()->updateField(json_encode($input_object),'input_object');
-        $modeler::model()->updateField(json_encode($property_object),'property_object');
-        $modeler::model()->updateField(json_encode($output_object),'output_object');
-        $modeler::model()->updateField(json_encode($input_object_detail),'input_object_detail');
-        $modeler::model()->updateField(json_encode($property_object_detail),'property_object_detail');
-        $modeler::model()->updateField(json_encode($output_object_detail),'output_object_detail');
-        
+        $modeler::model()->detail = json_encode($detail);
+        $modeler::model()->input_object = json_encode($input_object);
+        $modeler::model()->property_object = json_encode($property_object));
+        $modeler::model()->output_object = json_encode($output_object);
+        $modeler::model()->input_object_detail = json_encode($input_object_detail);
+        $modeler::model()->property_object_detail = json_encode($property_object_detail);
+        $modeler::model()->output_object_detail = json_encode($output_object_detail);
+        $modeler::model()->save();
+
         return $modeler::model();
         
     }
@@ -125,13 +126,15 @@ trait ORMModelManageCodeTrait {
 		$property_object = json_decode($modeler::model()->property_object);
 		$output_object = json_decode($modeler::model()->output_object);
 		
-		$modeler::model()->updateField(json_encode($input_form_object),'input_form_object');
-		$modeler::model()->updateField(json_encode($property_form_object),'property_form_object');
-		$modeler::model()->updateField('[]','input_object_map');
-		$modeler::model()->updateField('[]','property_object_map');
-		$modeler::model()->updateField('[]','output_object_map');
-		$modeler::model()->updateField('{}','process_description_node');
-        $modeler::model()->updateField(json_encode($kit::makeSequodeProcessDescriptionNode($modeler::model())),'process_description_node');
+		$modeler::model()->input_form_object = json_encode($input_form_object);
+		$modeler::model()->property_form_object = json_encode($property_form_object);
+		$modeler::model()->input_object_map = '[]';
+		$modeler::model()->property_object_map = '[]';
+		$modeler::model()->output_object_map = '[]';
+		$modeler::model()->process_description_node = '{}';
+        $modeler::model()->process_description_node = json_encode($kit::makeSequodeProcessDescriptionNode($modeler::model()));
+
+        $modeler::model()->save();
         
 		return $modeler::model();
         

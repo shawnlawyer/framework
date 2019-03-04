@@ -23,7 +23,8 @@ class Model extends ORM {
             )
 			";
 		$this->database->query($sql);
-        $this->__set('id', $this->database->insertId);
+        $this->_members['id'] = $this->database->insertId;
+        $this->exists($this->database->insertId, 'id');
         return $this;
 	}
 }

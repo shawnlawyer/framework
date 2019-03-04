@@ -92,7 +92,10 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         }
         
         $object_map[$map_key]->Value = $value;
-        $modeler::model()->updateField(json_encode($kit::removeKeys($object_map)),$object_map_member);
+
+        $modeler::model()->$object_map_member = json_encode($kit::removeKeys($object_map));
+
+        $modeler::model()->save();
         
         if($run_maintenance){
             
@@ -138,7 +141,9 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $object_map[$receiver_key]->Key = $output_map[$transmitter_key]->Key;
         $object_map[$receiver_key]->Value = null;
        
-        $modeler::model()->updateField(json_encode($object_map),$object_map_member);
+        $modeler::model()->$object_map_member = json_encode($object_map);
+
+        $modeler::model()->save();
         
         return self::maintenance();
         
@@ -212,8 +217,10 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         $object_map[$internal_key]->Member = $external_member_name;
         $object_map[$internal_key]->Key = 0;
         $object_map[$internal_key]->Value = null;
-        
-        $modeler::model()->updateField(json_encode($object_map), $object_map_member);
+
+        $modeler::model()->$object_map_member = json_encode($object_map);
+
+        $modeler::model()->save();
         
 		return self::maintenance();
         
@@ -289,8 +296,10 @@ trait ORMModelManageSequenceIPODataFlowTrait {
         }
         
         $object_map[$restore_key] = $default_object_map[$restore_key];
-        
-        $modeler::model()->updateField(json_encode($object_map), $object_map_member);
+
+        $modeler::model()->$object_map_member = json_encode($object_map);
+
+        $modeler::model()->save();
         
 		return self::maintenance();
         

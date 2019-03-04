@@ -14,12 +14,12 @@ trait ORMModelCreate {
             ? explode(',',((!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"]))[0]
             : $ip_address ;
         $modeler::model()->create();
-        $modeler::model()->exists($modeler::model()->id, 'id');
-        $modeler::model()->updateField(Hashes::uniqueHash(), 'session_id');
-        $modeler::model()->updateField(serialize([]), 'session_data');
-        $modeler::model()->updateField(time(), 'session_start');
-        $modeler::model()->updateField($ip_address, 'ip_address');
-        $modeler::model()->updateField('anon', 'name');
+        $modeler::model()->session_id = Hashes::uniqueHash();
+        $modeler::model()->session_data = serialize([]);
+        $modeler::model()->session_start = time();
+        $modeler::model()->ip_address = $ip_address;
+        $modeler::model()->name('anon', 'name');
+        $modeler::model()->save();
         
         return $modeler::model();
         

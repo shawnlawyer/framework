@@ -9,9 +9,10 @@ trait ORMModelSetPropertiesTrait {
         $modeler = static::$modeler;
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-            
-        $modeler::model()->updateField($sequode_id,'sequode_id');
-        
+
+        $modeler::model()->sequode_id = $sequode_id;
+        $modeler::model()->save();
+
         return $modeler::model();
         
 	}

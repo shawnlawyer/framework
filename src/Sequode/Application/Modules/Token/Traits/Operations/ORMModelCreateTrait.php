@@ -9,9 +9,9 @@ trait ORMModelCreateTrait {
         $modeler = static::$modeler;
         
         $modeler::model()->create();
-        $modeler::exists($modeler::model()->id, 'id');
-        $modeler::model()->updateField($owner_id, 'owner_id');
-        
+        $modeler::model()->owner_id = $owner_id;
+        $modeler::model()->save();
+
         return $modeler::model();
     }
     

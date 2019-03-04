@@ -9,9 +9,10 @@ trait ORMModelSetNameTrait {
         $modeler = static::$modeler;
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-            
-        $modeler::model()->updateField($name, 'name');
-        
+
+        $modeler::model()->name = $name;
+        $modeler::model()->save();
+
         return $modeler::model();
     }
     

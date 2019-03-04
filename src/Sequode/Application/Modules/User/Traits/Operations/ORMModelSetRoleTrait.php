@@ -15,9 +15,10 @@ trait ORMModelSetRoleTrait {
         }
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-            
-        $modeler::model()->updateField($role_model->id, 'role_id');
-        
+
+        $modeler::model()->role_id = $role_model->id;
+        $modeler::model()->save();
+
         return $modeler::model();
     }
     

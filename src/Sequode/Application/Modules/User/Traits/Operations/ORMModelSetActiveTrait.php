@@ -11,8 +11,9 @@ trait ORMModelSetActiveTrait {
             
         $active = (intval($active) == 1) ? 1 : 0;
         
-        $modeler::model()->updateField($active,'active');
-        
+        $modeler::model()->active = $active;
+        $modeler::model()->save();
+
         return $modeler::model();
     }
     

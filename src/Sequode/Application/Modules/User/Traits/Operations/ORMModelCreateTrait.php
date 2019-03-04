@@ -12,12 +12,12 @@ trait ORMModelCreateTrait {
         $modeler = static::$modeler;
         
         $modeler::model()->create(substr(Hashes::uniqueHash(),0,15), Hashes::uniqueHash(), substr(Hashes::uniqueHash(),0,15));
-        $modeler::exists($modeler::model()->id, 'id');
-        $modeler::model()->updateField('[]','sequode_favorites');
-        $modeler::model()->updateField('100','role_id');
-        $modeler::model()->updateField('33','allowed_sequode_count');
-        $modeler::model()->updateField('1','active');
-        
+        $modeler::model()->sequode_favorites = [];
+        $modeler::model()->role_id = 100;
+        $modeler::model()->allowed_sequode_count = 33;
+        $modeler::model()->active = 1;
+        $modeler::model()->save();
+
         return $modeler::model();
         
     }
@@ -27,11 +27,11 @@ trait ORMModelCreateTrait {
         $modeler = static::$modeler;
         
         $modeler::model()->create(substr(Hashes::uniqueHash(),0,15), Hashes::uniqueHash(), substr(Hashes::uniqueHash(),0,15));
-        $modeler::exists($modeler::model()->id, 'id');
-        $modeler::model()->updateField('[]','sequode_favorites');
-        $modeler::model()->updateField('101','role_id');
-        $modeler::model()->updateField('5','allowed_sequode_count');
-        $modeler::model()->updateField('1','active');
+        $modeler::model()->sequode_favorites = [];
+        $modeler::model()->role_id = 101;
+        $modeler::model()->allowed_sequode_count = 5;
+        $modeler::model()->active = 1;
+        $modeler::model()->save();
         
         return $modeler::model();
         

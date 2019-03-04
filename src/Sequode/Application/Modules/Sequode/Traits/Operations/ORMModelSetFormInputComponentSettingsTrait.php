@@ -45,8 +45,8 @@ trait ORMModelSetFormInputComponentSettingsTrait {
 		}
 		$form_object->$member = $form_object_member;
         
-        $modeler::model()->updateField(json_encode($form_object),$object_member);
-        
+        $modeler::model()->$object_member = json_encode($form_object);
+        $modeler::model()->save();
         self::maintenance();
             
         return $modeler::model();

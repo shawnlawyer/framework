@@ -16,7 +16,9 @@ trait ORMModelManageSequenceGridTrait {
 		$grid_areas = json_decode($modeler::model()->grid_areas);
 		$grid_areas = $kit::modifyGridAreas($position, $grid_areas, $modeler::model());
         
-		$modeler::model()->updateField(json_encode($grid_areas),'grid_areas');
+		$modeler::model()->grid_areas = json_encode($grid_areas);
+
+        $modeler::model()->save();
         
         self::maintenance();
         
@@ -38,8 +40,10 @@ trait ORMModelManageSequenceGridTrait {
 		if(!isset($grid_areas[$grid_area_key])){return $modeler::model();}
         
 		$grid_areas = $kit::moveGridArea($grid_area_key, $grid_areas, $x, $y, $modeler::model());
-        
-		$modeler::model()->updateField(json_encode($grid_areas),'grid_areas');
+
+        $modeler::model()->grid_areas = json_encode($grid_areas);
+
+        $modeler::model()->save();
         
         self::maintenance();
         

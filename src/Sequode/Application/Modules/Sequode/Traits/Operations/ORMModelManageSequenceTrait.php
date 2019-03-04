@@ -16,36 +16,36 @@ trait ORMModelManageSequenceTrait {
             
         if(SequodeAuthority::isSequence()){
             
-            $modeler::model()->updateField(json_encode($kit::makeProcessObject('input')),'input_object');
-            $modeler::model()->updateField(json_encode($kit::makeProcessObject('property')),'property_object');
-            $modeler::model()->updateField(json_encode($kit::makeProcessObject('output')),'output_object');
-            //$modeler::model()->updateField(json_encode($kit::makeProcessInstanceObject()),'process_instance_object');
-            $modeler::model()->updateField(json_encode($kit::removeKeys(json_decode($modeler::model()->input_object_map))),'input_object_map');
-            $modeler::model()->updateField(json_encode($kit::removeKeys(json_decode($modeler::model()->property_object_map))),'property_object_map');
-            $modeler::model()->updateField(json_encode($kit::removeKeys(json_decode($modeler::model()->output_object_map))),'output_object_map');
+            $modeler::model()->input_object = json_encode($kit::makeProcessObject('input'));
+            $modeler::model()->property_object = json_encode($kit::makeProcessObject('property'));
+            $modeler::model()->output_object = json_encode($kit::makeProcessObject('output'));
+            //$modeler::model()->process_instance_object = json_encode($kit::makeProcessInstanceObject());
+            $modeler::model()->input_object_map = json_encode($kit::removeKeys(json_decode($modeler::model()->input_object_map)));
+            $modeler::model()->property_object_map = json_encode($kit::removeKeys(json_decode($modeler::model()->property_object_map)));
+            $modeler::model()->output_object_map = json_encode($kit::removeKeys(json_decode($modeler::model()->output_object_map)));
             
         }
         
-        $modeler::model()->updateField(json_encode($kit::pruneFormObject('input')),'input_form_object');
-        $modeler::model()->updateField(json_encode($kit::pruneFormObject('property')),'property_form_object');
-        $modeler::model()->updateField(json_encode($kit::updateFormObjectMembers('input')),'input_form_object');
-        $modeler::model()->updateField(json_encode($kit::updateFormObjectMembers('property')),'property_form_object');
+        $modeler::model()->input_form_object = json_encode($kit::pruneFormObject('input'));
+        $modeler::model()->property_form_object = json_encode($kit::pruneFormObject('property'));
+        $modeler::model()->input_form_object = json_encode($kit::updateFormObjectMembers('input'));
+        $modeler::model()->property_form_object = json_encode($kit::updateFormObjectMembers('property'));
         
-        $modeler::model()->updateField(json_encode($kit::updateProcessObjectDetails('input')),'input_object_detail');
-        $modeler::model()->updateField(json_encode($kit::updateProcessObjectDetails('property')),'property_object_detail');
-        $modeler::model()->updateField(json_encode($kit::updateProcessObjectDetails('output')),'output_object_detail');
-        $modeler::model()->updateField(json_encode($kit::pruneProcessObjectDetails('input')),'input_object_detail');
-        $modeler::model()->updateField(json_encode($kit::pruneProcessObjectDetails('property')),'property_object_detail');
-        $modeler::model()->updateField(json_encode($kit::pruneProcessObjectDetails('output')),'output_object_detail');
+        $modeler::model()->input_object_detail = json_encode($kit::updateProcessObjectDetails('input'));
+        $modeler::model()->property_object_detail = json_encode($kit::updateProcessObjectDetails('property'));
+        $modeler::model()->output_object_detail = json_encode($kit::updateProcessObjectDetails('output'));
+        $modeler::model()->input_object_detail = json_encode($kit::pruneProcessObjectDetails('input'));
+        $modeler::model()->property_object_detail = json_encode($kit::pruneProcessObjectDetails('property'));
+        $modeler::model()->output_object_detail = json_encode($kit::pruneProcessObjectDetails('output'));
         
         if(SequodeAuthority::isSequence()){
             
-            $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('input',$modeler::model())),'default_input_object_map');
-            $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('property',$modeler::model())),'default_property_object_map');
-            $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('output',$modeler::model())),'default_output_object_map');
+            $modeler::model()->default_input_object_map = json_encode($kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
+            $modeler::model()->default_property_object_map = json_encode($kit::makeDefaultSequenceObjectMap('property', $modeler::model()));
+            $modeler::model()->default_output_object_map = json_encode($kit::makeDefaultSequenceObjectMap('output', $modeler::model()));
             
         }
-        
+        $modeler::model()->save();
         self::regenerateProcessDescriptionNode();
         
         return $modeler::model();
@@ -59,8 +59,9 @@ trait ORMModelManageSequenceTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-        $modeler::model()->updateField(json_encode($kit::makeSequodeProcessDescriptionNode()),'process_description_node');
-        
+        $modeler::model()->process_description_node = json_encode($kit::makeSequodeProcessDescriptionNode());
+        $modeler::model()->save();
+
         return $modeler::model();
         
     }
@@ -71,37 +72,37 @@ trait ORMModelManageSequenceTrait {
         $kit = static::$kit;            
         
         $modeler::model()->create(substr(Hashes::uniqueHash(),0,15), '', 1, 1);
-        $modeler::exists($modeler::model()->id,'id');
-        $modeler::model()->updateField(substr(Hashes::uniqueHash($modeler::model()->id.$modeler::model()->name),0,15),'name');
-        $modeler::model()->updateField(1,'sequence_type');
-        $modeler::model()->updateField('[]','sequence');
-        $modeler::model()->updateField('[]','grid_areas');
-        $modeler::model()->updateField(json_encode($kit::makeDefaultProcessObject('input')),'input_object');
-        $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('input',$modeler::model())),'input_object_map');
-        //$modeler::model()->updateField(json_encode($kit::makeDefaultProcessInstanceObject($modeler::model())),'process_instance_object');
-        $modeler::model()->updateField('{}','input_form_object');
-        $modeler::model()->updateField(json_encode($kit::makeDefaultProcessObject('output')),'output_object');
-        $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('output',$modeler::model())),'output_object_map');
+        $modeler::model()->name = substr(Hashes::uniqueHash($modeler::model()->id.$modeler::model()->name),0,15);
+        $modeler::model()->sequence_type = 1;
+        $modeler::model()->sequence = '[]';
+        $modeler::model()->grid_areas = '[]';
+        $modeler::model()->input_object = json_encode($kit::makeDefaultProcessObject('input'));
+        $modeler::model()->input_object_map = json_encode($kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
+        //$modeler::model()->process_instance_object = json_encode($kit::makeDefaultProcessInstanceObject($modeler::model()));
+        $modeler::model()->input_form_object = '{}';
+        $modeler::model()->output_object = json_encode($kit::makeDefaultProcessObject('output'));
+        $modeler::model()->output_object_map = json_encode($kit::makeDefaultSequenceObjectMap('output', $modeler::model()));
         $property_object_detail = (object) null;
         $member = 'Run_Process';
         $property_object_detail->$member = $kit::makeDefaultProcessObjectDetailMember($member);
-        $modeler::model()->updateField(json_encode($property_object_detail),'property_object_detail');
-        $modeler::model()->updateField(json_encode($kit::makeDefaultProcessObject('property')),'property_object');
-        $modeler::model()->updateField(json_encode($kit::makeDefaultSequenceObjectMap('property',$modeler::model())),'property_object_map');
-        $modeler::model()->updateField('{}','property_form_object');
-        $modeler::model()->updateField('{}','input_object_detail');
+        $modeler::model()->property_object_detail = json_encode($property_object_detail);
+        $modeler::model()->property_object = json_encode($kit::makeDefaultProcessObject('property'));
+        $modeler::model()->property_object_map = json_encode($kit::makeDefaultSequenceObjectMap('property', $modeler::model()));
+        $modeler::model()->property_form_object = '{}';
+        $modeler::model()->input_object_detail = '{}';
         /*
         $output_object_detail = (object) null;
         $member = 'Success';
         $output_object_detail->$member = $kit::makeDefaultProcessObjectDetailMember($member);
-        $modeler::model()->updateField(json_encode($output_object_detail),'output_object_detail');
+        $modeler::model()->output_object_detail = json_encode($output_object_detail);
         */
-        $modeler::model()->updateField('{}','output_object_detail');
-        $modeler::model()->updateField($owner_id,'owner_id');
-        //$modeler::model()->updateField(0,'safe');
-        //`$modeler::model()->updateField(0,'level');
-        $modeler::model()->updateField('{"display_name":"'.$modeler::model()->name.'"}','detail');
-        
+        $modeler::model()->output_object_detail = '{}';
+        $modeler::model()->owner_id = $owner_id;
+        //$modeler::model()->safe = 0;
+        //`$modeler::model()->level = 0;
+        $modeler::model()->detail = '{"display_name":"'.$modeler::model()->name.'"}';
+        $modeler::model()->save();
+
         self::maintenance();
         
         return $modeler::model();
@@ -118,28 +119,30 @@ trait ORMModelManageSequenceTrait {
         
         $model_copy = new $modeler::$model;
         $model_copy->create($name, $printable_name, 1, 1);
-        $model_copy->exists($model_copy->id,'id');
-        $model_copy->updateField($modeler::model()->id,'cloned_from_id');
-        $model_copy->updateField(1,'sequence_type');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->sequence)),'sequence');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->safe)),'safe');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->level)),'level');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->detail)),'detail');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->grid_areas)),'grid_areas');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->input_object)),'input_object');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->input_object)),'input_object_detail');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->input_object_map)),'input_object_map');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->input_form_object)),'input_form_object');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->output_object)),'output_object');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->input_object)),'output_object_detail');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->output_object_map)),'output_object_map');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->property_object)),'property_object');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->input_object)),'property_object_detail');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->property_object_map)),'property_object_map');
-        $model_copy->updateField(json_encode(json_decode($modeler::model()->property_form_object)),'property_form_object');
-        $model_copy->updateField($owner,'owner_id');
-        $model_copy->updateField(($modeler::model()->times_cloned + 1),'times_cloned');
-        
+        $model_copy->cloned_from_id = $modeler::model()->id;
+        $model_copy->sequence_type = 1;
+        $model_copy->sequence = $modeler::model()->sequence;
+        //$model_copy->safe = $modeler::model()->safe;
+        //$model_copy->level = $modeler::model()->level;
+        $model_copy->detail = $modeler::model()->detail;
+        $model_copy->grid_areas = $modeler::model()->grid_areas;
+        $model_copy->input_object = $modeler::model()->input_object;
+        $model_copy->input_object_detail = $modeler::model()->input_object;
+        $model_copy->input_object_map = $modeler::model()->input_object_map;
+        $model_copy->input_form_object = $modeler::model()->input_form_object;
+        $model_copy->output_object = $modeler::model()->output_object;
+        $model_copy->output_object_detail = $modeler::model()->input_object;
+        $model_copy->output_object_map = $modeler::model()->output_object_map;
+        $model_copy->property_object = $modeler::model()->property_object;
+        $model_copy->property_object_detail = $modeler::model()->input_object;
+        $model_copy->property_object_map = $modeler::model()->property_object_map;
+        $model_copy->property_form_object = $modeler::model()->property_form_object;
+        $model_copy->owner_id = $owner,'owner_id');
+        $model_copy->times_cloned = 0;
+        $model_copy->save();
+        $modeler::model()->times_cloned + 1;
+        $modeler::model()->save();
+
 		self::maintenance($model_copy);
         
         return $modeler::model();
@@ -154,19 +157,19 @@ trait ORMModelManageSequenceTrait {
             
         if(!SequodeAuthority::isSequence()){return $modeler::model();}
         
-        $modeler::model()->updateField(json_encode($kit::defaultGridAreas(count(json_decode($modeler::model()->sequence)))),'grid_areas');
-		$modeler::model()->updateField('{}','input_object');
-		$modeler::model()->updateField('{}','property_object');
-		$modeler::model()->updateField('{}','output_object');
-		$modeler::model()->updateField('{}','input_form_object');
-		$modeler::model()->updateField('{}','property_form_object');
-		$modeler::model()->updateField('{}','process_description_node');
-		$modeler::model()->updateField(json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('input',$modeler::model()))),'input_object_map');
-		$modeler::model()->updateField(json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('property',$modeler::model()))),'property_object_map');
-		$modeler::model()->updateField(json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('output',$modeler::model()))),'output_object_map');
-        $modeler::model()->updateField('{}','input_object_detail');
-        $modeler::model()->updateField('{}','property_object_detail');
-        $modeler::model()->updateField('{}','output_object_detail');
+        $modeler::model()->grid_areas = json_encode($kit::defaultGridAreas(count(json_decode($modeler::model()->sequence))));
+		$modeler::model()->input_object = '{}';
+		$modeler::model()->property_object = '{}';
+		$modeler::model()->output_object = '{}';
+		$modeler::model()->input_form_object = '{}';
+		$modeler::model()->property_form_object = '{}';
+		$modeler::model()->process_description_node = '{}';
+		$modeler::model()->input_object_map = json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('input', $modeler::model())));
+		$modeler::model()->property_object_map = json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('property', $modeler::model())));
+		$modeler::model()->output_object_map = json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('output', $modeler::model())));
+        $modeler::model()->input_object_detail = '{}';
+        $modeler::model()->property_object_detail = '{}';
+        $modeler::model()->output_object_detail = '{}';
         
 		self::maintenance();
         
@@ -194,8 +197,9 @@ trait ORMModelManageSequenceTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-		$modeler::model()->updateField('[]','sequence');
-        
+		$modeler::model()->sequence = '[]';
+		$modeler::model()->save();
+
 		self::makeDefaultSequencedSequode();
         
         return $modeler::model();
@@ -236,16 +240,18 @@ trait ORMModelManageSequenceTrait {
             
             self::updateSequence($sequence_map);
             
-            $modeler::model()->updateField(json_encode($grid_areas),'grid_areas');
+            $modeler::model()->grid_areas = json_encode($grid_areas);
             
-            if($grid_modifier > 0){
-                
+            if($grid_modifier > 0) {
+
                 $grid_areas = $kit::modifyGridAreas($position, $grid_areas, $modeler::model());
-                
-                $modeler::model()->updateField(json_encode($grid_areas),'grid_areas');
-                
+
+                $modeler::model()->grid_areas = json_encode($grid_areas);
+
             }
-            
+
+            $modeler::model()->save();
+
             self::maintenance();
             
             return $modeler::model();
@@ -273,15 +279,17 @@ trait ORMModelManageSequenceTrait {
         
 		self::updateSequence($sequence_map);
         
-		$modeler::model()->updateField(json_encode($grid_areas),'grid_areas');
+		$modeler::model()->grid_areas = json_encode($grid_areas);
         
         if($grid_modifier > 0){
             
             $grid_areas = $kit::modifyGridAreas($to_position, $grid_areas, $modeler::model());
             
-            $modeler::model()->updateField(json_encode($grid_areas),'grid_areas');
+            $modeler::model()->grid_areas = json_encode($grid_areas);
             
         }
+
+        $modeler::model()->save();
         
         self::maintenance();
         
@@ -306,8 +314,9 @@ trait ORMModelManageSequenceTrait {
         
 		self::updateSequence($sequence_map);
         
-		$modeler::model()->updateField(json_encode($grid_areas),'grid_areas');
-        
+		$modeler::model()->grid_areas = json_encode($grid_areas);
+		$modeler::model()->save();
+
         self::maintenance();
         
 		return $modeler::model();
@@ -596,10 +605,12 @@ trait ORMModelManageSequenceTrait {
 		$property_map_array = array_merge([$root_property_map_object],$property_map_array);
 		$output_map_array = array_merge([$root_output_map_object],$output_map_array);
         
-        $modeler::model()->updateField(json_encode($new_sequence),'sequence');
-		$modeler::model()->updateField(json_encode($input_map_array),'input_object_map');
-		$modeler::model()->updateField(json_encode($property_map_array),'property_object_map');
-		$modeler::model()->updateField(json_encode($output_map_array),'output_object_map');
+        $modeler::model()->sequence = json_encode($new_sequence);
+		$modeler::model()->input_object_map = json_encode($input_map_array);
+		$modeler::model()->property_object_map = json_encode($property_map_array);
+		$modeler::model()->output_object_map = json_encode($output_map_array);
+		$modeler::model()->save();
+
 		unset($object_cache);
 		
 		return self::maintenance();

@@ -29,9 +29,9 @@ class ORM {
 
     public function __get($member)
     {
-        if (isset($this->_members[$member]) && array_key_exists($member, self::normalizations) && array_key_exists('get', self::normalizations[$member])) {
+        if (isset($this->_members[$member]) && array_key_exists($member, static::normalizations) && array_key_exists('get', static::normalizations[$member])) {
             //    echo "Getting {$member}," . PHP_EOL . " normalize is on." . PHP_EOL;
-            return  forward_static_call_array([self, self::normalizations[$member]['get']], [$this->_members[$member]]);
+            return  forward_static_call_array([static::class, static::normalizations[$member]['get']], [$this->_members[$member]]);
         } elseif (isset($this->_members[$member])) {
             //    echo "Getting {$member}," . PHP_EOL . " normalize is off." . PHP_EOL;
             return $this->_members[$member];
@@ -43,9 +43,9 @@ class ORM {
     }
 
     public function __set($member, $value){
-        if (isset($this->members[$member]) && $this->normalize && array_key_exists($member, self::normalizations) && array_key_exists('set', self::normalizations[$member])) {
+        if (isset($this->members[$member]) && array_key_exists($member, static::normalizations) && array_key_exists('set', static::normalizations[$member])) {
             //    echo "Setting {$member}," . PHP_EOL . " normalize is on." . PHP_EOL;
-            $this->_members[$member] = forward_static_call_array([self, self::normalizations[$member]['get']], [$value]);
+            $this->_members[$member] = forward_static_call_array([static::class, static::normalizations[$member]['set']], [$value]);
         } elseif (isset($this->members[$member])) {
             //    echo "Setting {$member}," . PHP_EOL . " normalize is off." . PHP_EOL;
             $this->_members[$member] = $value;
@@ -112,17 +112,18 @@ class ORM {
 			";
         $this->database->query($sql);
         $this->_members['id'] = $this->database->insertId;
+        $this->exists($this->database->insertId, 'id');
         return $this;
     }
-    public function saveChangedMembers(){
-        if(count($this->all)!=0){return false;}
-        if(trim($id) != '' && !$this->exists($id,'id')){return false;}
-        if(!$this->id){return false;}
+    public function save(){
+        $this->all = [];
+        if(!isset($this->_members['id'])){return false;}
         foreach($this->members as $member=>$value){
-            if($value !== $loop_value['value'] && $member != 'id'){
-                $this->updateField($value,$member);
+            if($this->members[$member]['value'] !== $this->_members[$member]){
+                $this->updateField($this->_members[$member], $member);
             }
         }
+        return $this;
     }
     //updates a field of a record
     public function updateField($value, $member){
@@ -148,6 +149,7 @@ class ORM {
                 break;
         }
         if($this->database->query($sql)){
+            $this->members[$member]['value'] = $value;
             $this->_members[$member] = $value;
             return $this;
         }else{

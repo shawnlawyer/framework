@@ -28,9 +28,11 @@ trait ManageSessionStore {
         
         $modeler = static::$modeler;
         $store = static::$store;
-        
-        $modeler::model()->updateField(Hashes::uniqueHash(),'session_id');
-        /*$modeler::model()->updateField(time() - 86400,'session_start');*/
+
+        /*$modeler::model()->session_start = time() - 86400;*/
+
+        $modeler::model()->session_id = Hashes::uniqueHash();
+        $modeler::model()->save();
         $store::clear();
         
         $modeler::model(null);
@@ -42,7 +44,7 @@ trait ManageSessionStore {
         $modeler = static::$modeler;
         $store = static::$store;
         
-        $modeler::model()->delete($modeler::model()->id);
+        $modeler::model()->delete();
         
         $store::clear();
         
@@ -64,8 +66,9 @@ trait ManageSessionStore {
         $modeler = static::$modeler;
         $store = static::$store;
         
-        $modeler::model()->updateField(serialize($store::container('getAll')),'session_data');
-        
+        $modeler::model()->session_data = serialize($store::container('getAll'));
+        $modeler::model()->save();
+
     }
     
 }
