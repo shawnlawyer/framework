@@ -82,7 +82,11 @@ class Model extends ORM {
         'property_form_object' => [
                 'get' => 'jsonToObject',
                 'set' => 'objectToJson'
-        ]
+        ],
+        'mine_object' => [
+                'get' => 'jsonToObject',
+                'set' => 'objectToJson'
+        ],
     ];
 
     public function create($name = '', $printable_name = '', $usage_type = '', $version = ''){
