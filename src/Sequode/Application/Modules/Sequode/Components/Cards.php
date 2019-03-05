@@ -166,21 +166,21 @@ class Cards {
         ];
         $_o->body[] = (object) ['js' => DOMElementKitJS::registrySetContext($context,['node'])];
 
-        $input_object = json_decode($_model->input_object);
-        $property_object = json_decode($_model->property_object);
-        $output_object = json_decode($_model->output_object);
-        $input_object_detail = json_decode($_model->input_object_detail);
-        $property_object_detail = json_decode($_model->property_object_detail);
-        $output_object_detail = json_decode($_model->output_object_detail);
-        $input_form_object = json_decode($_model->input_form_object);
-        $property_form_object = json_decode($_model->property_form_object);
+        $input_object = $_model->input_object;
+        $property_object = $_model->property_object;
+        $output_object = $_model->output_object;
+        $input_object_detail = $_model->input_object_detail;
+        $property_object_detail = $_model->property_object_detail;
+        $output_object_detail = $_model->output_object_detail;
+        $input_form_object = $_model->input_form_object;
+        $property_form_object = $_model->property_form_object;
         
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $text = $_model->name;
         $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$_model->id]), $text, 'settings') : $text;
         
         $_o->body[] = CardKitHTML::sublineBlock('Description');
-        $text = json_decode($_model->detail)->description;
+        $text = $_model->detail->description;
         $text = (!empty($text)) ? $text : 'Sequode needs description.';
         $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('description'), [$_model->id]), $text, 'settings') : $text;
         
@@ -199,7 +199,7 @@ class Cards {
         }
         if(SequodeAuthority::isSequence()){
             $_o->body[] = CardKitHTML::sublineBlock('Sequence');
-            $sequence = json_decode($_model->sequence);
+            $sequence = $_model->sequence;
             $model_object_cache = [];
             if(!SequodeAuthority::isEmptySequence($_model)){
                 foreach($sequence as $loop_sequence_key => $loop_model_id){
@@ -281,7 +281,7 @@ class Cards {
         
         $_o->head = $_model->name;
         
-        $sequence = json_decode($_model->sequence);
+        $sequence = $_model->sequence;
         foreach($sequence as $loop_sequence_key => $loop_model_id){
             $_o->body[] = ModuleCard::render($module::$registry_key,'internalPositionForms', [$loop_sequence_key]);
         }
@@ -303,12 +303,12 @@ class Cards {
         $_o->menu = (object) null;
         
         
-        $input_object_map = json_decode($_model->input_object_map);
-        $default_input_object_map = json_decode($_model->default_input_object_map);
-        $property_object_map = json_decode($_model->property_object_map);
-        $default_property_object_map = json_decode($_model->default_property_object_map);
+        $input_object_map = $_model->input_object_map;
+        $default_input_object_map = $_model->default_input_object_map;
+        $property_object_map = $_model->property_object_map;
+        $default_property_object_map = $_model->default_property_object_map;
         
-        $sequence = json_decode($_model->sequence);
+        $sequence = $_model->sequence;
         if(!isset($sequence[$position])){ return; }
         $sequence_model_id = $sequence[$position];
         $sequence_model = new SequodeModeler::$model;
@@ -318,8 +318,8 @@ class Cards {
         $_o->menu->items = self::modelOperationsMenuItems('', $sequence_model);
         $_o->body = [];
         $_o->body[] = '';
-        $sequence_model->input_object_detail = json_decode($sequence_model->input_object_detail);
-        $sequence_model->property_object_detail = json_decode($sequence_model->property_object_detail);
+        $sequence_model->input_object_detail = $sequence_model->input_object_detail;
+        $sequence_model->property_object_detail = $sequence_model->property_object_detail;
         
         $types = ['input', 'property'];
         $type_labels = ['input' => 'Inputs', 'property' => 'Properties'];

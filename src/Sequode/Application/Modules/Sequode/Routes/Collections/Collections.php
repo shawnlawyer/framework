@@ -128,11 +128,11 @@ class Collections{
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        
+
         $collection = 'sequode_favorites';
         $nodes = [];
         if(!empty(AccountModeler::model()->$collection)){
-            $_model_ids = json_decode(AccountModeler::model()->$collection);
+            $_model_ids = AccountModeler::model()->$collection;
             foreach($_model_ids as $_model_id){
                 if($modeler::exists($_model_id,'id')){
                     $nodes[] = '"'. $modeler::model()->id .'":{"id":"'.$modeler::model()->id.'","n":"'.$modeler::model()->name.'"}';
@@ -176,7 +176,7 @@ class Collections{
         }elseif(SessionStore::is('palette')){
             $sequode_model = new $modeler::$model;
             $sequode_model->exists(SessionStore::get('palette'),'id');
-            $sequence = array_unique(json_decode($sequode_model->sequence));
+            $sequence = array_unique($sequode_model->sequence);
             $nodes = [];
             foreach($sequence as $id){
                 $sequode_model->exists($id,'id');

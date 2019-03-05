@@ -45,7 +45,7 @@ class Operations {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $operations = $module::model()->operations;
-        if ($confirmed===false && is_array($sequence) && count(json_decode($modeler::model()->sequence)) != 0){
+        if ($confirmed===false){
             $js = [];
             $js[] = 'if(';
             $js[] = 'confirm(\'Are you sure you want to empty your sequode favorites?\')';

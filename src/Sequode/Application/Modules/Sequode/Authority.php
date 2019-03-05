@@ -15,12 +15,12 @@ class Authority {
     public static function isEmptySequence($_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return (count(json_decode($_model->sequence)) == 0) ? true : false;
+        return (count($_model->sequence) == 0) ? true : false;
     }
     public static function isFullSequence($_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return (!(count(json_decode($_model->sequence)) <= 33)) ? true : false;
+        return (!(count($_model->sequence) <= 33)) ? true : false;
     }
     public static function isCode($_model = null){
         $modeler = static::$modeler;
@@ -40,12 +40,12 @@ class Authority {
     public static function hasInputsForm($_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return ($_model->input_object != '{}') ? true : false;
+        return ($_model->input_object != (object) null) ? true : false;
     }
     public static function hasPropertiesForm($_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return ($_model->propeties_object != '{}') ? true : false;
+        return ($_model->propeties_object != (object) null) ? true : false;
     }
     public static function isTenacyDedicated($_model = null){
         $modeler = static::$modeler;

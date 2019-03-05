@@ -24,7 +24,7 @@ trait ORMModelSetFormInputComponentSettingsTrait {
                 
         }
         
-		$form_object = json_decode($modeler::model()->$object_member);
+		$form_object = $modeler::model()->$object_member;
 		$component = new FormInputModel;
 		if(!$component->exists($input_object->Component,'name')){
             

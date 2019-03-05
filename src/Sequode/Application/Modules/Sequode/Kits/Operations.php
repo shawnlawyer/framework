@@ -72,10 +72,10 @@ class Operations{
                 $node = self::addOnForSequodeCodeNode($node,$sequode_model);
                 break;
             case 1:
-                $node->s = json_decode($sequode_model->sequence);
+                $node->s = $sequode_model->sequence;
                 $node->m = [];
-                $node->grid_areas = json_decode($sequode_model->grid_areas);
-                $node = self::addOnForSequodeSequenceNode($node,$sequode_model);
+                $node->grid_areas = $sequode_model->grid_areas;
+                $node = self::addOnForSequodeSequenceNode($node, $sequode_model);
                 break;
         }
         return $node;
@@ -84,21 +84,21 @@ class Operations{
         if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
             
         if(!empty($sequode_model->input_object)){
-            foreach(json_decode($sequode_model->input_object) as $loop_member => $loop_value){
+            foreach($sequode_model->input_object as $loop_member => $loop_value){
                 $object = (object) null;
                 $object->n = $loop_member;
                 $node->i[] = $object;
             }
         }
         if(!empty($sequode_model->property_object)){
-            foreach(json_decode($sequode_model->property_object) as $loop_member => $loop_value){
+            foreach($sequode_model->property_object as $loop_member => $loop_value){
                 $object = (object) null;
                 $object->n = $loop_member;
                 $node->p[] = $object;
             }
         }
         if(!empty($sequode_model->output_object)){
-            foreach(json_decode($sequode_model->output_object) as $loop_member => $loop_value){
+            foreach($sequode_model->output_object as $loop_member => $loop_value){
                 $object = (object) null;
                 $object->n = $loop_member;
                 $node->o[] = $object;
@@ -144,7 +144,7 @@ class Operations{
         $internal_output_key = 0;
         $internal_property_key = 0;
         
-        $input_object = json_decode($sequode_model->input_object);
+        $input_object = $sequode_model->input_object;
         if($input_object != (object) null){
             foreach($input_object as $loop_member => $loop_value){
                 $input_nodes[md5('Inp_Obj' .'0'. $loop_member)] = intval(count($input_nodes));
@@ -153,8 +153,8 @@ class Operations{
                 $node->i[] = $object;
             }
         }
-        $input_object_map = json_decode($sequode_model->input_object_map);
-        $property_object = json_decode(SequodeModeler::model()->property_object);
+        $input_object_map = $sequode_model->input_object_map;
+        $property_object = SequodeModeler::model()->property_object;
         if($property_object != (object) null){
             foreach($property_object as $loop_member => $loop_value){
                 $property_nodes[md5('Prop_Obj' .'0'. $loop_member)] = intval(count($property_nodes));
@@ -163,8 +163,8 @@ class Operations{
                 $node->p[] = $object;
             }
         }
-        $property_object_map = json_decode($sequode_model->property_object_map);
-        $sequence = json_decode($sequode_model->sequence);
+        $property_object_map = $sequode_model->property_object_map;
+        $sequence = $sequode_model->sequence;
         $model_object_cache = [];
         $object_cache = [];
         foreach($sequence as $loop_sequence_key => $loop_model_id){
@@ -172,9 +172,9 @@ class Operations{
                 $model_object_cache[$loop_model_id] = new SequodeModeler::$model;
                 $model_object_cache[$loop_model_id]->exists($loop_model_id,'id');
                 $object_cache[$loop_model_id] = (object) null;
-                $object_cache[$loop_model_id]->input_object = json_decode($model_object_cache[$loop_model_id]->input_object);
-                $object_cache[$loop_model_id]->property_object = json_decode($model_object_cache[$loop_model_id]->property_object);
-                $object_cache[$loop_model_id]->output_object = json_decode($model_object_cache[$loop_model_id]->output_object);
+                $object_cache[$loop_model_id]->input_object = $model_object_cache[$loop_model_id]->input_object;
+                $object_cache[$loop_model_id]->property_object = $model_object_cache[$loop_model_id]->property_object;
+                $object_cache[$loop_model_id]->output_object = $model_object_cache[$loop_model_id]->output_object;
             }
             $loop_input_object = $object_cache[$loop_model_id]->input_object;
             $loop_property_object = $object_cache[$loop_model_id]->property_object;
@@ -229,7 +229,7 @@ class Operations{
                 }
             }
             if($loop_output_object != (object) null){
-                foreach(json_decode(json_encode($loop_output_object)) as $loop_member => $loop_value){
+                foreach($loop_output_object as $loop_member => $loop_value){
                     $internal_output_key++;
                     $output_nodes[md5('Out_Obj'.($loop_sequence_key + 1).$loop_member)] = intval(count($output_nodes));	
                     $object = (object) null;
@@ -240,10 +240,10 @@ class Operations{
             }
             $node->m[] = $sub_node;
         }
-        $output_object = json_decode(SequodeModeler::model()->output_object);
+        $output_object = SequodeModeler::model()->output_object;
         if($output_object != (object) null){
-            $output_object_map = json_decode($sequode_model->output_object_map);
-            $default_output_object_map = json_decode($sequode_model->default_output_object_map);
+            $output_object_map = $sequode_model->output_object_map;
+            $default_output_object_map = $sequode_model->default_output_object_map;
             $output_source_keys = [];
             foreach($output_object_map as $loop_key => $loop_object){
                 if(intval($loop_object->Key) != 0 || (intval($loop_object->Key) == 0 && $loop_object->Member == 'Root')){
@@ -294,8 +294,8 @@ class Operations{
                 $type_map = 'output_object_map';
                 break;
         }
-		if($sequode_model->$type_map == '[]'){return $new_object;}
-		$map = json_decode($sequode_model->$type_map);
+		if($sequode_model->$type_map == []){return $new_object;}
+		$map = $sequode_model->$type_map;
         if(count($map) < 1){return $new_object;}
 		foreach($map as $key => $object){
 			if($object->Key == 0  && $object->Member != 'Root' && $object->Stack == $stack){
@@ -334,9 +334,9 @@ class Operations{
             default:
                 return false;
         }
-		$object = json_decode($sequode_model->$type_object);
+		$object = $sequode_model->$type_object;
         if(!$object){return (object) null;}
-		$form_object = json_decode($sequode_model->$type_form);
+		$form_object = $sequode_model->$type_form;
         foreach($object as $loop_member => $loop_value){
             //this is temporary till all sequodes can have maintenance run. 
             if($type == 'property' && $loop_member == 'Run_Process'){
@@ -359,7 +359,7 @@ class Operations{
     }
     public static function updateProcessObjectDetails($type,  $sequode_model = null){
         if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
-        $sequence = json_decode($sequode_model->sequence);
+        $sequence = $sequode_model->sequence;
         switch($type){
             case 'input':
 				$type_stack = 'Inp_Obj';
@@ -380,10 +380,10 @@ class Operations{
                 $type_map = 'output_object_map';
                 break;
         }
-		$object = json_decode($sequode_model->$type_object);
-		$detail = json_decode($sequode_model->$type_detail);
+		$object = $sequode_model->$type_object;
+		$detail = $sequode_model->$type_detail;
         $default_map = self::makeDefaultSequenceObjectMap($type,$sequode_model);
-        $map = json_decode($sequode_model->$type_map);
+        $map = $sequode_model->$type_map;
         if(!is_object($detail)){
             $detail = (object) null;
         }
@@ -421,7 +421,7 @@ class Operations{
 				$object_cache[$internal_id]->exists($internal_id,'id');
 			}
 			$loop_object = $object_cache[$internal_id];
-			$loop_detail = json_decode($loop_object->$type_detail);
+			$loop_detail = $loop_object->$type_detail;
 			$detail->$external_member = $loop_detail->$internal_member;
 			$detail->$external_member->display_name = $add_member;
 		}
@@ -446,8 +446,8 @@ class Operations{
                 $new_object->Success = self::makeDefaultProcessObjectDetailMember('Success');
                 break;
         }
-		$object = json_decode(SequodeModeler::model()->{$type_detail});
-		$object_detail = json_decode(SequodeModeler::model()->{$type_detail});
+		$object = SequodeModeler::model()->{$type_detail};
+		$object_detail = SequodeModeler::model()->{$type_detail};
         foreach($object as $loop_member => $loop_value){
             $new_object->$loop_member = $object_detail->$loop_member;
 		}
@@ -467,9 +467,9 @@ class Operations{
             default:
                 return false;
         }
-		$object = json_decode($sequode_model->$type_object);
+		$object = $sequode_model->$type_object;
         if(!$object){return (object) null;}
-		$form_object = json_decode($sequode_model->$type_form);
+		$form_object = $sequode_model->$type_form;
         $new_object = (object) null;
         foreach($object as $loop_member => $loop_value){
             $new_object->$loop_member = (isset($form_object->$loop_member)) ? $form_object->$loop_member : null;
@@ -495,13 +495,13 @@ class Operations{
         $object_cache = [];
         $map = [];
 		$map[] = self::makeMapLocationObject($type,0,'Root','');
-        $sequence = json_decode($sequode_model->sequence);
+        $sequence = $sequode_model->sequence;
         foreach( $sequence as $key => $id ){
 			if(!array_key_exists($id, $object_cache)){
 				$object_cache[$id] = new SequodeModeler::$model;
 				$object_cache[$id]->exists($id,'id');
 			}
-			$loop_object = json_decode($object_cache[$id]->$type_object);
+			$loop_object = $object_cache[$id]->$type_object;
 			foreach( $loop_object as $member => $value){
                 $map[] = self::makeMapLocationObject($type,$key+1,$member,$loop_object->$member);
 			}
@@ -637,8 +637,8 @@ class Operations{
     */
 	public static function getGridAreasKeyFromPosition($position, $sequode_model = null){
         if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
-		$sequence = json_decode($sequode_model->sequence);
-		$grid_areas = json_decode($sequode_model->grid_areas);
+		$sequence = $sequode_model->sequence;
+		$grid_areas = $sequode_model->grid_areas;
 		if($position == count($sequence)){
 			return count($grid_areas) - 1;
 		}

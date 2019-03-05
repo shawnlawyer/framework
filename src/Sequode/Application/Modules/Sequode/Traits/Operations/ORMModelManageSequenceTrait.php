@@ -16,33 +16,33 @@ trait ORMModelManageSequenceTrait {
             
         if(SequodeAuthority::isSequence()){
             
-            $modeler::model()->input_object = json_encode($kit::makeProcessObject('input'));
-            $modeler::model()->property_object = json_encode($kit::makeProcessObject('property'));
-            $modeler::model()->output_object = json_encode($kit::makeProcessObject('output'));
-            //$modeler::model()->process_instance_object = json_encode($kit::makeProcessInstanceObject());
-            $modeler::model()->input_object_map = json_encode($kit::removeKeys(json_decode($modeler::model()->input_object_map)));
-            $modeler::model()->property_object_map = json_encode($kit::removeKeys(json_decode($modeler::model()->property_object_map)));
-            $modeler::model()->output_object_map = json_encode($kit::removeKeys(json_decode($modeler::model()->output_object_map)));
+            $modeler::model()->input_object =  $kit::makeProcessObject('input');
+            $modeler::model()->property_object =  $kit::makeProcessObject('property');
+            $modeler::model()->output_object =  $kit::makeProcessObject('output');
+            //$modeler::model()->process_instance_object =  $kit::makeProcessInstanceObject());
+            $modeler::model()->input_object_map = $kit::removeKeys($modeler::model()->input_object_map);
+            $modeler::model()->property_object_map = $kit::removeKeys($modeler::model()->property_object_map);
+            $modeler::model()->output_object_map = $kit::removeKeys($modeler::model()->output_object_map);
             
         }
         
-        $modeler::model()->input_form_object = json_encode($kit::pruneFormObject('input'));
-        $modeler::model()->property_form_object = json_encode($kit::pruneFormObject('property'));
-        $modeler::model()->input_form_object = json_encode($kit::updateFormObjectMembers('input'));
-        $modeler::model()->property_form_object = json_encode($kit::updateFormObjectMembers('property'));
+        $modeler::model()->input_form_object = $kit::pruneFormObject('input');
+        $modeler::model()->property_form_object = $kit::pruneFormObject('property');
+        $modeler::model()->input_form_object = $kit::updateFormObjectMembers('input');
+        $modeler::model()->property_form_object = $kit::updateFormObjectMembers('property');
         
-        $modeler::model()->input_object_detail = json_encode($kit::updateProcessObjectDetails('input'));
-        $modeler::model()->property_object_detail = json_encode($kit::updateProcessObjectDetails('property'));
-        $modeler::model()->output_object_detail = json_encode($kit::updateProcessObjectDetails('output'));
-        $modeler::model()->input_object_detail = json_encode($kit::pruneProcessObjectDetails('input'));
-        $modeler::model()->property_object_detail = json_encode($kit::pruneProcessObjectDetails('property'));
-        $modeler::model()->output_object_detail = json_encode($kit::pruneProcessObjectDetails('output'));
+        $modeler::model()->input_object_detail = $kit::updateProcessObjectDetails('input');
+        $modeler::model()->property_object_detail = $kit::updateProcessObjectDetails('property');
+        $modeler::model()->output_object_detail = $kit::updateProcessObjectDetails('output');
+        $modeler::model()->input_object_detail = $kit::pruneProcessObjectDetails('input');
+        $modeler::model()->property_object_detail = $kit::pruneProcessObjectDetails('property');
+        $modeler::model()->output_object_detail = $kit::pruneProcessObjectDetails('output');
         
         if(SequodeAuthority::isSequence()){
             
-            $modeler::model()->default_input_object_map = json_encode($kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
-            $modeler::model()->default_property_object_map = json_encode($kit::makeDefaultSequenceObjectMap('property', $modeler::model()));
-            $modeler::model()->default_output_object_map = json_encode($kit::makeDefaultSequenceObjectMap('output', $modeler::model()));
+            $modeler::model()->default_input_object_map = $kit::makeDefaultSequenceObjectMap('input', $modeler::model());
+            $modeler::model()->default_property_object_map = $kit::makeDefaultSequenceObjectMap('property', $modeler::model());
+            $modeler::model()->default_output_object_map = $kit::makeDefaultSequenceObjectMap('output', $modeler::model());
             
         }
         $modeler::model()->save();
@@ -59,7 +59,7 @@ trait ORMModelManageSequenceTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-        $modeler::model()->process_description_node = json_encode($kit::makeSequodeProcessDescriptionNode());
+        $modeler::model()->process_description_node = $kit::makeSequodeProcessDescriptionNode();
         $modeler::model()->save();
 
         return $modeler::model();
@@ -74,33 +74,33 @@ trait ORMModelManageSequenceTrait {
         $modeler::model()->create(substr(Hashes::uniqueHash(),0,15), '', 1, 1);
         $modeler::model()->name = substr(Hashes::uniqueHash($modeler::model()->id.$modeler::model()->name),0,15);
         $modeler::model()->sequence_type = 1;
-        $modeler::model()->sequence = '[]';
-        $modeler::model()->grid_areas = '[]';
-        $modeler::model()->input_object = json_encode($kit::makeDefaultProcessObject('input'));
-        $modeler::model()->input_object_map = json_encode($kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
+        $modeler::model()->sequence = [];
+        $modeler::model()->grid_areas = [];
+        $modeler::model()->input_object = $kit::makeDefaultProcessObject('input'));
+        $modeler::model()->input_object_map = $kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
         //$modeler::model()->process_instance_object = json_encode($kit::makeDefaultProcessInstanceObject($modeler::model()));
-        $modeler::model()->input_form_object = '{}';
-        $modeler::model()->output_object = json_encode($kit::makeDefaultProcessObject('output'));
-        $modeler::model()->output_object_map = json_encode($kit::makeDefaultSequenceObjectMap('output', $modeler::model()));
+        $modeler::model()->input_form_object = (object) [];
+        $modeler::model()->output_object = $kit::makeDefaultProcessObject('output');
+        $modeler::model()->output_object_map = $kit::makeDefaultSequenceObjectMap('output', $modeler::model());
         $property_object_detail = (object) null;
         $member = 'Run_Process';
         $property_object_detail->$member = $kit::makeDefaultProcessObjectDetailMember($member);
-        $modeler::model()->property_object_detail = json_encode($property_object_detail);
-        $modeler::model()->property_object = json_encode($kit::makeDefaultProcessObject('property'));
-        $modeler::model()->property_object_map = json_encode($kit::makeDefaultSequenceObjectMap('property', $modeler::model()));
-        $modeler::model()->property_form_object = '{}';
-        $modeler::model()->input_object_detail = '{}';
+        $modeler::model()->property_object_detail = $property_object_detail;
+        $modeler::model()->property_object = $kit::makeDefaultProcessObject('property');
+        $modeler::model()->property_object_map = $kit::makeDefaultSequenceObjectMap('property', $modeler::model());
+        $modeler::model()->property_form_object = (object) null;
+        $modeler::model()->input_object_detail = (object) null;
         /*
         $output_object_detail = (object) null;
         $member = 'Success';
         $output_object_detail->$member = $kit::makeDefaultProcessObjectDetailMember($member);
         $modeler::model()->output_object_detail = json_encode($output_object_detail);
         */
-        $modeler::model()->output_object_detail = '{}';
+        $modeler::model()->output_object_detail = (object) null;
         $modeler::model()->owner_id = $owner_id;
         //$modeler::model()->safe = 0;
         //`$modeler::model()->level = 0;
-        $modeler::model()->detail = '{"display_name":"'.$modeler::model()->name.'"}';
+        $modeler::model()->detail = (object)["display_name" => $modeler::model()->name];
         $modeler::model()->save();
 
         self::maintenance();
@@ -157,19 +157,19 @@ trait ORMModelManageSequenceTrait {
             
         if(!SequodeAuthority::isSequence()){return $modeler::model();}
         
-        $modeler::model()->grid_areas = json_encode($kit::defaultGridAreas(count(json_decode($modeler::model()->sequence))));
-		$modeler::model()->input_object = '{}';
-		$modeler::model()->property_object = '{}';
-		$modeler::model()->output_object = '{}';
-		$modeler::model()->input_form_object = '{}';
-		$modeler::model()->property_form_object = '{}';
-		$modeler::model()->process_description_node = '{}';
-		$modeler::model()->input_object_map = json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('input', $modeler::model())));
-		$modeler::model()->property_object_map = json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('property', $modeler::model())));
-		$modeler::model()->output_object_map = json_encode($kit::removeKeys($kit::makeDefaultSequenceObjectMap('output', $modeler::model())));
-        $modeler::model()->input_object_detail = '{}';
-        $modeler::model()->property_object_detail = '{}';
-        $modeler::model()->output_object_detail = '{}';
+        $modeler::model()->grid_areas = $kit::defaultGridAreas(count($modeler::model()->sequence));
+		$modeler::model()->input_object = (object) null;
+		$modeler::model()->property_object = (object) null;
+		$modeler::model()->output_object = (object) null;
+		$modeler::model()->input_form_object = (object) null;
+		$modeler::model()->property_form_object = (object) null;
+		$modeler::model()->process_description_node = (object) null;
+		$modeler::model()->input_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
+		$modeler::model()->property_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('property', $modeler::model()));
+		$modeler::model()->output_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('output', $modeler::model()));
+        $modeler::model()->input_object_detail = (object) null;
+        $modeler::model()->property_object_detail = (object) null;
+        $modeler::model()->output_object_detail = (object) null;
         
 		self::maintenance();
         
@@ -185,7 +185,7 @@ trait ORMModelManageSequenceTrait {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         if(!SequodeAuthority::isSequence()){return $modeler::model();}
-        $modeler::model()->delete($modeler::model()->id);
+        $modeler::model()->delete();
         return $modeler::model();
         
     }
@@ -197,7 +197,7 @@ trait ORMModelManageSequenceTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-		$modeler::model()->sequence = '[]';
+		$modeler::model()->sequence = [];
 		$modeler::model()->save();
 
 		self::makeDefaultSequencedSequode();
@@ -216,7 +216,7 @@ trait ORMModelManageSequenceTrait {
 		if($position_tuner != null ){ $position_tuner = intval($position_tuner);}; 
 		if($grid_modifier != null ){ $grid_modifier = intval($grid_modifier);}; 
 		
-		$sequence = json_decode($modeler::model()->sequence);
+		$sequence = $modeler::model()->sequence;
         $position = (count($sequence) == 0) ? 0 : $kit::getSequencePosition($position, $sequence, 1);
 		
 		$sequence_map = $kit::makeUpdateSequenceInputMap($sequence);
@@ -229,7 +229,7 @@ trait ORMModelManageSequenceTrait {
             
         }else{
             
-            $grid_areas = json_decode($modeler::model()->grid_areas);
+            $grid_areas = $modeler::model()->grid_areas;
             $grid_areas = $kit::addToGridArea($position, $grid_areas, $modeler::model());
             
             if(count($sequence) != 0){
@@ -240,13 +240,13 @@ trait ORMModelManageSequenceTrait {
             
             self::updateSequence($sequence_map);
             
-            $modeler::model()->grid_areas = json_encode($grid_areas);
+            $modeler::model()->grid_areas = $grid_areas;
             
             if($grid_modifier > 0) {
 
                 $grid_areas = $kit::modifyGridAreas($position, $grid_areas, $modeler::model());
 
-                $modeler::model()->grid_areas = json_encode($grid_areas);
+                $modeler::model()->grid_areas = $grid_areas;
 
             }
 
@@ -267,25 +267,25 @@ trait ORMModelManageSequenceTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-		$sequence = json_decode($modeler::model()->sequence);
+		$sequence = $modeler::model()->sequence;
 		$from_position = $kit::getSequencePosition($from_position, $sequence);
 		$to_position = $kit::getSequencePosition($to_position, $sequence);
         $sequence_map = $kit::makeUpdateSequenceInputMap($sequence);
         $sequence_map = $kit::reorderUpdateSequenceInputMap($sequence_map ,$from_position, $to_position);
 		
-        $grid_areas = json_decode($modeler::model()->grid_areas);
+        $grid_areas = $modeler::model()->grid_areas;
 		$grid_areas = $kit::moveFromGridAreaToGridArea($from_position, $to_position, $grid_areas, $modeler::model());
 		$grid_areas = $kit::tuneGridAreaPosition($to_position, $grid_areas, $position_tuner, $modeler::model());
         
 		self::updateSequence($sequence_map);
         
-		$modeler::model()->grid_areas = json_encode($grid_areas);
+		$modeler::model()->grid_areas = $grid_areas;
         
         if($grid_modifier > 0){
             
             $grid_areas = $kit::modifyGridAreas($to_position, $grid_areas, $modeler::model());
             
-            $modeler::model()->grid_areas = json_encode($grid_areas);
+            $modeler::model()->grid_areas = $grid_areas;
             
         }
 
@@ -304,17 +304,17 @@ trait ORMModelManageSequenceTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-		$sequence = json_decode($modeler::model()->sequence);
+		$sequence = $modeler::model()->sequence;
 		$position = $kit::getSequencePosition($position, $sequence);
         $sequence_map = $kit::makeUpdateSequenceInputMap($sequence);
         $sequence_map = $kit::removeFromUpdateSequenceInputMap($sequence_map,$position);
         
-		$grid_areas = json_decode($modeler::model()->grid_areas);
+		$grid_areas = $modeler::model()->grid_areas;
 		$grid_areas = $kit::removeFromGridArea($position, $grid_areas, $modeler::model());
         
 		self::updateSequence($sequence_map);
         
-		$modeler::model()->grid_areas = json_encode($grid_areas);
+		$modeler::model()->grid_areas = $grid_areas;
 		$modeler::model()->save();
 
         self::maintenance();
@@ -330,7 +330,7 @@ trait ORMModelManageSequenceTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
-		$old_sequence = json_decode($modeler::model()->sequence);
+		$old_sequence = $modeler::model()->sequence;
 		$new_sequence = [];
 		$old_sequence_maps = [];
 		
@@ -366,13 +366,13 @@ trait ORMModelManageSequenceTrait {
 			$default_sequence_maps[$key] = ['input_object_map' => [], 'property_object_map' => [], 'output_object_map' => []];
 		}
         
-		$old_input_object_map = json_decode($modeler::model()->input_object_map);
+		$old_input_object_map = $modeler::model()->input_object_map;
 		$root_input_map_object = array_shift($old_input_object_map);
         
-		$old_property_object_map = json_decode($modeler::model()->property_object_map);
+		$old_property_object_map = $modeler::model()->property_object_map;
 		$root_property_map_object = array_shift($old_property_object_map);
 		
-		$old_output_object_map = json_decode($modeler::model()->output_object_map);
+		$old_output_object_map = j$modeler::model()->output_object_map;
 		$root_output_map_object = array_shift($old_output_object_map);
 		
 		$object_cache = [];
@@ -382,11 +382,11 @@ trait ORMModelManageSequenceTrait {
 		foreach( $old_sequence as $key => $value ){
 			if(!array_key_exists($value, $object_cache)){
 				$object_cache[$value] = new $modeler::$model;
-				$object_cache[$value]->exists($value,'id');
+				$object_cache[$value]->exists($value, 'id');
 			}
 			
 			$loop_sequence_map = [];
-			$loop_input_object = json_decode($object_cache[$value]->input_object);
+			$loop_input_object = $object_cache[$value]->input_object;
 			foreach( $loop_input_object as $member ){
 				$loop_map_object = array_shift($old_input_object_map);
 				$loop_sequence_map[] = $loop_map_object;
@@ -394,7 +394,7 @@ trait ORMModelManageSequenceTrait {
 			$old_sequence_maps[$key]['input_object_map'] = $loop_sequence_map;
 			
 			$loop_sequence_map = [];
-			$loop_property_object = json_decode($object_cache[$value]->property_object);
+			$loop_property_object = $object_cache[$value]->property_object;
 			foreach( $loop_property_object as $member ){
 				$loop_map_object = array_shift($old_property_object_map);
 				$loop_sequence_map[] = $loop_map_object;
@@ -402,7 +402,7 @@ trait ORMModelManageSequenceTrait {
 			$old_sequence_maps[$key]['property_object_map'] = $loop_sequence_map;
 			
 			$loop_sequence_map = [];
-			$loop_output_object = json_decode($object_cache[$value]->output_object);
+			$loop_output_object = $object_cache[$value]->output_object;
 			foreach( $loop_output_object as $member ){
 				$loop_map_object = array_shift($old_output_object_map);
 				$loop_sequence_map[] = $loop_map_object;
@@ -424,7 +424,7 @@ trait ORMModelManageSequenceTrait {
 				$object_cache[$object->id]->exists($object->id,'id');
 			}
 			if(!isset($object->order)){
-				$loop_object = json_decode($object_cache[$object->id]->input_object);
+				$loop_object = $object_cache[$object->id]->input_object;
 				$loop_sequence_map = [];
 				foreach($loop_object as $member => $value){
 					$loop_sequence_map[] = $kit::makeMapLocationObject('input','x',$member,$value);
@@ -435,7 +435,7 @@ trait ORMModelManageSequenceTrait {
 			$new_sequence_maps[$key]['input_object_map'] = $loop_sequence_map;
 			
 			if(!isset($object->order)){
-				$loop_object = json_decode($object_cache[$object->id]->property_object);
+				$loop_object = $object_cache[$object->id]->property_object;
 				$loop_sequence_map = [];
 				foreach($loop_object as $member => $value){
 					$loop_sequence_map[] = $kit::makeMapLocationObject('property','x',$member,$value);
@@ -446,7 +446,7 @@ trait ORMModelManageSequenceTrait {
 			$new_sequence_maps[$key]['property_object_map'] = $loop_sequence_map;
 			
 			if(!isset($object->order)){
-				$loop_object = json_decode($object_cache[$object->id]->output_object);
+				$loop_object = $object_cache[$object->id]->output_object;
 				$loop_sequence_map = [];
                 foreach($loop_object as $member => $value){
 					$loop_sequence_map[] = $kit::makeMapLocationObject('output','x',$member,$value);
@@ -473,24 +473,24 @@ trait ORMModelManageSequenceTrait {
 				$object_cache[$object->id]->exists($object->id,'id');
 			}
             
-			$loop_object = json_decode($object_cache[$object->id]->input_object);
+			$loop_object = $object_cache[$object->id]->input_object;
 			$loop_sequence_map = [];
 			foreach( $loop_object as $member => $value){
-                $loop_sequence_map[] = $kit::makeMapLocationObject('input',$key+1,$member,$loop_object->$member);
+                $loop_sequence_map[] = $kit::makeMapLocationObject('input', $key+1, $member, $loop_object->$member);
 			}
             $default_sequence_maps[$key]['input_object_map'] = $loop_sequence_map;
 			
-			$loop_object = json_decode($object_cache[$object->id]->property_object);
+			$loop_object = $object_cache[$object->id]->property_object;
 			$loop_sequence_map = [];
 			foreach( $loop_object as $member => $value){
-				$loop_sequence_map[] = $kit::makeMapLocationObject('property',$key+1,$member,$loop_object->$member);
+				$loop_sequence_map[] = $kit::makeMapLocationObject('property', $key+1, $member, $loop_object->$member);
 			}
 			$default_sequence_maps[$key]['property_object_map'] = $loop_sequence_map;
 
-			$loop_object = json_decode($object_cache[$object->id]->output_object);
+			$loop_object = $object_cache[$object->id]->output_object;
 			$loop_sequence_map = [];
 			foreach( $loop_object as $member => $value){
-				$loop_sequence_map[] = $kit::makeMapLocationObject('output',$key+1,$member,$loop_object->$member);
+				$loop_sequence_map[] = $kit::makeMapLocationObject('output', $key+1, $member, $loop_object->$member);
 			}
 			$default_sequence_maps[$key]['output_object_map'] = $loop_sequence_map;
 		}
@@ -605,10 +605,10 @@ trait ORMModelManageSequenceTrait {
 		$property_map_array = array_merge([$root_property_map_object],$property_map_array);
 		$output_map_array = array_merge([$root_output_map_object],$output_map_array);
         
-        $modeler::model()->sequence = json_encode($new_sequence);
-		$modeler::model()->input_object_map = json_encode($input_map_array);
-		$modeler::model()->property_object_map = json_encode($property_map_array);
-		$modeler::model()->output_object_map = json_encode($output_map_array);
+        $modeler::model()->sequence = $new_sequence;
+		$modeler::model()->input_object_map = $input_map_array;
+		$modeler::model()->property_object_map = $property_map_array;
+		$modeler::model()->output_object_map = $output_map_array;
 		$modeler::model()->save();
 
 		unset($object_cache);

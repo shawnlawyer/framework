@@ -35,7 +35,7 @@ class Operations {
             default:
                 return false;
         }
-        $object_map = json_decode($modeler::model()->$model_member);
+        $object_map = $modeler::model()->$model_member;
         forward_static_call_array([$operations, __FUNCTION__], [$type, $map_key, rawurldecode($input->location)]);
         if(empty($object_map[$map_key]->Value)){
 			$js = [];
@@ -68,7 +68,7 @@ class Operations {
             default:
                 return;
         }
-        $previous_form_object = json_decode($modeler::model()->$model_member);
+        $previous_form_object = $modeler::model()->$model_member;
         forward_static_call_array([$operations, __FUNCTION__], [$type, $member, $form_member_object]);
         if($previous_form_object->$member->Component != $form_member_object->Component){
             
@@ -162,9 +162,9 @@ class Operations {
         && SequodeAuthority::isSequence()
         && AccountAuthority::canDelete($modeler::model())
         )){ return; }
-        $sequence = json_decode($modeler::model()->sequence);
+        $sequence = $modeler::model()->sequence;
         $js = [];
-        if ($confirmed===false && is_array($sequence) && count(json_decode($modeler::model()->sequence)) != 0){
+        if ($confirmed===false){
 			$js[] = 'if(';
 			$js[] = 'confirm(\'Are you sure you want to delete this?\')';
 			$js[] = '){';
@@ -179,7 +179,7 @@ class Operations {
         return implode(' ', $js);
     }
 
-    public static function formatSequence($_model_id,$confirmed=false){
+    public static function formatSequence($_model_id, $confirmed=false){
         
         $module = static::$module;
         $modeler = $module::model()->modeler;

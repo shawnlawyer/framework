@@ -13,10 +13,10 @@ trait ORMModelSetDescriptionTrait {
             
         $description = htmlentities(strip_tags($description), ENT_NOQUOTES);
         $description = (strlen($description) <= 1000) ? $description : substr($description, 0, 1000);
-        $detail = json_decode($modeler::model()->detail);
+        $detail = $modeler::model()->detail;
         $detail->description = $description;
         
-        $modeler::model()->detail = json_encode($detail);
+        $modeler::model()->detail = $detail;
         $modeler::model()->save();
 
         return $modeler::model();

@@ -35,10 +35,11 @@ class Model extends ORM {
             ,'[]'
             ,".$this->safedSQLData(sha1(substr(md5(uniqid(rand(), true)), 0, 25)), 'text')."
             )";
-            
-		$this->database->query($sql);
-		$this->__set('id', $this->database->insertId);
-		return $this;
+
+        $this->database->query($sql);
+        $this->_members['id'] = $this->database->insertId;
+        $this->exists($this->database->insertId, 'id');
+        return $this;
         
 	}
 }

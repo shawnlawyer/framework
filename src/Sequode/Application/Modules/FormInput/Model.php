@@ -22,8 +22,9 @@ class Model extends ORM {
 			,".$this->database->safeData($name, "text")."
 			,".$this->database->safeData($printable_name, "text")."
 			";
-		$this->database->query($sql);
-        $this->__set('id', $this->database->insertId);
+        $this->database->query($sql);
+        $this->_members['id'] = $this->database->insertId;
+        $this->exists($this->database->insertId, 'id');
         return $this;
 	}
     

@@ -24,7 +24,7 @@ class Model extends ORM {
             ,'{}'
             )
 			";
-		$this->database->query($sql);
+        $this->database->query($sql);
         $this->_members['id'] = $this->database->insertId;
         $this->exists($this->database->insertId, 'id');
         return $this;

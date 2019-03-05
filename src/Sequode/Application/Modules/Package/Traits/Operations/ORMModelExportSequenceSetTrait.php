@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Package\Traits\Operations;
 
+use Sequode\Sequode;
 use Sequode\View\Export\PHPClosure;
 
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
@@ -13,13 +14,13 @@ trait ORMModelExportSequenceSetTrait {
     
     public static function source(){
         $used_ids = [];
-        $sequence_set_model_ids = array_unique(json_decode(SequodeModeler::model()->sequence));
+        $sequence_set_model_ids = array_unique(SequodeModeler::model()->sequence);
         
 		$sequode_model = new SequodeModeler::$model;
         foreach($sequence_set_model_ids as $id){
             $used_ids[] = $id;
             $sequode_model->exists($id,'id');
-            $used_ids = array_merge($used_ids, json_decode(SequodeModeler::model()->sequence));
+            $used_ids = array_merge($used_ids, SequodeModeler::model()->sequence);
         }
 		$sequode_model = new SequodeModeler::$model;
         $models = [];
@@ -46,30 +47,31 @@ trait ORMModelExportSequenceSetTrait {
             $model_id_to_key[$object->id] = $key;
         }
         $used_ids = [];
-        foreach($models as $key => $model){
+        foreach($models as $key => $item){
+            $model = new (SequodeModeler::$model)($item->id);
             $node = (object) null;
-            $node->id = intval($model->id);
-            $node->n = str_replace(' ','_',$model->name);
-            $node->d = json_decode($model->detail);
-            $node->if = json_decode($model->input_form_object);
-            $node->pf = json_decode($model->property_form_object);
+            $node->id = $model->id;
+            $node->n = $model->name;
+            $node->d = $model->detail;
+            $node->if = $model->input_form_object;
+            $node->pf = $model->property_form_object;
             
-            $node->i = json_decode($model->input_object);
-            $node->p = json_decode($model->property_object);
-            $node->o = json_decode($model->output_object);
+            $node->i = $model->input_object;
+            $node->p = $model->property_object;
+            $node->o = $model->output_object;
             
-            $node->ii = json_decode($model->input_object_detail);
-            $node->pi = json_decode($model->property_object_detail);
-            $node->oi = json_decode($model->output_object_detail);
+            $node->ii = $model->input_object_detail;
+            $node->pi = $model->property_object_detail;
+            $node->oi = $model->output_object_detail;
             
             if($model->usage_type == 1){
-                $node->im = json_decode($model->input_object_map);
-                $node->pm = json_decode($model->property_object_map);
-                $node->om = json_decode($model->output_object_map);
+                $node->im = $model->input_object_map;
+                $node->pm = $model->property_object_map;
+                $node->om = $model->output_object_map;
             }
             if($model->usage_type == 1){
-                $node->st = json_decode($model->usage_type);
-                $node->s = json_decode($model->sequence);
+                $node->st = $model->usage_type;
+                $node->s = $model->sequence;
                 $used_ids = array_merge($used_ids,$node->s);
             }elseif($model->usage_type == 0){
                 $node->ct = intval($model->coding_type);

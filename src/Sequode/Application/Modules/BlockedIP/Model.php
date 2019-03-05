@@ -23,8 +23,9 @@ class Model extends ORM {
             ,".$this->safedSQLData($ip_address, 'text')."
             ,".time()."
             )";
-		$this->database->query($sql);
-        $this->__set('id', $this->database->insertId);
+        $this->database->query($sql);
+        $this->_members['id'] = $this->database->insertId;
+        $this->exists($this->database->insertId, 'id');
         return $this;
 	}	 
 }
