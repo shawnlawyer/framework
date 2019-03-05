@@ -19,7 +19,7 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
-        $_o->name = json_decode(FormInputModeler::model()->component_object);
+        $_o->name = FormInputModeler::model()->component_object;
         $_o->name->Label = '';
         $_o->name->Value = $_model->name;
         $_o->name->Width = 200;
@@ -34,14 +34,14 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
-        $_o->search = json_decode(FormInputModeler::model()->component_object);
+        $_o->search = FormInputModeler::model()->component_object;
         $_o->search->Label = '';
         $_o->search->Value = '';
         $_o->search->Width = 200;
         $_o->search->CSS_Class = 'focus-input';
         
         FormInputModeler::exists('select','name');
-        $_o->position = json_decode(FormInputModeler::model()->component_object);
+        $_o->position = FormInputModeler::model()->component_object;
         $_o->position->Label = '';
         $_o->position->Values = "[{'value':'=%','printable':'Starts With'},{'value':'%=%','printable':'Contains'},{'value':'%=','printable':'Ends With'},{'value':'=','printable':'Exact'}]";
         $_o->position->Value = '=%';

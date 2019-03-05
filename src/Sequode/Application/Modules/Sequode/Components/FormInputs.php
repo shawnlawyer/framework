@@ -19,7 +19,7 @@ class FormInputs {
         $components_object = (object) null;
         
         FormInputModeler::exists('str','name');
-        $components_object->name = json_decode(FormInputModeler::model()->component_object);
+        $components_object->name = FormInputModeler::model()->component_object;
         $components_object->name->Label = '';
         $components_object->name->Value = SequodeModeler::model()->name;
         $components_object->name->Width = 200;
@@ -38,9 +38,9 @@ class FormInputs {
         $components_object = (object) null;
         
         FormInputModeler::exists('text','name');
-        $components_object->description = json_decode(FormInputModeler::model()->component_object);
+        $components_object->description = FormInputModeler::model()->component_object;
         $components_object->description->Label = '';
-        $components_object->description->Value = @json_decode(SequodeModeler::model()->detail)->description;
+        $components_object->description->Value = SequodeModeler::model()->detail->description ?: '';
         $components_object->description->Width = 30;
         $components_object->description->Height = 20;
         $components_object->description->CSS_Class = 'focus-input';
@@ -54,14 +54,14 @@ class FormInputs {
         $components_object = (object) null;
         
         FormInputModeler::exists('str','name');
-        $components_object->search = json_decode(FormInputModeler::model()->component_object);
+        $components_object->search = FormInputModeler::model()->component_object;
         $components_object->search->Label = '';
         $components_object->search->Value = '';
         $components_object->search->Width = 200;
         $components_object->search->CSS_Class = 'search-sequodes-input';
         
         FormInputModeler::exists('select','name');
-        $components_object->position = json_decode(FormInputModeler::model()->component_object);
+        $components_object->position = FormInputModeler::model()->component_object;
         $components_object->position->Label = '';
         $components_object->position->Values = "[{'value':'=%','printable':'Starts With'},{'value':'%=%','printable':'Contains'},{'value':'%=','printable':'Ends With'},{'value':'=','printable':'Exact'}]";
         $components_object->position->Value = '=%';
@@ -69,7 +69,7 @@ class FormInputs {
         $components_object->position->Printable_Key = 'printable';
         
         FormInputModeler::exists('checkboxSwitch','name');
-        $components_object->coded = json_decode(FormInputModeler::model()->component_object);
+        $components_object->coded = FormInputModeler::model()->component_object;
         $components_object->coded->Label = '';
         $components_object->coded->On_Text = 'Coded';
         $components_object->coded->On_Value = 1;
@@ -77,7 +77,7 @@ class FormInputs {
         $components_object->coded->Off_Value = 0;
         $components_object->coded->Value = 1;
         
-        $components_object->sequenced = json_decode(FormInputModeler::model()->component_object);
+        $components_object->sequenced = FormInputModeler::model()->component_object;
         $components_object->sequenced->Label = '';
         $components_object->sequenced->On_Text = 'Sequenced';
         $components_object->sequenced->On_Value = 1;
@@ -85,7 +85,7 @@ class FormInputs {
         $components_object->sequenced->Off_Value = 0;
         $components_object->sequenced->Value = 1;
         
-        $components_object->my_sequodes = json_decode(FormInputModeler::model()->component_object);
+        $components_object->my_sequodes = FormInputModeler::model()->component_object;
         $components_object->my_sequodes->Label = '';
         $components_object->my_sequodes->On_Text = 'My Sequodes';
         $components_object->my_sequodes->On_Value = 1;
@@ -93,7 +93,7 @@ class FormInputs {
         $components_object->my_sequodes->Off_Value = 0;
         $components_object->my_sequodes->Value = 1;
         
-        $components_object->shared_sequodes = json_decode(FormInputModeler::model()->component_object);
+        $components_object->shared_sequodes = FormInputModeler::model()->component_object;
         $components_object->shared_sequodes->Label = '';
         $components_object->shared_sequodes->On_Text = 'Shared Sequodes';
         $components_object->shared_sequodes->On_Value = 1;
@@ -112,7 +112,7 @@ class FormInputs {
         }
         
         $default_map = SequodeOperationsKit::makeDefaultSequenceObjectMap($type,$sequode_model);
-        $sequence =  json_decode(SequodeModeler::model()->sequence);
+        $sequence =  SequodeModeler::model()->sequence;
         $location_object = $default_map[$map_key];
 		$sequence_key = $location_object->Key - 1;
         $member = $location_object->Member;
@@ -120,9 +120,9 @@ class FormInputs {
 		$temp_model->exists($sequence[$sequence_key],'id');
 		$components_object = (object) null;
 		$model_member = $type.'_form_object';
-		$components_object->location = json_decode($temp_model->$model_member)->$member;
+		$components_object->location = $temp_model->$model_member->$member;
 		$model_member = $type.'_object_map';
-		$components_object->location->Value = json_decode(SequodeModeler::model()->$model_member)[$map_key]->Value;
+		$components_object->location->Value = SequodeModeler::model()->$model_member[$map_key]->Value;
         
 		return $components_object;
         
@@ -139,14 +139,14 @@ class FormInputs {
                 case 'input':
                 case 'property':
                     $model_member = $type.'_form_object';
-                    $values_object = json_decode($sequode_model->$model_member)->$member;
+                    $values_object = $sequode_model->$model_member->$member;
                     break;
             default:
                 return;
         }
 		
 		FormInputModeler::exists($values_object->Component,'name');
-		$components_object = json_decode(FormInputModeler::model()->component_form_object);
+		$components_object = FormInputModeler::model()->component_form_object;
 		foreach($components_object as $component_member => $component_object){
 			if(isset($values_object->$component_member)){
 				$components_object->$component_member->Value = $values_object->$component_member;
@@ -163,7 +163,7 @@ class FormInputs {
             $sequode_model = SequodeModeler::model();
         }
         
-        return json_decode($sequode_model->input_form_object);
+        return $sequode_model->input_form_object;
         
 	}
     
@@ -175,7 +175,7 @@ class FormInputs {
         
         $components_object = (object) null;
         FormInputModeler::exists('checkboxSwitch','name');
-        $components_object->sharing = json_decode(FormInputModeler::model()->component_object);
+        $components_object->sharing = FormInputModeler::model()->component_object;
         $components_object->sharing->Label = '';
         $components_object->sharing->On_Text = 'Publicly Shared';
         $components_object->sharing->On_Value = 1;
@@ -195,7 +195,7 @@ class FormInputs {
         
         $components_object = (object) null;
         FormInputModeler::exists('checkboxSwitch','name');
-        $components_object->palette = json_decode(FormInputModeler::model()->component_object);
+        $components_object->palette = FormInputModeler::model()->component_object;
         $components_object->palette->Label = '';
         $components_object->palette->On_Text = 'Shown in Palettes';
         $components_object->palette->On_Value = 1;
@@ -215,7 +215,7 @@ class FormInputs {
         
         $components_object = (object) null;
         FormInputModeler::exists('checkboxSwitch','name');
-        $components_object->package = json_decode(FormInputModeler::model()->component_object);
+        $components_object->package = FormInputModeler::model()->component_object;
         $components_object->package->Label = '';
         $components_object->package->On_Text = 'Useable As Package';
         $components_object->package->On_Value = 1;
@@ -256,7 +256,7 @@ class FormInputs {
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
         }
         FormInputModeler::exists('select','name');
-        $components_object->palette = json_decode(FormInputModeler::model()->component_object);
+        $components_object->palette = FormInputModeler::model()->component_object;
         $components_object->palette->Label = '';
         $components_object->palette->Values = '[' . implode(',',$values) . ']';
         $components_object->palette->Value = '0';

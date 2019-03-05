@@ -29,7 +29,7 @@ trait ORMModelManageCodeTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-        $mine_object = json_decode($modeler::model()->mine_object);
+        $mine_object = $modeler::model()->mine_object;
         $detail = (object) null;
         $detail->description = $mine_object->description;
         $printable_name = $mine_object->name;

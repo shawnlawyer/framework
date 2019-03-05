@@ -7,12 +7,23 @@ use Sequode\Model\Database\SQL\ORM;
 class Model extends ORM {
     
     public $database_connection     =   'system_database';
+
 	public $table 				    =	'components';
+
 	public function __construct() {
 		parent::__construct();
 		return true;
 	}
-    
+    public const normalizations = [
+        'component_object' => [
+            'get' => 'jsonToObject',
+            'set' => 'objectToJson'
+        ],
+        'component_form_object' => [
+            'get' => 'jsonToObject',
+            'set' => 'objectToJson'
+        ]
+    ];
 	public function create($name = '', $printable_name = '', $usage_type = ''){
 		$sql = "
 			INSERT INTO {$this->table}

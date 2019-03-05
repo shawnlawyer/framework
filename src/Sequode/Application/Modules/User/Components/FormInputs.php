@@ -16,7 +16,7 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('password','name');
-		$_o->password = json_decode(FormInputModeler::model()->component_object);
+		$_o->password = FormInputModeler::model()->component_object;
         $_o->password->Label = 'Password';
         $_o->password->Value = '';
         $_o->password->Width = 200;
@@ -34,13 +34,13 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
-		$_o->email = json_decode(FormInputModeler::model()->component_object);
+		$_o->email = FormInputModeler::model()->component_object;
         $_o->email->Label = 'Email';
         $_o->email->Value = $_model->email;
         $_o->email->Width = 200;
         
         FormInputModeler::exists('password','name');
-		$_o->password = json_decode(FormInputModeler::model()->component_object);
+		$_o->password = FormInputModeler::model()->component_object;
         $_o->password->Label = 'Password';
         $_o->password->Value = '';
         $_o->password->Width = 200;
@@ -54,14 +54,14 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
-        $_o->search = json_decode(FormInputModeler::model()->component_object);
+        $_o->search = FormInputModeler::model()->component_object;
         $_o->search->Label = '';
         $_o->search->Value = '';
         $_o->search->Width = 200;
         $_o->search->CSS_Class = 'search-sequodes-input';
         
         FormInputModeler::exists('select','name');
-        $_o->position = json_decode(FormInputModeler::model()->component_object);
+        $_o->position = FormInputModeler::model()->component_object;
         $_o->position->Label = '';
         $_o->position->Values = "[{'value':'=%','printable':'Starts With'},{'value':'%=%','printable':'Contains'},{'value':'%=','printable':'Ends With'},{'value':'=','printable':'Exact'}]";
         $_o->position->Value = '=%';
@@ -69,7 +69,7 @@ class FormInputs{
         $_o->position->Printable_Key = 'printable';
         
         FormInputModeler::exists('select','name');
-        $_o->field = json_decode(FormInputModeler::model()->component_object);
+        $_o->field = FormInputModeler::model()->component_object;
         $_o->field->Label = '';
         $_o->field->Values = "[{'value':'name','printable':'Search By Name'},{'value':'email','printable':'Search By Email'}]";
         $_o->field->Value = 'name';
@@ -77,7 +77,7 @@ class FormInputs{
         $_o->field->Printable_Key = 'printable';
         
         FormInputModeler::exists('select','name');
-        $_o->active = json_decode(FormInputModeler::model()->component_object);
+        $_o->active = FormInputModeler::model()->component_object;
         $_o->active->Label = '';
         $_o->active->Values = "[{'value':'all','printable':'Any'},{'value':'0','printable':'Unactivated'},{'value':'1','printable':'Active'},{'value':'2','printable':'Deactivated'}]";
         $_o->active->Value = 'all';
@@ -92,7 +92,7 @@ class FormInputs{
         }
 
         FormInputModeler::exists('select','name');
-        $_o->role = json_decode(FormInputModeler::model()->component_object);
+        $_o->role = FormInputModeler::model()->component_object;
         $_o->role->Label = '';
         $_o->role->Values = '[' . implode(',',$values) . ']';
         $_o->role->Value = 'all';
@@ -116,7 +116,7 @@ class FormInputs{
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
         }
         FormInputModeler::exists('select','name');
-        $_o->role = json_decode(FormInputModeler::model()->component_object);
+        $_o->role = FormInputModeler::model()->component_object;
         $_o->role->Label = '';
         $_o->role->Values = '[' . implode(',',$values) . ']';
         $_o->role->Value = $modeler::model()->role_id;
@@ -135,7 +135,7 @@ class FormInputs{
 		
         $_o = (object) null;
         FormInputModeler::exists('checkboxSwitch','name');
-        $_o->active = json_decode(FormInputModeler::model()->component_object);
+        $_o->active = FormInputModeler::model()->component_object;
         $_o->active->Label = '';
         $_o->active->On_Text = 'Active';
         $_o->active->On_Value = 1;
@@ -155,7 +155,7 @@ class FormInputs{
 
         $_o = (object) null;
         FormInputModeler::exists('str','name');
-		$_o->name = json_decode(FormInputModeler::model()->component_object);
+		$_o->name = FormInputModeler::model()->component_object;
         $_o->name->Label = '';
         $_o->name->Value = $modeler::model()->name;
         $_o->name->Width = 200;

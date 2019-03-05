@@ -136,7 +136,7 @@ class Form {
         
         if($_i->submit_button != null){
             FormInputModeler::exists('button','name');
-            $button_component = json_decode(FormInputModeler::model()->component_object);
+            $button_component = FormInputModeler::model()->component_object;
             $button_component->Value = $_i->submit_button;
             $button_component->CSS_Class = 'btn';
             $button_component->On_Click = self::registerTimeout($timeout_var_name, $submit_js);

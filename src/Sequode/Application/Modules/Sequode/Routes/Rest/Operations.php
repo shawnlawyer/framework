@@ -22,9 +22,7 @@ class Operations{
 		}catch(Exception $e){
 			exit;
 		}
-        $object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function cacheNode($sequode_model_id = 0){
@@ -37,9 +35,7 @@ class Operations{
 		}catch(Exception $e){
 			exit;
 		}
-        $object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function maintenance($sequode_model_id = 0){
@@ -54,9 +50,7 @@ class Operations{
 		}catch(Exception $e){
 			exit;
 		}
-        $object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function newSequence(){
@@ -92,9 +86,8 @@ class Operations{
         )){ return; }
 		
         SequodeOperations::makeDefaultSequencedSequode();
-		$object = (object) null;
-        $object->Success = 1;
-		echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function deleteSequence($sequode_model_id = 0){
@@ -104,9 +97,8 @@ class Operations{
         && AccountAuthority::canDelete(SequodeModeler::model())
         )){ return; }
         SequodeOperations::deleteSequence();
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function addToSequence($sequode_model_id = 0, $add_sequode_model_id = 0, $position = 0, $position_tuner = null , $grid_modifier = null ){
@@ -119,9 +111,8 @@ class Operations{
         && !SequodeAuthority::isFullSequence()
 		)){ return; }
 		SequodeOperations::addToSequence($add_sequode_model_id, $position, $position_tuner, $grid_modifier);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function reorderSequence($sequode_model_id = 0, $from_position = 0, $to_position = 0, $position_tuner = null , $grid_modifier = null ){
@@ -131,9 +122,8 @@ class Operations{
 		&& AccountAuthority::canEdit(SequodeModeler::model())
 		)){ return; }
 		SequodeOperations::reorderSequence($from_position, $to_position, $position_tuner, $grid_modifier);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function removeFromSequence($sequode_model_id = 0, $position = 0){
@@ -143,9 +133,8 @@ class Operations{
 		&& AccountAuthority::canEdit(SequodeModeler::model())
 		)){ return; }
         SequodeOperations::removeFromSequence($position);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function modifyGridAreas($sequode_model_id = 0, $position = 0){
@@ -155,9 +144,8 @@ class Operations{
 		&& AccountAuthority::canEdit(SequodeModeler::model())
 		)){ return; }
         SequodeOperations::modifyGridAreas($position);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function emptySequence($sequode_model_id = 0){
@@ -167,9 +155,8 @@ class Operations{
         && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::emptySequence();
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
 	public static function moveGridArea($sequode_model_id = 0, $grid_area_key = 0, $x = 0, $y = 0){
@@ -179,9 +166,8 @@ class Operations{
         && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::moveGridArea($grid_area_key, $x, $y);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
 	}
     public static function updateValue($sequode_model_id = 0, $type = false, $map_key = 0, $value = null){
@@ -191,9 +177,8 @@ class Operations{
         && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::updateValue($type, $map_key, $value);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
     }
     public static function addInternalConnection($sequode_model_id = 0 ,$receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
@@ -203,9 +188,8 @@ class Operations{
         && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::addInternalConnection($receiver_type, $transmitter_key, $receiver_key);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
     }
     public static function addExternalConnection($sequode_model_id = 0, $connection_type = false, $transmitter_key = 0, $receiver_key = 0){
@@ -215,9 +199,8 @@ class Operations{
         && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::addExternalConnection($connection_type, $transmitter_key, $receiver_key);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
     }
     public static function removeReceivingConnection($sequode_model_id = 0, $connection_type = false, $restore_key = 0){
@@ -227,9 +210,8 @@ class Operations{
         && AccountAuthority::canEdit(SequodeModeler::model())
         )){ return; }
         SequodeOperations::removeReceivingConnection($connection_type, $restore_key);
-		$object = (object) null;
-        $object->Success = 1;
-        echo json_encode($object);
+
+        echo json_encode((object) ["Success" => 1]);
         exit;
     }
     public static function updateTenancy($value = 0, $sequode_model_id = 0){
@@ -238,6 +220,7 @@ class Operations{
         && AccountAuthority::isSystemOwner()
         )){ return; }
         SequodeOperations::updateTenancy($value);
+        echo json_encode((object) ["Success" => 1]);
         exit;
     }
     public static function updateSharing($value = 0, $sequode_model_id = 0){
@@ -246,6 +229,7 @@ class Operations{
         && AccountAuthority::canShare(SequodeModeler::model())
         )){ return; }
         SequodeOperations::updateSharing($value);
+        echo json_encode((object) ["Success" => 1]);
         exit;
     }
     public static function updateCodeSharing($sequode_model_id = 0, $value = 1){
@@ -256,7 +240,8 @@ class Operations{
         && SequodeAuthority::isCodingTypeFunction()
         )){ return; }
         SequodeOperations::updateSharing($value);
-        exit;
+        echo json_encode((object) ["Success" => 1]);
+        exit;;
     }
     public static function updateName($sequode_model_id = 0, $name=''){
         if(!(

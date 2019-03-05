@@ -18,7 +18,7 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
-		$_o->email = json_decode(FormInputModeler::model()->component_object);
+		$_o->email = FormInputModeler::model()->component_object;
         $_o->email->Label = 'Email Address';
         $_o->email->Value = $_model->email;
         $_o->email->Width = 200;
@@ -32,13 +32,13 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('password','name');
-		$_o->password = json_decode(FormInputModeler::model()->component_object);
+		$_o->password = FormInputModeler::model()->component_object;
         $_o->password->Label = 'New Password';
         $_o->password->Value = '';
         $_o->password->Width = 200;
         $_o->password->CSS_Class = 'focus-input';
         
-		$_o->confirm_password = json_decode(FormInputModeler::model()->component_object);
+		$_o->confirm_password = FormInputModeler::model()->component_object;
         $_o->confirm_password->Label = 'Confirm Password';
         $_o->confirm_password->Value = '';
         $_o->confirm_password->Width = 200;
@@ -52,7 +52,7 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('password','name');
-		$_o->password = json_decode(FormInputModeler::model()->component_object);
+		$_o->password = FormInputModeler::model()->component_object;
         $_o->password->Label = 'Current Password';
         $_o->password->Value = '';
         $_o->password->Width = 200;
@@ -67,7 +67,7 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
-        $_o->token = json_decode(FormInputModeler::model()->component_object);
+        $_o->token = FormInputModeler::model()->component_object;
         $_o->token->Label = '';
         $_o->token->Value = '';
         $_o->token->Width = 200;

@@ -11,14 +11,14 @@ class FormInputs{
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
-        $_o->search = json_decode(FormInputModeler::model()->component_object);
+        $_o->search = FormInputModeler::model()->component_object;
         $_o->search->Label = '';
         $_o->search->Value = '';
         $_o->search->Width = 200;
         $_o->search->CSS_Class = 'search-sequodes-input';
         
         FormInputModeler::exists('select','name');
-        $_o->position = json_decode(FormInputModeler::model()->component_object);
+        $_o->position = FormInputModeler::model()->component_object;
         $_o->position->Label = '';
         $_o->position->Values = "[{'value':'=%','printable':'Starts With'},{'value':'%=%','printable':'Contains'},{'value':'%=','printable':'Ends With'},{'value':'=','printable':'Exact'}]";
         $_o->position->Value = '=%';
@@ -26,7 +26,7 @@ class FormInputs{
         $_o->position->Printable_Key = 'printable';
         
         FormInputModeler::exists('select','name');
-        $_o->field = json_decode(FormInputModeler::model()->component_object);
+        $_o->field = FormInputModeler::model()->component_object;
         $_o->field->Label = '';
         $_o->field->Values = "[{'value':'name','printable':'Search By Name'},{'value':'ip_address','printable':'Search By IP'}]";
         $_o->field->Value = 'name';

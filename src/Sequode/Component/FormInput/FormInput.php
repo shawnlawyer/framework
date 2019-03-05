@@ -560,12 +560,12 @@ class FormInput {
         if($component_object->Component == 'checkboxSwitch' && !isset($component_object->On_Value)){
             
             $modeler::exists('checkboxSwitch', 'name');
-            $component_object = json_decode($modeler::model()->component_object);
+            $component_object = $modeler::model()->component_object;
             
         }elseif((!isset($component_object->Component) || $modeler::exists($component_object->Component, 'name')) && !$modeler::model()->component){
 
             $modeler::exists('str','name');
-            $component_object = json_decode($modeler::model()->component_object);
+            $component_object = $modeler::model()->component_object;
             
         }
 

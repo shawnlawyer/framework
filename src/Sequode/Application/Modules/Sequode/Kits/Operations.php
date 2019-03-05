@@ -349,7 +349,7 @@ class Operations{
                     }else{
                         $component = new FormInputModel;
                         $component->exists('str','name');
-                        $form_object->$loop_member = json_decode($component->component_object);
+                        $form_object->$loop_member = $component->component_object;
                         $form_object->$loop_member->Label = $loop_member;
                     }
                 }   

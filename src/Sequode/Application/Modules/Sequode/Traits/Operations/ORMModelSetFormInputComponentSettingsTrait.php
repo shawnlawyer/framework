@@ -33,7 +33,7 @@ trait ORMModelSetFormInputComponentSettingsTrait {
         }
         
 		$form_object_member = (object) null;
-		$component_form_object = json_decode($component->component_form_object);
+		$component_form_object = $component->component_form_object;
 		foreach($component_form_object as $loop_member => $loop_value){
             
 			if(isset($input_object->$loop_member)){
@@ -45,7 +45,7 @@ trait ORMModelSetFormInputComponentSettingsTrait {
 		}
 		$form_object->$member = $form_object_member;
         
-        $modeler::model()->$object_member = json_encode($form_object);
+        $modeler::model()->$object_member = $form_object;
         $modeler::model()->save();
         self::maintenance();
             

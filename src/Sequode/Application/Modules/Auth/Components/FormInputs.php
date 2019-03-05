@@ -14,7 +14,7 @@ class FormInputs {
         $_o = (object) null;
 
         FormInputModeler::exists('str','name');
-        $_o->login = json_decode(FormInputModeler::model()->component_object);
+        $_o->login = FormInputModeler::model()->component_object;
         $_o->login->Label = '';
         $_o->login->Value = '';
         $_o->login->Width = 200;
@@ -29,7 +29,7 @@ class FormInputs {
         $_o = (object) null;
         
         FormInputModeler::exists('password','name');
-		$_o->secret = json_decode(FormInputModeler::model()->component_object);
+		$_o->secret = FormInputModeler::model()->component_object;
         $_o->secret->Label = '';
         $_o->secret->Value = '';
         $_o->secret->Width = 200;

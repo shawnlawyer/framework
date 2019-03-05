@@ -76,9 +76,9 @@ trait ORMModelManageSequenceTrait {
         $modeler::model()->sequence_type = 1;
         $modeler::model()->sequence = [];
         $modeler::model()->grid_areas = [];
-        $modeler::model()->input_object = $kit::makeDefaultProcessObject('input'));
+        $modeler::model()->input_object = $kit::makeDefaultProcessObject('input');
         $modeler::model()->input_object_map = $kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
-        //$modeler::model()->process_instance_object = json_encode($kit::makeDefaultProcessInstanceObject($modeler::model()));
+        //$modeler::model()->process_instance_object = $kit::makeDefaultProcessInstanceObject($modeler::model());
         $modeler::model()->input_form_object = (object) [];
         $modeler::model()->output_object = $kit::makeDefaultProcessObject('output');
         $modeler::model()->output_object_map = $kit::makeDefaultSequenceObjectMap('output', $modeler::model());
@@ -94,7 +94,7 @@ trait ORMModelManageSequenceTrait {
         $output_object_detail = (object) null;
         $member = 'Success';
         $output_object_detail->$member = $kit::makeDefaultProcessObjectDetailMember($member);
-        $modeler::model()->output_object_detail = json_encode($output_object_detail);
+        $modeler::model()->output_object_detail = $output_object_detail;
         */
         $modeler::model()->output_object_detail = (object) null;
         $modeler::model()->owner_id = $owner_id;
