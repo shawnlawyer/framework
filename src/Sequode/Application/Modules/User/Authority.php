@@ -2,8 +2,6 @@
 
 namespace Sequode\Application\Modules\User;
 
-use Sequode\Application\Modules\Account\Modeler as AccountModeler;
-use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Foundation\Hashes;
 use Sequode\Application\Modules\Sequode\Authority as SequodeAuthority;
 

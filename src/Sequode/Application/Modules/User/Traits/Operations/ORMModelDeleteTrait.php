@@ -22,10 +22,10 @@ trait ORMModelDeleteTrait {
             $operations = $module::model()->operations;
             $model = $operations::getOwnedModels($modeler::model(), 'id');
             foreach($model->all as $object){
-                $model->delete($object->id);
+                $model->exists($object->id)->delete();
             }
         }
-        $modeler::model()->delete($modeler::model()->id);
+        $modeler::model()->delete();
         return $modeler::model();
     }
 }

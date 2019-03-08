@@ -301,12 +301,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
-        
-        
-        $input_object_map = $_model->input_object_map;
-        $default_input_object_map = $_model->default_input_object_map;
-        $property_object_map = $_model->property_object_map;
-        $default_property_object_map = $_model->default_property_object_map;
+
         
         $sequence = $_model->sequence;
         if(!isset($sequence[$position])){ return; }
@@ -318,21 +313,19 @@ class Cards {
         $_o->menu->items = self::modelOperationsMenuItems('', $sequence_model);
         $_o->body = [];
         $_o->body[] = '';
-        $sequence_model->input_object_detail = $sequence_model->input_object_detail;
-        $sequence_model->property_object_detail = $sequence_model->property_object_detail;
         
         $types = ['input', 'property'];
         $type_labels = ['input' => 'Inputs', 'property' => 'Properties'];
-        $detail_objects = ['input' => 'input_object_detail', 'property' => 'property_object_detail'];
-        $maps = ['input' => $input_object_map, 'property' => $property_object_map];
-        $default_maps = ['input' => $default_input_object_map, 'property' => $default_property_object_map];
+        $detail_object_members = ['input' => 'input_object_detail', 'property' => 'property_object_detail'];
+        $maps = ['input' => $_model->input_object_map, 'property' => $_model->property_object_map];
+        $default_maps = ['input' => $_model->default_input_object_map, 'property' => $_model->default_property_object_map];
         
         $possible_components = [];
         
         foreach($types as $type){
             $map = $maps[$type];
             $default_map = $default_maps[$type];
-            $detail_object_member = $detail_objects[$type];
+            $detail_object_member = $detail_object_members[$type];
             foreach($default_map as $map_key => $location_object){
                 if($map_key == 0){ continue; }
                 $sequence_key = $location_object->Key - 1;

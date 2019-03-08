@@ -2,8 +2,6 @@
 
 namespace Sequode\Application\Modules\User;
 
-use Sequode\Application\Modules\User\Module;
-
 class Collections {
     
     public static $module = Module::class;

@@ -26,7 +26,7 @@ class Model extends ORM {
 		return true;
 	}
 
-    public const normalizations = [
+    const normalizations = [
         'sequence' => [
                 'get' => 'jsonToObject',
                 'set' => 'objectToJson'
@@ -84,6 +84,22 @@ class Model extends ORM {
                 'set' => 'objectToJson'
         ],
         'mine_object' => [
+                'get' => 'jsonToObject',
+                'set' => 'objectToJson'
+        ],
+        'default_input_object_map' => [
+                'get' => 'jsonToObject',
+                'set' => 'objectToJson'
+        ],
+        'default_property_object_map' => [
+                'get' => 'jsonToObject',
+                'set' => 'objectToJson'
+        ],
+        'default_output_object_map' => [
+                'get' => 'jsonToObject',
+                'set' => 'objectToJson'
+        ],
+        'process_description_node' => [
                 'get' => 'jsonToObject',
                 'set' => 'objectToJson'
         ],

@@ -77,9 +77,9 @@ trait ORMModelManageSequenceTrait {
         $modeler::model()->sequence = [];
         $modeler::model()->grid_areas = [];
         $modeler::model()->input_object = $kit::makeDefaultProcessObject('input');
-        $modeler::model()->input_object_map = $kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
+        $modeler::model()->input_object_map = $kit::makeDefaultSequenceObjectMap('input', $modeler::model());
         //$modeler::model()->process_instance_object = $kit::makeDefaultProcessInstanceObject($modeler::model());
-        $modeler::model()->input_form_object = (object) [];
+        $modeler::model()->input_form_object = (object) null;
         $modeler::model()->output_object = $kit::makeDefaultProcessObject('output');
         $modeler::model()->output_object_map = $kit::makeDefaultSequenceObjectMap('output', $modeler::model());
         $property_object_detail = (object) null;
@@ -137,7 +137,7 @@ trait ORMModelManageSequenceTrait {
         $model_copy->property_object_detail = $modeler::model()->input_object;
         $model_copy->property_object_map = $modeler::model()->property_object_map;
         $model_copy->property_form_object = $modeler::model()->property_form_object;
-        $model_copy->owner_id = $owner,'owner_id');
+        $model_copy->owner_id = $owner;
         $model_copy->times_cloned = 0;
         $model_copy->save();
         $modeler::model()->times_cloned + 1;
@@ -372,7 +372,7 @@ trait ORMModelManageSequenceTrait {
 		$old_property_object_map = $modeler::model()->property_object_map;
 		$root_property_map_object = array_shift($old_property_object_map);
 		
-		$old_output_object_map = j$modeler::model()->output_object_map;
+		$old_output_object_map = $modeler::model()->output_object_map;
 		$root_output_map_object = array_shift($old_output_object_map);
 		
 		$object_cache = [];

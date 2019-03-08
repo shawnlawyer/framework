@@ -4,7 +4,6 @@ namespace Sequode\Application\Modules\Register\Components;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\CardKit as CardKit;
 use Sequode\Component\Form\Form as FormComponent;
@@ -28,7 +27,8 @@ class Cards {
         
     }
     public static function menuItems(){
-        
+
+        $module = static::$module;
         $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Signup', $module::xhrCardRoute('signup'));
         

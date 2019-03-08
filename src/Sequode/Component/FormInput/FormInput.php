@@ -2,7 +2,6 @@
 namespace Sequode\Component\FormInput;
 
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
-use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Application\Modules\FormInput\Modeler;
 
 use Sequode\Component\Traits\MergeComponentObjectsTrait;

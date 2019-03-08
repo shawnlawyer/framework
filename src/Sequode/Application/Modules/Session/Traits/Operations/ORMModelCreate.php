@@ -15,10 +15,10 @@ trait ORMModelCreate {
             : $ip_address ;
         $modeler::model()->create();
         $modeler::model()->session_id = Hashes::uniqueHash();
-        $modeler::model()->session_data = serialize([]);
+        $modeler::model()->session_data = [];
         $modeler::model()->session_start = time();
         $modeler::model()->ip_address = $ip_address;
-        $modeler::model()->name('anon', 'name');
+        $modeler::model()->name = 'anon';
         $modeler::model()->save();
         
         return $modeler::model();

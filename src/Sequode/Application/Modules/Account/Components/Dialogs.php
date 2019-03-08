@@ -2,7 +2,6 @@
 
 namespace Sequode\Application\Modules\Account\Components;
 
-use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Application\Modules\Account\Module;
 
 class Dialogs {

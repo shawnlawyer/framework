@@ -105,7 +105,9 @@ class Cards {
         
     }
     public static function my(){
-        
+
+        $module = static::$module;
+
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->head = 'My Packages';

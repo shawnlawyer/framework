@@ -46,7 +46,6 @@ class Cards {
         }
         
         $module = static::$module;
-        $modeler = $module::model()->modeler;
         
         $operations = $module::model()->operations;
         $models = $operations::getOwnedModels($user_model, $fields, 20)->all;
@@ -111,6 +110,8 @@ class Cards {
     }
     
     public static function my(){
+
+        $module = static::$module;
         $_o = (object) null;
         $_o->size = 'fullscreen';
         $_o->head = 'My Tokens';

@@ -16,7 +16,7 @@ class REST{
     use RequestCallTrait,
         RequestURIPiecesTrait;
 
-    public static function rest(){
+    public static function handle(){
         $request_pieces = static::URIPieces();
         if(!isset($request_pieces[0]) || trim($request_pieces[0]) == ''){
             exit;

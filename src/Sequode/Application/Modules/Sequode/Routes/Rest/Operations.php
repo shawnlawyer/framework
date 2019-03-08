@@ -241,7 +241,7 @@ class Operations{
         )){ return; }
         SequodeOperations::updateSharing($value);
         echo json_encode((object) ["Success" => 1]);
-        exit;;
+        exit;
     }
     public static function updateName($sequode_model_id = 0, $name=''){
         if(!(

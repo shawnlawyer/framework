@@ -4,8 +4,6 @@ namespace Sequode\Application\Modules\User\Routes\XHR;
 
 use Sequode\Application\Modules\User\Module;
 use Sequode\Application\Modules\Traits\Routes\XHR\CardsCardRouteTrait as XHRCardsCardRouteTrait;
-use Sequode\View\Module\Card as ModuleCard;
-use Sequode\Component\Card\Kit\JS as CardKitJS;
 
 class Cards {
 

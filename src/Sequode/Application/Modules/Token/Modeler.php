@@ -2,7 +2,6 @@
 
 namespace Sequode\Application\Modules\Token;
 
-use Sequode\Application\Modules\Token\Model;
 use Sequode\Application\Modules\Traits\Modeler\ActiveModelTrait;
 
 class Modeler {

@@ -2,7 +2,6 @@
 
 namespace Sequode\Application\Modules\Token\Routes\XHR;
 
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 

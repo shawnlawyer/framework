@@ -100,7 +100,7 @@ trait ORMModelManageCodeTrait {
 
         $modeler::model()->detail = $detail;
         $modeler::model()->input_object = $input_object;
-        $modeler::model()->property_object = $property_object);
+        $modeler::model()->property_object = $property_object;
         $modeler::model()->output_object = $output_object;
         $modeler::model()->input_object_detail = $input_object_detail;
         $modeler::model()->property_object_detail = $property_object_detail;

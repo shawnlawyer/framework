@@ -2,9 +2,6 @@
 
 namespace Sequode\Application\Modules\BlockedIP;
 
-use Sequode\Foundation\Hashes;
-use Sequode\Model\Application\Configuration;
-
 trait Authority {
     
     public static $modeler = Modeler::class;

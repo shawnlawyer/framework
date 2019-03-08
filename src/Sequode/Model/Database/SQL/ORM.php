@@ -17,7 +17,7 @@ class ORM {
     public $relationships	= 	[];
     public $database_connection = 'system_database';
     public $database;
-    public const normalizations		= 	[];
+    const normalizations		= 	[];
 
     public static function jsonToObject($value){
         return json_decode($value);
@@ -25,6 +25,14 @@ class ORM {
 
     public static function objectToJson($object){
         return json_encode($object);
+    }
+
+    public static function serializedToObject($value){
+        return unserialize($value);
+    }
+
+    public static function objectToSerialized($object){
+        return serialize($object);
     }
 
     public function __get($member)
@@ -67,7 +75,12 @@ class ORM {
         return $this;
     }
     //standard delete record
-    public function delete($id, $limit=1){
+    public function delete($id=null, $limit=1){
+        if($id === null && !$this->_members['id']){
+            return false;
+        }elseif($id === null){
+            $id = $this->_members['id'];
+        }
         $sql = "
 			DELETE FROM {$this->table} WHERE id = ".$this->safedSQLData($id, "int")." LIMIT 1;
 			";
@@ -321,17 +334,16 @@ class ORM {
                 return $input;
         }
     }
-    public function safedSQLData($input,$type,$localsource=false){
-        $input = ($localsource) ? $input : ((get_magic_quotes_gpc()) ? $input : $this->database->connection->real_escape_string($input));
+    public function safedSQLData($input, $type){
         switch (strtolower($type)){
             case 'int':
-                $output = ($input != "") ? intval($input) : "NULL";
+                $output = (!empty($input)) ? intval($input) : "NULL";
                 break;
             case 'float':
-                $output = ($input != "") ? "'" . floatval($input) . "'" : "NULL";
+                $output = (!empty($input)) ? "'" . floatval($input) . "'" : "NULL";
                 break;
             default:
-                $output = ($input != "") ? "'" . $input . "'" : "NULL";
+                $output = (!empty($input)) ? "'" . ((get_magic_quotes_gpc()) ? $input : $this->database->connection->real_escape_string($input)) . "'" : "NULL";
                 break;
         }
         return $output;

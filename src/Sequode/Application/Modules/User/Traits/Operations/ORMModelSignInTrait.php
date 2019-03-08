@@ -3,7 +3,6 @@
 namespace Sequode\Application\Modules\User\Traits\Operations;
 
 use Sequode\Application\Modules\Session\Modeler as SessionModeler;
-use Sequode\Application\Modules\Session\Operations as SessionOperations;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 
 trait ORMModelSignInTrait {

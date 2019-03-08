@@ -14,7 +14,7 @@ class Model extends ORM {
 		parent::__construct();
 		return true;
 	}
-    public const normalizations = [
+    const normalizations = [
         'component_object' => [
             'get' => 'jsonToObject',
             'set' => 'objectToJson'

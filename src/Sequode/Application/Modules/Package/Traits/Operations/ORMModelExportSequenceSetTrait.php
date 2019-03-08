@@ -2,7 +2,6 @@
 
 namespace Sequode\Application\Modules\Package\Traits\Operations;
 
-use Sequode\Sequode;
 use Sequode\View\Export\PHPClosure;
 
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
@@ -48,7 +47,7 @@ trait ORMModelExportSequenceSetTrait {
         }
         $used_ids = [];
         foreach($models as $key => $item){
-            $model = new (SequodeModeler::$model)($item->id);
+            $model = new SequodeModeler::$model($item->id);
             $node = (object) null;
             $node->id = $model->id;
             $node->n = $model->name;

@@ -2,7 +2,6 @@
 
 namespace Sequode\Application\Modules\Session;
 
-use Sequode\Application\Modules\Session\Model;
 use Sequode\Application\Modules\Traits\Modeler\ActiveModelTrait;
 
 class Modeler {

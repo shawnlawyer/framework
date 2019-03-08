@@ -3,11 +3,6 @@
 namespace Sequode\Application\Modules\Register\Components;
 
 use Sequode\Application\Modules\Register\Module;
-use Sequode\Application\Modules\Session\Store as SessionStore;
-use Sequode\Model\Module\Registry as ModuleRegistry;
-use Sequode\View\Module\Form as ModuleForm;
-use Sequode\Component\Card\CardKit as CardKit;
-use Sequode\Component\Form\Form as FormComponent;
 
 class Dialogs {
     

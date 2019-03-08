@@ -76,8 +76,7 @@ class Collections{
         $modeler::exists($key,'id')
         && AccountAuthority::canView($modeler::model())
         ){
-            
-            echo $modeler::model()->process_description_node;
+            echo json_encode($modeler::model()->process_description_node);
             return;
             
         }else{

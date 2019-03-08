@@ -2,7 +2,6 @@
 
 namespace Sequode\Application\Modules\Console\Traits\Routes;
 
-use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Model\Application\Module\Routeables as Routeables;
 

@@ -4,7 +4,6 @@ namespace Sequode\Application\Modules\Token\Routes\XHR;
 
 use Sequode\Application\Modules\Token\Module;
 use Sequode\Application\Modules\Session\Store as SessionStore;
-use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;

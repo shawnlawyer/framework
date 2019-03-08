@@ -10,7 +10,7 @@ trait ORMModelDeleteTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-        $modeler::model()->delete($modeler::model()->id);
+        $modeler::model()->delete();
         
         return $modeler::model();
     

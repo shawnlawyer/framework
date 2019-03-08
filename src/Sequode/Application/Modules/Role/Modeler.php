@@ -2,7 +2,6 @@
 
 namespace Sequode\Application\Modules\Role;
 
-use Sequode\Application\Modules\Role\Model;
 use Sequode\Application\Modules\Traits\Modeler\ActiveModelTrait;
 
 class Modeler {
