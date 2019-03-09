@@ -117,7 +117,7 @@ trait ORMModelManageSequenceTrait {
         $name = $modeler::model()->name . ' Copy ' . ($modeler::model()->times_cloned + 1);
         $printable_name = (trim($modeler::model()->printable_name) != '') ? trim($modeler::model()->printable_name) . ' Copy ' . ($modeler::model()->times_cloned + 1) : $name ;
         
-        $model_copy = new $modeler::$model;
+        $model_copy = new ($modeler::$model);
         $model_copy->create($name, $printable_name, 1, 1);
         $model_copy->cloned_from_id = $modeler::model()->id;
         $model_copy->sequence_type = 1;
@@ -140,7 +140,7 @@ trait ORMModelManageSequenceTrait {
         $model_copy->owner_id = $owner;
         $model_copy->times_cloned = 0;
         $model_copy->save();
-        $modeler::model()->times_cloned + 1;
+        $modeler::model()->times_cloned += 1;
         $modeler::model()->save();
 
 		self::maintenance($model_copy);
@@ -359,7 +359,7 @@ trait ORMModelManageSequenceTrait {
 				$new_keys[$object->order + 1] = $key + 1;
 			}
 		}
-		
+        $default_sequence_maps = [];
 		$new_sequence_maps = [];
 		foreach( $new_sequence as $key => $value ){
 			$new_sequence_maps[$key] = ['input_object_map' => [], 'property_object_map' => [], 'output_object_map' => []];
@@ -376,9 +376,6 @@ trait ORMModelManageSequenceTrait {
 		$root_output_map_object = array_shift($old_output_object_map);
 		
 		$object_cache = [];
-		$loop_sequode = new $modeler::$model;
-		
-        
 		foreach( $old_sequence as $key => $value ){
 			if(!array_key_exists($value, $object_cache)){
 				$object_cache[$value] = new $modeler::$model;

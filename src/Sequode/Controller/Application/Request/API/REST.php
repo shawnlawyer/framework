@@ -28,8 +28,8 @@ class REST{
         }
 
         AccountModeler::exists(TokenModeler::model()->owner_id,'id');
-        ModuleRegistry::add(SequodeModule::class);
-        ModuleRegistry::add(PackageModule::class);
+
+        ModuleRegistry::model(\Application\Modules::class);
 
         if(!isset($request_pieces[0]) || trim($request_pieces[0]) == ''){
             exit;
@@ -73,7 +73,7 @@ class REST{
             $inputs = $_GET['args'];
         }
         $inputs = $request_pieces;
-        forward_static_call_array($routes_class, $route, is_array($inputs) ? $inputs : []);
+        forward_static_call_array([$routes_class, $route], is_array($inputs) ? $inputs : []);
         return true;
     }
 }
