@@ -5,7 +5,7 @@ namespace Sequode\Application\Modules\User\Components;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
-use Sequode\Component\Card\CardKit as CardKit;
+use Sequode\Component\Card\Kit as CardKit;
 
 use Sequode\Application\Modules\User\Module;
 

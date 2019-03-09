@@ -3,7 +3,7 @@
 namespace Sequode\Application\Modules\Register\Components;
 
 use Sequode\Application\Modules\Register\Module;
-use Sequode\Component\Form\Form as FormComponent;
+use Sequode\Component\Form as FormComponent;
 
 class Forms {
     

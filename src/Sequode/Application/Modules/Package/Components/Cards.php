@@ -4,10 +4,10 @@ namespace Sequode\Application\Modules\Package\Components;
 
 use Sequode\Application\Modules\Package\Module;
 use Sequode\View\Module\Form as ModuleForm;
-use Sequode\Component\Card\CardKit as CardKit;
+use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
-use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Component\FormInput as FormInputComponent;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
@@ -65,7 +65,7 @@ class Cards {
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$_model->id]);
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$_model->id]);
@@ -76,7 +76,7 @@ class Cards {
         
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->size = 'large';

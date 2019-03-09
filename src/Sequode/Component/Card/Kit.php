@@ -2,12 +2,12 @@
 namespace Sequode\Component\Card;
 
 use Sequode\Model\Module\Registry as ModuleRegistry;
-use Sequode\Component\Form\Form;
+use Sequode\Component\Form;
 
-use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Component\FormInput as FormInputComponent;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 
-class CardKit {
+class Kit {
     public static function collectionMenuItems($module_registry_key, $user_model, $headline=''){
         
         $module = ModuleRegistry::module($module_registry_key);

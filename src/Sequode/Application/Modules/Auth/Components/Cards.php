@@ -5,8 +5,8 @@ namespace Sequode\Application\Modules\Auth\Components;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 
 use Sequode\View\Module\Form as ModuleForm;
-use Sequode\Component\Card\CardKit as CardKit;
-use Sequode\Component\Form\Form as FormComponent;
+use Sequode\Component\Card\Kit as CardKit;
+use Sequode\Component\Form as FormComponent;
 
 use Sequode\Application\Modules\Auth\Module;
 
@@ -44,6 +44,7 @@ class Cards {
         $step = $dialog->steps[$dialog_store->step];
         
         $_o = (object) null;
+        $_o->dom_id = str_replace("/","_", $module::xhrCardRoute(__FUNCTION__));
         $_o->icon_background = 'users-icon-background';
         $_o->size = 'small';
         

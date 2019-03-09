@@ -6,8 +6,8 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
-use Sequode\Component\Card\CardKit as CardKit;
-use Sequode\Component\Form\Form as FormComponent;
+use Sequode\Component\Card\Kit as CardKit;
+use Sequode\Component\Form as FormComponent;
 
 use Sequode\Application\Modules\Account\Module;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;

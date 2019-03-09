@@ -2,6 +2,9 @@
 
 namespace Sequode\Application\Modules\Traits\Routes\XHR;
 
+
+use Sequode\Model\Module\Registry as ModuleRegistry;
+use Sequode\Component\Card as CardComponent;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Component\Card\Kit\JS as CardKitJS;
 use Sequode\View\Module\Card as ModuleCard;
@@ -19,6 +22,9 @@ trait CardsCardRouteTrait {
             }
         }
         $dom_id = 'CardsContainer';
-        return CardKitJS::placeCard(ModuleCard::render($module::$registry_key, $method, $parameters), $dom_id);
+
+        $card_object = forward_static_call_array([$cards, $method],is_array($parameters) ? $parameters : []);
+
+        return CardKitJS::placeCard(CardComponent::render($card_object), $dom_id);
     }
 }

@@ -4,11 +4,11 @@ namespace Sequode\Application\Modules\Sequode\Components;
 
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\View\Module\Form as ModuleForm;
-use Sequode\Component\Card\CardKit as CardKit;
+use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
-use Sequode\Component\Form\Form as FormComponent;
-use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Component\Form as FormComponent;
+use Sequode\Component\FormInput as FormInputComponent;
 use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 use Sequode\Application\Modules\Sequode\Module;
 use Sequode\Application\Modules\Account\Module as AccountModule;
@@ -62,7 +62,7 @@ class Cards {
     public static function modelOperationsMenuItems($filter='', $_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         $items = [];
         if(AccountAuthority::canView($_model)){
             $items[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$_model->id]);
@@ -270,7 +270,7 @@ class Cards {
     public static function internalForms( $_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->size = 'large';
@@ -294,7 +294,7 @@ class Cards {
         $position = intval($position);
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->size = 'medium';
@@ -375,7 +375,7 @@ class Cards {
     public static function sequencer( $_model = null){
         $module = static::$module;
         $modeler = $module::model()->modeler;
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->size = 'fullscreen';
@@ -420,7 +420,7 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->size = 'fullscreen';

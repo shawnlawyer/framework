@@ -1,16 +1,10 @@
 <?php
-namespace Sequode\Component\FormInput;
+namespace Sequode\Component;
 
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Application\Modules\FormInput\Modeler;
 
-use Sequode\Component\Traits\MergeComponentObjectsTrait;
-use Sequode\Component\Traits\FetchObjectTrait;
-
 class FormInput {
-    
-    use MergeComponentObjectsTrait,
-        FetchObjectTrait;
     
     public static $modeler = Modeler::class;
     
@@ -72,7 +66,7 @@ class FormInput {
             $label_component->Dom_Id = $dom_id.'Label';
             $label_component->For_Dom_Id = $dom_id;
             $label_component->Value = $component->Label;
-            $output_component = self::mergeComponents($output_component,self::divLabel($label_component));
+            $output_component = static::mergeComponents($output_component,self::divLabel($label_component));
         }
         
         $html[] = '<select';
@@ -158,7 +152,7 @@ class FormInput {
             $label_component->Dom_Id = $component->Dom_Id.'Label';
             $label_component->For_Dom_Id = $component->Dom_Id;
             $label_component->Value = $component->Label;
-            $output_component = self::mergeComponents($output_component,self::divLabel($label_component));
+            $output_component = static::mergeComponents($output_component,self::divLabel($label_component));
         }
         
         $html[] = '<input';
@@ -223,7 +217,7 @@ class FormInput {
             $label_component->Dom_Id = $component->Dom_Id.'Label';
             $label_component->For_Dom_Id = $component->Dom_Id;
             $label_component->Value = $component->Label;
-            $output_component = self::mergeComponents($output_component,self::divLabel($label_component));
+            $output_component = static::mergeComponents($output_component,self::divLabel($label_component));
         }
         
         $html[] = '<input';
@@ -295,7 +289,7 @@ class FormInput {
             $label_component->Dom_Id = $dom_id.'Label';
             $label_component->For_Dom_Id = $dom_id;
             $label_component->Value = $component->Label;
-            $output_component = self::mergeComponents($output_component,self::divLabel($label_component));
+            $output_component = static::mergeComponents($output_component,self::divLabel($label_component));
         }
         
         $html[] = '<textarea';
@@ -312,7 +306,7 @@ class FormInput {
 	}
     
     public static function dataBoundSelect($component){
-        
+
 		$object = new $component->Class_Name;
 		$object->getAll();
         $component->Values = $object->all;
@@ -487,7 +481,7 @@ class FormInput {
             $label_component->Dom_Id = $dom_id.'Label';
             $label_component->For_Dom_Id = $dom_id;
             $label_component->Value = $component->Label;
-            $output_component = self::mergeComponents($output_component,self::divLabel($label_component));
+            $output_component = static::mergeComponents($output_component,self::divLabel($label_component));
             
         }
         
@@ -504,8 +498,8 @@ class FormInput {
         $label_component->Dom_Id = $dom_id.'LabelText"';
         $label_component->For_Dom_Id = $dom_id;
         $label_component->Value = $component->Display_Value;
-        $output_component = self::mergeComponents($output_component,(object) ['html' => implode(' ',$html),'js' => implode(' ',$js)]);
-        $output_component = self::mergeComponents($output_component,self::label($label_component));
+        $output_component = static::mergeComponents($output_component,(object) ['html' => implode(' ',$html),'js' => implode(' ',$js)]);
+        $output_component = static::mergeComponents($output_component,self::label($label_component));
         
         return $output_component;
         
@@ -541,9 +535,9 @@ class FormInput {
         $checkbox_component->Value =  $component->Value;
         $checkbox_component->Checked_Value = $component->On_Value;
         
-        $output_component = self::mergeComponents($output_component,self::checkbox($checkbox_component));
+        $output_component = static::mergeComponents($output_component,self::checkbox($checkbox_component));
         
-        $output_component = self::mergeComponents($output_component,self::hiddenInput($component));
+        $output_component = static::mergeComponents($output_component,self::hiddenInput($component));
         
         return $output_component;
         
@@ -570,6 +564,18 @@ class FormInput {
 
 		return forward_static_call_array([self::class, $modeler::model()->component], [$component_object]);
         
+    }
+
+    public static function mergeComponents($component_a, $component_b){
+
+        foreach($component_b as $member => $value){
+
+            $component_a->$member = (!isset($component_a->$member)) ? $value : $component_a->$member . $value;
+
+        }
+
+        return $component_a;
+
     }
     
 }

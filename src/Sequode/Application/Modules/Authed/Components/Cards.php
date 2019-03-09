@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Authed\Components;
 
-use Sequode\Component\Card\CardKit as CardKit;
+use Sequode\Component\Card\Kit as CardKit;
 
 use Sequode\Application\Modules\Authed\Module;
 

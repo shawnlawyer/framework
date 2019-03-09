@@ -62,21 +62,21 @@ class XHR{
         }
 
         if(in_array(XHROperationsDialogTrait::class, class_uses($routes_class, true)) && isset($routes_class::$dialogs) && in_array($route, $routes_class::$dialogs)){
-            echo static::call($routes_class, 'dialog', [$route, $args[0]]);
+            echo forward_static_call_array([$routes_class, 'dialog'], [$route, $args[0]]);
         }elseif(in_array(XHRCardsCardRouteTrait::class, class_uses($routes_class, true)) && isset($routes_class::$routes) && in_array($route, $routes_class::$routes)) {
-
+            $parameters = [];
             if(method_exists($routes_class, $route)){
                 $parameters = forward_static_call_array([$routes_class, $route], $args);
 
                 if($parameters === false){
                     return;
                 }
-                $parameters = is_array($parameters) ? $parameters : [];
+                $parameters = (!is_array($parameters)) ? [$parameters] : $parameters;
             }
-            echo static::call($routes_class, 'card', [$route, $parameters]);
-        }else{
+            echo forward_static_call_array([$routes_class, 'card'], [$route, is_array($parameters) ? $parameters : []]);
 
-            echo static::call($routes_class, $route, $args);
+        }else{
+            echo forward_static_call_array([$routes_class, $route], $args);
         }
         return true;
     }

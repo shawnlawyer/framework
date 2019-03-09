@@ -3,7 +3,7 @@
 namespace Sequode\Component\DOMElement\Kit;
 
 
-use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Component\FormInput as FormInputComponent;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 
 class JS {

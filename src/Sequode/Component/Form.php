@@ -1,15 +1,12 @@
 <?php
-namespace Sequode\Component\Form;
+namespace Sequode\Component;
 
 
 
-use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Component\FormInput as FormInputComponent;
 use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
-use Sequode\Component\Traits\FetchObjectTrait;
 
 class Form {
-    
-    use FetchObjectTrait;
     
     public static $collection_replacement_hook = '[%COLLECTION_JS%]';
     
@@ -145,9 +142,9 @@ class Form {
 		return $components_array;
 	}
     
-    public static function formInputs($class, $method, $parameters = null){
+    public static function formInputs($class, $method, $parameters = []){
         
-        return forward_static_call_array([$class, $method],($parameters == null) ? [] : $parameters);
+        return forward_static_call_array([$class, $method],($parameters === null) ? [] : (!is_array($parameters)) ? [$parameters] : $parameters);
         
 	}
         

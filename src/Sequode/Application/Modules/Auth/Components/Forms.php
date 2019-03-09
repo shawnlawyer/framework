@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Auth\Components;
 
-use Sequode\Component\Form\Form as FormComponent;
+use Sequode\Component\Form as FormComponent;
 
 use Sequode\Application\Modules\Auth\Module;
 

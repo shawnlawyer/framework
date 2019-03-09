@@ -3,10 +3,10 @@
 namespace Sequode\Application\Modules\Session\Components;
 
 use Sequode\View\Module\Form as ModuleForm;
-use Sequode\Component\Card\CardKit as CardKit;
+use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
-use Sequode\Component\FormInput\FormInput as FormInputComponent;
+use Sequode\Component\FormInput as FormInputComponent;
 
 use Sequode\Application\Modules\Session\Module;
     
@@ -30,7 +30,8 @@ class Cards {
 
         $module = static::$module;
         $_o = [];
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sessions', $module::xhrCardRoute('search'));
+        $_o[] = CardKit::
+onTapEventsXHRCallMenuItem('Search Sessions', $module::xhrCardRoute('search'));
         
         return $_o;
         
@@ -42,7 +43,7 @@ class Cards {
         $operations = $module::model()->operations;
 
         
-        $_model = ($_model == null ) ? forward_static_call_array([$modeler,'model'], []) : forward_static_call_array([$modeler,'model'], [$_model]);
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->size = 'large';
@@ -51,9 +52,11 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items =  [];
         
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$_model->id]);
+        $items[] = CardKit::
+onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$_model->id]);
         
-        $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::
+nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module::xhrCardRoute('details')]);
         
         $_o->body = [];
         $dom_id = FormInputComponent::uniqueHash('','');
@@ -101,7 +104,8 @@ class Cards {
         $_o->body[] = date('g:ia \o\n l jS F Y',$_model->session_start);
         $_o->body[] = CardKitHTML::sublineBlock('Last Sign In');
         if($_model->session_id != $operations::getCookieValue()) {
-            $_o->body[] = CardKit::deleteInCollection((object)['route' => $module::xhrOperationRoute('destroy'), 'model_id' => $_model->id]);
+            $_o->body[] = CardKit::
+deleteInCollection((object)['route' => $module::xhrOperationRoute('destroy'), 'model_id' => $_model->id]);
         }
         $_o->body[] = CardKitHTML::modelId($_model);
         
@@ -132,7 +136,8 @@ class Cards {
             ];
         }
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'session_search', 'icon'=>'atom', 'card_route'=>$module::xhrCardRoute('search'), 'details_route'=>$module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::
+collectionCard((object) ['collection'=>'session_search', 'icon'=>'atom', 'card_route'=>$module::xhrCardRoute('search'), 'details_route'=>$module::xhrCardRoute('details')]);
         
         return $_o;
         

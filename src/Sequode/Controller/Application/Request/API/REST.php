@@ -73,7 +73,7 @@ class REST{
             $inputs = $_GET['args'];
         }
         $inputs = $request_pieces;
-        static::call($routes_class, $route, $inputs);
+        forward_static_call_array($routes_class, $route, is_array($inputs) ? $inputs : []);
         return true;
     }
 }

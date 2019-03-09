@@ -1,7 +1,7 @@
 <?php
 namespace Sequode\Application\Modules\User\Components;
 
-use Sequode\Component\Form\Form as FormComponent;
+use Sequode\Component\Form as FormComponent;
 
 use Sequode\Application\Modules\User\Module;
 
@@ -15,10 +15,8 @@ class Forms  {
         $modeler = $module::model()->modeler;
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
-        
-        ($_model == null) 
-            ? forward_static_call_array([$modeler,'model'], [])
-            : forward_static_call_array([$modeler,'model'], [$_model]);
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
@@ -39,9 +37,7 @@ class Forms  {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) 
-            ? forward_static_call_array([$modeler,'model'], [])
-            : forward_static_call_array([$modeler,'model'], [$_model]);
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
@@ -62,9 +58,7 @@ class Forms  {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) 
-            ? forward_static_call_array([$modeler,'model'], [])
-            : forward_static_call_array([$modeler,'model'], [$_model]);
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
@@ -85,9 +79,7 @@ class Forms  {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) 
-            ? forward_static_call_array([$modeler,'model'], [])
-            : forward_static_call_array([$modeler,'model'], [$_model]);
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
@@ -122,9 +114,7 @@ class Forms  {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) 
-            ? forward_static_call_array([$modeler,'model'], [])
-            : forward_static_call_array([$modeler,'model'], [$_model]);
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
@@ -145,9 +135,7 @@ class Forms  {
         $context = $module::model()->context;
         $form_inputs = $module::model()->components->form_inputs;
         
-        ($_model == null) 
-            ? forward_static_call_array([$modeler,'model'], [])
-            : forward_static_call_array([$modeler,'model'], [$_model]);
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());

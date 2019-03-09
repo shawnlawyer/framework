@@ -1,11 +1,7 @@
 <?php
-namespace Sequode\Component\Card;
-
-use Sequode\Component\Traits\FetchObjectTrait;
+namespace Sequode\Component;
 
 class Card {
-    
-    use FetchObjectTrait;
     
     public static function cardMenuComponent($menu_object){
        
