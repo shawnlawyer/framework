@@ -13,8 +13,10 @@ class PHPClosure {
                 $array[] = var_export($key, true).' => '.self::export($value, true);
             }
             if($delimeter_nl == true){
-            $result = '['.implode(',
-        ', $array).']';
+            $result = '[
+        '.implode(',
+        ', $array).'
+    ]';
             }else{
             $result = '['.implode(', ', $array).']';
             }

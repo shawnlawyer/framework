@@ -117,7 +117,7 @@ trait ORMModelManageSequenceTrait {
         $name = $modeler::model()->name . ' Copy ' . ($modeler::model()->times_cloned + 1);
         $printable_name = (trim($modeler::model()->printable_name) != '') ? trim($modeler::model()->printable_name) . ' Copy ' . ($modeler::model()->times_cloned + 1) : $name ;
         
-        $model_copy = new ($modeler::$model);
+        $model_copy = new $modeler::$model;
         $model_copy->create($name, $printable_name, 1, 1);
         $model_copy->cloned_from_id = $modeler::model()->id;
         $model_copy->sequence_type = 1;
