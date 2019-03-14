@@ -121,4 +121,30 @@ class Model extends ORM {
         $this->exists($this->database->insertId, 'id');
         return $this;
 	}
+    public function deep_sequence($id = null)
+    {
+        $id = ($id) ?: $this->id;
+        $used_ids = [];
+        $used_ids[] = $id;
+        $model = (new static)->exists($id);
+
+        if($model->usage_type > 0 ){
+            $sequence = $model->sequence;
+            foreach(array_unique($sequence) as $loop_id){
+                if(!in_array($loop_id, $used_ids)){
+                    $used_ids[] = $loop_id;
+                    $loop_model = (new static)->exists($loop_id);
+                    if($loop_model->usage_type > 0){
+                        $used_ids = array_unique(array_merge($used_ids, $this->deep_sequence($loop_id)));
+                    }
+                }
+            }
+        }
+        $new_array = [];
+        foreach((array)$used_ids as $value){
+            $new_array[] = $value;
+        }
+        sort($new_array);
+        return $new_array;
+    }
 }

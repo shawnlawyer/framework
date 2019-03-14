@@ -16,7 +16,6 @@ trait ActiveModelTrait {
             $store = $replace;
 
         }
-        // part of me is wondering if i would rather just return this by reference.
         return $store;
 
     }

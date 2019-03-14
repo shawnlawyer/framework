@@ -11,33 +11,7 @@ use Sequode\Application\Modules\Package\Modeler as PackageModeler;
 
 trait ORMModelExportSequenceSetTrait {
 
-    public static function deep_seq($id)
-    {
-        $used_ids = [];
-        $used_ids[] = $id;
-        $model = (new SequodeModeler::$model)->exists($id);
-
-        if($model->usage_type > 0 ){
-            $sequence = $model->sequence;
-            foreach(array_unique($sequence) as $loop_id){
-                if(!in_array($loop_id, $used_ids)){
-                    $used_ids[] = $loop_id;
-                    $loop_model = (new SequodeModeler::$model)->exists($loop_id);
-                    if($loop_model->usage_type > 0){
-                        $used_ids = array_unique(array_merge($used_ids, static::deep_seq($loop_id)));
-                    }
-                }
-            }
-        }
-        $new_array = [];
-        foreach((array)$used_ids as $value){
-            $new_array[] = $value;
-        }
-        sort($new_array);
-        return $new_array;
-    }
     public static function source(){
-        $used_ids = static::deep_seq(SequodeModeler::model()->id);
         $name_to_id = [];
         foreach(array_unique(SequodeModeler::model()->sequence) as $id){
             $name_to_id[(new SequodeModeler::$model)->exists($id)->name] = $id;
@@ -47,7 +21,7 @@ trait ORMModelExportSequenceSetTrait {
             $model_id_to_key[$id] = $name;
         }
         $models = [];
-        foreach($used_ids as $key => $id){
+        foreach(SequodeModeler::model()->deep_sequence() as $id){
 
             $model = (new SequodeModeler::$model)->exists($id);
             $node = (object)[];
@@ -101,8 +75,6 @@ class ' . PackageModeler::model()->token . ' {
     }
 }
 ';
-        echo $_o;
-        die();
         return $_o;
 
     }
