@@ -6,56 +6,7 @@ use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 use Sequode\Application\Modules\FormInput\Model as FormInputModel;
 
 class Operations{
-    public static function makeSequodeFromModel($sequode_model = null, $add_php=true){
-        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
-        return self::makeCodeFromNode($sequode_model, $add_php);
-    }
-    public static function makeCodeFromNode($node, $add_php=false){
-        if($node->ct == 1){
-            return self::makeFunction($node, $add_php);
-        }
-    }
-    public static function makeFunction($node, $add_php=false){
-            $input_object = (object) null;
-            $input_members = [];
-            $parameters = $node->i;
-            foreach($parameters as $member => $value){
-                $input_object->$member = null;
-                $input_members[] = '$_s->i->'.$member;
-                
-            }
-            $code = [];
-            $code[] = '$_s->o->Success = true;';
-            $code[] = 'if($_s->p->Run_Process === true || intval($_s->p->Run_Process) == 1){';
-            $code[] = '    try{';
-            $output_object = $node->o;
-            if(count(get_object_vars($output_object)) == 2){
-                foreach($output_object as $member => $value){
-                    if($member != 'Success'){
-                        $code[] = '    $_s->o->'.$member.' = '.$node->n.'('.implode(',',$input_members).');';
-                        $code[] = '        if($_s->o->'.$member.' === false){';
-                        $code[] = '            $_s->o->Success = false;';
-                        $code[] = '        }';
-                    }
-                }
-            }else{
-                if($node->n == 'echo'){
-                    $code[] = '    '.$node->n.' '.implode('.',$input_members).';';
-                }else{
-                  $code[] = '    '.$node->n.'('.implode(',',$input_members).');';
-                }
-            }
-            $code[] = '    }catch(Exception $e){';
-            $code[] = '        $_s->o->Success = false;';
-            $code[] = '    }';
-            $code[] = '}';
-        
-        return str_replace('    ','',implode(' ', $code));
-    }
-    public static function makeStaticMethod($sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
-        return self::makeFunction($sequode_model);
-    }
+
     public static function makeSequodeProcessDescriptionNode($sequode_model = null){
         if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
     
