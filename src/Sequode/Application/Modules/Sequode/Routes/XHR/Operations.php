@@ -142,9 +142,9 @@ class Operations {
         }
         $modeler::exists($_model_id,'id');
         forward_static_call_array([$operations, __FUNCTION__], [$name]);
-        $js = [];
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
-    
+        $collection = 'sequodes';
+        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
         return implode(' ', $js);
 
     }
@@ -203,9 +203,7 @@ class Operations {
             forward_static_call_array([$operations, 'makeDefaultSequencedSequode'], []);
             $collection = 'sequodes';
             $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-            $js[] = 'if(typeof registry.active_context != \'undefined\' && typeof registry.active_context.card != \'undefined\'){';
-            $js[] = 'new XHRCall({route:registry.active_context.card, inputs:['.$modeler::model()->id.']});';
-            $js[] = '}';
+            $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
         }
         return implode(' ',$js);
     }
@@ -225,6 +223,7 @@ class Operations {
         && !SequodeAuthority::isFullSequence()
 		)){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [$add_model_id, $position, $position_tuner, $grid_modifier]);
+
 		return;
 	}
 
@@ -287,9 +286,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], []);
         $collection = 'sequodes';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = 'if(registry.active_context != false && registry.active_context.card != \'\' && registry.active_context.node != \'\'){';
-        $js[] = 'new XHRCall({route:registry.active_context.card, inputs:[registry.active_context.node]});';
-        $js[] = '}';
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
         return implode('',$js);
 	}
 
@@ -304,8 +301,9 @@ class Operations {
         && SequodeAuthority::isSequence()
         && AccountAuthority::canEdit($modeler::model())
         )){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], [$grid_area_key, $x, $y]);
-		return;
+        forward_static_call_array([$operations, __FUNCTION__], [$grid_area_key, $x, $y]);$js =[];
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
+        return implode('', $js);
 	}
 
 	public static function addInternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
@@ -319,8 +317,9 @@ class Operations {
         && SequodeAuthority::isSequence()
         && AccountAuthority::canEdit($modeler::model())
         )){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);
-		return;
+        forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);$js =[];
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
+        return implode('', $js);
 	}
 
 	public static function addExternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
@@ -351,8 +350,9 @@ class Operations {
         )){ return; }
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], [$connection_type, $restore_key]);
-		return;
+        forward_static_call_array([$operations, __FUNCTION__], [$connection_type, $restore_key]);$js =[];
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
+        return implode('', $js);
 	}
 
 	public static function updateSharing($_model_id,$json){
@@ -368,7 +368,9 @@ class Operations {
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->sharing)]);
-		return;
+        $js =[];
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
+        return implode('', $js);
 	}
 
 	public static function updateIsPalette($_model_id,$json){
@@ -384,7 +386,9 @@ class Operations {
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->palette)]);
-		return;
+        $js =[];
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
+        return implode('', $js);
 	}
 
 	public static function updateIsPackage($_model_id,$json){
@@ -400,7 +404,9 @@ class Operations {
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->package)]);
-		return;
+        $js =[];
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
+        return implode('', $js);
 	}
 
 	public static function updateDescription($_model_id, $json){
@@ -416,7 +422,9 @@ class Operations {
         $_o = json_decode($json);
         if (!is_object($_o)){ return; }
         forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->description)]);
-		return;
+        $js =[];
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
+		return implode('', $js);
 	}
 
     public static function search($json){

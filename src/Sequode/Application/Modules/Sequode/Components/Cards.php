@@ -112,15 +112,20 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
-        $_o = (object) null;
+
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequodes',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->head = 'Component Settings';
-        $_o->icon_type = 'card-icon';
-        $_o->icon_background = 'atom-icon-background';
-        $_o->size = 'medium';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'sequode-icon-background';
+        $_o->head = 'Component';
         $dom_id = FormInputComponent::uniqueHash('','');
         $components = ModuleForm::render($module::$registry_key, 'componentSettings', [$type, $member, $dom_id]);
-        $_o->body = [];
         $_o->body[] = '<div id="' . $dom_id . '">';
         foreach($components as $component){
             $_o->body[] = $component;
@@ -132,12 +137,21 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
+
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequodes',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->size = 'large';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'sequode-icon-background';
         $_o->head = 'Component';
-        $components = ModuleForm::render($module::$registry_key, 'sequode');
         $_o->body = [];
-        foreach($components as $component){
+        foreach(ModuleForm::render($module::$registry_key, 'sequode') as $component){
             $_o->body[] = $component->html;
         }
         return $_o;
@@ -149,45 +163,32 @@ class Cards {
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequodes',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
         
         $_o->head = 'Sequode Details';
         $_o->size = 'large';
         $_o->body = [''];
-
-        $context = (object)[
-            'card' => $module::xhrCardRoute('details'),
-            'collection' => 'sequodes',
-            'node' => $_model->id
-        ];
-        $_o->body[] = (object) ['js' => DOMElementKitJS::registrySetContext($context,['node'])];
-
-        $input_object = $_model->input_object;
-        $property_object = $_model->property_object;
-        $output_object = $_model->output_object;
-        $input_object_detail = $_model->input_object_detail;
-        $property_object_detail = $_model->property_object_detail;
-        $output_object_detail = $_model->output_object_detail;
-        $input_form_object = $_model->input_form_object;
-        $property_form_object = $_model->property_form_object;
-        
         $_o->body[] = CardKitHTML::sublineBlock('Name');
-        $text = $_model->name;
-        $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$_model->id]), $text, 'settings') : $text;
-        
+        $_o->body[] = (AccountAuthority::canEdit($_model))
+            ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$_model->id]), $_model->name, 'settings')
+            : $_model->name;
         $_o->body[] = CardKitHTML::sublineBlock('Description');
-        $text = $_model->detail->description;
-        $text = (!empty($text)) ? $text : 'Sequode needs description.';
+        $text = $_model->detail->description ?: 'Sequode needs description.';
         $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('description'), [$_model->id]), $text, 'settings') : $text;
         
         if(SequodeAuthority::isCode() && $_model->owner_id == 8){
             $dom_id = FormInputComponent::uniqueHash('','');
             $html = $js = [];
-            $html = '<div class="subline" id="'.$dom_id.'">More info</div>';
+            $html = CardKitHTML::sublineBlock('More Info');
             $js = DOMElementKitJS::onTapEvents($dom_id, 'var win = window.open(\'http://php.net/'.$_model->name.'\', \'_blank\'); win.focus();');
             $_o->body[] = (object) ['html' => $html, 'js' => $js];
         }
@@ -204,8 +205,7 @@ class Cards {
             if(!SequodeAuthority::isEmptySequence($_model)){
                 foreach($sequence as $loop_sequence_key => $loop_model_id){
                     if(!array_key_exists($loop_model_id, $model_object_cache)){
-                        $model_object_cache[$loop_model_id] = new SequodeModeler::$model;
-                        $model_object_cache[$loop_model_id]->exists($loop_model_id,'id');
+                        $model_object_cache[$loop_model_id] = (new SequodeModeler::$model)->exists($loop_model_id,'id');
                     }
                     $text = '('.($loop_sequence_key+1).') '.$model_object_cache[$loop_model_id]->name;
                     $_o->body[] = (AccountAuthority::canEdit($_model)) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrCardRoute('internalPositionForms'), [$_model->id, $loop_sequence_key]), $text, 'settings') : $text;
@@ -229,15 +229,15 @@ class Cards {
             switch($type){
                 case 'input':                            
                     $type_title = 'Inputs';
-                    $type_object = $input_object;
-                    $type_object_detail = $input_object_detail;
-                    $type_form_object = $input_form_object;
+                    $type_object = $_model->input_object;
+                    $type_object_detail = $_model->input_object_detail;
+                    $type_form_object = $_model->input_form_object;
                 break;
                 case 'property':
                     $type_title = 'Properties';
-                    $type_object = $property_object;
-                    $type_object_detail = $property_object_detail;
-                    $type_form_object = $property_form_object;
+                    $type_object = $_model->property_object;
+                    $type_object_detail = $_model->property_object_detail;
+                    $type_form_object = $_model->property_form_object;
                 break;
             }
         
@@ -251,10 +251,10 @@ class Cards {
                 }
             }
         }
-        if($output_object != (object) null){
+        if($_model->output_object != (object) null){
             $_o->body[] = CardKitHTML::sublineBlock('Outputs');
-            foreach($output_object as $member => $value){
-                $_o->body[] = $member . ' (' . $output_object_detail->$member->type. ')';
+            foreach($_model->output_object as $member => $value){
+                $_o->body[] = $member . ' (' . $_model->output_object_detail->$member->type. ')';
             }
             $_o->body[] = '';
         }
@@ -273,16 +273,19 @@ class Cards {
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequodes',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
-        
         $_o->head = $_model->name;
-        
-        $sequence = $_model->sequence;
-        foreach($sequence as $loop_sequence_key => $loop_model_id){
+        $_o->body = [];
+        foreach($_model->sequence as $loop_sequence_key => $loop_model_id){
             $_o->body[] = ModuleCard::render($module::$registry_key,'internalPositionForms', [$loop_sequence_key]);
         }
         if(AccountAuthority::isSystemOwner()){
@@ -295,25 +298,27 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
-        $_o = (object) null;
-        $_o->size = 'medium';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
 
-        
+        $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequodes',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $sequence = $_model->sequence;
         if(!isset($sequence[$position])){ return; }
         $sequence_model_id = $sequence[$position];
         $sequence_model = new SequodeModeler::$model;
         $sequence_model->exists($sequence_model_id,'id');
-        
+
+        $_o->size = 'large';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'sequode-icon-background';
         $_o->head = $sequence_model->name;
-        $_o->menu->items = self::modelOperationsMenuItems('', $sequence_model);
         $_o->body = [];
-        $_o->body[] = '';
-        
+
         $types = ['input', 'property'];
         $type_labels = ['input' => 'Inputs', 'property' => 'Properties'];
         $detail_object_members = ['input' => 'input_object_detail', 'property' => 'property_object_detail'];
@@ -376,14 +381,18 @@ class Cards {
         $module = static::$module;
         $modeler = $module::model()->modeler;
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
+
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequodes',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
-        
         $_o->head = 'Sequode Chart &gt; Edit &gt; '.$_model->name;
         
         $items = [];
@@ -398,7 +407,6 @@ class Cards {
             'js_action'=> 'new XHRCall({route:\''.$module::xhrFormRoute('selectPalette').'\',inputs:['.FormComponent::jsQuotedValue($dom_id).']});'
         ];
         $_o->menu->items = array_merge($items,$_o->menu->items);
-        
         $_o->body = [];
         $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = [];
@@ -423,16 +431,18 @@ class Cards {
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequodes',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
-        
         $_o->head = 'Sequode Chart &gt; View &gt; '.$_model->name;
-        
         $_o->body = [];
-        $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = [];
         $html[] = '<div class="SequencerStageContainer" id="'.$dom_id.'chart"></div>';
         $js[] = 'var sequencer;';
@@ -452,6 +462,11 @@ class Cards {
         $module = static::$module;
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequode_search',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
@@ -479,6 +494,11 @@ class Cards {
 
         $module = static::$module;
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'my_sequodes',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
@@ -505,6 +525,11 @@ class Cards {
 
         $module = static::$module;
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sequode_favorites',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';

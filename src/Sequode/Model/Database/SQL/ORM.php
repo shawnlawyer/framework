@@ -38,13 +38,12 @@ class ORM {
     public function __get($member)
     {
         if (isset($this->_members[$member]) && array_key_exists($member, static::normalizations) && array_key_exists('get', static::normalizations[$member])) {
-            //    echo "Getting {$member}," . PHP_EOL . " normalize is on." . PHP_EOL;
-            return  forward_static_call_array([static::class, static::normalizations[$member]['get']], [$this->_members[$member]]);
+            return forward_static_call_array([static::class, static::normalizations[$member]['get']], [$this->_members[$member]]);
         } elseif (isset($this->_members[$member])) {
-            //    echo "Getting {$member}," . PHP_EOL . " normalize is off." . PHP_EOL;
             return $this->_members[$member];
+        } elseif (in_array($member, get_class_methods(static::class))) {
+            return $this->{ $member}();
         } elseif (isset($this->$member)) {
-            //    echo "Getting {$member}," . PHP_EOL . " normalize is off." . PHP_EOL;
             return $this->$member;
         }
         return false;
@@ -52,17 +51,15 @@ class ORM {
 
     public function __set($member, $value){
         if (isset($this->members[$member]) && array_key_exists($member, static::normalizations) && array_key_exists('set', static::normalizations[$member])) {
-            //    echo "Setting {$member}," . PHP_EOL . " normalize is on." . PHP_EOL;
             $this->_members[$member] = forward_static_call_array([static::class, static::normalizations[$member]['set']], [$value]);
         } elseif (isset($this->members[$member])) {
-            //    echo "Setting {$member}," . PHP_EOL . " normalize is off." . PHP_EOL;
             $this->_members[$member] = $value;
         } else{
             $this->$member = $value;;
         }
     }
     //object constructor
-    public function __construct($value=null, $by='id', $lookupMembers=true){
+    public function __construct($value=null, $by='id', $lookupMembers=true) {
         $this->database = ResourceConnection::model()->{$this->database_connection};
         if($lookupMembers === true)
         {
@@ -75,7 +72,7 @@ class ORM {
         return $this;
     }
     //standard delete record
-    public function delete($id=null, $limit=1){
+    public function delete($id=null, $limit=1) {
         if($id === null && !$this->_members['id']){
             return false;
         }elseif($id === null){
@@ -83,7 +80,7 @@ class ORM {
         }
         $sql = "
 			DELETE FROM {$this->table} WHERE id = ".$this->safedSQLData($id, "int")." LIMIT 1;
-			";
+		";
         $this->database->query($sql);
         return true;
     }
@@ -115,7 +112,7 @@ class ORM {
         return false;
     }
     //creates a record
-    public function create(){
+    public function create() {
         $this->all = [];
         $sql = "
 			INSERT INTO {$this->table}
@@ -128,7 +125,7 @@ class ORM {
         $this->exists($this->database->insertId, 'id');
         return $this;
     }
-    public function save(){
+    public function save() {
         $this->all = [];
         if(!isset($this->_members['id'])){return false;}
         foreach($this->members as $member=>$value){
@@ -139,7 +136,7 @@ class ORM {
         return $this;
     }
     //updates a field of a record
-    public function updateField($value, $member){
+    public function updateField($value, $member) {
         $this->all = [];
         $save_type = (isset($this->members[$member]) && isset($this->members[$member]['saveType'])) ? $this->members[$member]['saveType'] : 'quoted';
         switch($save_type){
@@ -161,7 +158,7 @@ class ORM {
 				";
                 break;
         }
-        if($this->database->query($sql)){
+        if($this->database->query($sql)) {
             $this->members[$member]['value'] = $value;
             $this->_members[$member] = $value;
             return $this;
@@ -170,7 +167,7 @@ class ORM {
         }
     }
     // establish objects relationship
-    function getRelationship($key=0){
+    function getRelationship($key=0) {
         $this->all = [];
         if(!$this->_members['id']){return false;}
         $object = new $this->object_relationships[$key];

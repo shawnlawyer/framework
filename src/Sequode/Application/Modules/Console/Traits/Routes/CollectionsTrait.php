@@ -37,7 +37,7 @@ trait CollectionsTrait {
             if(!empty($module::model()->collections)){
                 
                 if(isset($collection) && in_array($collection, Routeables::routes($module::model()->collections))){
-                    
+
                     forward_static_call_array([$module::model()->collections, Routeables::route($module::model()->collections, $collection)], ($key != null) ? [$key] : []);
 					return;
                     

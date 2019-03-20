@@ -15,7 +15,7 @@ trait ORMModelExportSequenceSetTrait {
 
         $sequode_model = SequodeModeler::model();
 
-        $models = static::nodes($sequode_model->deep_sequence());
+        $models = static::nodes($sequode_model->deep_sequence);
 
         $id_to_key = static::idToKey($models);
 

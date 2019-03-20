@@ -63,6 +63,13 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'users',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
@@ -71,7 +78,6 @@ class Cards {
         
         $_o->head = 'User Detail';
         $_o->body = [''];
-        
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject( $module::xhrFormRoute('updateName'), [$modeler::model()->id]), $modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Password');
@@ -108,6 +114,11 @@ class Cards {
         $modeler = $module::model()->modeler;
 		
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'user_search',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';

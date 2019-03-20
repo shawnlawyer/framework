@@ -4,6 +4,7 @@ namespace Sequode\Application\Modules\Account\Components;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 
+use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\Card\Kit as CardKit;
@@ -40,6 +41,18 @@ class Cards {
         return $_o;
         
     }
+
+    public static function modelOperationsMenuItems($filter='', $_model = null){
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+        $items = [];
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Detail', $module::xhrCardRoute('detail'), [$_model->id]);
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Password', $module::xhrCardRoute('updatePassword'), [$_model->id]);
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Email', $module::xhrCardRoute('updateEmail'), [$_model->id]);
+
+        return $items;
+    }
     public static function details(){
         
         $module = static::$module;
@@ -49,11 +62,19 @@ class Cards {
         $_model = forward_static_call_array([$modeler,'model'],[]);
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'users',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->head = 'Account Detail';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $_model->email;
+
         if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }
@@ -74,6 +95,9 @@ class Cards {
         $step = $dialog->steps[$dialog_store->step];
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__)
+        ];
         $_o->icon_background = 'users-icon-background';
         $_o->size = 'small';
         
@@ -87,7 +111,11 @@ class Cards {
         
         $_o->head = 'Account Password';
         $_o->body = [''];
-        
+        $js = [];
+        $_o->body[] = (object) ['js' => implode('', $js)];
+        if(AccountAuthority::isSystemOwner()){
+            $_o->body[] = CardKitHTML::modelId($_model);
+        }
         if(isset($step->content)){
             
             if(isset($step->content->head)){
@@ -141,6 +169,9 @@ class Cards {
         $step = $dialog->steps[$dialog_store->step];
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__)
+        ];
         $_o->icon_background = 'users-icon-background';
         $_o->size = 'small';
         
@@ -154,7 +185,9 @@ class Cards {
         
         $_o->head = 'Account Email';
         $_o->body = [''];
-        
+
+        $js = [];
+        $_o->body[] = (object) ['js' => implode('', $js)];
         if(isset($step->content)){
             
             if(isset($step->content->head)){

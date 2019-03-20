@@ -24,7 +24,7 @@ class Downloads{
 		 )){ return; }
         
         header('Content-Type: text/plain',true);
-        header('Content-Disposition: attachment; filename="' . $modeler::model()->token . '.class.php"');
+        //header('Content-Disposition: attachment; filename="' . $modeler::model()->token . '.class.php"');
         echo forward_static_call_array([$operations, __FUNCTION__],[$modeler::model()]);
     }
 }

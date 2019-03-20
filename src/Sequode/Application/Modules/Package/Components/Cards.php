@@ -79,6 +79,13 @@ class Cards {
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'packages',
+            'node' => $_model->id
+        ];
+        $_o->menu = (object) null;
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
@@ -109,6 +116,11 @@ class Cards {
         $module = static::$module;
 
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'packages',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
         $_o->size = 'fullscreen';
         $_o->head = 'My Packages';
         $_o->icon_type = 'menu-icon';
@@ -133,6 +145,11 @@ class Cards {
         
         $module = static::$module;
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'package_search',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';

@@ -30,7 +30,7 @@ class Operations {
         $js = [];
         $collection = $module::model()->context;
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
+
         return implode(' ', $js);
     }
 
@@ -49,7 +49,6 @@ class Operations {
         $js = [];
         $collection = $module::model()->context;
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
         return implode(' ', $js);
     }
 

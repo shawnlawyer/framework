@@ -121,7 +121,7 @@ class Model extends ORM {
         $this->exists($this->database->insertId, 'id');
         return $this;
 	}
-    public function deep_sequence($id = null)
+        public function deep_sequence($id = null)
     {
         $id = ($id) ?: $this->id;
         $used_ids = [];

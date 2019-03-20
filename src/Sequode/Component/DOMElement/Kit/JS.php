@@ -190,7 +190,7 @@ class JS {
         return implode(' ',$js);
 	}
     public static function registrySetContext($context, $raw_members=[]){
-
+        $raw_members = $context->raw_members ?: $raw_members;
         $js[] = 'registry.setContext({';
         $js[] = 'card:\''.$context->card.'\'';
         if($context->collection){
@@ -199,6 +199,11 @@ class JS {
                 : ', collection:'.$context->collection;
         }
         if($context->node){
+
+            $node = !in_array('node', $raw_members)
+                ? "'" . $context->node . "'"
+                : $context->node;
+
             $js[] = !in_array('node', $raw_members)
                 ? ', node:\''.$context->node.'\''
                 : ', node:'.$context->node;
@@ -207,7 +212,23 @@ class JS {
             $js[] = ',tearDown:'.$context->tearDown;
         }
         $js[] = '});';
+        if($node){
+            $js[] = "history.pushState(null, null, '?card=' + registry.active_context.card.replace('cards/', '') + '&id=' + registry.active_context.node);";
+        }else{
+            $js[] = "history.pushState(null, null, '?card=' + registry.active_context.card.replace('cards/', ''));";
+        }
         return implode(' ',$js);
+    }
+    public static function  registryRefreshContext($id=false){
+
+        $js[] = "if(typeof registry.active_context != 'undefined' && typeof registry.active_context.card != 'undefined'){";
+        if($id  === false) {
+            $js[] = "XHRCall({route:registry.active_context.card, inputs:[]});";
+        } else {
+            $js[] = "XHRCall({route:registry.active_context.card, inputs:[registry.active_context.node]});";
+        }
+        $js[] = "}";
+        return implode('',$js);
     }
     public static function registrySubscribeToUpdates($subscription, $raw_members=[]){
 

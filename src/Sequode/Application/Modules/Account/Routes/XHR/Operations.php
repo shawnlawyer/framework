@@ -80,9 +80,7 @@ class Operations {
         $collection = 'sequode_favorites';
         $js[] = DOMElementKitJS::fetchCollection($collection);
         $js[] = DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id);
-        $js[] = 'if(typeof registry.active_context != \'undefined\' && typeof registry.active_context.card != \'undefined\'){';
-        $js[] = 'new XHRCall({route:registry.active_context.card, inputs:['.SequodeModeler::model()->id.']});';
-        $js[] = '}';
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
         return implode(' ', $js);
     }
 
@@ -104,9 +102,7 @@ class Operations {
         $collection = 'sequode_favorites';
         $js[] = DOMElementKitJS::fetchCollection($collection);
         $js[] = DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id);
-        $js[] = 'if(typeof registry.active_context != \'undefined\' && typeof registry.active_context.card != \'undefined\'){';
-        $js[] = 'new XHRCall({route:registry.active_context.card, inputs:['.SequodeModeler::model()->id.']});';
-        $js[] = '}';
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
         return implode(' ', $js);
     }
 

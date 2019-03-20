@@ -1,6 +1,8 @@
 <?php
 namespace Sequode\Component;
 
+use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
+
 class Card {
     
     public static function cardMenuComponent($menu_object){
@@ -82,7 +84,10 @@ class Card {
         if(!isset($card_object->component_seperator)){
             $card_object->component_seperator = '<div class="automagic-content-row-divider"></div>';
         }
-        
+
+        if($card_object->context){
+            $js[] = DOMElementKitJS::registrySetContext($card_object->context);
+        }
         if(isset($card_object->head) || isset($card_object->menu)){
             $html[] = '<div class="automagic-card-head"';
             $html[] = (isset($card_object->size) && $card_object->size == 'fullscreen') ? ' style="position:fixed !important; left: 2.1em !important; top: 0 !important; padding: .3em .3em !important; height:0px !important; overflow:visible !important; vertical-align: bottom;"' : '';
@@ -133,6 +138,7 @@ class Card {
                 }
             }
         }
+
         $html[] = '</div>';
         
         return (object) ['html' => implode('',$html), 'js' => implode('',$js)];

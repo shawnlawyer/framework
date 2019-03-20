@@ -24,23 +24,7 @@ class Kit {
         }
         return $items;
     }
-    
-    public static function modelsTileBody(){
-        
-        $module = ModuleRegistry::module($module_registry_key);
-        $operations = $module::model()->operations;
-        $context = $module::model()->context;
-        
-        $dom_id = FormInputComponent::uniqueHash('','');
-        $html = $js = [];
-        $models = $operations::getOwnedModels($user_model, 'id,name')->all;
-        
-        $items[] = [];
-        foreach($models as $i => $object){
-            $items[] = self::onTapEventsXHRCallMenuItem($object->name, $module::xhrCardRoute('details'), [$object->id]);
-        }
-        return $items;
-    }
+
     public static function ownedItemsCollectionTile($module_registry_key, $user_model, $headline=''){
         
         $module = ModuleRegistry::module($module_registry_key);
@@ -81,13 +65,6 @@ class Kit {
         $js[] = 'cards.icon = \''.$component->icon.'\';';
         $js[] = 'cards.details_route = \''.$component->details_route.'\';';
         $js[] = 'cards.collection = \''.$component->collection.'\';';
-
-        $context = (object)[
-            'card' => $component->card_route,
-            'collection' => $component->collection,
-            'teardown' => 'function(){cards = undefined;}'
-        ];
-        $js[] = DOMElementKitJS::registrySetContext($context);
 
         $subscription = (object)[
             'type' => 'context',

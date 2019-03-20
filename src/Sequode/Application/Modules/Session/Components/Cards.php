@@ -118,6 +118,11 @@ deleteInCollection((object)['route' => $module::xhrOperationRoute('destroy'), 'm
         $modeler = $module::model()->modeler;
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'session_search',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'session-icon-background';
@@ -136,8 +141,7 @@ deleteInCollection((object)['route' => $module::xhrOperationRoute('destroy'), 'm
             ];
         }
         $_o->body = [];
-        $_o->body[] = CardKit::
-collectionCard((object) ['collection'=>'session_search', 'icon'=>'atom', 'card_route'=>$module::xhrCardRoute('search'), 'details_route'=>$module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'session_search', 'icon'=>'atom', 'card_route'=>$module::xhrCardRoute('search'), 'details_route'=>$module::xhrCardRoute('details')]);
         
         return $_o;
         

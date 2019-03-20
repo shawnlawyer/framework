@@ -81,6 +81,11 @@ class Cards {
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'tokens',
+            'node' => $_model->id
+        ];
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
@@ -89,19 +94,10 @@ class Cards {
         
         $_o->head = 'Token Details';
         $_o->body = [''];
-        $context = (object)[
-            'card' => $module::xhrCardRoute('details'),
-            'collection' => 'tokens',
-            'node' => $_model->id
-        ];
-        $_o->body[] = (object) ['js' => DOMElementKitJS::registrySetContext($context,['node'])];
-
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$_model->id]), $_model->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Token');
         $_o->body[] = $_model->token;
-        
-        
         $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module::xhrCardRoute('details')]);
         if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
@@ -113,6 +109,10 @@ class Cards {
 
         $module = static::$module;
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'tokens'
+        ];
         $_o->size = 'fullscreen';
         $_o->head = 'My Tokens';
         $_o->icon_type = 'menu-icon';
@@ -128,6 +128,7 @@ class Cards {
             'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($module::xhrOperationRoute('newToken')))
         ];
         $_o->body = [];
+
         $_o->body[] = CardKit::collectionCard((object) ['collection' => 'tokens', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('my'), 'details_route' => $module::xhrCardRoute('details')]);
         return $_o;
     }
@@ -136,6 +137,11 @@ class Cards {
         $module = static::$module;
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'token_search',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
