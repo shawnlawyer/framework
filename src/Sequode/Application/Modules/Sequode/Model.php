@@ -6,9 +6,9 @@ use Sequode\Model\Database\SQL\ORM;
 
 class Model extends ORM {
 
-    public $database_connection     =   'sequodes_database';
+    const Database_Connection     =   'sequodes_database';
 
-	public $table 					=	'sequodes';
+    const Table 				  =	'sequodes';
 
 	public $usage_types				=	[
 	    0 => 'code',
@@ -21,12 +21,7 @@ class Model extends ORM {
         1 => 'object_oriented'
     ];
 
-	public function __construct() {
-		parent::__construct();
-		return true;
-	}
-
-    const normalizations = [
+    const Normalizations = [
         'sequence' => [
                 'get' => 'jsonToObject',
                 'set' => 'objectToJson'
@@ -105,23 +100,7 @@ class Model extends ORM {
         ],
     ];
 
-    public function create($name = '', $printable_name = '', $usage_type = '', $version = ''){
-		$sql = "
-			INSERT INTO {$this->table}
-		 	(`id`,`name`,`printable_name`,`usage_type`,`version`)
-			VALUES
-		 	(0
-			,".$this->safedSQLData($name, 'text')."
-			,".$this->safedSQLData($printable_name, 'text')."
-			,".$this->safedSQLData($usage_type, 'text')."
-			,".$this->safedSQLData($version, 'text').")
-			";
-        $this->database->query($sql);
-        $this->_members['id'] = $this->database->insertId;
-        $this->exists($this->database->insertId, 'id');
-        return $this;
-	}
-        public function deep_sequence($id = null)
+    public function deep_sequence($id = null)
     {
         $id = ($id) ?: $this->id;
         $used_ids = [];

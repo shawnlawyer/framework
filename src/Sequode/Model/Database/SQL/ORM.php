@@ -4,407 +4,604 @@ namespace Sequode\Model\Database\SQL;
 use Sequode\Model\Database\ResourceConnection;
 
 class ORM {
-    //Setting object members
-    public $table 			=	'';
-    public $orderBy			=	'id';
-    public $order			=	'ASC';
-    public $all				=	[];
-    public $members			= 	[];
-    public $next_id;
-    public $previous_id;
+
+    const Table 			    =	'';
+    const Database_Connection   =   'system_database';
+    const Order_By			    =	'id';
+    const Order			        =	'ASC';
+    const Normalizations	    = 	[];
+
+    public $all				    =	[];
+    public $members			    = 	[];
+    public $_members		    = 	[];
     public $results_count;
-    private $_members		= 	[];
-    public $relationships	= 	[];
-    public $database_connection = 'system_database';
     public $database;
-    const normalizations		= 	[];
 
     public static function jsonToObject($value){
-        return json_decode($value);
+
+        return ($value !== null) ? json_decode($value) : (object) [];
+
     }
 
     public static function objectToJson($object){
+
         return json_encode($object);
+
     }
 
     public static function serializedToObject($value){
-        return unserialize($value);
+
+        return ($value !== null) ? unserialize($value) : (object) [];
+
     }
 
     public static function objectToSerialized($object){
+
         return serialize($object);
+
     }
 
     public function __get($member)
     {
-        if (isset($this->_members[$member]) && array_key_exists($member, static::normalizations) && array_key_exists('get', static::normalizations[$member])) {
-            return forward_static_call_array([static::class, static::normalizations[$member]['get']], [$this->_members[$member]]);
-        } elseif (isset($this->_members[$member])) {
+        if (isset($this->_members[$member]) && array_key_exists($member, static::Normalizations) && array_key_exists('get', static::Normalizations[$member])){
+
+            return forward_static_call_array([static::class, static::Normalizations[$member]['get']], [$this->_members[$member]]);
+
+        } elseif (isset($this->_members[$member])){
+
             return $this->_members[$member];
-        } elseif (in_array($member, get_class_methods(static::class))) {
+
+        } elseif (in_array($member, get_class_methods(static::class))){
+
             return $this->{ $member}();
-        } elseif (isset($this->$member)) {
+
+        } elseif (isset($this->$member)){
+
             return $this->$member;
+
         }
+
         return false;
+
     }
 
     public function __set($member, $value){
-        if (isset($this->members[$member]) && array_key_exists($member, static::normalizations) && array_key_exists('set', static::normalizations[$member])) {
-            $this->_members[$member] = forward_static_call_array([static::class, static::normalizations[$member]['set']], [$value]);
+
+        if (isset($this->members[$member]) && array_key_exists($member, static::Normalizations) && array_key_exists('set', static::Normalizations[$member])){
+
+            $this->_members[$member] = forward_static_call_array([static::class, static::Normalizations[$member]['set']], [$value]);
+
         } elseif (isset($this->members[$member])) {
+
             $this->_members[$member] = $value;
+
         } else{
-            $this->$member = $value;;
+
+            $this->$member = $value;
+
         }
+
     }
-    //object constructor
-    public function __construct($value=null, $by='id', $lookupMembers=true) {
-        $this->database = ResourceConnection::model()->{$this->database_connection};
-        if($lookupMembers === true)
-        {
-            $this->setMembers();
-        }
-        if($value !== true)
-        {
+
+    // constructor
+    public function __construct($value=null, $by='id'){
+
+        $this->members = static::members();
+
+        if($value !== null){
+
             return $this->exists($value, $by);
+
         }
+
         return $this;
+
     }
-    //standard delete record
+
+    // delete record
     public function delete($id=null, $limit=1) {
+
         if($id === null && !$this->_members['id']){
+
             return false;
+
         }elseif($id === null){
+
             $id = $this->_members['id'];
+
         }
+
         $sql = "
-			DELETE FROM {$this->table} WHERE id = ".$this->safedSQLData($id, "int")." LIMIT 1;
+			DELETE FROM ". static::Table ." WHERE id = ".static::escapeValue($id, "int")." LIMIT 1;
 		";
-        $this->database->query($sql);
+
+        static::database()->query($sql);
+
         return true;
+
     }
     //attempts to bring the full object into existence using a value and field name
     public function exists($value, $by='id') {
         $this->all = [];
+
         if (!isset($this->members[$by]) || intval($this->members[$by]['unique']) === 0){
             return false;
+
         }
         $sql = "
 			SELECT *
-			FROM {$this->table}
-			WHERE {$by} = ".$this->safedSQLData($value, $this->members[$by]['saveType'])."
+			FROM ". static::Table ."
+			WHERE {$by} = ".static::escapeValue($value, $this->members[$by]['basic_type'])."
 			";
 
-        $result = $this->database->query($sql, true);
+        $result = static::database()->query($sql, true);
+
         if($result){
 
             foreach($this->members as $member=>$value){
-                //$this->$member = $result->$member;
+
                 $this->members[$member]['value'] = $result->$member;
                 $this->_members[$member] = $result->$member;
+
             }
 
-            //$this->id				=	$row->id;
-            //$this->parameters		=	$this->getRelationship(0);
             return $this;
+
         }
+
         return false;
+
     }
+
     //creates a record
-    public function create() {
-        $this->all = [];
-        $sql = "
-			INSERT INTO {$this->table}
-		 	(`id`)
-			VALUES
-		 	(0)
-			";
-        $this->database->query($sql);
-        $this->_members['id'] = $this->database->insertId;
-        $this->exists($this->database->insertId, 'id');
-        return $this;
-    }
-    public function save() {
-        $this->all = [];
-        if(!isset($this->_members['id'])){return false;}
-        foreach($this->members as $member=>$value){
-            if($this->members[$member]['value'] !== $this->_members[$member]){
-                $this->updateField($this->_members[$member], $member);
+    public static function create($data = []){
+
+        $members = static::members();
+
+        $record = (array_key_exists('id', $members)) ? ['id' => 0] : [];
+
+        foreach ($data as $member => $value){
+
+            if(array_key_exists($member, $members)){
+
+                if(array_key_exists($member, static::Normalizations) && array_key_exists('set', static::Normalizations[$member])){
+
+                    $value = forward_static_call_array([static::class, static::Normalizations[$member]['set']], [$value]);
+
+                }
+
+                $record[$member] = static::escapeValue($value, $members[$member]['basic_type']);
+
             }
+
         }
-        return $this;
+
+        $sql = "
+			INSERT INTO ". static::Table ."
+		 	(`" . implode("`,`", array_keys($record)) . "`)
+			VALUES
+			(" . implode(",", $record) . ")
+		 	";
+
+        static::database()->query($sql);
+
+        if(array_key_exists('id', $members)){
+
+            return new static(static::database()->insertId, 'id');
+
+        }
+
     }
-    //updates a field of a record
-    public function updateField($value, $member) {
-        $this->all = [];
-        $save_type = (isset($this->members[$member]) && isset($this->members[$member]['saveType'])) ? $this->members[$member]['saveType'] : 'quoted';
-        switch($save_type){
-            case 'int':
-                $sql = "
-					UPDATE {$this->table}
-					SET
-					`{$member}` = ".$this->safedSQLData($value, "int")."
-					WHERE id = ".$this->safedSQLData($this->_members['id'], "int")."
-				";
-                break;
-            case 'quoted':
-            default:
-                $sql = "
-					UPDATE {$this->table}
-					SET
-					`{$member}` = ".$this->safedSQLData($value, "text")."
-					WHERE id = ".$this->safedSQLData($this->_members['id'], "int")."
-				";
-                break;
-        }
-        if($this->database->query($sql)) {
-            $this->members[$member]['value'] = $value;
-            $this->_members[$member] = $value;
-            return $this;
-        }else{
+
+    public function update($data = [], $normalize = true){
+
+        $members = static::members();
+
+        if(!isset($this->_members['id'])){
+
             return false;
+
         }
+
+        $record = [];
+
+        foreach ($data as $member => $value){
+
+            if(array_key_exists($member, $members)){
+
+                if($normalize === true && array_key_exists($member, static::Normalizations) && array_key_exists('set', static::Normalizations[$member])){
+
+                    $value = forward_static_call_array([static::class, static::Normalizations[$member]['set']], [$value]);
+
+                }
+
+                $record[$member] = $value;
+
+            }
+
+        }
+
+        $updates = [];
+
+        foreach($record as $member => $value){
+
+            if($this->members[$member]['value'] !== $this->_members[$member]){
+
+                $updates[] = static::setValueStatement(static::escapeValue($value, $members[$member]['basic_type']), $member);
+
+                $this->members[$member]['value'] = $value;
+
+                $this->_members[$member] = $value;
+
+            }
+
+        }
+
+        if($updates === []){
+
+            return $this;
+
+        }
+
+        $sql = "UPDATE ". static::Table ." SET ". PHP_EOL . implode(", " .PHP_EOL, $updates) . " WHERE `id` = ".static::escapeValue($this->_members['id'], "int");
+
+        static::database()->query($sql);
+
+        return $this;
+
     }
-    // establish objects relationship
-    function getRelationship($key=0) {
+
+    public function save() {
+
         $this->all = [];
-        if(!$this->_members['id']){return false;}
-        $object = new $this->object_relationships[$key];
-        $object->getAll($this->id);
-        if(count($object->all) > 0){
-            return $object->all;
-        }else{
-            return [];
+
+        if(!isset($this->_members['id'])){
+
+            return false;
+
         }
+
+        $data = [];
+
+        foreach($this->members as $member=>$value){
+
+            if($this->members[$member]['value'] !== $this->_members[$member]){
+
+                $data[$member] = $this->_members[$member];
+
+            }
+
+        }
+
+        $this->update($data, false);
+
+        return $this;
+
     }
 
     public function getAll($where='', $fields='*', $limit='', $singleArray=false){
-        $sql = "SELECT ".$fields." FROM {$this->table} ";
+
+        $sql = "SELECT ".$fields." FROM ". static::Table ." ";
+
         if($where != '' && !is_array($where)){
+
             return false;
+
         }else if(is_array($where)){
+
             $temp_sql = '';
+
             for($i=0;$i<count($where);$i++){
+
                 $field = '';
                 $type = '';
                 $operator = '=';
                 $value = '';
-                if(isset($this->members[$where[$i]['field']]['saveType'])){
+
+                if(isset($this->members[$where[$i]['field']]['save_type'])){
+
                     $field = $where[$i]['field'];
-                    $type = $this->members[$where[$i]['field']]['saveType'];
+                    $type = $this->members[$where[$i]['field']]['save_type'];
                     $value = $where[$i]['value'];
+
                     if(isset($where[$i]['operator'])){
+
                         $operator = $where[$i]['operator'];
+
                     }
+
                     if($temp_sql != ''){
+
                         $temp_sql .= ' AND ';
+
                     }
-                    $temp_sql .= $this->statementWhereClauseSnippit($field,$type,$operator,$value);
+
+                    $temp_sql .= static::whereClause($field,$type,$operator,$value);
                 }
+
+
             }
+
         }
+
         if($temp_sql != ''){
+
             $sql .= 'WHERE '.$temp_sql .' ';
+
         }
-        $sql .= "ORDER BY {$this->orderBy} {$this->order}";
+
+        $sql .= "ORDER BY ".static::Order_By." ".static::Order." ";
+
         if($limit != ''){
+
             $sql .= ' LIMIT '.$limit .'';
+
         }
-        $results = $this->database->query($sql);
+
+        $results = static::database()->query($sql);
         $this->all = [];
+
         if($results){
+
             if (strpos(',', $fields) === false && $fields != '*' && $singleArray == true) {
+
                 while ($row = $results->fetch_object()) {
+
                     $this->all[] = $row->$fields;
+
                 }
+
             } else {
+
                 while ($row = $results->fetch_object()) {
+
                     $this->all[] = $row;
+
                 }
+
             }
+
         }
+
         return $results ? true : false;
+
     }
 
-    public function getCount($where='',$fields='*',$singleArray=false,$limit=''){
-        $sql = "SELECT COUNT(".$fields.") as results_count FROM {$this->table} ";
+    public function getCount($where='', $fields='*', $singleArray=false, $limit=''){
+
+        $sql = "SELECT COUNT(".$fields.") as results_count FROM ". static::Table ." ";
+
         if($where != '' && !is_array($where)){
+
             return false;
-        }else if(is_array($where)){
+
+        }elseif(is_array($where)){
+
             $temp_sql = '';
             for($i=0;$i<count($where);$i++){
+
                 $field = '';
                 $type = '';
                 $operator = '=';
                 $value = '';
-                if(isset($this->members[$where[$i]['field']]['saveType'])){
+                if(isset($this->members[$where[$i]['field']]['save_type'])){
+
                     $field = $where[$i]['field'];
-                    $type = $this->members[$where[$i]['field']]['saveType'];
+                    $type = $this->members[$where[$i]['field']]['save_type'];
                     $value = $where[$i]['value'];
+
                     if(isset($where[$i]['operator'])){
+
                         $operator = $where[$i]['operator'];
+
                     }
+
                     if($temp_sql != ''){
+
                         $temp_sql .= ' AND ';
+
                     }
-                    $temp_sql .= $this->statementWhereClauseSnippit($field,$type,$operator,$value);
+                    $temp_sql .= static::whereClause($field,$type,$operator,$value);
                 }
             }
         }
+
         if($temp_sql != ''){
             $sql .= 'WHERE '.$temp_sql .' ';
         }
-        $sql .= "ORDER BY {$this->orderBy} {$this->order}";
+
+        $sql .= "ORDER BY ". static::Order_By ." ". static::Order ." ";
         if($limit != ''){
             $sql .= ' LIMIT '.$limit .'';
         }
-        $results = $this->database->query($sql, true);
+
+        $results = static::database()->query($sql, true);
 
         $this->results_count = $results->results_count;
 
         return $results ? true : false;
+
     }
 
-    public function getPreviousId(){
-        if(!$this->__get('id')){return false;}
-        $sql = "SELECT id as previous_id FROM {$this->table} where  AND id < {$this->id} LIMIT 1;";
-        $results = $this->database->query($sql, true);
-        $this->previous_id = $results->previous_id;
+    public function setValueStatement($value, $member) {
 
-        return $results ? true : false;
-    }
-    public function getNextId(){
-        if(!$this->__get('id')){return false;}
-        $sql = "SELECT id as next_id FROM {$this->table} where  AND id > {$this->id} LIMIT 1;";
-        $results = $this->database->query($sql, true);
-        $this->next_id = $results->next_id;
+        return "`{$member}` = {$value}";
 
-        return $results ? true : false;
     }
-    public function statementWhereClauseSnippit($field,$type,$operator,$value){
-        if(strpos(strtolower($this->statementWhereClauseOperator($operator, $type)), 'like') === false){
-            $output = '`'.$field.'` '. $this->statementWhereClauseOperator($operator, $type) .' '. $this->safedSQLData($value, $type);
-        }else{
-            $output = '`'.$field.'` '. $this->statementWhereClauseOperator($operator, $type) .' '. $this->safedSQLData($this->statementWhereClauseOperatorWildcard($operator, $value), $type);
-        }
-        return $output;
+
+    public static function whereClause($field, $type, $operator, $value){
+
+        $where_operator = static::whereClauseOperator($operator, $type);
+
+        $where_value = (strpos(strtolower($where_operator), 'like') === false)
+            ? static::escapeValue($value, $type)
+            : static::escapeValue(static::whereClauseValue($operator, $value), $type);
+
+        return "`{$field}` {$where_operator} {$where_value}";
+
     }
-    public function statementWhereClauseOperator($operator,$type){
+
+    public static function whereClauseOperator($operator, $type){
+
         switch($operator){
+
             case '<':
             case '>':
             case '<=':
             case '>=':
-                if($type != 'int' || $type != 'float'){
-                    return false;
-                }else{
-                    return $operator;
-                }
+                return ($type === 'int' || $type === 'float')
+                    ? $operator
+                    : false
+                    ;
+
             case '!=':
             case '=':
                 return $operator;
+
             case '%=%':
             case '=%':
             case '%=':
                 return 'LIKE';
+
             case '%!=%':
             case '!=%':
             case '!%=':
                 return 'NOT LIKE';
+
             default:
                 return false;
+
         }
+
     }
-    public function statementWhereClauseOperatorWildcard($operator,$input){
+
+    public static function whereClauseValue($operator, $value){
+
         switch ($operator){
+
             case '%=%':
             case '%!=%':
-                return '%'.$input.'%';
+                return '%' . $value . '%';
+
             case '=%':
             case '!=%':
-                return $input.'%';
+                return $value . '%';
+
             case '%=':
             case '%!=':
-                return '%'.$input;
+                return '%' . $value;
+
             default:
-                return $input;
+                return $value;
+
         }
+
     }
-    public function safedSQLData($input, $type){
-        switch (strtolower($type)){
+
+    public static function escapeValue($input, $type){
+
+        switch ($type){
             case 'int':
-                $output = (!empty($input)) ? intval($input) : "NULL";
+                return (!empty($input)) ? "'".intval($input)."'" : "'0'";
                 break;
             case 'float':
-                $output = (!empty($input)) ? "'" . floatval($input) . "'" : "NULL";
+                return (!empty($input)) ? "'".floatval($input)."'" : "'0.0'";
                 break;
             default:
-                $output = (!empty($input)) ? "'" . ((get_magic_quotes_gpc()) ? $input : $this->database->connection->real_escape_string($input)) . "'" : "NULL";
+                return (!empty($input)) ? "'" . ((get_magic_quotes_gpc()) ? $input : static::database()->connection->real_escape_string($input)) . "'" : "'NULL'";
                 break;
         }
-        return $output;
+
     }
-    public function setMembers(){
-        $this->members = $this->getMembers();
-    }
-    public function getMembers(){
-        $sql = "SHOW COLUMNS FROM {$this->table}";
-        $results = $this->database->query($sql);
-        $raw_members = [];
-        $members = [];
-        if($results){
-            while($object = $results->fetch_object()){
-                $raw_members[$object->Field] = $object;
-            }
+
+    public static function members($refresh = false){
+
+        static $members;
+
+        if(empty($members) || $refresh === true){
+            $sql = "SHOW COLUMNS FROM ". static::Table ." ";
+
+            $results = static::database()->query($sql);
+
+            $raw_members = [];
+
             $members = [];
-            foreach($raw_members as $row){
-                $members[$row->Field] = [];
-                if(strpos($row->Type, '(') === false){
-                    $type = $row->Type;
-                    if(strpos($row->Type, 'long') === false){
-                        $length=1024;
-                    }else{
-                        $length=10240000000;
-                    }
-                }else{
-                    list($type, $length) = sscanf(trim(str_replace(['(',')'], ' ', $row->Type)), "%s %d");
+
+            if($results){
+
+                while($object = $results->fetch_object()){
+
+                    $raw_members[$object->Field] = $object;
+
                 }
-                $members[$row->Field]['saveType'] = $this->memberBasicType($type);
-                $members[$row->Field]['basictype'] = $this->memberBasicType($type);
-                $members[$row->Field]['type'] = $type;
-                $members[$row->Field]['length'] = $length;
-                $members[$row->Field]['default'] = $row->Default;
-                $members[$row->Field]['unique'] = ($row->Key == 'UNI' || $row->Key == 'PRI') ? 1 : 0;
-                $members[$row->Field]['blank'] = ($row->Null == 'YES') ? 1 : 0;
-                $members[$row->Field]['key'] = (!empty($row->Key)) ? 1 : 0;
-                $members[$row->Field]['extra'] = $row->Extra;
+
+                $members = [];
+
+                foreach($raw_members as $row){
+
+                    $members[$row->Field] = [];
+
+                    if(strpos($row->Type, '(') === false){
+
+                        $type = $row->Type;
+
+                        if(strpos($row->Type, 'long') === false){
+                            $length=1024;
+                        }else{
+                            $length=10240000000;
+                        }
+                    }else{
+
+                        list($type, $length) = sscanf(trim(str_replace(['(',')'], ' ', $row->Type)), "%s %d");
+
+                    }
+
+                    $members[$row->Field]['save_type'] = static::memberBasicType($type);
+                    $members[$row->Field]['basic_type'] = static::memberBasicType($type);
+                    $members[$row->Field]['type'] = $type;
+                    $members[$row->Field]['length'] = $length;
+                    $members[$row->Field]['default'] = $row->Default;
+                    $members[$row->Field]['unique'] = ($row->Key == 'UNI' || $row->Key == 'PRI') ? 1 : 0;
+                    $members[$row->Field]['blank'] = ($row->Null == 'YES') ? 1 : 0;
+                    $members[$row->Field]['key'] = (!empty($row->Key)) ? 1 : 0;
+                    $members[$row->Field]['extra'] = $row->Extra;
+
+                }
+
             }
+
         }
+
         return $members;
+
     }
-    public function memberBasicType($type){
+
+    public static function memberBasicType($type){
+
         switch(strtolower($type)){
+
             case 'tinyint':
             case 'smallint':
             case 'mediumint':
             case 'bigint':
             case 'int':
                 return 'int';
+
             case 'double':
             case 'decimal':
             case 'float':
                 return 'float';
+
             default:
                 return 'text';
+
         }
+
     }
 
-    public function modelObject(){
-        $object = (object) null;
-        foreach($this->members as $member=>$value){
-            $object->$member = $this->__get($member);
-        }
-        return $object;
+    public static function database(){
+
+        return ResourceConnection::model()->{static::Database_Connection};
+
     }
 }

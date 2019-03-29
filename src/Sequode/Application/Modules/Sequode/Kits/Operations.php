@@ -333,7 +333,7 @@ class Operations{
         }
 		$object = $sequode_model->$type_object;
 		$detail = $sequode_model->$type_detail;
-        $default_map = self::makeDefaultSequenceObjectMap($type,$sequode_model);
+        $default_map = self::makeDefaultSequenceObjectMap($type, $sequode_model->sequence);
         $map = $sequode_model->$type_map;
         if(!is_object($detail)){
             $detail = (object) null;
@@ -427,9 +427,8 @@ class Operations{
 		}
 		return $new_object;
 	}
-    public static function makeDefaultSequenceObjectMap($type, $sequode_model = null){
-        if($sequode_model == null ){ $sequode_model = SequodeModeler::model(); }
-        
+    public static function makeDefaultSequenceObjectMap($type, $sequence){
+
         switch($type){
             case 'input':
                 $type_object = 'input_object';
@@ -446,15 +445,13 @@ class Operations{
         $object_cache = [];
         $map = [];
 		$map[] = self::makeMapLocationObject($type,0,'Root','');
-        $sequence = $sequode_model->sequence;
         foreach( $sequence as $key => $id ){
 			if(!array_key_exists($id, $object_cache)){
-				$object_cache[$id] = new SequodeModeler::$model;
-				$object_cache[$id]->exists($id,'id');
+				$object_cache[$id] = (new SequodeModeler::$model)->exists($id,'id');
 			}
 			$loop_object = $object_cache[$id]->$type_object;
 			foreach( $loop_object as $member => $value){
-                $map[] = self::makeMapLocationObject($type,$key+1,$member,$loop_object->$member);
+                $map[] = self::makeMapLocationObject($type,$key+1, $member, $loop_object->$member);
 			}
 		}
         return $map;

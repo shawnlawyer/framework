@@ -116,7 +116,10 @@ class Cards {
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
-            'node' => $_model->id
+            'node' => $_model->id,
+            'parameters' => [
+                'type'
+            ]
         ];
         $_o->menu = (object) null;
         $_o->menu->items = self::modelOperationsMenuItems();
@@ -414,7 +417,6 @@ class Cards {
         $js[] = 'var sequencer;';
         $js[] = 'sequencer = new Sequencer();';
         $js[] = 'sequencer.stage = shapesKit.stage({ container: \''.$dom_id.'chart\', width: $(window).width(), height: $(window).height() });';
-        $js[] = 'registry.setContext({card:\''.$module::xhrCardRoute('sequencer').'\',collection:\'sequodes\',node:'.$_model->id.',tearDown:function(){ sequencer = undefined; }});';
         $js[] = 'registry.subscribeToUpdates({type:\'context\', collection:\'sequodes\', key:true, call: sequencer.run});';
         $js[] = 'registry.subscribeToUpdates({type:\'context\', collection:\'palette\', call: sequencer.palette.run});';
         $js[] = 'registry.fetch({collection:\'sequodes\',key:'.$_model->id.'});';
@@ -449,7 +451,6 @@ class Cards {
         $js[] = 'sequencer = new Sequencer();';
         $js[] = 'sequencer.default_events = false;';
         $js[] = 'sequencer.stage = shapesKit.stage({ container: \''.$dom_id.'chart\', width: $(window).width(), height: $(window).height() });';
-        $js[] = 'registry.setContext({card:\''.$module::xhrCardRoute('chart').'\',collection:\'sequodes\',node:'.$_model->id.',tearDown:function(){ sequencer = undefined; }});';
         $js[] = 'registry.subscribeToUpdates({type:\'context\', collection:\'sequodes\', key:true, call: sequencer.run});';
         $js[] = 'registry.fetch({collection:\'sequodes\',key:'.$_model->id.'});';
         $_o->body[] = (object) ['html' => implode('', $html), 'js' => implode(' ', $js)];

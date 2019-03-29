@@ -40,9 +40,9 @@ trait ORMModelManageSequenceTrait {
         
         if(SequodeAuthority::isSequence()){
             
-            $modeler::model()->default_input_object_map = $kit::makeDefaultSequenceObjectMap('input', $modeler::model());
-            $modeler::model()->default_property_object_map = $kit::makeDefaultSequenceObjectMap('property', $modeler::model());
-            $modeler::model()->default_output_object_map = $kit::makeDefaultSequenceObjectMap('output', $modeler::model());
+            $modeler::model()->default_input_object_map = $kit::makeDefaultSequenceObjectMap('input', $modeler::model()->sequence);
+            $modeler::model()->default_property_object_map = $kit::makeDefaultSequenceObjectMap('property', $modeler::model()->sequence);
+            $modeler::model()->default_output_object_map = $kit::makeDefaultSequenceObjectMap('output', $modeler::model()->sequence);
             
         }
         $modeler::model()->save();
@@ -69,39 +69,35 @@ trait ORMModelManageSequenceTrait {
     public static function newSequence($owner_id = 0){
 
         $modeler = static::$modeler;
-        $kit = static::$kit;            
-        
-        $modeler::model()->create(substr(Hashes::uniqueHash(),0,15), '', 1, 1);
-        $modeler::model()->name = substr(Hashes::uniqueHash($modeler::model()->id.$modeler::model()->name),0,15);
-        $modeler::model()->sequence_type = 1;
-        $modeler::model()->sequence = [];
-        $modeler::model()->grid_areas = [];
-        $modeler::model()->input_object = $kit::makeDefaultProcessObject('input');
-        $modeler::model()->input_object_map = $kit::makeDefaultSequenceObjectMap('input', $modeler::model());
-        //$modeler::model()->process_instance_object = $kit::makeDefaultProcessInstanceObject($modeler::model());
-        $modeler::model()->input_form_object = (object) null;
-        $modeler::model()->output_object = $kit::makeDefaultProcessObject('output');
-        $modeler::model()->output_object_map = $kit::makeDefaultSequenceObjectMap('output', $modeler::model());
-        $property_object_detail = (object) null;
-        $member = 'Run_Process';
-        $property_object_detail->$member = $kit::makeDefaultProcessObjectDetailMember($member);
-        $modeler::model()->property_object_detail = $property_object_detail;
-        $modeler::model()->property_object = $kit::makeDefaultProcessObject('property');
-        $modeler::model()->property_object_map = $kit::makeDefaultSequenceObjectMap('property', $modeler::model());
-        $modeler::model()->property_form_object = (object) null;
-        $modeler::model()->input_object_detail = (object) null;
-        /*
-        $output_object_detail = (object) null;
-        $member = 'Success';
-        $output_object_detail->$member = $kit::makeDefaultProcessObjectDetailMember($member);
-        $modeler::model()->output_object_detail = $output_object_detail;
-        */
-        $modeler::model()->output_object_detail = (object) null;
-        $modeler::model()->owner_id = $owner_id;
-        //$modeler::model()->safe = 0;
-        //`$modeler::model()->level = 0;
-        $modeler::model()->detail = (object)["display_name" => $modeler::model()->name];
-        $modeler::model()->save();
+
+        $kit = static::$kit;
+
+        $name = substr(Hashes::uniqueHash(),0,15);
+
+        $modeler::create([
+            'owner_id' => $owner_id,
+            'name' => $name,
+            'printable_name' => 'phasing this out',
+            'detail' => (object)["display_name" => $name],
+            'usage_type' => 1,
+            'sequence_type' => 1,
+            'sequence' => [],
+            'grid_areas' => [],
+            'version' => 1,
+            'times_cloned' => 0,
+            'input_object' => $kit::makeDefaultProcessObject('input'),
+            'input_object_detail' => (object) [],
+            'input_object_map' => $kit::makeDefaultSequenceObjectMap('input', []),
+            'input_form_object' => (object) [],
+            'property_object' => $kit::makeDefaultProcessObject('property'),
+            'property_object_detail' => (object) ["Run_Process" => $kit::makeDefaultProcessObjectDetailMember("Run_Process")],
+            'property_object_map' => $kit::makeDefaultSequenceObjectMap('property', []),
+            'property_form_object' => (object) [],
+            'output_object' => $kit::makeDefaultProcessObject('output'),
+            /*'output_object_detail' => (object) ["Success" => $kit::makeDefaultProcessObjectDetailMember("Success")],*/
+            'output_object_detail' => (object) [],
+            'output_object_map' => $kit::makeDefaultSequenceObjectMap('output', []),
+        ]);
 
         self::maintenance();
         
@@ -109,41 +105,50 @@ trait ORMModelManageSequenceTrait {
         
 	}
     
-    public static function makeSequenceCopy($owner = 0, $_model = null){
+    public static function makeSequenceCopy($owner_id = 0, $_model = null){
         
         $modeler = static::$modeler;
         $kit = static::$kit;
-        
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
         $name = $modeler::model()->name . ' Copy ' . ($modeler::model()->times_cloned + 1);
-        $printable_name = (trim($modeler::model()->printable_name) != '') ? trim($modeler::model()->printable_name) . ' Copy ' . ($modeler::model()->times_cloned + 1) : $name ;
-        
-        $model_copy = new $modeler::$model;
-        $model_copy->create($name, $printable_name, 1, 1);
-        $model_copy->cloned_from_id = $modeler::model()->id;
-        $model_copy->sequence_type = 1;
-        $model_copy->sequence = $modeler::model()->sequence;
-        //$model_copy->safe = $modeler::model()->safe;
-        //$model_copy->level = $modeler::model()->level;
-        $model_copy->detail = $modeler::model()->detail;
-        $model_copy->grid_areas = $modeler::model()->grid_areas;
-        $model_copy->input_object = $modeler::model()->input_object;
-        $model_copy->input_object_detail = $modeler::model()->input_object;
-        $model_copy->input_object_map = $modeler::model()->input_object_map;
-        $model_copy->input_form_object = $modeler::model()->input_form_object;
-        $model_copy->output_object = $modeler::model()->output_object;
-        $model_copy->output_object_detail = $modeler::model()->input_object;
-        $model_copy->output_object_map = $modeler::model()->output_object_map;
-        $model_copy->property_object = $modeler::model()->property_object;
-        $model_copy->property_object_detail = $modeler::model()->input_object;
-        $model_copy->property_object_map = $modeler::model()->property_object_map;
-        $model_copy->property_form_object = $modeler::model()->property_form_object;
-        $model_copy->owner_id = $owner;
-        $model_copy->times_cloned = 0;
-        $model_copy->save();
+
+        $detail = $modeler::model()->detail;
+        $detail->display_name = $name;
+
         $modeler::model()->times_cloned += 1;
         $modeler::model()->save();
 
-		self::maintenance($model_copy);
+        $modeler::create([
+            'owner_id' => $owner_id,
+            'name' => substr(Hashes::uniqueHash(),0,15),
+            'printable_name' => 'phasing this out',
+            'detail' => $detail,
+            'usage_type' => $modeler::model()->usage_type,
+            'sequence_type' => $modeler::model()->sequence_type,
+            'cloned_from_id' => $modeler::model()->id,
+            'version' => 1,
+            'times_cloned' => 0,
+            'sequence' => $modeler::model()->sequence,
+            'grid_areas' => $modeler::model()->grid_areas,
+            'input_object' => $modeler::model()->input_object,
+            'input_object_detail' => $modeler::model()->input_object_detail,
+            'input_object_map' => $modeler::model()->input_object_map,
+            'input_form_object' => $modeler::model()->input_form_object,
+            'property_object' => $modeler::model()->property_object,
+            'property_object_detail' => $modeler::model()->property_object_detail,
+            'property_object_map' => $modeler::model()->property_object_map,
+            'property_form_object' => $modeler::model()->property_form_object,
+            'output_object' => $modeler::model()->output_object,
+            'output_object_detail' => $modeler::model()->output_object_detail,
+            'output_object_map' => $modeler::model()->output_object_map,
+        ]);
+
+        //$model_copy->safe = $modeler::model()->safe;
+        //$model_copy->level = $modeler::model()->level;
+
+		self::maintenance();
         
         return $modeler::model();
         
@@ -164,9 +169,9 @@ trait ORMModelManageSequenceTrait {
 		$modeler::model()->input_form_object = (object) null;
 		$modeler::model()->property_form_object = (object) null;
 		$modeler::model()->process_description_node = (object) null;
-		$modeler::model()->input_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('input', $modeler::model()));
-		$modeler::model()->property_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('property', $modeler::model()));
-		$modeler::model()->output_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('output', $modeler::model()));
+		$modeler::model()->input_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('input', $modeler::model()->sequence));
+		$modeler::model()->property_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('property', $modeler::model()->sequence));
+		$modeler::model()->output_object_map = $kit::removeKeys($kit::makeDefaultSequenceObjectMap('output', $modeler::model()->sequence));
         $modeler::model()->input_object_detail = (object) null;
         $modeler::model()->property_object_detail = (object) null;
         $modeler::model()->output_object_detail = (object) null;

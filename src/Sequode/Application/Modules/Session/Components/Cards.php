@@ -7,7 +7,7 @@ use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\FormInput as FormInputComponent;
-
+use Sequode\View\Export\PHPClosure;
 use Sequode\Application\Modules\Session\Module;
     
 class Cards {
@@ -26,16 +26,31 @@ class Cards {
         return $_o;
         
     }
+
     public static function menuItems(){
 
         $module = static::$module;
         $_o = [];
-        $_o[] = CardKit::
-onTapEventsXHRCallMenuItem('Search Sessions', $module::xhrCardRoute('search'));
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sessions', $module::xhrCardRoute('search'));
         
         return $_o;
         
     }
+
+    public static function modelOperationsMenuItems($filter='', $_model = null){
+
+        $module = static::$module;
+        $modeler = $module::model()->modeler;
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
+        $_o = [];
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$modeler::model()->id]);
+
+        return $_o;
+    }
+
     public static function details($_model=null){
 
         $module = static::$module;
@@ -46,17 +61,20 @@ onTapEventsXHRCallMenuItem('Search Sessions', $module::xhrCardRoute('search'));
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'sessions',
+            'node' => $_model->id
+        ];
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'session-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items =  [];
+        $_o->menu->items =  static::menuItems() + static::modelOperationsMenuItems();
         
-        $items[] = CardKit::
-onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$_model->id]);
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$_model->id]);
         
-        $_o->body[] = CardKit::
-nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module::xhrCardRoute('details')]);
         
         $_o->body = [];
         $dom_id = FormInputComponent::uniqueHash('','');
@@ -93,7 +111,7 @@ nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module
         $_o->body[] = CardKitHTML::sublineBlock('Ip Address');
         $_o->body[] = $_model->ip_address;
         $_o->body[] = CardKitHTML::sublineBlock('Data');
-        $_o->body[] = '<textarea style="width:20em; height:10em;">'.$_model->session_data.'</textarea>';
+        $_o->body[] = '<textarea style="width:20em; height:10em;">'.PHPClosure::export($_model->session_data).'</textarea>';
         $location = false; //geoip_record_by_name($_model->ip_address);
         if ($location) {
         $_o->body[] = CardKitHTML::sublineBlock('Geo Location');
@@ -104,8 +122,7 @@ nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module
         $_o->body[] = date('g:ia \o\n l jS F Y',$_model->session_start);
         $_o->body[] = CardKitHTML::sublineBlock('Last Sign In');
         if($_model->session_id != $operations::getCookieValue()) {
-            $_o->body[] = CardKit::
-deleteInCollection((object)['route' => $module::xhrOperationRoute('destroy'), 'model_id' => $_model->id]);
+            $_o->body[] = CardKit::deleteInCollection((object)['route' => $module::xhrOperationRoute('destroy'), 'model_id' => $_model->id]);
         }
         $_o->body[] = CardKitHTML::modelId($_model);
         

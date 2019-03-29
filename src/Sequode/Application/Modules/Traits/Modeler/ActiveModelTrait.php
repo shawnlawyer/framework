@@ -7,7 +7,7 @@ trait ActiveModelTrait {
 
         static $store;
 
-        if(!is_object($store) || $replace === null){
+        if($replace === null || (!is_object($store) && $replace === false)){
 
             $store = new static::$model;
 
@@ -23,6 +23,12 @@ trait ActiveModelTrait {
     public static function exists($value, $by='id'){
 
         return static::model(null)->exists($value, $by) ?: false ;
+
+    }
+
+    public static function create($data = []){
+        $class = static::$model;
+        return static::model($class::create($data)) ?: false ;
 
     }
 

@@ -53,7 +53,7 @@ class Operations {
         $js = [];
         $collection = 'tokens';
         $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
+        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
         return implode(' ', $js);
     }
     public static function delete($_model_id, $confirmed=false){

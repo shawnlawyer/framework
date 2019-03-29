@@ -15,6 +15,7 @@ class MySQL {
 	public function query($sql, $returnAsObject=false) {
         $this->connection->select_db($this->dbName);
 		$result = $this->connection->query($sql);
+
 		if($this->connection->error) {
 		    if ($_ENV['APP_ENV'] == 'local-dev'){
 		        die($sql . "\n" . $this->connection->error);

@@ -49,7 +49,9 @@ class Operations {
             $modeler::exists($_model_id,'id')
             && $modeler::model()->ip_address != $session_ip
         )){ return false; }
-        BlockedIPModeler::model()->create($modeler::model()->ip_address);
+        BlockedIPModeler::model()->create([
+            'ip_address' => $modeler::model()->ip_address,
+        ]);
     }
     public static function search($json){
         $_o = json_decode(stripslashes($json));

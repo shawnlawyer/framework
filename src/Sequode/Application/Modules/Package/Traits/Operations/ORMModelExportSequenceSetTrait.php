@@ -32,9 +32,9 @@ trait ORMModelExportSequenceSetTrait {
         $class_translations = [
             "%CLASS_NAME%" => $package_model->token,
             "%INDEX%"      => $sequode_model->sequence[0],
-            "%NAME_TO_ID%" => PHPClosure::export($name_to_id, true),
-            "%ID_TO_KEY%"  => PHPClosure::export($id_to_key, true),
-            "%MODELS%"     => strtr(PHPClosure::export($models, true), $models_translations),
+            "%NAME_TO_ID%" => PHPClosure::export($name_to_id),
+            "%ID_TO_KEY%"  => PHPClosure::export($id_to_key),
+            "%MODELS%"     => strtr(PHPClosure::export($models), $models_translations),
         ];
 
         return strtr(static::classTemplate(), $class_translations);

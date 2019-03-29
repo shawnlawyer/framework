@@ -13,13 +13,14 @@ trait ORMModelCreate {
         $ip_address = ($ip_address == null)
             ? explode(',',((!empty($_SERVER["HTTP_X_FORWARDED_FOR"])) ? $_SERVER["HTTP_X_FORWARDED_FOR"] : $_SERVER["REMOTE_ADDR"]))[0]
             : $ip_address ;
-        $modeler::model()->create();
-        $modeler::model()->session_id = Hashes::uniqueHash();
-        $modeler::model()->session_data = [];
-        $modeler::model()->session_start = time();
-        $modeler::model()->ip_address = $ip_address;
-        $modeler::model()->name = 'anon';
-        $modeler::model()->save();
+
+        $modeler::create([
+            "session_id" => Hashes::uniqueHash(),
+            "session_data" => [],
+            "session_start" => time(),
+            "ip_address" => $ip_address,
+            "name" => 'anon'
+        ]);
         
         return $modeler::model();
         

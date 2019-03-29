@@ -9,8 +9,9 @@ trait ORMModelSetLastSignInTrait {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
-        $modeler::model()->last_sign_in = ($time === false) ? time() : $time;
-        $modeler::model()->save();
+        $modeler::model()->update([
+            "last_sign_in" => ($time === false) ? time() : $time
+        ]);
 
         return $modeler::model();
     }

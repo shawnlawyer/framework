@@ -28,6 +28,7 @@ trait ORMModelFavoritedModuleModelsTrait {
         $modeler::model()->save();
 
         return $modeler::model();
+
     }
     
     public static function removeFromSequodeFavorites($sequode_model = null, $_model = null){

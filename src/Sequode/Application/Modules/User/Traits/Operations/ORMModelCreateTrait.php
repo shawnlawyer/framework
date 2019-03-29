@@ -8,32 +8,38 @@ trait ORMModelCreateTrait {
     
     
     public static function newUser(){
-        
-        $modeler = static::$modeler;
-        
-        $modeler::model()->create(substr(Hashes::uniqueHash(),0,15), Hashes::uniqueHash(), substr(Hashes::uniqueHash(),0,15));
-        $modeler::model()->sequode_favorites = [];
-        $modeler::model()->role_id = 100;
-        $modeler::model()->allowed_sequode_count = 33;
-        $modeler::model()->active = 1;
-        $modeler::model()->save();
 
-        return $modeler::model();
+        $modeler = static::$modeler;
+
+        return $modeler::create([
+            'name' => substr(Hashes::uniqueHash(),0,15),
+            'password' => substr(Hashes::uniqueHash(),0,15),
+            'email'=> '',
+            'sequode_favorites'=> [],
+            'role_id'=> 100,
+            'allowed_sequode_count'=> 33,
+            'active'=> 1,
+            'sign_up_date' => time(),
+            'activation_token' => sha1(substr(md5(uniqid(rand(), true)), 0, 25))
+        ]);
         
     }
     
     public static function newGuest(){
-        
+
         $modeler = static::$modeler;
-        
-        $modeler::model()->create(substr(Hashes::uniqueHash(),0,15), Hashes::uniqueHash(), substr(Hashes::uniqueHash(),0,15));
-        $modeler::model()->sequode_favorites = [];
-        $modeler::model()->role_id = 101;
-        $modeler::model()->allowed_sequode_count = 5;
-        $modeler::model()->active = 1;
-        $modeler::model()->save();
-        
-        return $modeler::model();
+
+        return $modeler::create([
+            'name' => substr(Hashes::uniqueHash(),0,15),
+            'password' => substr(Hashes::uniqueHash(),0,15),
+            'email'=> '',
+            'sequode_favorites'=> [],
+            'role_id'=> 101,
+            'allowed_sequode_count'=> 5,
+            'active'=> 1,
+            'sign_up_date' => time(),
+            'activation_token' => sha1(substr(md5(uniqid(rand(), true)), 0, 25))
+        ]);
         
     }
     

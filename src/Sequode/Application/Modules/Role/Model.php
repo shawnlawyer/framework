@@ -6,12 +6,8 @@ use Sequode\Model\Database\SQL\ORM;
 
 class Model extends ORM {
 
-    public $database_connection     =   'accounts_database';
+    const Database_Connection     =   'accounts_database';
 
-	public $table                   =	'roles';
+    const Table                   =	'roles';
 
-	public function __construct() {
-		parent::__construct();
-		return true;
-	}
 }

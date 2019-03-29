@@ -191,7 +191,7 @@ class JS {
 	}
     public static function registrySetContext($context, $raw_members=[]){
         $raw_members = $context->raw_members ?: $raw_members;
-        $js[] = 'registry.setContext({';
+        $js[] = ' var context = {';
         $js[] = 'card:\''.$context->card.'\'';
         if($context->collection){
             $js[] = !in_array('collection', $raw_members)
@@ -211,12 +211,8 @@ class JS {
         if($context->tearDown){
             $js[] = ',tearDown:'.$context->tearDown;
         }
-        $js[] = '});';
-        if($node){
-            $js[] = "history.pushState(null, null, '?card=' + registry.active_context.card.replace('cards/', '') + '&id=' + registry.active_context.node);";
-        }else{
-            $js[] = "history.pushState(null, null, '?card=' + registry.active_context.card.replace('cards/', ''));";
-        }
+        $js[] = '};';
+        $js[] = 'registry.setContext(context);';
         return implode(' ',$js);
     }
     public static function  registryRefreshContext($id=false){

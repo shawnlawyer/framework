@@ -9,17 +9,19 @@ trait ORMModelSignupTrait {
     public static function signup($email, $password){
                 
         $modeler = static::$modeler;
-        
-        $modeler::model()->create(Hashes::generateHash($email), Hashes::generateHash($password), $email);
-        $modeler::exists($modeler::model()->id, 'id');
-        $modeler::model()->active = 1;
-        $modeler::model()->verified = 1;
-        $modeler::model()->sequode_favorites = [];
-        $modeler::model()->role_id = 100;
-        $modeler::model()->allowed_sequode_count = 33;
-        $modeler::model()->save();
-        
-        return $modeler::model();
+
+        return $modeler::create([
+            'name' => Hashes::generateHash($email),
+            'password' => Hashes::generateHash($password),
+            'email' => $email,
+            'active' => 1,
+            'verified' => 1,
+            'sequode_favorites' => [],
+            'role_id' => 100,
+            'allowed_sequode_count' => 33,
+            'sign_up_date' => time(),
+            'activation_token' => sha1(substr(md5(uniqid(rand(), true)), 0, 25))
+        ]);
         
     }
     

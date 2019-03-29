@@ -111,7 +111,7 @@ class FormInputs {
             SequodeModeler::model($sequode_model);
         }
         
-        $default_map = SequodeOperationsKit::makeDefaultSequenceObjectMap($type,$sequode_model);
+        $default_map = SequodeOperationsKit::makeDefaultSequenceObjectMap($type, $sequode_model->sequence);
         $sequence =  SequodeModeler::model()->sequence;
         $location_object = $default_map[$map_key];
 		$sequence_key = $location_object->Key - 1;
