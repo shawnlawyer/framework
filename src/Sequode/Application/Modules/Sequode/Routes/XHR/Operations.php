@@ -12,18 +12,19 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 class Operations {
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function updateValue($type, $_model_id, $map_key, $json){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        
+
+        extract((static::Module)::variables());
+        $collection = 'sequodes';
+
         if(!(
-        $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
         )){ return; }
+
         $input = json_decode($json);
         if (!is_object($input)){ return; }
         switch($type){
@@ -34,21 +35,21 @@ class Operations {
             default:
                 return false;
         }
+
         $object_map = $modeler::model()->$model_member;
         forward_static_call_array([$operations, __FUNCTION__], [$type, $map_key, rawurldecode($input->location)]);
         if(empty($object_map[$map_key]->Value)){
-			$js = [];
-            $collection = 'sequodes';
-            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-			return implode(' ',$js);
+
+			return implode(' ',[
+			    DOMElementKitJS::fetchCollection($collection, $modeler::model()->id)
+            ]);
+
         }
     }
 
     public static function updateComponentSettings($type, $member, $member_json, $_model_id, $dom_id='FormsContainer'){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
         $modeler::exists($_model_id,'id')
@@ -79,58 +80,56 @@ class Operations {
     }
 
     public static function cloneSequence($_model_id){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
+
+        extract((static::Module)::variables());
+        $collection = 'sequodes';
         
         if(!(
-        AccountAuthority::canCreate()
-        && $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::canCopy($modeler::model())
+            AccountAuthority::canCreate()
+            && $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canCopy($modeler::model())
         )){ return; }
+
         forward_static_call_array([$operations, 'makeSequenceCopy'], [AccountModeler::model()->id]);
-        $js = [];
-        $collection = 'sequodes';
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            forward_static_call_array([$xhr_cards, 'card'], ['details'])
+        ]);
+
     }
 
     public static function newSequence(){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        $cards = $module::model()->xhr->cards;
+
+        extract((static::Module)::variables());
+        $collection = 'sequodes';
 
         if(!(
-        AccountAuthority::canCreate()
+            AccountAuthority::canCreate()
         )){ return; }
+
         forward_static_call_array([$operations, __FUNCTION__], [AccountModeler::model()->id]);
-        $js = [];
-        $collection = 'sequodes';
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            forward_static_call_array([$xhr_cards, 'card'], ['details'])
+        ]);
     }
 
     public static function updateName($_model_id, $json){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+        extract((static::Module)::variables());
+        $collection = 'sequodes';
+
         if(!(
-        $modeler::exists($_model_id,'id')
-        && AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && AccountAuthority::canEdit($modeler::model())
         )){ return; }
-        $_o = json_decode($json);
-        $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($_o->name))));
+
+        $input = json_decode($json);
+        $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($input->name))));
+
         if(strlen($name)==0){
             return ' alert(\'Name cannot be empty\');';
         }
@@ -140,338 +139,369 @@ class Operations {
         if(!AccountAuthority::canRenameTo($name, $modeler::model())){
             return ' alert(\'Name already exists\');';
         }
-        $modeler::exists($_model_id,'id');
+
+        $modeler::exists($_model_id, 'id');
         forward_static_call_array([$operations, __FUNCTION__], [$name]);
-        $collection = 'sequodes';
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
 
     }
 
     public static function deleteSequence($_model_id, $confirmed=false){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+        extract((static::Module)::variables());
+        $collection = 'sequodes';
+
         if(!(
-        $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::canDelete($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canDelete($modeler::model())
         )){ return; }
-        $sequence = $modeler::model()->sequence;
-        $js = [];
+
         if ($confirmed===false){
-			$js[] = 'if(';
-			$js[] = 'confirm(\'Are you sure you want to delete this?\')';
-			$js[] = '){';
-            $js[] = 'new XHRCall({route:"'.$module::xhrOperationRoute(__FUNCTION__).'",inputs:['.$modeler::model()->id.', true]});';
-			$js[] = '}';
+
+            return DOMElementKitJS::confirmOperation($module::xhrOperationRoute(__FUNCTION__), $modeler::model()->id);
+
         }else{
+
             forward_static_call_array([$operations, __FUNCTION__], []);
-            $collection = 'sequodes';
-            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-            $js[] = forward_static_call_array([$xhr_cards, 'card'], ['my']);
+
+            return implode(' ', [
+                DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+                forward_static_call_array([$xhr_cards, 'card'], ['my'])
+            ]);
+
         }
-        return implode(' ', $js);
+
     }
 
     public static function formatSequence($_model_id, $confirmed=false){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        
+
+        extract((static::Module)::variables());
+        $collection = 'sequodes';
+
         if(!(
-        
-        $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::isOwner($modeler::model())
-        
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::isOwner($modeler::model())
         )){ return; }
-        
-        $js = [];
+
         if ($confirmed===false){
-			$js[] = 'if(';
-			$js[] = 'confirm(\'Are you sure you want to format '.$modeler::model()->id.'?\')';
-			$js[] = '){';
-            $js[] = 'new XHRCall({route:"'. $module::xhrOperationRoute(__FUNCTION__).'",inputs:['.$modeler::model()->id.', true]});';
-			$js[] = '}';
+
+            return DOMElementKitJS::confirmOperation($module::xhrOperationRoute(__FUNCTION__), $modeler::model()->id);
+
         }else{
+
             forward_static_call_array([$operations, 'makeDefaultSequencedSequode'], []);
-            $collection = 'sequodes';
-            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-            $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
+
+            return implode(' ',[
+                DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+                DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+            ]);
+
         }
-        return implode(' ',$js);
+
     }
 
 	public static function addToSequence($_model_id, $add_model_id, $position=0, $position_tuner = null, $grid_modifier = null){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-		$modeler::exists($add_model_id,'id')
-		&& AccountAuthority::canRun($modeler::model())
-		&& $modeler::exists($_model_id,'id')
-		&& AccountAuthority::canEdit($modeler::model())
-        && SequodeAuthority::isSequence()
-        && !SequodeAuthority::isFullSequence()
+            $modeler::exists($add_model_id,'id')
+            && AccountAuthority::canRun($modeler::model())
+            && $modeler::exists($_model_id,'id')
+            && AccountAuthority::canEdit($modeler::model())
+            && SequodeAuthority::isSequence()
+            && !SequodeAuthority::isFullSequence()
 		)){ return; }
+
         forward_static_call_array([$operations, __FUNCTION__], [$add_model_id, $position, $position_tuner, $grid_modifier]);
 
-		return;
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
 	}
 
 	public static function reorderSequence($_model_id, $from_position=0, $to_position=0, $position_tuner = null, $grid_modifier = null){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-		$modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
 		)){ return; }
+
         forward_static_call_array([$operations, __FUNCTION__], [$from_position, $to_position, $position_tuner, $grid_modifier]);
-		return;
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
 	}
 
 	public static function removeFromSequence($_model_id, $position){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-		$modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
 		)){ return; }
+
         forward_static_call_array([$operations, __FUNCTION__], [$position]);
-		return;
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
 	}
 
 	public static function modifyGridAreas($_model_id, $position){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-		$modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-		&& AccountAuthority::canEdit($modeler::model())
+		    $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
 		)){ return; }
+
         forward_static_call_array([$operations, __FUNCTION__], [$position]);
-		return;
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
 	}
 
 	public static function emptySequence($_model_id){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        
-        if(!(
-        $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit($modeler::model())
-        )){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], []);
+
+        extract((static::Module)::variables());
         $collection = 'sequodes';
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode('',$js);
+
+        if(!(
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
+        )){ return; }
+
+        forward_static_call_array([$operations, __FUNCTION__], []);
+
+        return implode('', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
 	}
 
 	public static function moveGridArea($_model_id, $grid_area_key = 0, $x = 0, $y = 0){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
         )){ return; }
+
         forward_static_call_array([$operations, __FUNCTION__], [$grid_area_key, $x, $y]);$js =[];
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode('', $js);
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
 	}
 
 	public static function addInternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
         )){ return; }
+
         forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);$js =[];
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode('', $js);
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
 	}
 
 	public static function addExternalConnection($_model_id, $receiver_type = false, $transmitter_key = 0, $receiver_key = 0){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
         )){ return; }
+
         forward_static_call_array([$operations, __FUNCTION__], [$receiver_type, $transmitter_key, $receiver_key]);
-		return;
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
 	}
 
 	public static function removeReceivingConnection($_model_id, $connection_type = false, $restore_key = 0){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && SequodeAuthority::isSequence()
-        && AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && SequodeAuthority::isSequence()
+            && AccountAuthority::canEdit($modeler::model())
         )){ return; }
-        $_o = json_decode($json);
-        if (!is_object($_o)){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], [$connection_type, $restore_key]);$js =[];
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode('', $js);
+
+        forward_static_call_array([$operations, __FUNCTION__], [$connection_type, $restore_key]);
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
 	}
 
-	public static function updateSharing($_model_id,$json){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+	public static function updateSharing($_model_id, $json){
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && AccountAuthority::canShare($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && AccountAuthority::canShare($modeler::model())
         )){ return; }
-        $_o = json_decode($json);
-        if (!is_object($_o)){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->sharing)]);
-        $js =[];
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode('', $js);
+
+        $input = json_decode($json);
+        if (!is_object($input)){ return; }
+
+        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($input->sharing)]);
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
 	}
 
 	public static function updateIsPalette($_model_id,$json){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
             $modeler::exists($_model_id,'id')
             && AccountAuthority::canEdit($modeler::model())
         )){return;}
-        $_o = json_decode($json);
-        if (!is_object($_o)){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->palette)]);
-        $js =[];
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode('', $js);
+
+        $input = json_decode($json);
+        if (!is_object($input)){ return; }
+
+        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($input->palette)]);
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
 	}
 
-	public static function updateIsPackage($_model_id,$json){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+	public static function updateIsPackage($_model_id, $json){
+
+        extract((static::Module)::variables());
         
         if(!(
             $modeler::exists($_model_id,'id')
             && AccountAuthority::canEdit($modeler::model())
         )){return;}
-        $_o = json_decode($json);
-        if (!is_object($_o)){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->package)]);
-        $js =[];
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode('', $js);
+
+        $input = json_decode($json);
+        if (!is_object($input)){ return; }
+
+        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($input->package)]);
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
 	}
 
 	public static function updateDescription($_model_id, $json){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && AccountAuthority::canEdit($modeler::model())
+            $modeler::exists($_model_id,'id')
+            && AccountAuthority::canEdit($modeler::model())
         )){ return; }
-        $_o = json_decode($json);
-        if (!is_object($_o)){ return; }
-        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($_o->description)]);
-        $js =[];
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-		return implode('', $js);
+
+        $input = json_decode($json);
+        if (!is_object($input)){ return; }
+
+        forward_static_call_array([$operations, __FUNCTION__], [rawurldecode($input->description)]);
+
+        return implode('', [
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
 	}
 
     public static function search($json){
-        $_o = json_decode(stripslashes($json));
-        $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
+
         $collection = 'sequode_search';
-        SessionStore::set($collection, $_o);
+
+        $input = json_decode(stripslashes($json));
+        $input = (!is_object($input) || (trim($input->search) == '' || empty(trim($input->search)))) ? (object) null : $input;
+
+        SessionStore::set($collection, $input); //potential security issue where this could be set to something large, let's filter this
+
 		$js=[];
         if(SessionStore::get('palette') == $collection){
             $js[] = DOMElementKitJS::fetchCollection('palette');
         }
         $js[] = DOMElementKitJS::fetchCollection($collection);
-        return implode('',$js);
+
+        return implode('', $js);
+
     }
 
     public static function selectPalette($json){
+
+        extract((static::Module)::variables());
         
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        
-        $_o = json_decode(stripslashes($json));
-        if(!is_object($_o) || (trim($_o->palette) == '' || empty(trim($_o->palette)))){
+        $input = json_decode(stripslashes($json));
+        if(!is_object($input) || (trim($input->palette) == '' || empty(trim($input->palette)))){
             
             SessionStore::set('palette', false);
             
         }else{
             
-            switch($_o->palette){
+            switch($input->palette){
                 
                 case 'sequode_search':
                 case 'sequode_favorites':
-                    SessionStore::set('palette', $_o->palette);
+                    SessionStore::set('palette', $input->palette);
                     break;
+
                 default:
                     if((
-                    $modeler::exists($_o->palette, 'id')
-                    && AccountAuthority::canView($modeler::model())
+                        $modeler::exists($input->palette, 'id')
+                        && AccountAuthority::canView($modeler::model())
                     )){
-                    SessionStore::set('palette', $_o->palette);
+                        SessionStore::set('palette', $input->palette);
                     }
                     break;
                     
             }
             
         }
-        $js = [];
-        $js[]=  DOMElementKitJS::fetchCollection('palette');
-        return implode(' ',$js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection('palette')
+        ]);
+
     }
+
 }

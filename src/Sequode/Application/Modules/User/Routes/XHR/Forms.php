@@ -10,11 +10,10 @@ use Sequode\Application\Modules\User\Module;
 class Forms {
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function updatePassword($_model_id, $dom_id){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
         
         if(!(
         $modeler::exists($_model_id,'id')
@@ -24,9 +23,7 @@ class Forms {
     }
     
     public static function updateEmail($_model_id, $dom_id){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
         
         if(!(
         $modeler::exists($_model_id,'id')
@@ -35,9 +32,7 @@ class Forms {
         return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
     }
     public static function updateDomain($_model_id, $dom_id){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
         
         if(!(
         $modeler::exists($_model_id,'id')
@@ -47,9 +42,7 @@ class Forms {
     }
     
     public static function updateRole($_model_id, $dom_id){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
         
         if(!(
         $modeler::exists($_model_id,'id')
@@ -59,9 +52,7 @@ class Forms {
     }
     
     public static function updateActive($_model_id, $dom_id){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
         
         if(!(
         $modeler::exists($_model_id,'id')
@@ -71,9 +62,7 @@ class Forms {
     }
     
     public static function updateName($_model_id, $dom_id){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
         
         if(!(
         $modeler::exists($_model_id,'id')

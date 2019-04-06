@@ -15,6 +15,7 @@ use Sequode\Application\Modules\Role\Modeler as RoleModeler;
 class Cards {
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function menu(){
         
@@ -31,7 +32,8 @@ class Cards {
     
     public static function menuItems(){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
+
         $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New User', $module::xhrOperationRoute('newUser'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Guest', $module::xhrOperationRoute('newGuest'));
@@ -42,9 +44,8 @@ class Cards {
     }
     
     public static function modelOperationsMenuItems($filter='', $_model = null){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
@@ -55,10 +56,10 @@ class Cards {
         
         return $_o;
     }
+
     public static function details($_model = null){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
@@ -66,13 +67,14 @@ class Cards {
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'users',
-            'node' => $_model->id
+            'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
         $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
+
         $_o->menu = (object) null;
         $_o->menu->items = self::modelOperationsMenuItems();
         
@@ -92,7 +94,7 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Allowed Sequode Count');
         $_o->body[] = $modeler::model()->allowed_sequode_count;
         $_o->body[] = CardKitHTML::sublineBlock('Favorite Sequodes');
-        $_o->body[] = $modeler::model()->sequode_favorites;
+        $_o->body[] = json_encode($modeler::model()->sequode_favorites);
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $modeler::model()->email;
         $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', $modeler::model(), 'Sequodes Created : ');
@@ -109,9 +111,8 @@ class Cards {
     }
     
     public static function search(){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
 		
         $_o = (object) null;
         $_o->context = (object)[

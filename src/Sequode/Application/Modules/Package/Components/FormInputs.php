@@ -10,18 +10,20 @@ use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 class FormInputs {
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function name($_model = null){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $_model = ($_model == null) ? forward_static_call_array([$modeler,'model'], []) : $_model;
+
+        extract((static::Module)::variables());
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
         $_o->name = FormInputModeler::model()->component_object;
         $_o->name->Label = '';
-        $_o->name->Value = $_model->name;
+        $_o->name->Value = $modeler::model()->name;
         $_o->name->Width = 200;
         $_o->name->CSS_Class = 'focus-input';
         
@@ -48,11 +50,14 @@ class FormInputs {
         $_o->position->Printable_Key = 'printable';
         
 		return $_o;
+
 	}
     public static function packageSequode($_model = null, $user_model = null){
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $_model = ($_model == null) ? forward_static_call_array([$modeler,'model'], []) : $_model;
+
+        extract((static::Module)::variables());
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
         $_user_model = ($_user_model == null) ? AccountModeler::model() : $_user_model;
         
         $_o = (object) null;
@@ -80,7 +85,7 @@ class FormInputs {
         $_o->sequode = FormInputModeler::model()->component_object;
         $_o->sequode->Label = '';
         $_o->sequode->Values = '[' . implode(',',$values) . ']';
-        $_o->sequode->Value = $_model->sequode_id;
+        $_o->sequode->Value = $modeler::model()->sequode_id;
         $_o->sequode->Value_Key = 'value';
         $_o->sequode->Printable_Key = 'printable';
         

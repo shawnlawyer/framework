@@ -9,11 +9,10 @@ use Sequode\Application\Modules\Token\Module;
 class FormInputs{
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function name($_model = null){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
         
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         $_o = (object) null;

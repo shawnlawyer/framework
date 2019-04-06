@@ -8,10 +8,11 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 class Collections {
     
     public static $module = Module::class;
+    const Module = Module::class;
+
     public static function search($_i, $limit=100){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         if($_i->coded == 0 && $_i->sequenced == 0){
             return [];

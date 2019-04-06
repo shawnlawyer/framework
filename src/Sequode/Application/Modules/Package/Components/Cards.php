@@ -15,6 +15,7 @@ use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 class Cards {
     
     public static $module = Module::class;
+    const Module = Module::class;
 
     public static $tiles = ['myTile'];
 
@@ -30,9 +31,12 @@ class Cards {
         return $_o;
         
     }
+
     public static function menuItems(){
 
-        $module = static::$module;
+
+        extract((static::Module)::variables());
+
         $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Packages', $module::xhrCardRoute('search'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Package', $module::xhrOperationRoute('newPackage'));
@@ -40,16 +44,15 @@ class Cards {
         return $_o;
         
     }
+
     public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
-        
+
+        extract((static::Module)::variables());
+
         if($user_model == null ){
             $user_model = AccountModeler::model();
         }
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        
-        $operations = $module::model()->operations;
+
         $models = $operations::getOwnedModels($user_model, $fields, 10)->all;
         $items = [];
         if(count($models) > 0){
@@ -61,59 +64,65 @@ class Cards {
         return $items;
         
     }
+
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
+        extract((static::Module)::variables());
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
         $_o = [];
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$_model->id]);
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$_model->id]);
+
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
         
         return $_o;
     }
+
     public static function details($_model = null){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
+
+        extract((static::Module)::variables());
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
         $_o = (object) null;
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'packages',
             'node' => $_model->id
         ];
-        $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-            $_o->menu->items = self::modelOperationsMenuItems();
-        
+        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->head = 'Package Details';
         $_o->body = [''];
-        $_o->body[] = (object) ['js' => 'registry.setContext({card:\''. $module::xhrCardRoute('details').'\',collection:\'packages\',node:\''.$_model->id.'\'});'];
+        $_o->body[] = (object) ['js' => 'registry.setContext({card:\''. $module::xhrCardRoute('details').'\',collection:\'packages\',node:\''.$modeler::model()->id.'\'});'];
         $_o->body[] = CardKitHTML::sublineBlock('Name');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$_model->id]), $_model->name, 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$modeler::model()->id]), $modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Package Sequode');
-        $_o->body[] = ($_model->sequode_id != 0 && SequodeModeler::exists($_model->sequode_id,'id')) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject( $module::xhrFormRoute('packageSequode'), [$_model->id]), SequodeModeler::model()->name, 'settings') : ModuleForm::render($module::$registry_key,'packageSequode')[0];
+        $_o->body[] = ($modeler::model()->sequode_id != 0 && SequodeModeler::exists($modeler::model()->sequode_id,'id')) ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject( $module::xhrFormRoute('packageSequode'), [$_model->id]), SequodeModeler::model()->name, 'settings') : ModuleForm::render($module::$registry_key,'packageSequode')[0];
         $_o->body[] = CardKitHTML::sublineBlock('Package Token');
-        $_o->body[] = $_model->token;
-        $_o->body[] = CardKitHTML::sublineBlock('<a target="_blank" href="/source/'.$_model->token.'">Download</a>');
-        
-        $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = $modeler::model()->token;
+        $_o->body[] = CardKitHTML::sublineBlock('<a target="_blank" href="/source/'.$modeler::model()->token.'">Download</a>');
+        $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
+
         if(AccountAuthority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($_model);
+
+            $_o->body[] = CardKitHTML::modelId($modeler::model());
+
         }
         
         return $_o;
         
     }
+
     public static function my(){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $_o = (object) null;
         $_o->context = (object)[
@@ -141,9 +150,11 @@ class Cards {
         return $_o;
         
     }
+
     public static function search(){
-        
-        $module = static::$module;
+
+        extract((static::Module)::variables());
+
         $_o = (object) null;
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
@@ -175,9 +186,9 @@ class Cards {
     }
     
     public static function myTile($user_model=null){
-        
-        $module = static::$module;
-        
+
+        extract((static::Module)::variables());
+
         if($user_model == null ){
             
             $user_model = AccountModeler::model();

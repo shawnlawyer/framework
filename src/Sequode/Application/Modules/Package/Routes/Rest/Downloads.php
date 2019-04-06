@@ -9,12 +9,10 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Downloads{
 
     public static $module = Module::class;
+    const Module = Module::class;
 
 	public static function source($_model_token){
-
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+        extract((static::Module)::variables());
 
         if(!(
             $modeler::exists($_model_token,'token')

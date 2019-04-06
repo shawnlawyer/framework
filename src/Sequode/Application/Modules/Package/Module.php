@@ -11,7 +11,7 @@ class Module {
     public static $registry_key = 'Package';
 
 	public static function model(){
-        $_o = (object)  [
+        return (object)  [
             'context' => 'package',
             'finder' => Collections::class,
             'collections' => Routes\Collections\Collections::class,
@@ -34,6 +34,5 @@ class Module {
                 'downloads' => Routes\Rest\Downloads::class
             ]
         ];
-        return $_o;
     }
 }

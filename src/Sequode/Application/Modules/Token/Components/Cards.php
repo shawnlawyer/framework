@@ -16,22 +16,30 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Cards {
     
     public static $module = Module::class;
+
+    const Module = Module::class;
+
     public static $tiles = ['myTile'];
     
     public static function menu(){
+
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  array_merge(self::menuItems(),self::collectionOwnedMenuItems());
+        $_o->menu->items =  array_merge(self::menuItems(), self::collectionOwnedMenuItems());
+
         return $_o;
+
     }
+
     public static function menuItems(){
-        
-        $module = static::$module;
-        
+
+        extract((static::Module)::variables());
+
         $_o = [];
+
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', $module::xhrCardRoute('search'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Token',  $module::xhrOperationRoute('newToken'));
         
@@ -40,74 +48,87 @@ class Cards {
     }
     
     public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
-        
+
+        extract((static::Module)::variables());
+
         if($user_model == null ){
+
             $user_model = AccountModeler::model();
+
         }
-        
-        $module = static::$module;
-        
-        $operations = $module::model()->operations;
+
         $models = $operations::getOwnedModels($user_model, $fields, 20)->all;
+
         $items = [];
+
         if(count($models) > 0){
+
             $items[] = CardKit::onTapEventsXHRCallMenuItem('My Tokens', $module::xhrCardRoute('my'));
+
             foreach($models as $model){
+
                 $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, $module::xhrCardRoute('details'), [$model->id]);
+
             }
+
         }
+
         return $items;
         
     }
     
     public static function modelOperationsMenuItems($filter='', $_model = null){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        
+
+        extract((static::Module)::variables());
+
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = [];
+
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
+
         return $_o;
     }
     
     public static function details($_model = null){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        
-        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
+        extract((static::Module)::variables());
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'tokens',
-            'node' => $_model->id
+            'node' => $modeler::model()->id
         ];
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
         $_o->menu->items = self::modelOperationsMenuItems();
-        
         $_o->head = 'Token Details';
         $_o->body = [''];
         $_o->body[] = CardKitHTML::sublineBlock('Name');
-        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$_model->id]), $_model->name, 'settings');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$modeler::model()->id]), $modeler::model()->name, 'settings');
         $_o->body[] = CardKitHTML::sublineBlock('Token');
-        $_o->body[] = $_model->token;
-        $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $_model->id, 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = $modeler::model()->token;
+        $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
+
         if(AccountAuthority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($_model);
+
+            $_o->body[] = CardKitHTML::modelId($modeler::model());
+
         }
+
         return $_o;
     }
     
     public static function my(){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
+
         $_o = (object) null;
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
@@ -128,14 +149,16 @@ class Cards {
             'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($module::xhrOperationRoute('newToken')))
         ];
         $_o->body = [];
-
         $_o->body[] = CardKit::collectionCard((object) ['collection' => 'tokens', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('my'), 'details_route' => $module::xhrCardRoute('details')]);
+
         return $_o;
+
     }
+
     public static function search(){
-        
-        $module = static::$module;
-        
+
+        extract((static::Module)::variables());
+
         $_o = (object) null;
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
@@ -149,27 +172,36 @@ class Cards {
         $_o->menu->items = [];
         
         $search_components_array = ModuleForm::render($module::$registry_key, 'search');
+
         $_o->head = $search_components_array[0];
+
         array_shift($search_components_array);
         
         foreach($search_components_array as $key => $object){
+
             $_o->menu->items[] = [
                 'css_classes'=>'automagic-card-menu-item noSelect',
                 'contents'=>$object->html,
                 'js_action'=> $object->js
             ];
+
         }
+
         $_o->body = [];
         $_o->body[] = CardKit::collectionCard((object) ['collection' => 'token_search', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('details'), 'details_route' => $module::xhrCardRoute('details')]);
+
         return $_o;
+
     }
     
     public static function myTile($user_model=null){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
 
         if($user_model == null ){
+
             $user_model = AccountModeler::model();
+
         }
         
         $_o = (object) null;

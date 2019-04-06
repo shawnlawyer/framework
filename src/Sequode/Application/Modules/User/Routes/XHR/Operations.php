@@ -12,119 +12,115 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Role\Modeler as RoleModeler;
 
 class Operations {
-    
+
     public static $module = Module::class;
-    
+    const Module = Module::class;
+
     public static function newUser(){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
+
+        extract((static::Module)::variables());
+        $collection = $module::model()->context;
         
         if(!(
         AccountAuthority::isSystemOwner()
         )){ return; }
 
         forward_static_call_array([$operations, __FUNCTION__], []);
-        $js = [];
-        $collection = $module::model()->context;
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
 
-        return implode(' ', $js);
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            forward_static_call_array([$xhr_cards, 'card'], ['details'])
+        ]);
+
     }
 
     public static function newGuest(){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
+
+        extract((static::Module)::variables());
+        $collection = $module::model()->context;
         
         if(!(
         AccountAuthority::isSystemOwner()
         )){ return; }
 
         forward_static_call_array([$operations, __FUNCTION__], []);
-        $js = [];
-        $collection = $module::model()->context;
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            forward_static_call_array([$xhr_cards, 'card'], ['details'])
+        ]);
+
     }
 
     public static function delete($_model_id, $confirmed=false){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+        extract((static::Module)::variables());
+        $collection = 'users';
+
         if(!(
         AccountAuthority::isSystemOwner()
         && $modeler::exists($_model_id,'id')
         )){return;}
+
         if ($confirmed===false){
-            $js = [];
-            $js[] = 'if(';
-            $js[] = 'confirm(\'Are you sure you want to delete this?\')';
-            $js[] = '){';
-            $js[] = 'new XHRCall({route:"'. $module::xhrOperationRoute(__FUNCTION__)  .'",inputs:['.$modeler::model()->id.', true]});';
-            $js[] = '}';
-            return implode(' ',$js);
+
+            return DOMElementKitJS::confirmOperation($module::xhrOperationRoute(__FUNCTION__), $modeler::model()->id);
+
         }else{
+
             forward_static_call_array([$operations, __FUNCTION__], []);
-            $js = [];
-            $collection = 'users';
-            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-            $js[] = forward_static_call_array([$xhr_cards, 'search'], []);
-            return implode(' ', $js);
+
+            return implode(' ', [
+                DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+                forward_static_call_array([$xhr_cards, 'card'], ['search'])
+            ]);
+
         }
+
     }
 
     public static function loginAs($_model_id){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
+
+        extract((static::Module)::variables());
 
         if(!(
             AccountAuthority::isSystemOwner()
             && $modeler::exists($_model_id,'id')
         )){return;}
+
         forward_static_call_array([$operations, 'login'], []);
-        $console_module =  ModuleRegistry::model()['Console'];
-        return forward_static_call_array([$console_module::model()->routes['http'], 'js'], [false]);
+
+        return implode(' ', [
+            'new Console();'
+        ]);
+
     }
 
     public static function updatePassword($_model_id, $json){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+        extract((static::Module)::variables());
+        $collection = $module::model()->context;
+
         $input = json_decode(rawurldecode($json));
         if(!(
-        AccountAuthority::isSystemOwner()
-        && $modeler::exists($_model_id,'id')
+            AccountAuthority::isSystemOwner()
+            && $modeler::exists($_model_id,'id')
         )){return;}
 
         forward_static_call_array([$operations, __FUNCTION__], [$input->password]);
-        $js = [];
-        $collection = $module::model()->context;
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
     }
 
     public static function updateRole($_model_id, $json){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+        extract((static::Module)::variables());
+        $collection = $module::model()->context;
+
         $input = json_decode(rawurldecode($json));
         if(!(
             AccountAuthority::isSystemOwner()
@@ -133,20 +129,19 @@ class Operations {
         )){return;}
 
         forward_static_call_array([$operations, __FUNCTION__], []);
-        $js = [];
-        $collection = $module::model()->context;
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
     }
 
     public static function updateActive($_model_id, $json){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+        extract((static::Module)::variables());
+        $collection = $module::model()->context;
+
         $input = json_decode(rawurldecode($json));
         if(!(
             AccountAuthority::isSystemOwner()
@@ -154,28 +149,29 @@ class Operations {
         )){return;}
 
         forward_static_call_array([$operations, __FUNCTION__], [$input->active]);
-        $js = [];
-        $collection = $module::model()->context;
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
     }
 
     public static function updateName($_model_id, $json){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
+
+        extract((static::Module)::variables());
+        $collection = $module::model()->context;
         
         if(!(
             $modeler::exists($_model_id,'id')
         )){ return; }
+
         $input = json_decode($json);
         $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($input->name))));
         if(strlen($name)==0){
             return ' alert(\'Name cannot be empty\');';
         }
+
         if(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             return ' alert(\'Name can be alphanumeric and contain spaces only\');';
         }
@@ -187,23 +183,29 @@ class Operations {
         }
         
         $modeler::exists($_model_id, 'id');
+
         forward_static_call_array([$operations, __FUNCTION__], [$name]);
-        $js = [];
-        $collection = $module::model()->context;
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
         
     }
 
     public static function search($json){
-        $module = static::$module;  
-        $_o = json_decode(stripslashes($json));
-        $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
-        $collection = $module::model()->context . '_' . __FUNCTION__;
-        SessionStore::set($collection, $_o);
-		$js= [];
-        $js[] = DOMElementKitJS::fetchCollection($collection);
-        return implode(' ',$js);
+
+        extract((static::Module)::variables());
+        $collection = 'user_search';
+
+        $input = @json_decode(stripslashes($json));
+        $input = (!is_object($input) || (trim($input->search) == '' || empty(trim($input->search)))) ? (object) null : $input;
+
+        SessionStore::set($collection, $input);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection)
+        ]);
+
     }
 }

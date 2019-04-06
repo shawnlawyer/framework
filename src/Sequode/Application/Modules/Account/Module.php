@@ -11,8 +11,8 @@ class Module {
     public static $registry_key = 'Account';
     
 	public static function model(){
-        $_o = (object)  [
-        
+
+        return (object)  [
             'context' => 'account',
             'modeler' => Modeler::class,
             'components' => (object) [
@@ -30,10 +30,7 @@ class Module {
                 'cards' => Routes\XHR\Cards::class
 
             ]
-
         ];
-        
-		return $_o;
         
 	}
     

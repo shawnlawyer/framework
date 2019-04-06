@@ -129,7 +129,18 @@ class JS {
     public static function fetchCollection($collection, $key=null){
         return ($key == null) ? 'registry.fetch({collection:\''.$collection.'\'});' : 'registry.fetch({collection:\''.$collection.'\', key:'.$key.'});';
 	}
-    public static function addIntoDom($element,$code,$mode='replace'){
+    public static function confirmOperation($route, $id = null, $message = 'Are you sure you want to delete this?'){
+        $js = [];
+        $js[] = "if(confirm('". self::formatForJS($message) ."')){";
+        $js[] = 'new XHRCall({route:"'. $route .'",inputs:[';
+        if($id !== null) {
+            $js[] = "'" . $id . "'', ";
+        }
+        $js[] = 'true]});';
+        $js[] = '}';
+        return implode('',$js);
+	}
+    public static function addIntoDom($element, $code, $mode='replace'){
 		$stream = ' ';
 		switch($mode){
 			case 'append':

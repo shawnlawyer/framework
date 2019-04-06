@@ -13,6 +13,7 @@ use Sequode\Application\Modules\Session\Module;
 class Cards {
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function menu(){
         
@@ -52,10 +53,7 @@ class Cards {
     }
 
     public static function details($_model=null){
-
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+        extract((static::Module)::variables());
 
         
         $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);

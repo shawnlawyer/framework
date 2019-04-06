@@ -11,53 +11,67 @@ use Sequode\Application\Modules\BlockedIP\Modeler as BlockedIPModeler;
 class Operations {
     
     public static $module = Module::class;
-    
+    const Module = Module::class;
+
     public static function destroy($_model_id, $confirmed=false){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+        extract((static::Module)::variables());
+        $collection = 'session_search';
+
         if(
+
             !($modeler::exists($_model_id,'id')
             && AccountAuthority::isSystemOwner())
+
         ){ return false; }
 
-        $js = [];
         if ($confirmed===false){
-            $js[] = 'if(';
-            $js[] = 'confirm(\'Are you sure you want to destroy this?\')';
-            $js[] = '){';
-            $js[] = 'new XHRCall({route:"' . $module::xhrOperationRoute(__FUNCTION__) . '", inputs:['.$modeler::model()->id.', true]});';
-            $js[] = '}';
+
+            return DOMElementKitJS::confirmOperation($module::xhrOperationRoute(__FUNCTION__), $modeler::model()->id);
+
         }else{
+
             forward_static_call_array([$operations, __FUNCTION__], []);
-            $collection = 'session_search';
-            $js[] = DOMElementKitJS::fetchCollection($collection, $_model_id);
-            $js[] = forward_static_call_array([$xhr_cards, 'card'], ['search']);
+
+            return implode(' ', [
+                DOMElementKitJS::fetchCollection($collection, $_model_id),
+                forward_static_call_array([$xhr_cards, 'card'], ['search'])
+            ]);
+
         }
-        return implode(' ', $js);
+
     }
+
     public static function blockIP($_model_id){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
+
         $session_ip = $modeler::model()->ip_address;
         
         if(!(
+
             $modeler::exists($_model_id,'id')
             && $modeler::model()->ip_address != $session_ip
+
         )){ return false; }
+
         BlockedIPModeler::model()->create([
             'ip_address' => $modeler::model()->ip_address,
         ]);
+
     }
+
     public static function search($json){
-        $_o = json_decode(stripslashes($json));
-        $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
+
         $collection = 'session_search';
-        SessionStore::set($collection, $_o);
+
+        $input = json_decode(stripslashes($json));
+
+        $input = (!is_object($input) || (trim($input->search) == '' || empty(trim($input->search)))) ? (object) null : $input;
+
+        SessionStore::set($collection, $input);
+
         return DOMElementKitJS::fetchCollection($collection);
+
     }
 }

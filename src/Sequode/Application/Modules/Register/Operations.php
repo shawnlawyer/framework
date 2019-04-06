@@ -9,7 +9,8 @@ use Sequode\Application\Modules\User\Modeler;
 class Operations {
     
     use ORMModelSignupTrait;
-    
-    public static $modeler = Modeler::class;
+
+    public static $module = Module::class;
+    const Module = Module::class;
     
 }

@@ -14,7 +14,7 @@ trait ORMModelCreateTrait {
         return $modeler::create([
             'name' => substr(Hashes::uniqueHash(),0,15),
             'password' => substr(Hashes::uniqueHash(),0,15),
-            'email'=> '',
+            'email'=> substr(Hashes::uniqueHash(),0,15),
             'sequode_favorites'=> [],
             'role_id'=> 100,
             'allowed_sequode_count'=> 33,
@@ -32,7 +32,7 @@ trait ORMModelCreateTrait {
         return $modeler::create([
             'name' => substr(Hashes::uniqueHash(),0,15),
             'password' => substr(Hashes::uniqueHash(),0,15),
-            'email'=> '',
+            'email'=> substr(Hashes::uniqueHash(),0,15),
             'sequode_favorites'=> [],
             'role_id'=> 101,
             'allowed_sequode_count'=> 5,

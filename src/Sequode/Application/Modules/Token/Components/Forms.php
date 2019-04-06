@@ -9,18 +9,16 @@ use Sequode\Application\Modules\Token\Module;
 class Forms   {
     
     public static $module = Module::class;
-    
+    const Module = Module::class;
+
     public static function name(){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $context = $module::model()->context;
-        $form_inputs = $module::model()->components->form_inputs;
-        
+
+        extract((static::Module)::variables());
+
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
         $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateName');
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = [];
@@ -32,15 +30,12 @@ class Forms   {
 	}
     
     public static function search(){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $context = $module::model()->context;
-        $form_inputs = $module::model()->components->form_inputs;
-            
+
+        extract((static::Module)::variables());
+
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'search');
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', __FUNCTION__);
         $_o->auto_submit_time = 1;
         
 		return $_o;

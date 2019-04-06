@@ -10,6 +10,7 @@ use Sequode\Application\Modules\User\Module;
 class FormInputs{
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function updatePassword(){
             
@@ -24,10 +25,10 @@ class FormInputs{
 		return $_o;
         
 	}
+
     public static function updateEmail($_model = null){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
@@ -49,6 +50,7 @@ class FormInputs{
 		return $_o;
         
 	}
+
     public static function search(){
         
         $_o = (object) null;
@@ -102,19 +104,24 @@ class FormInputs{
 		return $_o;
         
 	}
+
     public static function updateRole($_model = null){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = (object) null;
+
         $roles_model = new RoleModeler::$model;
         $roles_model->getAll();
+
         foreach( $roles_model->all as $object){
+
             $values[] = '{\'value\':\''.$object->id.'\',\'printable\':\''.$object->name.'\'}';
+
         }
+
         FormInputModeler::exists('select','name');
         $_o->role = FormInputModeler::model()->component_object;
         $_o->role->Label = '';
@@ -127,9 +134,8 @@ class FormInputs{
         
 	}
     public static function updateActive($_model = null){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
@@ -147,9 +153,8 @@ class FormInputs{
         
 	}
     public static function updateName($_model = null){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
@@ -163,4 +168,5 @@ class FormInputs{
 		return $_o;
         
 	}
+
 }

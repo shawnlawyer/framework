@@ -11,35 +11,35 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Operations {
 
     public static $module = Module::class;
+    const Module = Module::class;
     
-    public static function newToken(){   
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
+    public static function newToken(){
+
+        extract((static::Module)::variables());
+        $collection = 'tokens';
         
         forward_static_call_array([$operations, __FUNCTION__], [AccountModeler::model()->id]);
-        $js = [];
-        $collection = 'tokens';
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = forward_static_call_array([$xhr_cards, 'card'], ['details']);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            forward_static_call_array([$xhr_cards, 'card'], ['details'])
+        ]);
+
     }
-    public static function updateName($_model_id, $json){ 
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+    public static function updateName($_model_id, $json){
+
+        extract((static::Module)::variables());
+        $collection = 'tokens';
+
         if(!(
-        $modeler::exists($_model_id,'id')
-        && (AccountAuthority::isOwner( $modeler::model() )
-        || AccountAuthority::isSystemOwner())
+            $modeler::exists($_model_id,'id')
+            && (AccountAuthority::isOwner( $modeler::model() )
+            || AccountAuthority::isSystemOwner())
         )){ return; }
-        $_o = json_decode($json);
-        $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($_o->name))));
+
+        $input = json_decode($json);
+        $name = trim(str_replace('-','_',str_replace(' ','_',urldecode($input->name))));
         if(strlen($name) < 2){
             return ' alert(\'Token name should be more than 1 character long.\');';
         }
@@ -49,51 +49,53 @@ class Operations {
         if(!preg_match("/^([A-Za-z0-9_])*$/i",$name)){
             return ' alert(\'Token name must be alphanumeric and all spaces will convert to underscore.\');';
         }
+
         forward_static_call_array([$operations, __FUNCTION__] , [$name]);
-        $js = [];
-        $collection = 'tokens';
-        $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
     }
     public static function delete($_model_id, $confirmed=false){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
-        $xhr_cards = $module::model()->xhr->cards;
-        
+
+        extract((static::Module)::variables());
+
         if(!(
-        $modeler::exists($_model_id,'id')
-        && (AccountAuthority::isOwner( $modeler::model() )
-        || AccountAuthority::isSystemOwner())
+            $modeler::exists($_model_id,'id')
+            && (AccountAuthority::isOwner( $modeler::model() )
+            || AccountAuthority::isSystemOwner())
         )){ return; }
 
-        $js = [];
+
         if ($confirmed===false){
-            $js[] = 'if(';
-            $js[] = 'confirm(\'Are you sure you want to delete this?\')';
-            $js[] = '){';
-            $js[] = 'new XHRCall({route:"'. $module::xhrOperationRoute(__FUNCTION__) .'", inputs:['.$modeler::model()->id.', true]});';
-            $js[] = '}';
+
+            return DOMElementKitJS::confirmOperation($module::xhrOperationRoute(__FUNCTION__), $modeler::model()->id);
+
         }else{
+
             forward_static_call_array([$operations, __FUNCTION__], []);
-            $collection = 'tokens';
-            $js[] = DOMElementKitJS::fetchCollection($collection, $modeler::model()->id);
-            $js[] = forward_static_call_array([$xhr_cards, 'card'], ['my']);
+
+            return implode(' ', [
+                forward_static_call_array([$xhr_cards, 'card'], ['my'])
+            ]);
+
         }
-        return implode(' ', $js);
-        
+
     }
     public static function search($json){
-        
-        $_o = json_decode(stripslashes($json));
-        $_o = (!is_object($_o) || (trim($_o->search) == '' || empty(trim($_o->search)))) ? (object) null : $_o;
+
         $collection = 'token_search';
-        SessionStore::set($collection, $_o);
-		$js = [];
-        $js[] = DOMElementKitJS::fetchCollection($collection);
-        return implode(' ',$js);
+
+        $input = json_decode(stripslashes($json));
+        $input = (!is_object($input) || (trim($input->search) == '' || empty(trim($input->search)))) ? (object) null : $input;
+
+        SessionStore::set($collection, $input);
+
+        return implode(' ',[
+            DOMElementKitJS::fetchCollection($collection)
+        ]);
         
     }
 }

@@ -15,6 +15,7 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Operations {
     
     public static $module = Module::class;
+    const Module = Module::class;
 
     use XHROperationsDialogTrait;
     /*
@@ -40,33 +41,31 @@ class Operations {
         'updatePassword',
         'updateEmail'
     ];
+
     public static function emptySequodeFavorites($confirmed=false){
 
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+        extract((static::Module)::variables());
+        $collection = 'sequode_favorites';
+
         if ($confirmed===false){
-            $js = [];
-            $js[] = 'if(';
-            $js[] = 'confirm(\'Are you sure you want to empty your sequode favorites?\')';
-            $js[] = '){';
-            $js[] = 'new XHRCall({route:"'. $module::xhrOperationRoute(__FUNCTION__) .'",inputs:[true]});';
-            $js[] = '}';
-            return implode(' ',$js);
+
+            return DOMElementKitJS::confirmOperation($module::xhrOperationRoute(__FUNCTION__), null, 'Are you sure you want to empty your sequode favorites?');
+
         } else {
+
             forward_static_call_array([$operations, __FUNCTION__], []);
-            $js = [];
-            $collection = 'sequode_favorites';
-            $js[] = DOMElementKitJS::fetchCollection($collection);
-            return implode(' ', $js);
+
+            return implode(' ', [
+                DOMElementKitJS::fetchCollection($collection)
+            ]);
+
         }
     }
 
     public static function addToSequodeFavorites($_model_id){
 
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+        extract((static::Module)::variables());
+        $collection = 'sequode_favorites';
 
         if(!(
 
@@ -76,19 +75,19 @@ class Operations {
         )){ return; }
 
         forward_static_call_array([$operations, __FUNCTION__], []);
-        $js = [];
-        $collection = 'sequode_favorites';
-        $js[] = DOMElementKitJS::fetchCollection($collection);
-        $js[] = DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection),
+            DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
     }
 
     public static function removeFromSequodeFavorites($_model_id){
 
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+        extract((static::Module)::variables());
+        $collection = 'sequode_favorites';
 
         if(!(
 
@@ -98,18 +97,18 @@ class Operations {
         )){ return; }
 
         forward_static_call_array([$operations, __FUNCTION__], []);
-        $js = [];
-        $collection = 'sequode_favorites';
-        $js[] = DOMElementKitJS::fetchCollection($collection);
-        $js[] = DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id);
-        $js[] = DOMElementKitJS::registryRefreshContext([$modeler::model()->id]);
-        return implode(' ', $js);
+
+        return implode(' ', [
+            DOMElementKitJS::fetchCollection($collection),
+            DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id),
+            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+        ]);
+
     }
 
     public static function updatePassword($dialog, $dialog_store, $input){
 
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
 
         switch($dialog_store->step){
             case 0:
@@ -143,9 +142,7 @@ class Operations {
     
     public static function updateEmail($dialog, $dialog_store, $input){
 
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-
+        extract((static::Module)::variables());
 
         switch($dialog_store->step){
                 

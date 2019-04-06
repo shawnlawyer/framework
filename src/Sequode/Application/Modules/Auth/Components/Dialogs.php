@@ -37,8 +37,11 @@ class Dialogs {
                 ]
             ],
             'complete' => function(){
-                $console_module = ModuleRegistry::model()['Console'];
-                forward_static_call_array([$console_module::model()->routes['http'], 'js'], [false]);
+
+                return implode(' ', [
+                    'new Console();'
+                ]);
+
             }
         ];
 		return $_o; 

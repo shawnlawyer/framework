@@ -10,6 +10,7 @@ class Cards {
     use XHRCardsCardRouteTrait;
 
     public static $module = Module::class;
+    const Module = Module::class;
 
     public static $routes = [
         'details',
@@ -17,9 +18,7 @@ class Cards {
     ];
     
     public static function details($_model_id=0){
-    
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
         
         if(!(
         $modeler::exists($_model_id,'id')

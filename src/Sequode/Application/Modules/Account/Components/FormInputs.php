@@ -12,15 +12,13 @@ class FormInputs{
     
     public static function updateEmail(){
         
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $_model = $modeler::model();
+        extract((static::Module)::variables());
         $_o = (object) null;
         
         FormInputModeler::exists('str','name');
 		$_o->email = FormInputModeler::model()->component_object;
         $_o->email->Label = 'Email Address';
-        $_o->email->Value = $_model->email;
+        $_o->email->Value = $modeler::model()->email;
         $_o->email->Width = 200;
         
 		return $_o;

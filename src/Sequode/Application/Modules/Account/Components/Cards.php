@@ -16,6 +16,7 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Cards {
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function menu(){
         
@@ -33,6 +34,7 @@ class Cards {
     public static function menuItems(){
 
         $module = static::$module;
+
         $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Account Details', $module::xhrCardRoute('details'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Password', $module::xhrCardRoute('updatePassword'));
@@ -43,21 +45,21 @@ class Cards {
     }
 
     public static function modelOperationsMenuItems($filter='', $_model = null){
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $_model = forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
+        extract((static::Module)::variables());
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
+
         $items = [];
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Detail', $module::xhrCardRoute('detail'), [$_model->id]);
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Password', $module::xhrCardRoute('updatePassword'), [$_model->id]);
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Email', $module::xhrCardRoute('updateEmail'), [$_model->id]);
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Detail', $module::xhrCardRoute('detail'), [$modeler::model()->id]);
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Password', $module::xhrCardRoute('updatePassword'), [$modeler::model()->id]);
+        $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Email', $module::xhrCardRoute('updateEmail'), [$modeler::model()->id]);
 
         return $items;
     }
     public static function details(){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $operations = $module::model()->operations;
+
+        extract((static::Module)::variables());
         
         $_model = forward_static_call_array([$modeler,'model'],[]);
         
@@ -65,7 +67,7 @@ class Cards {
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'users',
-            'node' => $_model->id
+            'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
         $_o->menu->items = self::modelOperationsMenuItems();
@@ -76,16 +78,19 @@ class Cards {
         $_o->body[] = $_model->email;
 
         if(AccountAuthority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($_model);
+            $_o->body[] = CardKitHTML::modelId($modeler::model());
         }
+
         return $_o;
     }
     
     public static function updatePassword(){
-        
-        $module = static::$module;
-        $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array([$dialogs, __FUNCTION__], []);
+
+        extract((static::Module)::variables());
+
+        $dialog = forward_static_call_array([$component_dialogs, __FUNCTION__], []);
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         if(!SessionStore::is($dialog->session_store_key)){
             SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
@@ -155,12 +160,11 @@ class Cards {
     }
     
     public static function updateEmail(){
-        
-        $module = static::$module;
-        $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array([$dialogs, __FUNCTION__], []);
-        
-        
+
+        extract((static::Module)::variables());
+
+        $dialog = forward_static_call_array([$component_dialogs, __FUNCTION__], []);
+
         if(!SessionStore::is($dialog->session_store_key)){
             SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
         }
@@ -225,4 +229,5 @@ class Cards {
         return $_o;
         
     }
+
 }

@@ -11,6 +11,7 @@ class Cards {
     use XHRCardsCardRouteTrait;
 
     public static $module = Module::class;
+    const Module = Module::class;
 
     public static $routes = [
         'componentSettings',
@@ -25,75 +26,77 @@ class Cards {
     ];
     
     public static function componentSettings($type = false, $member=null, $_model_id=0){
-       
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && (AccountAuthority::isOwner( $modeler::model() )
-        || AccountAuthority::isSystemOwner())
+            $modeler::exists($_model_id,'id')
+            && (AccountAuthority::isOwner( $modeler::model() )
+            || AccountAuthority::isSystemOwner())
         )){return false;}
+
         return [$type, $member];
+
     }
 
     public static function details($_model_id=0){
 
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+        extract((static::Module)::variables());
 
         if(!(
-        $modeler::exists($_model_id,'id')
-        && AccountAuthority::canView( $modeler::model() )
+            $modeler::exists($_model_id,'id')
+            && AccountAuthority::canView( $modeler::model() )
         )){return false;}
+
     }
 
     public static function internalForms($_model_id=0){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && (AccountAuthority::isOwner( $modeler::model() )
-        || AccountAuthority::isSystemOwner())
+            $modeler::exists($_model_id,'id')
+            && (AccountAuthority::isOwner( $modeler::model() )
+            || AccountAuthority::isSystemOwner())
         )){return false;}
+
     }
 
     public static function internalPositionForms($_model_id=0, $position=0){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && (AccountAuthority::isOwner( $modeler::model() )
-        || AccountAuthority::isSystemOwner())
+            $modeler::exists($_model_id,'id')
+            && (AccountAuthority::isOwner( $modeler::model() )
+            || AccountAuthority::isSystemOwner())
         )){return false;}
+
         return [$position];
+
     }
 
     public static function chart($_model_id=0){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && (AccountAuthority::isOwner( $modeler::model() )
-        || AccountAuthority::isSystemOwner())
+            $modeler::exists($_model_id,'id')
+            && (AccountAuthority::isOwner( $modeler::model() )
+            || AccountAuthority::isSystemOwner())
         )){return false;}
     }
 
     public static function sequencer($_model_id=0){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+
+        extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
-        && (AccountAuthority::isOwner( $modeler::model() )
-        || AccountAuthority::isSystemOwner())
+            $modeler::exists($_model_id,'id')
+            && (AccountAuthority::isOwner( $modeler::model() )
+            || AccountAuthority::isSystemOwner())
         )){return false;}
+
     }
+
 }
