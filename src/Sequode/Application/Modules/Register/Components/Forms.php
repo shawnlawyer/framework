@@ -16,7 +16,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('signup');
         $_o->submit_button = 'Next';
         
 		return $_o;
@@ -29,7 +29,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('signup');
         $_o->submit_button = 'Next';
         
 		return $_o;
@@ -42,7 +42,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('signup');
         $_o->auto_submit_time = 1;
         $_o->submit_button = 'Next';
         
@@ -66,7 +66,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('signup');
         $_o->auto_submit_time = 1;
         $_o->submit_button = 'Next';
         
@@ -80,7 +80,7 @@ class Forms {
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'signup');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('signup');
         $_o->submit_button = 'Next';
         
 		return $_o;

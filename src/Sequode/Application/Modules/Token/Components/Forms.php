@@ -19,7 +19,7 @@ class Forms   {
             
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateName');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('updateName');
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -35,7 +35,7 @@ class Forms   {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', __FUNCTION__);
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->auto_submit_time = 1;
         
 		return $_o;

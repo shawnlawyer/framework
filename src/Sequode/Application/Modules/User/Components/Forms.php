@@ -17,8 +17,8 @@ class Forms  {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, [$modeler::model()]);
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', __FUNCTION__);
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
@@ -35,8 +35,8 @@ class Forms  {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, [$modeler::model()]);
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', __FUNCTION__);
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
@@ -53,8 +53,8 @@ class Forms  {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, [$modeler::model()]);
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', __FUNCTION__);
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
@@ -71,8 +71,8 @@ class Forms  {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, [$modeler::model()]);
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', __FUNCTION__);
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->auto_submit_time = 1;
         
 		return $_o;
@@ -86,8 +86,8 @@ class Forms  {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
                     
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, [$modeler::model()]);
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateRole');
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -103,8 +103,8 @@ class Forms  {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, [$modeler::model()]);
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateActive');
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -121,8 +121,8 @@ class Forms  {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
             
         $_o = FormComponent::formObject();
-        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, [$modeler::model()]);
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', __FUNCTION__);
+        $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;

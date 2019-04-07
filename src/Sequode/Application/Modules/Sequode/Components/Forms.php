@@ -19,7 +19,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateName');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('updateName');
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -37,7 +37,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateDescription');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('updateDescription');
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -55,8 +55,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'search');
-        
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->auto_submit_time = 1;
         
 		return $_o;
@@ -71,7 +70,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateValue');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('updateValue');
         $_o->auto_submit_time = 500;
         $_o->submit_on_enter = false;
         $_o->submit_xhr_call_parameters = [];
@@ -92,7 +91,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateComponentSettings');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('updateComponentSettings');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = FormComponent::jsQuotedValue($type);
@@ -113,7 +112,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'run');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('run');
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
         $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
@@ -131,7 +130,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateSharing');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('updateSharing');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -149,7 +148,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateIsPalette');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('updateIsPalette');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -167,7 +166,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'updateIsPackage');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('updateIsPackage');
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
@@ -185,7 +184,7 @@ class Forms {
 
         $_o = FormComponent::formObject();
         $_o->form_inputs = FormComponent::formInputs($component_form_inputs, __FUNCTION__, func_get_args());
-        $_o->submit_xhr_call_route = FormComponent::xhrCallRoute($context, 'operations', 'selectPalette');
+        $_o->submit_xhr_call_route = $module::xhrOperationRoute('selectPalette');
         $_o->auto_submit_time = 1;
         
 		return $_o;
