@@ -7,9 +7,10 @@ use Sequode\Component\FormInput as FormInputComponent;
 use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 
 class Form {
-    
+
     public static $collection_replacement_hook = '[%COLLECTION_JS%]';
-    
+    const Input_Object_Placeholder = '[%COLLECTION_JS%]';
+
 	public static function domIds($_i){
         $dom_ids = [];
         if(is_object($_i)){
@@ -115,9 +116,9 @@ class Form {
         $js_event = (object) null;
         $submit_js = '';
         if($_i->submit_js != null){
-            $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->form_inputs,$dom_ids), $_i->submit_js);    
+            $submit_js = str_replace(static::Input_Replacement_Hook, self::collectValues($_i->form_inputs,$dom_ids), $_i->submit_js);
         }else{
-            $submit_js = str_replace(static::$collection_replacement_hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCall($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters));
+            $submit_js = str_replace(static::Input_Replacement_Hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCall($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters));
         }
         $event_js = [];
         if($_i->auto_submit_time != null){

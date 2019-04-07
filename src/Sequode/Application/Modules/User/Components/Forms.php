@@ -21,7 +21,7 @@ class Forms  {
         $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        $_o->submit_xhr_call_parameters[] = FormComponent::Input_Object_Placeholder;
         $_o->submit_button = 'Save';
         
 		return $_o;
@@ -39,7 +39,7 @@ class Forms  {
         $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        $_o->submit_xhr_call_parameters[] = FormComponent::Input_Object_Placeholder;
         $_o->submit_button = 'Save';
         
 		return $_o;
@@ -57,7 +57,7 @@ class Forms  {
         $_o->submit_xhr_call_route = $module::xhrOperationRoute(__FUNCTION__);
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        $_o->submit_xhr_call_parameters[] = FormComponent::Input_Object_Placeholder;
         $_o->submit_button = 'Save';
         
 		return $_o;
@@ -91,7 +91,7 @@ class Forms  {
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        $_o->submit_xhr_call_parameters[] = FormComponent::Input_Object_Placeholder;
         
 		return $_o;
 	}
@@ -108,7 +108,7 @@ class Forms  {
         $_o->auto_submit_time = 1;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        $_o->submit_xhr_call_parameters[] = FormComponent::Input_Object_Placeholder;
 		
         return $_o;
         
@@ -126,7 +126,7 @@ class Forms  {
         $_o->auto_submit_time = 2000;
         $_o->submit_xhr_call_parameters = [];
         $_o->submit_xhr_call_parameters[] = $modeler::model()->id;
-        $_o->submit_xhr_call_parameters[] = FormComponent::$collection_replacement_hook;
+        $_o->submit_xhr_call_parameters[] = FormComponent::Input_Object_Placeholder;
         
 		return $_o;
         
