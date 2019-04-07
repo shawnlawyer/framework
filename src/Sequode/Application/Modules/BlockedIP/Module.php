@@ -8,7 +8,7 @@ class Module {
 
     use ModuleRoutesTrait;
 
-    public static $registry_key = 'BlockedIP';
+    const Registry_Key = 'BlockedIP';
 
 	public static function model(){
         $_o = (object)  [

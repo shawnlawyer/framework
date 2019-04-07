@@ -9,7 +9,7 @@ class Module {
 
     use ModuleRoutesTrait;
 
-    public static $registry_key = 'Auth';
+    const Registry_Key = 'Auth';
 
 	public static function model(){
         $_o = (object)  [

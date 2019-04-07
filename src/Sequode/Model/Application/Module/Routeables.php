@@ -23,7 +23,7 @@ class Routeables
             if (isset($module::model()->routes)) {
                 foreach ($module::model()->routes as $key => $class) {
                     $_o->routes[] = (object)[
-                        'module' => $module::$registry_key,
+                        'module' => $module::Registry_Key,
                         'type' => $key,
                         'class' => $class
                     ];
@@ -33,7 +33,7 @@ class Routeables
             if (isset($module::model()->xhr)) {
                 foreach ($module::model()->xhr as $key => $class) {
                     $_o->xhr[] = (object) [
-                        'module' => $module::$registry_key,
+                        'module' => $module::Registry_Key,
                         'type'   => $key,
                         'class'  => $class
                     ];
@@ -43,7 +43,7 @@ class Routeables
             if (isset($module::model()->rest)) {
                 foreach ($module::model()->rest as $key => $class) {
                     $_o->rest[] = (object)[
-                        'module' => $module::$registry_key,
+                        'module' => $module::Registry_Key,
                         'type' => $key,
                         'class' => $class
                     ];
@@ -52,7 +52,7 @@ class Routeables
 
             if (isset($module::model()->collections)) {
                 $_o->collections[] = (object)[
-                    'module' => $module::$registry_key,
+                    'module' => $module::Registry_Key,
                     'type' => 'http',
                     'class' => $class
                 ];

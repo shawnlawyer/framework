@@ -18,7 +18,7 @@ class Forms {
         $modeler::exists($_model_id,'id')
         )){return;}
         
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
     }
     
     public static function updateEmail($_model_id, $dom_id){
@@ -28,7 +28,7 @@ class Forms {
         $modeler::exists($_model_id,'id')
         )){return;}
         
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
     }
     public static function updateDomain($_model_id, $dom_id){
         extract((static::Module)::variables());
@@ -37,7 +37,7 @@ class Forms {
         $modeler::exists($_model_id,'id')
         )){return;}
         
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
     }
     
     public static function updateRole($_model_id, $dom_id){
@@ -47,7 +47,7 @@ class Forms {
         $modeler::exists($_model_id,'id')
         )){return;}
         
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
     }
     
     public static function updateActive($_model_id, $dom_id){
@@ -57,7 +57,7 @@ class Forms {
         $modeler::exists($_model_id,'id')
         )){return;}
         
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
     }
     
     public static function updateName($_model_id, $dom_id){
@@ -67,7 +67,7 @@ class Forms {
         $modeler::exists($_model_id,'id')
         )){return;}
         
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
         
     }
 }

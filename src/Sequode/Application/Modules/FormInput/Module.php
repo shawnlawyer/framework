@@ -4,7 +4,7 @@ namespace Sequode\Application\Modules\FormInput;
 
 class Module {
     
-    public static $registry_key = 'FormInput';
+    const Registry_Key = 'FormInput';
     
 	public static function model(){
         $_o = (object)  [

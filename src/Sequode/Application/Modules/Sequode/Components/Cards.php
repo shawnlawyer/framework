@@ -145,7 +145,7 @@ class Cards {
 
         $dom_id = FormInputComponent::uniqueHash('','');
 
-        $components = ModuleForm::render($module::$registry_key, 'componentSettings', [$type, $member, $dom_id]);
+        $components = ModuleForm::render($module::Registry_Key, 'componentSettings', [$type, $member, $dom_id]);
 
         $_o->body[] = '<div id="' . $dom_id . '">';
 
@@ -179,7 +179,7 @@ class Cards {
         $_o->head = 'Component';
         $_o->body = [];
 
-        foreach(ModuleForm::render($module::$registry_key, 'sequode') as $component){
+        foreach(ModuleForm::render($module::Registry_Key, 'sequode') as $component){
             $_o->body[] = $component->html;
         }
 
@@ -342,7 +342,7 @@ class Cards {
 
         foreach($modeler::model()->sequence as $loop_sequence_key => $loop_model_id){
 
-            $_o->body[] = ModuleCard::render($module::$registry_key,'internalPositionForms', [$loop_sequence_key]);
+            $_o->body[] = ModuleCard::render($module::Registry_Key,'internalPositionForms', [$loop_sequence_key]);
 
         }
 
@@ -463,7 +463,7 @@ class Cards {
 
             }else{
 
-                $components_array = ModuleForm::render($module::$registry_key,'component', [$component->type, $component->map_key, $modeler::model()]);
+                $components_array = ModuleForm::render($module::Registry_Key,'component', [$component->type, $component->map_key, $modeler::model()]);
 
                 foreach($components_array as $component_object){
 
@@ -574,7 +574,7 @@ class Cards {
         $_o->menu = (object) null;
         $_o->menu->items = [];
         
-        $search_components_array = ModuleForm::render($module::$registry_key,'search');
+        $search_components_array = ModuleForm::render($module::Registry_Key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
         
@@ -676,7 +676,7 @@ class Cards {
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode',$module::xhrOperationRoute('newSequence'));
         $_o->body = [];
         $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile($module::$registry_key, $user_model, 'Sequodes : ');
+        $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model, 'Sequodes : ');
 
         return $_o;
         

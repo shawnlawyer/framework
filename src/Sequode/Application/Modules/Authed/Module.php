@@ -8,7 +8,7 @@ class Module {
 
     use ModuleRoutesTrait;
 
-    public static $registry_key = 'Authed';
+    const Registry_Key = 'Authed';
 
 	public static function model(){
         $_o = (object)  [

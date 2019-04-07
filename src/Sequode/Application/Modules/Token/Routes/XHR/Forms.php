@@ -22,7 +22,7 @@ class Forms {
             || AccountAuthority::isSystemOwner())
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
 
     }
 }

@@ -77,7 +77,7 @@ onTapEventsXHRCallMenuItem('Start Over', $module::xhrOperationRoute(__FUNCTION__
         
         if(isset($step->forms)){
             foreach($step->forms as $form){
-                $_o->body = array_merge($_o->body, ModuleForm::render($module::$registry_key, $form));
+                $_o->body = array_merge($_o->body, ModuleForm::render($module::Registry_Key, $form));
             }
         }
         

@@ -8,7 +8,7 @@ class Module {
 
     use ModuleRoutesTrait;
 
-    public static $registry_key = 'Sequode';
+    const Registry_Key = 'Sequode';
 
 	public static function model(){
         $_o = (object)  [

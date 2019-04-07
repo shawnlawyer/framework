@@ -152,7 +152,7 @@ class Form {
             'submit_on_enter' => true,
             'auto_submit_time' => null,
             'submit_xhr_call_route' => '',
-            'submit_xhr_call_parameters' => [static::$collection_replacement_hook],
+            'submit_xhr_call_parameters' => [static::Input_Object_Placeholder],
         ];
         
         if(is_object($_i)){

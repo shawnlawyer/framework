@@ -8,7 +8,7 @@ class Module {
 
     use ModuleRoutesTrait;
 
-    public static $registry_key = 'Token';
+    const Registry_Key = 'Token';
 
 	public static function model(){
         $_o = (object)  [

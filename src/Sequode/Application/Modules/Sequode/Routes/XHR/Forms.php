@@ -23,7 +23,7 @@ class Forms {
             || AccountAuthority::isSystemOwner())
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
 
     }
 
@@ -37,7 +37,7 @@ class Forms {
             || AccountAuthority::isSystemOwner())
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
 
     }
 
@@ -52,7 +52,7 @@ class Forms {
             && in_array($type, ['input','property'])
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__, [$type, $map_key]), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__, [$type, $map_key]), $dom_id);
 
     }
 
@@ -67,7 +67,7 @@ class Forms {
             && in_array($type, ['input','property'])
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__, [$type, $member, $dom_id]), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__, [$type, $member, $dom_id]), $dom_id);
 
     }
 
@@ -81,7 +81,7 @@ class Forms {
             || AccountAuthority::isSystemOwner())
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
 
     }
 
@@ -95,7 +95,7 @@ class Forms {
             || AccountAuthority::isSystemOwner())
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
 
     }
 
@@ -109,7 +109,7 @@ class Forms {
             || AccountAuthority::isSystemOwner())
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
 
     }
 
@@ -122,7 +122,7 @@ class Forms {
             && AccountAuthority::isSystemOwner()
         )){return;}
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
 
     }
 
@@ -130,7 +130,7 @@ class Forms {
 
         extract((static::Module)::variables());
 
-        return DOMElementKitJS::placeForm(ModuleForm::render($module::$registry_key, __FUNCTION__), $dom_id);
+        return DOMElementKitJS::placeForm(ModuleForm::render($module::Registry_Key, __FUNCTION__), $dom_id);
 
     }
 }

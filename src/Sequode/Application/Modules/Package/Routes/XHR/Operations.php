@@ -22,7 +22,7 @@ class Operations {
         forward_static_call_array([$operations, __FUNCTION__], [AccountModeler::model()->id]);
 
         return implode(' ', [
-            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id)],
+            DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
             forward_static_call_array([$xhr_cards, 'card'], ['details'])
         ]);
         

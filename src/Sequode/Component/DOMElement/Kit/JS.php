@@ -117,7 +117,7 @@ class JS {
         $html[] = '</span>';
         $call_object->inputs = array_merge($call_object->inputs, [self::jsQuotedValue($dom_id.'c')]);
         $js[] = '$(\'#'.$dom_id.'b\').on("click touchend", function(){';
-        $js[] = self::xhrCallJS($call_object);
+        $js[] = self::xhrCall($call_object);
         $js[] = '});';
         
         $components_object = (object) null;

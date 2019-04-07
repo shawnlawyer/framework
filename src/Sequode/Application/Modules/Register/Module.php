@@ -10,7 +10,7 @@ class Module {
 
     use ModuleRoutesTrait;
 
-    public static $registry_key = 'Register';
+    const Registry_Key = 'Register';
 
 	public static function model(){
 

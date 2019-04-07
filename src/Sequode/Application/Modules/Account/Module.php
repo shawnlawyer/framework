@@ -8,7 +8,7 @@ class Module {
 
     use ModuleRoutesTrait;
 
-    public static $registry_key = 'Account';
+    const Registry_Key = 'Account';
     
 	public static function model(){
 
