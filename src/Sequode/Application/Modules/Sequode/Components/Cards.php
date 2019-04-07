@@ -19,7 +19,6 @@ use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 
 class Cards {
 
-    public static $module = Module::class;
     const Module = Module::class;
 
     public static $tiles = ['myTile'];

@@ -10,7 +10,6 @@ use Sequode\Application\Modules\BlockedIP\Modeler as BlockedIPModeler;
 
 class Operations {
     
-    public static $module = Module::class;
     const Module = Module::class;
 
     public static function destroy($_model_id, $confirmed=false){

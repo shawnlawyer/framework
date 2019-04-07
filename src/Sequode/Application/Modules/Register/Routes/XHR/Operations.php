@@ -14,7 +14,6 @@ class Operations {
 
     use XHROperationsDialogTrait;
     
-    public static $module = Module::class;
     const Module = Module::class;
 
     public static $dialogs = ['signup'];

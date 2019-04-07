@@ -12,7 +12,6 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
 class Operations {
     
-    public static $module = Module::class;
     const Module = Module::class;
     
     public static function newPackage(){

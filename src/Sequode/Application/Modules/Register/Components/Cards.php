@@ -12,7 +12,6 @@ use Sequode\Application\Modules\Register\Module;
 
 class Cards {
     
-    public static $module = Module::class;
     const Module = Module::class;
 
     public static function menu(){

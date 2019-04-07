@@ -7,7 +7,6 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
 class Collections {
     
-    public static $module = Module::class;
     const Module = Module::class;
 
     public static function search($_i, $limit=100){

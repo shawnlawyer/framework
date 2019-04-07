@@ -8,7 +8,6 @@ use Sequode\Application\Modules\Authed\Module;
 
 class Operations {
 
-    public static $module = Module::class;
     const Module = Module::class;
     
 	public static $merge = false;

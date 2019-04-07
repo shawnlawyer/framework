@@ -9,7 +9,6 @@ use Sequode\Application\Modules\User\Module;
 
 class FormInputs{
     
-    public static $module = Module::class;
     const Module = Module::class;
     
     public static function updatePassword(){

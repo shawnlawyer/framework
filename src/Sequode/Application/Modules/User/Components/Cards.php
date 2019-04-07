@@ -14,7 +14,6 @@ use Sequode\Application\Modules\Role\Modeler as RoleModeler;
 
 class Cards {
     
-    public static $module = Module::class;
     const Module = Module::class;
     
     public static function menu(){

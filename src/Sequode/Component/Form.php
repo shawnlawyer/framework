@@ -8,7 +8,6 @@ use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 
 class Form {
 
-    public static $collection_replacement_hook = '[%COLLECTION_JS%]';
     const Input_Object_Placeholder = '[%COLLECTION_JS%]';
 
 	public static function domIds($_i){
@@ -110,7 +109,7 @@ class Form {
         $js_event = (object) null;
 
         $submit_js = str_replace(
-            static::Input_Replacement_Hook,
+            self::Input_Object_Placeholder,
             self::collectValuesJS($_i->form_inputs, $dom_ids),
             (!empty($_i->submit_js)) ? $_i->submit_js : self::xhrCallJS($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters)
         );

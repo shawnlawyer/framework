@@ -14,7 +14,6 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Operations {
     
-    public static $module = Module::class;
     const Module = Module::class;
 
     use XHROperationsDialogTrait;

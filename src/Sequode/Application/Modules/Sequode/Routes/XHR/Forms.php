@@ -11,7 +11,6 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Forms {
     
-    public static $module = Module::class;
     const Module = Module::class;
     
     public static function name($_model_id, $dom_id){

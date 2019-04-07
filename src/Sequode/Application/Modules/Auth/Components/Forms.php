@@ -8,7 +8,6 @@ use Sequode\Application\Modules\Auth\Module;
 
 class Forms {
     
-    public static $module = Module::class;
     const Module = Module::class;
 
 	public static function login(){

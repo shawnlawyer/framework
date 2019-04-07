@@ -8,7 +8,6 @@ use Sequode\Application\Modules\Token\Module;
 
 class Forms   {
     
-    public static $module = Module::class;
     const Module = Module::class;
 
     public static function name(){

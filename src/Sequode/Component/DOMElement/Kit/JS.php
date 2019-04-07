@@ -78,7 +78,7 @@ class JS {
         return implode('',$js);
 	}
     public static function onTapEventsXHRCall($dom_id, $xhr_call_object){
-        return self::onTapEvents($dom_id,self::xhrCallJS($xhr_call_object));
+        return self::onTapEvents($dom_id, self::xhrCall($xhr_call_object));
 	}
 	public static function xhrCallObject($route='', $inputs=null, $done_callback=false){
         $object = (object) null;

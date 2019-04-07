@@ -8,7 +8,6 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Downloads{
 
-    public static $module = Module::class;
     const Module = Module::class;
 
 	public static function source($_model_token){

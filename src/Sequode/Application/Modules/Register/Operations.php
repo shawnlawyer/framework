@@ -10,7 +10,6 @@ class Operations {
     
     use ORMModelSignupTrait;
 
-    public static $module = Module::class;
     const Module = Module::class;
     
 }

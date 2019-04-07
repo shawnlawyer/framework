@@ -7,7 +7,6 @@ use Sequode\Application\Modules\User\Module;
 
 class Forms  {
     
-    public static $module = Module::class;
     const Module = Module::class;
     
     public static function updateDomain($_model = null){

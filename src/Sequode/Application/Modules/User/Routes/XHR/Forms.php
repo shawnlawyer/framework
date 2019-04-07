@@ -9,7 +9,6 @@ use Sequode\Application\Modules\User\Module;
 
 class Forms {
     
-    public static $module = Module::class;
     const Module = Module::class;
     
     public static function updatePassword($_model_id, $dom_id){

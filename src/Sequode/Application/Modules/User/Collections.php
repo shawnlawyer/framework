@@ -4,7 +4,6 @@ namespace Sequode\Application\Modules\User;
 
 class Collections {
     
-    public static $module = Module::class;
     const Module = Module::class;
     
     public static function search($search_object, $limit=100){
