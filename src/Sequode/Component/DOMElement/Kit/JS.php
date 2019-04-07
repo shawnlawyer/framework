@@ -70,7 +70,7 @@ class JS {
 	public static function documentEventOff($event){
 		return '$(document).off(\''.$event.'\');';
 	}
-    public static function onTapEvents($dom_id,$javascript){
+    public static function onTapEvents($dom_id, $javascript){
         $js = [];
         $js[] = '$(\'#'.$dom_id.'\').on("click touch", function(){';
         $js[] = $javascript;
@@ -78,7 +78,7 @@ class JS {
         return implode('',$js);
 	}
     public static function onTapEventsXHRCall($dom_id, $xhr_call_object){
-        return self::onTapEvents($dom_id,self::xhrCall($xhr_call_object));
+        return self::onTapEvents($dom_id,self::xhrCallJS($xhr_call_object));
 	}
 	public static function xhrCallObject($route='', $inputs=null, $done_callback=false){
         $object = (object) null;
@@ -117,7 +117,7 @@ class JS {
         $html[] = '</span>';
         $call_object->inputs = array_merge($call_object->inputs, [self::jsQuotedValue($dom_id.'c')]);
         $js[] = '$(\'#'.$dom_id.'b\').on("click touchend", function(){';
-        $js[] = self::xhrCall($call_object);
+        $js[] = self::xhrCallJS($call_object);
         $js[] = '});';
         
         $components_object = (object) null;

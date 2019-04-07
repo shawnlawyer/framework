@@ -21,15 +21,9 @@ class Form {
         return $dom_ids;
 	}
     
-	public static function xhrCall($route, $inputs){
-        $js = [];
-        $js[] = 'new XHRCall({';
-        $js[] = 'route:\''. $route .'\'';
-        if(is_array($inputs) && count($inputs) != 0){
-            $js[] = ',inputs:['. implode(',',$inputs) .']';
-        }
-        $js[] = '});';
-        return implode('',$js);
+	public static function xhrCallJS($route, $inputs = []){
+        $inputs = (!empty($inputs)) ? ", inputs:[". implode(",", $inputs) : "";
+        return "new XHRCall({ route:'{$route}'{$inputs}]});";
 	}
     
 	public static function xhrCallRoute($context, $channel, $route){        
@@ -118,7 +112,7 @@ class Form {
         if($_i->submit_js != null){
             $submit_js = str_replace(static::Input_Replacement_Hook, self::collectValues($_i->form_inputs,$dom_ids), $_i->submit_js);
         }else{
-            $submit_js = str_replace(static::Input_Replacement_Hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCall($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters));
+            $submit_js = str_replace(static::Input_Replacement_Hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCallJS($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters));
         }
         $event_js = [];
         if($_i->auto_submit_time != null){
