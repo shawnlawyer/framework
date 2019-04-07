@@ -34,7 +34,7 @@ class Form {
         return '\''. $value .'\'';
 	}
     
-	public static function collectValues($form_object, $dom_ids){
+	public static function collectValuesJS($form_object, $dom_ids){
         
         $js = [];
         $js[] = "''";
@@ -108,12 +108,13 @@ class Form {
         $timeout_var_name = FormInputComponent::uniqueHash();
 		$dom_ids = self::domIds($_i->form_inputs);
         $js_event = (object) null;
-        $submit_js = '';
-        if($_i->submit_js != null){
-            $submit_js = str_replace(static::Input_Replacement_Hook, self::collectValues($_i->form_inputs,$dom_ids), $_i->submit_js);
-        }else{
-            $submit_js = str_replace(static::Input_Replacement_Hook, self::collectValues($_i->form_inputs,$dom_ids), self::xhrCallJS($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters));
-        }
+
+        $submit_js = str_replace(
+            static::Input_Replacement_Hook,
+            self::collectValuesJS($_i->form_inputs, $dom_ids),
+            (!empty($_i->submit_js)) ? $_i->submit_js : self::xhrCallJS($_i->submit_xhr_call_route, $_i->submit_xhr_call_parameters)
+        );
+
         $event_js = [];
         if($_i->auto_submit_time != null){
             $event_js[] = self::registerTimeout($timeout_var_name, $submit_js, $_i->auto_submit_time);

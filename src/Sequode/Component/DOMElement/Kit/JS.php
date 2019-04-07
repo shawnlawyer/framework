@@ -165,27 +165,6 @@ class JS {
     public static function formatForJS($input){
 		return str_replace("\r",'\r',str_replace("\n",'\n',addslashes($input)));
 	}
-	public static function collectValues($form_object, $dom_ids){
-        $js = [];
-        $js[] = "''";
-        if(is_object($form_object)){
-            $replacement_object = (object) null;
-            $i = 0;
-            foreach($form_object as $loop_member => $loop_value){
-                $replacement_object->$loop_member = $dom_ids[$i];
-                $i++;
-            }
-            $js = [];
-            $js[] = '(function(){';
-            $js[] = 'var d = decodeURIComponent(\''.rawurlencode(json_encode($replacement_object)).'\');';
-            foreach($dom_ids as $dom_id){
-                $js[] =  'd = d.replace(\''.$dom_id.'\', encodeURIComponent(document.getElementById(\''.$dom_id.'\').value));';
-            }
-            $js[] = 'return d;';
-            $js[] = '}())';
-        }
-        return implode(' ',$js);
-	}
 	public static function registeyTimeout($variable_name, $javascript, $milliseconds=0){
         $js = [];
         $js[] = 'registry.timeout(\''.$variable_name.'\', function(){';
