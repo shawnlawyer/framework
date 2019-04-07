@@ -23,5 +23,7 @@ class Cards {
         if(!(
             $modeler::exists($_model_id,'id')
         )){ return false; }
+
     }
+
 }

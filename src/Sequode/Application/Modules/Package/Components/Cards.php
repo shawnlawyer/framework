@@ -21,6 +21,7 @@ class Cards {
     public static function menu(){
         
         $_o = (object) null;
+
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
@@ -33,10 +34,10 @@ class Cards {
 
     public static function menuItems(){
 
-
         extract((static::Module)::variables());
 
         $_o = [];
+
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Packages', $module::xhrCardRoute('search'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Package', $module::xhrOperationRoute('newPackage'));
         
@@ -85,6 +86,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'packages',
@@ -107,12 +109,6 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('<a target="_blank" href="/source/'.$modeler::model()->token.'">Download</a>');
         $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
 
-        if(AccountAuthority::isSystemOwner()){
-
-            $_o->body[] = CardKitHTML::modelId($modeler::model());
-
-        }
-        
         return $_o;
         
     }
@@ -124,6 +120,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'packages',
@@ -155,6 +152,7 @@ class Cards {
         extract((static::Module)::variables());
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'package_search',
@@ -195,6 +193,7 @@ class Cards {
         }
         
         $_o = (object) null;
+
         $_o->head = 'Sequence Packages';
         $_o->size = 'xsmall';
         $_o->icon_type = 'menu-icon';
@@ -204,7 +203,7 @@ class Cards {
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Package', $module::xhrOperationRoute('newPackage'));
         $_o->body = [];
         $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', $user_model,'Packages Created : ');
+        $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model,'Packages');
         
         return $_o;
         

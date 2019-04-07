@@ -134,7 +134,7 @@ class JS {
         $js[] = "if(confirm('". self::formatForJS($message) ."')){";
         $js[] = 'new XHRCall({route:"'. $route .'",inputs:[';
         if($id !== null) {
-            $js[] = "'" . $id . "'', ";
+            $js[] = "'" . $id . "', ";
         }
         $js[] = 'true]});';
         $js[] = '}';

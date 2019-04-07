@@ -26,6 +26,7 @@ class Cards {
     public static function menu(){
 
         $_o = (object) null;
+
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
@@ -35,6 +36,7 @@ class Cards {
         return $_o;
 
     }
+
     public static function menuItems(){
 
         extract((static::Module)::variables());
@@ -166,6 +168,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
@@ -194,6 +197,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
@@ -309,12 +313,6 @@ class Cards {
         }
         
         $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
-        
-        if(AccountAuthority::isSystemOwner()){
-
-            $_o->body[] = CardKitHTML::modelId($modeler::model());
-
-        }
 
         return $_o;
 
@@ -327,6 +325,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
@@ -363,6 +362,7 @@ class Cards {
         $position = intval($position);
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
@@ -486,6 +486,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
@@ -526,6 +527,7 @@ class Cards {
         return $_o;
         
     }
+
     public static function chart( $_model = null){
 
         extract((static::Module)::variables());
@@ -533,6 +535,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
@@ -558,11 +561,13 @@ class Cards {
         return $_o;
         
     }
+
     public static function search($_model = null){
 
         extract((static::Module)::variables());
         
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequode_search',
@@ -591,11 +596,13 @@ class Cards {
         return $_o;
         
     }
+
     public static function my(){
 
         extract((static::Module)::variables());
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'my_sequodes',
@@ -628,6 +635,7 @@ class Cards {
         extract((static::Module)::variables());
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequode_favorites',
@@ -676,7 +684,7 @@ class Cards {
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode',$module::xhrOperationRoute('newSequence'));
         $_o->body = [];
         $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model, 'Sequodes : ');
+        $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model, 'Sequodes');
 
         return $_o;
         

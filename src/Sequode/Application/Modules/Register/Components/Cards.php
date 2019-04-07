@@ -7,7 +7,6 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\Form as FormComponent;
-
 use Sequode\Application\Modules\Register\Module;
 
 class Cards {

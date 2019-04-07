@@ -6,10 +6,8 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\FormInput as FormInputComponent;
-
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Application\Modules\Token\Module;
-
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
     
@@ -22,6 +20,7 @@ class Cards {
     public static function menu(){
 
         $_o = (object) null;
+
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
@@ -87,6 +86,7 @@ class Cards {
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
 
         return $_o;
+
     }
     
     public static function details($_model = null){
@@ -96,6 +96,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'tokens',
@@ -114,13 +115,8 @@ class Cards {
         $_o->body[] = $modeler::model()->token;
         $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
 
-        if(AccountAuthority::isSystemOwner()){
-
-            $_o->body[] = CardKitHTML::modelId($modeler::model());
-
-        }
-
         return $_o;
+
     }
     
     public static function my(){
@@ -128,6 +124,7 @@ class Cards {
         extract((static::Module)::variables());
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'tokens'
@@ -158,6 +155,7 @@ class Cards {
         extract((static::Module)::variables());
 
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'token_search',
@@ -203,6 +201,7 @@ class Cards {
         }
         
         $_o = (object) null;
+
         $_o->head = 'Tokens';
         $_o->size = 'xsmall';
         $_o->icon_type = 'menu-icon';
@@ -212,7 +211,7 @@ class Cards {
         $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Token', $module::xhrOperationRoute('newToken'));
         $_o->body = [];
         $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', $user_model, 'Tokens Created : ');
+        $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model, 'Tokens');
         
         return $_o;
         

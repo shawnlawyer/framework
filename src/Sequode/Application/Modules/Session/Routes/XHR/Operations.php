@@ -34,6 +34,7 @@ class Operations {
 
             return implode(' ', [
                 DOMElementKitJS::fetchCollection($collection, $_model_id),
+                DOMElementKitJS::fetchCollection('session_search'),
                 forward_static_call_array([$xhr_cards, 'card'], ['search'])
             ]);
 

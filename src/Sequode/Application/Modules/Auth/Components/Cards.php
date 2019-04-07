@@ -3,11 +3,9 @@
 namespace Sequode\Application\Modules\Auth\Components;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\Form as FormComponent;
-
 use Sequode\Application\Modules\Auth\Module;
 
 class Cards {
@@ -17,6 +15,7 @@ class Cards {
     public static function menu(){
 
         $_o = (object) null;
+
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'settings-icon-background';
         $_o->menu = (object) null;
@@ -31,6 +30,7 @@ class Cards {
         extract((static::Module)::variables());
 
         $_o = [];
+
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login', $module::xhrCardRoute('login'));
 
         return $_o;
@@ -86,5 +86,6 @@ class Cards {
         
         return $_o;
 
-    }  
+    }
+
 }

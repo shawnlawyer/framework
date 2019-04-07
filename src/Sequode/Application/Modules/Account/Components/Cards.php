@@ -3,13 +3,11 @@
 namespace Sequode\Application\Modules\Account\Components;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\Form as FormComponent;
-
 use Sequode\Application\Modules\Account\Module;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
@@ -52,11 +50,13 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $items = [];
+
         $items[] = CardKit::onTapEventsXHRCallMenuItem('Detail', $module::xhrCardRoute('detail'), [$modeler::model()->id]);
         $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Password', $module::xhrCardRoute('updatePassword'), [$modeler::model()->id]);
         $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Email', $module::xhrCardRoute('updateEmail'), [$modeler::model()->id]);
 
         return $items;
+
     }
 
     public static function details(){
@@ -66,6 +66,7 @@ class Cards {
         $_model = forward_static_call_array([$modeler,'model'],[]);
         
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'users',
@@ -79,11 +80,8 @@ class Cards {
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $_model->email;
 
-        if(AccountAuthority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($modeler::model());
-        }
-
         return $_o;
+
     }
     
     public static function updatePassword(){
@@ -102,6 +100,7 @@ class Cards {
         $step = $dialog->steps[$dialog_store->step];
         
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__)
         ];
@@ -118,8 +117,6 @@ class Cards {
         
         $_o->head = 'Account Password';
         $_o->body = [''];
-        $js = [];
-        $_o->body[] = (object) ['js' => implode('', $js)];
         if(AccountAuthority::isSystemOwner()){
             $_o->body[] = CardKitHTML::modelId($_model);
         }

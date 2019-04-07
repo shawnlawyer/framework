@@ -6,9 +6,7 @@ use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
 use Sequode\Component\Card\Kit as CardKit;
-
 use Sequode\Application\Modules\User\Module;
-
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Role\Modeler as RoleModeler;
 
@@ -19,6 +17,7 @@ class Cards {
     public static function menu(){
         
         $_o = (object) null;
+
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
         $_o->menu = (object) null;
@@ -34,6 +33,7 @@ class Cards {
         extract((static::Module)::variables());
 
         $_o = [];
+
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New User', $module::xhrOperationRoute('newUser'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Guest', $module::xhrOperationRoute('newGuest'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Users', $module::xhrCardRoute('search'));
@@ -49,6 +49,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = [];
+
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login As', $module::xhrOperationRoute('loginAs'), [$modeler::model()->id]);
@@ -63,6 +64,7 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'users',
@@ -73,10 +75,8 @@ class Cards {
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
-
         $_o->menu = (object) null;
         $_o->menu->items = self::modelOperationsMenuItems();
-        
         $_o->head = 'User Detail';
         $_o->body = [''];
         $_o->body[] = CardKitHTML::sublineBlock('Name');
@@ -96,14 +96,10 @@ class Cards {
         $_o->body[] = json_encode($modeler::model()->sequode_favorites);
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $modeler::model()->email;
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', $modeler::model(), 'Sequodes Created : ');
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', $modeler::model(), 'Packages Created : ');
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', $modeler::model(), 'Tokens Created : ');
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', $modeler::model(), 'Sequodes');
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', $modeler::model(), 'Packages');
+        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', $modeler::model(), 'Tokens ');
         $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
-        
-        if(AccountAuthority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($modeler::model());
-        }
         
         return $_o;
         
@@ -114,6 +110,7 @@ class Cards {
         extract((static::Module)::variables());
 		
         $_o = (object) null;
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'user_search',
@@ -136,9 +133,12 @@ class Cards {
                 'js_action'=> $object->js
             ];
         }
+
         $_o->body = [];
         $_o->body[] = CardKit::collectionCard((object) ['collection'=>'user_search','icon'=>'user', 'card_route' => $module::xhrCardRoute('search'), 'details_route' => $module::xhrCardRoute('details')]);
+
         return $_o;
+
     }
     
 }
