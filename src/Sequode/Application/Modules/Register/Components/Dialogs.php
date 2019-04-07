@@ -5,8 +5,9 @@ namespace Sequode\Application\Modules\Register\Components;
 use Sequode\Application\Modules\Register\Module;
 
 class Dialogs {
-    
+
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function signup(){
 

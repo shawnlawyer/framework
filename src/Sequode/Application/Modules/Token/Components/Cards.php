@@ -14,9 +14,8 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
     
 class Cards {
-    
-    public static $module = Module::class;
 
+    public static $module = Module::class;
     const Module = Module::class;
 
     public static $tiles = ['myTile'];

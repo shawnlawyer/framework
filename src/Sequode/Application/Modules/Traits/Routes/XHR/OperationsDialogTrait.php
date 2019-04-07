@@ -11,7 +11,7 @@ trait OperationsDialogTrait {
 
         extract((static::Module)::variables());
 
-        $dialog = forward_static_call_array([$module::model()->components->dialogs, $method], []);
+        $dialog = forward_static_call_array([$component_dialogs, $method], []);
 
         if(!SessionStore::is($dialog->session_store_key)){
 

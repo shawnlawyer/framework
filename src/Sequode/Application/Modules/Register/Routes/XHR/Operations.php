@@ -15,13 +15,13 @@ class Operations {
     use XHROperationsDialogTrait;
     
     public static $module = Module::class;
+    const Module = Module::class;
 
     public static $dialogs = ['signup'];
 
-    public static function signup($dialog, $dialog_store, $input)
-    {
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
+    public static function signup($dialog, $dialog_store, $input){
+
+        extract((static::Module)::variables());
 
         switch ($dialog_store->step) {
             case 0:

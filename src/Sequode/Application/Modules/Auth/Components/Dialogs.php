@@ -6,8 +6,9 @@ use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\Application\Modules\Auth\Module;
 
 class Dialogs {
-    
+
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function login(){
         

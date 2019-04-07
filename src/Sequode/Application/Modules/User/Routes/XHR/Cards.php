@@ -18,10 +18,13 @@ class Cards {
     ];
     
     public static function details($_model_id=0){
+
         extract((static::Module)::variables());
         
         if(!(
-        $modeler::exists($_model_id,'id')
+            $modeler::exists($_model_id,'id')
         )){ return false; }
+
     }
+
 }

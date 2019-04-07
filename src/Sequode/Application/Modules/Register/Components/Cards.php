@@ -13,10 +13,12 @@ use Sequode\Application\Modules\Register\Module;
 class Cards {
     
     public static $module = Module::class;
-    
+    const Module = Module::class;
+
     public static function menu(){
         
         $_o = (object) null;
+
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
         $_o->menu = (object) null;
@@ -28,20 +30,21 @@ class Cards {
     }
     public static function menuItems(){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
+
         $_o = [];
-        $_o[] = CardKit::
-onTapEventsXHRCallMenuItem('Signup', $module::xhrCardRoute('signup'));
+
+        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Signup', $module::xhrCardRoute('signup'));
         
         return $_o;
         
     }
     
     public static function signup(){
-        
-        $module = static::$module;
-        $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array([$dialogs, __FUNCTION__], []);
+
+        extract((static::Module)::variables());
+
+        $dialog = forward_static_call_array([$component_dialogs, __FUNCTION__], []);
         
         if(!SessionStore::is($dialog->session_store_key)){
             SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);

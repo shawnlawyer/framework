@@ -13,28 +13,35 @@ use Sequode\Application\Modules\Auth\Module;
 class Cards {
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function menu(){
+
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'settings-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
         $_o->menu->items = self::menuItems();
+
         return $_o;
+
     }
     public static function menuItems(){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
+
         $_o = [];
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login', $module::xhrCardRoute('login'));
+
         return $_o;
     }
-   public static function login(){
-       
-        $module = static::$module;
-        $dialogs = $module::model()->components->dialogs;
-        $dialog = forward_static_call_array([$dialogs, __FUNCTION__], []);
+
+    public static function login(){
+
+        extract((static::Module)::variables());
+
+        $dialog = forward_static_call_array([$component_dialogs, __FUNCTION__], []);
         
         if(!SessionStore::is($dialog->session_store_key)){
             SessionStore::set($dialog->session_store_key, $dialog->session_store_setup);
@@ -78,6 +85,7 @@ class Cards {
         
         $_o->body[] = (object) ['js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();'];
         
-        return $_o;    
+        return $_o;
+
     }  
 }

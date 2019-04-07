@@ -7,8 +7,9 @@ use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 trait JavascriptTrait {
 
 	public static function js($closure = true,$force_SSL = true){
-        
-        $module = static::$module;
+
+        extract((static::Module)::variables());
+
         $files = $module::model()->assets->javascript;
 		
         header('Content-type: application/javascript');

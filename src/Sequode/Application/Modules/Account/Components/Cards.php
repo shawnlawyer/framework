@@ -21,6 +21,7 @@ class Cards {
     public static function menu(){
         
         $_o = (object) null;
+
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
         $_o->menu = (object) null;
@@ -33,9 +34,10 @@ class Cards {
     
     public static function menuItems(){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
 
         $_o = [];
+
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Account Details', $module::xhrCardRoute('details'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Password', $module::xhrCardRoute('updatePassword'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Email', $module::xhrCardRoute('updateEmail'));
@@ -57,6 +59,7 @@ class Cards {
 
         return $items;
     }
+
     public static function details(){
 
         extract((static::Module)::variables());

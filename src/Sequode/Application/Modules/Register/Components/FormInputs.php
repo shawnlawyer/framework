@@ -7,8 +7,9 @@ use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 
 
 class FormInputs   {
-    
+
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function email(){
         

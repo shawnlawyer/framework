@@ -84,6 +84,12 @@ trait ModuleRoutesTrait {
 
         }
 
+        if(isset($model->finder)){
+
+            $vars += ['finder' => $model->finder];
+
+        }
+
         if(!empty($filter)){
 
             $filtered_vars = [];

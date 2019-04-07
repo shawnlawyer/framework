@@ -111,10 +111,9 @@ class Collections{
 	}
 
 	public static function search(){
-        
-        $module = static::$module;
-        $modeler = $module::model()->modeler;
-        $finder = $module::model()->finder;
+
+        extract((static::Module)::variables());
+
         $collection = 'sequode_search';
 
         $nodes = [];
@@ -166,6 +165,7 @@ class Collections{
 	public static function favorited(){
 
         extract((static::Module)::variables());
+
         $collection = 'sequode_favorites';
 
         $nodes = [];
@@ -189,9 +189,9 @@ class Collections{
 	}
     /*
 	public static function palette(){
-        
-        $module = static::$module;
-        $finder = $module::model()->finder;
+
+        extract((static::Module)::variables());
+
         if(in_array(SessionStore::get(__FUNCTION__),static::$routes)){
             $method = static::$routes_to_methods[static::$routes];
             self::$method();

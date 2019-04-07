@@ -48,19 +48,30 @@ class Collections{
         return;
 
 	}
+
 	public static function search(){
-        
-        $module = static::$module;
-        $finder = $module::model()->finder;
+
+        extract((static::Module)::variables());
+
         $collection = 'package_search';
+
         $nodes = [];
+
         if(SessionStore::is($collection)){
+
             $_array = $finder::search(SessionStore::get($collection));
+
             foreach($_array as $_object){
+
                 $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->name.'"}';
             }
+
         }
+
         echo '{'.implode(',', $nodes).'}';
+
         return;
+
 	}
+
 }

@@ -6,8 +6,9 @@ use Sequode\Application\Modules\FormInput\Modeler as FormInputModeler;
 use Sequode\Application\Modules\Auth\Module;
 
 class FormInputs {
-    
+
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function login(){
         

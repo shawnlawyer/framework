@@ -4,6 +4,7 @@ namespace Sequode\Application\Modules\Token;
 
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+
 class Collections {
     
     public static $module = Module::class;

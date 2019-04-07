@@ -18,36 +18,46 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 
 class Cards {
+
     public static $module = Module::class;
+    const Module = Module::class;
+
     public static $tiles = ['myTile'];
     
     public static function menu(){
+
         $_o = (object) null;
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
         $_o->menu->items =  array_merge(self::menuItems(),self::collectionOwnedMenuItems());
+
         return $_o;
+
     }
     public static function menuItems(){
 
-        $module = static::$module;
-        $dom_id = FormInputComponent::uniqueHash('','');
+        extract((static::Module)::variables());
+
         $_o = [];
+
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sequodes', $module::xhrCardRoute('search'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('Favorited Sequodes', $module::xhrCardRoute('favorites'));
         $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode', $module::xhrOperationRoute('newSequence'));
+
         return $_o;
+
     }
+
     public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
-        
+
+        extract((static::Module)::variables());
+
         if($user_model == null ){
             $user_model = AccountModeler::model();
         }
-        
-        $module = static::$module;
-        $operations = $module::model()->operations;
+
         $models = $operations::getOwnedModels($user_model, $fields, 10)->all;
         $items = [];
         if(count($models) > 0){
@@ -59,6 +69,7 @@ class Cards {
         return $items;
         
     }
+
     public static function modelOperationsMenuItems($filter='', $_model = null){
 
         extract((static::Module)::variables());
@@ -110,6 +121,7 @@ class Cards {
         
         return $items;
     }
+
 	public static function componentSettings($type, $member, $_model = null){
 
         extract((static::Module)::variables());
@@ -147,6 +159,7 @@ class Cards {
         return $_o;
 
 	}
+
     public static function sequode($_model = null){
 
         extract((static::Module)::variables());
@@ -307,6 +320,7 @@ class Cards {
         return $_o;
 
     }
+
     public static function internalForms( $_model = null){
 
         extract((static::Module)::variables());
@@ -612,7 +626,8 @@ class Cards {
     }
     public static function favorites(){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
+
         $_o = (object) null;
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
@@ -644,7 +659,7 @@ class Cards {
     
     public static function myTile($user_model=null){
 
-        $module = static::$module;
+        extract((static::Module)::variables());
         
         if($user_model == null ){
             
@@ -663,9 +678,9 @@ class Cards {
         $_o->body = [];
         $_o->body[] = '';
         $_o->body[] = CardKit::ownedItemsCollectionTile($module::$registry_key, $user_model, 'Sequodes : ');
-        
-        
+
         return $_o;
         
     }
+
 }

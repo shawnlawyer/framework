@@ -9,6 +9,7 @@ use Sequode\Application\Modules\Account\Module;
 class FormInputs{
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function updateEmail(){
         

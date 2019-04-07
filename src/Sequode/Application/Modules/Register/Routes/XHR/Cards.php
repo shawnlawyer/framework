@@ -10,8 +10,10 @@ class Cards {
     use XHRCardsCardRouteTrait;
 
     public static $module = Module::class;
+    const Module = Module::class;
 
 	public static $routes = [
 		'signup'
 	];
+
 }

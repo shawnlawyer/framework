@@ -16,13 +16,14 @@ class Downloads{
 
         if(!(
             $modeler::exists($_model_token,'token')
-         && SequodeModeler::exists($modeler::model()->sequode_id, 'id')
-        && (AccountAuthority::isOwner($modeler::model()) || AccountAuthority::isSystemOwner())
-        && (AccountAuthority::isOwner(SequodeModeler::model()) || AccountAuthority::isSystemOwner())
+            && SequodeModeler::exists($modeler::model()->sequode_id, 'id')
+            && (AccountAuthority::isOwner($modeler::model()) || AccountAuthority::isSystemOwner())
+            && (AccountAuthority::isOwner(SequodeModeler::model()) || AccountAuthority::isSystemOwner())
 		 )){ return; }
         
         header('Content-Type: text/plain',true);
         //header('Content-Disposition: attachment; filename="' . $modeler::model()->token . '.class.php"');
         echo forward_static_call_array([$operations, __FUNCTION__],[$modeler::model()]);
+
     }
 }

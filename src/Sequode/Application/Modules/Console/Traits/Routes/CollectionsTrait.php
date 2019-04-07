@@ -8,8 +8,8 @@ use Sequode\Model\Application\Module\Routeables as Routeables;
 trait CollectionsTrait {
 	
 	public static function collections($collection='collections', $key = null){
-        
-        $module = static::$module;
+
+        extract((static::Module)::variables());
         
         if ($collection == 'collections' && isset($module::model()->assets->boot_collections)){
             

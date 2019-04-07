@@ -5,8 +5,9 @@ namespace Sequode\Application\Modules\Console\Traits\Routes;
 trait CSSTrait {
 
 	public static function css(){
-        
-        $module = static::$module;
+
+        extract((static::Module)::variables());
+
         $files = $module::model()->assets->css;
         
         header("Content-type: text/css", true);

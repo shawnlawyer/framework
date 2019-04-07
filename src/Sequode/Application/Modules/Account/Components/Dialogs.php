@@ -7,6 +7,7 @@ use Sequode\Application\Modules\Account\Module;
 class Dialogs {
     
     public static $module = Module::class;
+    const Module = Module::class;
     
     public static function updatePassword(){
         $_o = (object) [
