@@ -15,7 +15,7 @@ class Cards {
 
     const Module = Module::class;
 
-    public static $tiles = ['myTile'];
+    const Tiles = ['myTile'];
     
     public static function menu(){
 
