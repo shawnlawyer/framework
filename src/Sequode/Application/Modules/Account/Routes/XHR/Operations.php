@@ -17,26 +17,8 @@ class Operations {
     const Module = Module::class;
 
     use XHROperationsDialogTrait;
-    /*
-	public static $merge = false;
-	public static $routes = [
-		'addToSequodeFavorites',
-        'removeFromSequodeFavorites',
-        'emptySequodeFavorites',
-		'updatePassword',
-		'updateEmail'
-	];
-    
-	public static $routes_to_methods = [
-		'addToSequodeFavorites' => 'addToSequodeFavorites',
-        'removeFromSequodeFavorites' => 'removeFromSequodeFavorites',
-        'emptySequodeFavorites' => 'emptySequodeFavorites',
-		'updatePassword' => 'updatePassword',
-		'updateEmail' => 'updateEmail'
-    ];
-    */
 
-    public static $dialogs = [
+    const Dialogs = [
         'updatePassword',
         'updateEmail'
     ];

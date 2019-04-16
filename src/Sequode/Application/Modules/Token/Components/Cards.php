@@ -15,7 +15,7 @@ class Cards {
 
     const Module = Module::class;
 
-    const Tiles = ['myTile'];
+    const Tiles = ['tokens', 'search'];
     
     public static function menu(){
 
@@ -25,21 +25,28 @@ class Cards {
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  array_merge(self::menuItems(), self::collectionOwnedMenuItems());
+        $_o->menu->items =  self::menuItems();
 
         return $_o;
 
     }
 
-    public static function menuItems(){
+    public static function menuItems($filters=[]){
 
         extract((static::Module)::variables());
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', $module::xhrCardRoute('search'));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Token',  $module::xhrOperationRoute('newToken'));
-        
+        $_o[$module::xhrCardRoute('search')] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', $module::xhrCardRoute('search'));
+        $_o[$module::xhrCardRoute('tokens')] = CardKit::onTapEventsXHRCallMenuItem('Tokens', $module::xhrCardRoute('tokens'));
+        $_o[$module::xhrOperationRoute('newToken')] = CardKit::onTapEventsXHRCallMenuItem('New Token',  $module::xhrOperationRoute('newToken'));
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
+
         return $_o;
         
     }
@@ -74,7 +81,7 @@ class Cards {
         
     }
     
-    public static function modelOperationsMenuItems($filter='', $_model = null){
+    public static function modelMenuItems($filters=[], $_model = null){
 
         extract((static::Module)::variables());
 
@@ -82,8 +89,14 @@ class Cards {
 		
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
+        $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+        $_o[$module::xhrOperationRoute('delete')] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
 
         return $_o;
 
@@ -106,7 +119,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->head = 'Token Details';
         $_o->body = [''];
         $_o->body[] = CardKitHTML::sublineBlock('Name');
@@ -119,7 +132,7 @@ class Cards {
 
     }
     
-    public static function my(){
+    public static function tokens(){
 
         extract((static::Module)::variables());
 
@@ -130,21 +143,13 @@ class Cards {
             'collection' => 'tokens'
         ];
         $_o->size = 'fullscreen';
-        $_o->head = 'My Tokens';
+        $_o->head = 'Tokens';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items =  [];
-        
-        $dom_id = FormInputComponent::uniqueHash('','');
-        $_o->menu->items[] = [
-            'css_classes'=>'automagic-card-menu-item noSelect',
-            'id'=>$dom_id,
-            'contents'=>'New Token',
-            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($module::xhrOperationRoute('newToken')))
-        ];
+        $_o->menu->items[] = self::menuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'tokens', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('my'), 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'tokens', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('tokens'), 'details_route' => $module::xhrCardRoute('details')]);
 
         return $_o;
 
@@ -207,8 +212,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items =  [];
-        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Token', $module::xhrOperationRoute('newToken'));
+        $_o->menu->items[] = static::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->body = [];
         $_o->body[] = '';
         $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model, 'Tokens');

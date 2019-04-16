@@ -13,7 +13,9 @@ use Sequode\Application\Modules\Role\Modeler as RoleModeler;
 class Cards {
     
     const Module = Module::class;
-    
+
+    const Tiles = ['admins','users','guests', 'search'];
+
     public static function menu(){
         
         $_o = (object) null;
@@ -28,21 +30,30 @@ class Cards {
         
     }
     
-    public static function menuItems(){
+    public static function menuItems($filters=[]){
 
         extract((static::Module)::variables());
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New User', $module::xhrOperationRoute('newUser'));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Guest', $module::xhrOperationRoute('newGuest'));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Users', $module::xhrCardRoute('search'));
-        
+        $_o[$module::xhrCardRoute('admins')] = CardKit::onTapEventsXHRCallMenuItem('Admins', $module::xhrCardRoute('admins'));
+        $_o[$module::xhrCardRoute('users')] = CardKit::onTapEventsXHRCallMenuItem('Users', $module::xhrCardRoute('users'));
+        $_o[$module::xhrOperationRoute('newUser')] = CardKit::onTapEventsXHRCallMenuItem('New User', $module::xhrOperationRoute('newUser'));
+        $_o[$module::xhrCardRoute('guests')] = CardKit::onTapEventsXHRCallMenuItem('Guests', $module::xhrCardRoute('guests'));
+        $_o[$module::xhrOperationRoute('newGuest')] = CardKit::onTapEventsXHRCallMenuItem('New Guest', $module::xhrOperationRoute('newGuest'));
+        $_o[$module::xhrCardRoute('search')] = CardKit::onTapEventsXHRCallMenuItem('Search Users', $module::xhrCardRoute('search'));
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
+
         return $_o;
         
     }
     
-    public static function modelOperationsMenuItems($filter='', $_model = null){
+    public static function modelMenuItems($filters=[], $_model = null){
 
         extract((static::Module)::variables());
         
@@ -50,11 +61,18 @@ class Cards {
 		
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login As', $module::xhrOperationRoute('loginAs'), [$modeler::model()->id]);
-        
+        $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+        $_o[$module::xhrOperationRoute('delete')] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
+        $_o[$module::xhrOperationRoute('loginAs')] = CardKit::onTapEventsXHRCallMenuItem('Login As', $module::xhrOperationRoute('loginAs'), [$modeler::model()->id]);
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
+
         return $_o;
+
     }
 
     public static function details($_model = null){
@@ -70,13 +88,11 @@ class Cards {
             'collection' => 'users',
             'node' => $modeler::model()->id
         ];
-        $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->head = 'User Detail';
         $_o->body = [''];
         $_o->body[] = CardKitHTML::sublineBlock('Name');
@@ -140,5 +156,77 @@ class Cards {
         return $_o;
 
     }
-    
+
+    public static function users(){
+
+        extract((static::Module)::variables());
+
+        $_o = (object) null;
+
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'users',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
+        $_o->size = 'fullscreen';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'user-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items = self::menuItems([$module::xhrCardRoute(__FUNCTION__)]);
+        $_o->head = 'Users';
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'users','icon'=>'user', 'card_route' => $module::xhrCardRoute('users'), 'details_route' => $module::xhrCardRoute('details')]);
+
+        return $_o;
+
+    }
+
+    public static function guests(){
+
+        extract((static::Module)::variables());
+
+        $_o = (object) null;
+
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'guests',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
+        $_o->size = 'fullscreen';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'user-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items = self::menuItems([$module::xhrCardRoute(__FUNCTION__)]);
+        $_o->head = 'Guests';
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'guests','icon'=>'user', 'card_route' => $module::xhrCardRoute('guests'), 'details_route' => $module::xhrCardRoute('details')]);
+
+        return $_o;
+
+    }
+
+    public static function admins(){
+
+        extract((static::Module)::variables());
+
+        $_o = (object) null;
+
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'admins',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
+        $_o->size = 'fullscreen';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'user-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items = self::menuItems([$module::xhrCardRoute(__FUNCTION__) ]);
+        $_o->head = 'Admins';
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'admins','icon'=>'user', 'card_route' => $module::xhrCardRoute('admins'), 'details_route' => $module::xhrCardRoute('details')]);
+
+        return $_o;
+
+    }
+
 }

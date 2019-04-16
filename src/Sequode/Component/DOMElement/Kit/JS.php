@@ -205,7 +205,7 @@ class JS {
         $js[] = 'registry.setContext(context);';
         return implode(' ',$js);
     }
-    public static function  registryRefreshContext($id=false){
+    public static function registryRefreshContext($id=false){
 
         $js[] = "if(typeof registry.active_context != 'undefined' && typeof registry.active_context.card != 'undefined'){";
         if($id  === false) {

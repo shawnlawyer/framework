@@ -14,4 +14,9 @@ class Cards {
     public static $routes = [
         'login'
     ];
+
+    const Routes = [
+        'login'
+    ];
+
 }

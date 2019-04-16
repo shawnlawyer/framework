@@ -17,6 +17,11 @@ class Collections{
 		'token_search'
     ];
 
+    const Routes = [
+		'tokens',
+		'token_search'
+    ];
+
 	public static $routes_to_methods = [
 		'tokens' => 'owned',
 		'token_search' => 'search',

@@ -12,7 +12,8 @@ class Authority {
     public static function isOwner($test_model, $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return ($_model->id && $test_model->owner_id &&  $test_model->owner_id === $_model->id) ? true : false;
+        $member = ($test_model->owner_id !== false) ? 'owner_id' : 'id' ;
+        return ($_model->id && $test_model->{'member'} === $_model->id) ? true : false;
     }
     public static function isSystemOwner($_model = null){
         $modeler = static::$modeler;

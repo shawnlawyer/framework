@@ -21,6 +21,14 @@ class Collections{
 		'palette',
     ];
 
+    const Routes = [
+		'sequodes',
+		'my_sequodes',
+		'sequode_search',
+		'sequode_favorites',
+		'palette',
+    ];
+
 	public static $routes_to_methods = [
 		'sequodes' => 'main',
 		'my_sequodes' => 'owned',

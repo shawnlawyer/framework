@@ -21,7 +21,7 @@ class Cards {
 
     const Module = Module::class;
 
-    const Tiles = ['myTile'];
+    const Tiles = ['my', 'favorites', 'search'];
     
     public static function menu(){
 
@@ -30,22 +30,29 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  array_merge(self::menuItems(),self::collectionOwnedMenuItems());
+        $_o->menu->position_adjuster = 'automagic-card-menu-right-side-adjuster';
+        $_o->menu->items = self::menuItems();
 
         return $_o;
 
     }
 
-    public static function menuItems(){
+    public static function menuItems($filters=[]){
 
         extract((static::Module)::variables());
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sequodes', $module::xhrCardRoute('search'));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Favorited Sequodes', $module::xhrCardRoute('favorites'));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode', $module::xhrOperationRoute('newSequence'));
+        $_o[$module::xhrCardRoute('my')] = CardKit::onTapEventsXHRCallMenuItem('Sequodes', $module::xhrCardRoute('my'));
+        $_o[$module::xhrCardRoute('search')] = CardKit::onTapEventsXHRCallMenuItem('Search Sequodes', $module::xhrCardRoute('search'));
+        $_o[$module::xhrCardRoute('favorites')] = CardKit::onTapEventsXHRCallMenuItem('Favorited Sequodes', $module::xhrCardRoute('favorites'));
+        $_o[$module::xhrOperationRoute('newSequence')] = CardKit::onTapEventsXHRCallMenuItem('New Sequode', $module::xhrOperationRoute('newSequence'));
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
 
         return $_o;
 
@@ -71,7 +78,7 @@ class Cards {
         
     }
 
-    public static function modelOperationsMenuItems($filter='', $_model = null){
+    public static function modelMenuItems($filters=[], $_model = null){
 
         extract((static::Module)::variables());
 
@@ -79,47 +86,53 @@ class Cards {
 
         $items = [];
         if(AccountAuthority::canView($modeler::model())){
-            $items[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+            $items[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
         }
         if(AccountAuthority::isInSequodeFavorites($modeler::model())){
-            $items[] = CardKit::onTapEventsXHRCallMenuItem('Remove From Favorited', AccountModule::xhrOperationRoute('removeFromSequodeFavorites'), [$modeler::model()->id]);
+            $items[AccountModule::xhrOperationRoute('removeFromSequodeFavorites')] = CardKit::onTapEventsXHRCallMenuItem('Remove From Favorited', AccountModule::xhrOperationRoute('removeFromSequodeFavorites'), [$modeler::model()->id]);
         }else{
-            $items[] = CardKit::onTapEventsXHRCallMenuItem('Add To Favorited', AccountModule::xhrOperationRoute('addToSequodeFavorites'), [$modeler::model()->id]);
+            $items[AccountModule::xhrOperationRoute('addToSequodeFavorites')] = CardKit::onTapEventsXHRCallMenuItem('Add To Favorited', AccountModule::xhrOperationRoute('addToSequodeFavorites'), [$modeler::model()->id]);
         }
         if(SequodeAuthority::isSequence($modeler::model())){
             
-            $items[] = CardKit::onTapEventsXHRCallMenuItem('View Chart', $module::xhrCardRoute('chart'), [$modeler::model()->id]);
+            $items[$module::xhrCardRoute('chart')] = CardKit::onTapEventsXHRCallMenuItem('View Chart', $module::xhrCardRoute('chart'), [$modeler::model()->id]);
             
             if(AccountAuthority::canEdit($modeler::model())){
-                $items[] = CardKit::onTapEventsXHRCallMenuItem('Edit Chart', $module::xhrCardRoute('sequencer'), [$modeler::model()->id]);
+                $items[$module::xhrCardRoute('sequencer')] = CardKit::onTapEventsXHRCallMenuItem('Edit Chart', $module::xhrCardRoute('sequencer'), [$modeler::model()->id]);
             }
             if(AccountAuthority::canEdit($modeler::model())){
                 if(!SequodeAuthority::isEmptySequence($modeler::model())){
-                    $items[] = CardKit::onTapEventsXHRCallMenuItem('Empty Sequence', $module::xhrOperationRoute('emptySequence'), [$modeler::model()->id]);
+                    $items[$module::xhrOperationRoute('emptySequence')] = CardKit::onTapEventsXHRCallMenuItem('Empty Sequence', $module::xhrOperationRoute('emptySequence'), [$modeler::model()->id]);
                 }
             }
             if(AccountAuthority::canEdit($modeler::model())){
                 if(!SequodeAuthority::isEmptySequence($modeler::model())){
-                    $items[] = CardKit::onTapEventsXHRCallMenuItem('Restore To Default', $module::xhrOperationRoute('formatSequence'), [$modeler::model()->id]);
+                    $items[$module::xhrOperationRoute('formatSequence')] = CardKit::onTapEventsXHRCallMenuItem('Restore To Default', $module::xhrOperationRoute('formatSequence'), [$modeler::model()->id]);
                 }
             }
             if(AccountAuthority::canCopy($modeler::model())){
                 if(!SequodeAuthority::isEmptySequence($modeler::model())){
-                    $items[] = CardKit::onTapEventsXHRCallMenuItem('Clone', $module::xhrOperationRoute('cloneSequence'), [$modeler::model()->id]);
+                    $items[$module::xhrOperationRoute('cloneSequence')] = CardKit::onTapEventsXHRCallMenuItem('Clone', $module::xhrOperationRoute('cloneSequence'), [$modeler::model()->id]);
                 }
             }
             if(AccountAuthority::canEdit($modeler::model())){
                 if(!SequodeAuthority::isEmptySequence($modeler::model())){
-                    $items[] = CardKit::onTapEventsXHRCallMenuItem('Internal Forms', $module::xhrCardRoute('internalForms'), [$modeler::model()->id]);
+                    $items[$module::xhrCardRoute('internalForms')] = CardKit::onTapEventsXHRCallMenuItem('Internal Forms', $module::xhrCardRoute('internalForms'), [$modeler::model()->id]);
                 }
             }
             if(AccountAuthority::canDelete($modeler::model())){
                 if(SequodeAuthority::isEmptySequence($modeler::model())){
-                    $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete',  $module::xhrOperationRoute('deleteSequence'), [$modeler::model()->id]);
+                    $items[$module::xhrOperationRoute('deleteSequence')] = CardKit::onTapEventsXHRCallMenuItem('Delete',  $module::xhrOperationRoute('deleteSequence'), [$modeler::model()->id]);
                 }
             }
         }
-        
+
+        foreach($filters as $filter){
+
+            unset($items[$filter]);
+
+        }
+
         return $items;
     }
 
@@ -129,6 +142,7 @@ class Cards {
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
+        $_o = (object) null;
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
@@ -139,7 +153,7 @@ class Cards {
         ];
 
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->head = 'Component Settings';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
@@ -175,7 +189,7 @@ class Cards {
             'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
@@ -204,8 +218,7 @@ class Cards {
             'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
-        $_o->size = 'large';
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         
@@ -332,21 +345,17 @@ class Cards {
             'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->size = 'large';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->head = $modeler::model()->name;
-        $_o->body = [];
+        $_o->body = [''];
 
         foreach($modeler::model()->sequence as $loop_sequence_key => $loop_model_id){
 
-            $_o->body[] = ModuleCard::render($module::Registry_Key,'internalPositionForms', [$loop_sequence_key]);
+            $_o->body[] = ModuleCard::render($module::Registry_Key,'internalPositionForms', [$loop_sequence_key], [ModuleCard::Modifier_No_Context]);
 
-        }
-
-        if(AccountAuthority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($modeler::model());
         }
 
         return $_o;
@@ -369,7 +378,7 @@ class Cards {
             'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
 
         $sequence = $modeler::model()->sequence;
 
@@ -387,7 +396,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->head = $sequence_model->name;
-        $_o->body = [];
+        $_o->body = [''];
 
         $types = ['input', 'property'];
         $type_labels = ['input' => 'Inputs', 'property' => 'Properties'];
@@ -493,7 +502,7 @@ class Cards {
             'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
@@ -542,7 +551,7 @@ class Cards {
             'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->size = 'fullscreen';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
@@ -612,24 +621,15 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items = [];
-        
-        $_o->head = 'My Sequodes';
-        
-        $dom_id = FormInputComponent::uniqueHash('','');
-        $_o->menu->items[] = [
-            'css_classes'=>'automagic-card-menu-item noSelect',
-            'id'=>$dom_id,
-            'contents'=>'New Sequode',
-            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($module::xhrOperationRoute('newSequence')))
-        ];
-        
+        $_o->menu->items = self::menuItems();
+        $_o->head = 'Sequodes';
         $_o->body = [];
         $_o->body[] = CardKit::collectionCard((object) ['collection' => 'my_sequodes', 'icon' => 'sequode', 'card_route' => $module::xhrCardRoute('my'), 'details_route' => $module::xhrCardRoute('details')]);
 
         return $_o;
         
     }
+
     public static function favorites(){
 
         extract((static::Module)::variables());
@@ -645,7 +645,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items = [];
+        $_o->menu->items = self::menuItems();
         
         $_o->head = 'Sequode Favorites';
         
@@ -680,8 +680,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'sequode-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items =  [];
-        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Sequode',$module::xhrOperationRoute('newSequence'));
+        $_o->menu->items =  self::menuItems();
         $_o->body = [];
         $_o->body[] = '';
         $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model, 'Sequodes');

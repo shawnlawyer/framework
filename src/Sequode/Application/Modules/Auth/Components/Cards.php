@@ -25,13 +25,20 @@ class Cards {
         return $_o;
 
     }
-    public static function menuItems(){
+
+    public static function menuItems($filters=[]){
 
         extract((static::Module)::variables());
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Login', $module::xhrCardRoute('login'));
+        $_o[$module::xhrCardRoute('login')] = CardKit::onTapEventsXHRCallMenuItem('Login', $module::xhrCardRoute('login'));
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
 
         return $_o;
     }

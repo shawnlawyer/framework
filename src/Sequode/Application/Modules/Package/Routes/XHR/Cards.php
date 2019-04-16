@@ -17,19 +17,13 @@ class Cards {
     public static $routes = [
         'details',
         'search',
-        'my'
+        'packages'
     ];
 
-    public static function details($_model_id=0){
-
-        extract((static::Module)::variables());
-
-        if(!(
-            $modeler::exists($_model_id,'id')
-            && (AccountAuthority::isOwner( $modeler::model() )
-            || AccountAuthority::isSystemOwner())
-        )){return false;}
-
-    }
+    const Routes = [
+        'details',
+        'search',
+        'packages'
+    ];
 
 }

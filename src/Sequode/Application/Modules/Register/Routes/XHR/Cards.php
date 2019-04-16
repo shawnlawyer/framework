@@ -15,4 +15,8 @@ class Cards {
 		'signup'
 	];
 
+    const Routes = [
+		'signup'
+	];
+
 }

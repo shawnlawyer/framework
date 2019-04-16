@@ -16,7 +16,7 @@ class Cards {
     
     const Module = Module::class;
 
-    const Tiles = ['myTile'];
+    const Tiles = ['packages','search'];
 
     public static function menu(){
         
@@ -26,21 +26,28 @@ class Cards {
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  array_merge(self::menuItems(), self::collectionOwnedMenuItems());
+        $_o->menu->items =  self::menuItems();
         
         return $_o;
         
     }
 
-    public static function menuItems(){
+    public static function menuItems($filters=[]){
 
         extract((static::Module)::variables());
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Packages', $module::xhrCardRoute('search'));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('New Package', $module::xhrOperationRoute('newPackage'));
-        
+        $_o[$module::xhrCardRoute('packages')] = CardKit::onTapEventsXHRCallMenuItem('Packages', $module::xhrCardRoute('packages'));
+        $_o[$module::xhrCardRoute('search')] = CardKit::onTapEventsXHRCallMenuItem('Search Packages', $module::xhrCardRoute('search'));
+        $_o[$module::xhrOperationRoute('newPackage')] = CardKit::onTapEventsXHRCallMenuItem('New Package', $module::xhrOperationRoute('newPackage'));
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
+
         return $_o;
         
     }
@@ -61,11 +68,12 @@ class Cards {
                 $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, $module::xhrCardRoute('details'), [$model->id]);
             }
         }
+
         return $items;
         
     }
 
-    public static function modelOperationsMenuItems($filter='', $_model = null){
+    public static function modelMenuItems($filters=[], $_model = null){
 
         extract((static::Module)::variables());
 
@@ -73,9 +81,15 @@ class Cards {
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
-        
+        $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+        $_o[$module::xhrOperationRoute('delete')] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
+
         return $_o;
     }
 
@@ -96,7 +110,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems();
         $_o->head = 'Package Details';
         $_o->body = [''];
         $_o->body[] = (object) ['js' => 'registry.setContext({card:\''. $module::xhrCardRoute('details').'\',collection:\'packages\',node:\''.$modeler::model()->id.'\'});'];
@@ -113,7 +127,7 @@ class Cards {
         
     }
 
-    public static function my(){
+    public static function packages(){
 
         extract((static::Module)::variables());
 
@@ -127,7 +141,7 @@ class Cards {
             'teardown' => 'function(){cards = undefined;}'
         ];
         $_o->size = 'fullscreen';
-        $_o->head = 'My Packages';
+        $_o->head = 'Packages';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'atom-icon-background';
         $_o->menu = (object) null;

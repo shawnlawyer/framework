@@ -16,6 +16,10 @@ class Operations {
 		'logout'
     ];
 
+    const Routes = [
+		'logout'
+    ];
+
 	public static $routes_to_methods = [
 		'logout' => 'logout'
     ];

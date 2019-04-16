@@ -17,12 +17,17 @@ class Collections{
 		'package_search',
     ];
 
+    const Routes = [
+		'packages',
+		'package_search',
+    ];
+
 	public static $routes_to_methods = [
-		'packages' => 'owned',
+		'packages' => 'packages',
 		'package_search' => 'search',
     ];
 
-	public static function owned(){
+	public static function packages(){
 
         extract((static::Module)::variables());
 

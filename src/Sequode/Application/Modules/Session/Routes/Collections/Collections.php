@@ -16,6 +16,10 @@ class Collections{
 		'session_search'
     ];
 
+    const Routes = [
+		'session_search'
+    ];
+
 	public static $routes_to_methods = [
 		'session_search' => 'search'
     ];

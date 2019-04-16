@@ -16,7 +16,7 @@ class Operations {
     
     const Module = Module::class;
 
-    public static $dialogs = ['signup'];
+    const Dialogs = ['signup'];
 
     public static function signup($dialog, $dialog_store, $input){
 

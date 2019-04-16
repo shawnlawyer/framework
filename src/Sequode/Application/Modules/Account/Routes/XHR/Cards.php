@@ -17,4 +17,10 @@ class Cards {
 		'updateEmail'
 	];
 
+    const Routes = [
+		'details',
+		'updatePassword',
+		'updateEmail'
+	];
+
 }

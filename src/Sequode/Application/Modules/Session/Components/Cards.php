@@ -28,19 +28,25 @@ class Cards {
         
     }
 
-    public static function menuItems(){
+    public static function menuItems($filters=[]){
 
         extract((static::Module)::variables());
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Search Sessions', $module::xhrCardRoute('search'));
-        
+        $_o[$module::xhrCardRoute('search')] = CardKit::onTapEventsXHRCallMenuItem('Search Sessions', $module::xhrCardRoute('search'));
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
+
         return $_o;
         
     }
 
-    public static function modelOperationsMenuItems($filter='', $_model = null){
+    public static function modelMenuItems($filters=[], $_model = null){
 
         extract((static::Module)::variables());
 
@@ -48,8 +54,14 @@ class Cards {
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$modeler::model()->id]);
+        $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+        $_o[$module::xhrOperationRoute('destroy')] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$modeler::model()->id]);
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
 
         return $_o;
     }
@@ -71,7 +83,7 @@ class Cards {
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'session-icon-background';
         $_o->menu = (object) null;
-        $_o->menu->items =  static::menuItems() + static::modelOperationsMenuItems();
+        $_o->menu->items =  static::menuItems() + static::modelMenuItems();
         
         $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$modeler::model()->id]);
 

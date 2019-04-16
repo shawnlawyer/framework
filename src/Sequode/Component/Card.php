@@ -2,11 +2,13 @@
 namespace Sequode\Component;
 
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
+use Sequode\Component\Card\Kit as CardKit;
+use Sequode\Component\FormInput as FormInputComponent;
 
 class Card {
     
     public static function cardMenuComponent($menu_object){
-       
+
         $html = $js = [];
         $position_adjuster = (isset($menu_object->position_adjuster)) ? ' '.$menu_object->position_adjuster : '';
 
@@ -88,16 +90,27 @@ class Card {
         if($card_object->context){
             $js[] = DOMElementKitJS::registrySetContext($card_object->context);
         }
+
         if(isset($card_object->head) || isset($card_object->menu)){
-            $html[] = '<div class="automagic-card-head"';
-            $html[] = (isset($card_object->size) && $card_object->size == 'fullscreen') ? ' style="position:fixed !important; left: 2.1em !important; top: 0 !important; padding: .3em .3em !important; height:0px !important; overflow:visible !important; vertical-align: bottom;"' : '';
-            $html[] = '>';
+            $html[] = '<div class="automagic-card-head';
+            if(isset($card_object->size) && $card_object->size == 'fullscreen'){
+                $html[] = ' clear-border fullscreen';
+            }
+            $html[] = '">';
             $html[] = '<div class="';
             $html[] = (isset($card_object->menu)) ? 'menu-icon' : 'card-icon';
             $html[] = (isset($card_object->icon_background)) ? ' '.$card_object->icon_background : '';
             $html[] = '"';
             $html[] = '>';
-                    
+
+            if(!empty($card_object->route)){
+
+                $dom_id = FormInputComponent::uniqueHash('','SQDE');
+                $html[] = '<div id="' . $dom_id . '" style="z-index:3; position:absolute; right:0; top:35%;">></div>';
+                $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($card_object->route));
+
+            }
+
             if(isset($card_object->menu)){
                 $menu_component = self::cardMenuComponent($card_object->menu);
                 $html[] = $menu_component->html;
@@ -109,14 +122,23 @@ class Card {
             
             $html[] = '</div>';
             if(isset($card_object->head)){
+
+
+                $html[] = '<div class="card-title noSelect ">';
+
                 if(is_object($card_object->head)){
-                    $html[] = '<div class="card-title noSelect">';
+
                     $html[] = $card_object->head->html;
-                    $html[] = '</div>';
                     $js[] = $card_object->head->js;
+
                 }else{
-                    $html[] = '<div class="card-title noSelect">'.strip_tags($card_object->head).'</div>';                    
+
+                    $html[] = strip_tags($card_object->head);
+
                 }
+
+                $html[] = '</div>';
+
             }
             $html[] = '</div>';
         }

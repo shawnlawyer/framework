@@ -14,7 +14,9 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 class Cards {
     
     const Module = Module::class;
-    
+
+    const Tiles = ['details'];
+
     public static function menu(){
         
         $_o = (object) null;
@@ -29,21 +31,27 @@ class Cards {
         
     }
     
-    public static function menuItems(){
+    public static function menuItems($filters=[]){
 
         extract((static::Module)::variables());
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Account Details', $module::xhrCardRoute('details'));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Password', $module::xhrCardRoute('updatePassword'));
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Update Email', $module::xhrCardRoute('updateEmail'));
-        
+        $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Account Details', $module::xhrCardRoute('details'));
+        $_o[$module::xhrCardRoute('updatePassword')] = CardKit::onTapEventsXHRCallMenuItem('Update Password', $module::xhrCardRoute('updatePassword'));
+        $_o[$module::xhrCardRoute('updateEmail')] = CardKit::onTapEventsXHRCallMenuItem('Update Email', $module::xhrCardRoute('updateEmail'));
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
+
         return $_o;
         
     }
 
-    public static function modelOperationsMenuItems($filter='', $_model = null){
+    public static function modelMenuItems($filters=[], $_model = null){
 
         extract((static::Module)::variables());
 
@@ -51,19 +59,25 @@ class Cards {
 
         $items = [];
 
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Detail', $module::xhrCardRoute('detail'), [$modeler::model()->id]);
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Password', $module::xhrCardRoute('updatePassword'), [$modeler::model()->id]);
-        $items[] = CardKit::onTapEventsXHRCallMenuItem('Account Email', $module::xhrCardRoute('updateEmail'), [$modeler::model()->id]);
+        $items[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Detail', $module::xhrCardRoute('details'), [$modeler::model()->id]);
+        $items[$module::xhrCardRoute('updatePassword')] = CardKit::onTapEventsXHRCallMenuItem('Account Password', $module::xhrCardRoute('updatePassword'), []);
+        $items[$module::xhrCardRoute('updateEmail')] = CardKit::onTapEventsXHRCallMenuItem('Account Email', $module::xhrCardRoute('updateEmail'), []);
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
 
         return $items;
 
     }
 
-    public static function details(){
+    public static function details($_model = null){
 
         extract((static::Module)::variables());
-        
-        $_model = forward_static_call_array([$modeler,'model'],[]);
+
+        forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
         $_o = (object) null;
 
@@ -73,12 +87,13 @@ class Cards {
             'node' => $modeler::model()->id
         ];
         $_o->menu = (object) null;
-        $_o->menu->items = self::modelOperationsMenuItems();
+        $_o->menu->items = self::modelMenuItems();
         $_o->head = 'Account Detail';
         $_o->icon_type = 'menu-icon';
         $_o->icon_background = 'user-icon-background';
+        $_o->body = [''];
         $_o->body[] = CardKitHTML::sublineBlock('Email');
-        $_o->body[] = $_model->email;
+        $_o->body[] = $modeler::model()->email;
 
         return $_o;
 
@@ -117,9 +132,6 @@ class Cards {
         
         $_o->head = 'Account Password';
         $_o->body = [''];
-        if(AccountAuthority::isSystemOwner()){
-            $_o->body[] = CardKitHTML::modelId($_model);
-        }
         if(isset($step->content)){
             
             if(isset($step->content->head)){

@@ -77,9 +77,26 @@ class Registry {
         return true;
     }
             
-    public static function module($key){
-        
-        return self::container('get', $key);
+    public static function module($value, $by='key'){
+
+	    if($by === 'key'){
+
+            return self::container('get', $value);
+
+        }elseif($by === 'context'){
+
+
+            $modules_context = self::modulesContext();
+
+            if(!array_key_exists($value, $modules_context)){
+
+                return false;
+
+            }
+
+            return self::module($modules_context[$value]);
+
+        }
         
     }
     

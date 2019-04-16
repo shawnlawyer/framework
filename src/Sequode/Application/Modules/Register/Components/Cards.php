@@ -26,14 +26,20 @@ class Cards {
         return $_o;
         
     }
-    public static function menuItems(){
+    public static function menuItems($filters=[]){
 
         extract((static::Module)::variables());
 
         $_o = [];
 
-        $_o[] = CardKit::onTapEventsXHRCallMenuItem('Signup', $module::xhrCardRoute('signup'));
-        
+        $_o[$module::xhrCardRoute('signup')] = CardKit::onTapEventsXHRCallMenuItem('Signup', $module::xhrCardRoute('signup'));
+
+        foreach($filters as $filter){
+
+            unset($_o[$filter]);
+
+        }
+
         return $_o;
         
     }
@@ -81,8 +87,7 @@ onTapEventsXHRCallMenuItem('Start Over', $module::xhrOperationRoute(__FUNCTION__
         }
         
         if($dialog_store->step != 0 && $dialog_store->step < count($dialog->steps) - 1){
-            $_o->body[] = CardKit::
-resetDialogButton( $module::xhrOperationRoute(__FUNCTION__));
+            $_o->body[] = CardKit::resetDialogButton( $module::xhrOperationRoute(__FUNCTION__));
         }
         
         $_o->body[] = (object) ['js' => '$(\'.focus-input\').focus(); $(\'.focus-input\').select();'];

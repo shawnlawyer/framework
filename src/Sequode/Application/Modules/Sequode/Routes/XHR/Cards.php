@@ -23,8 +23,20 @@ class Cards {
         'my',
         'favorites',
     ];
+
+    const Routes = [
+        'componentSettings',
+        'details',
+        'internalForms',
+        'internalPositionForms',
+        'chart',
+        'sequencer',
+        'search',
+        'my',
+        'favorites',
+    ];
     
-    public static function componentSettings($type = false, $member=null, $_model_id=0){
+    public static function componentSettings($type = false, $member=null, $_model_id=0, $dom_id = null){
 
         extract((static::Module)::variables());
         
@@ -34,11 +46,16 @@ class Cards {
             || AccountAuthority::isSystemOwner())
         )){return false;}
 
-        return [$type, $member];
+        return [
+            "type" => $type,
+            "member" => $member,
+            "model" => $modeler::model(),
+            "dom_id" => $dom_id
+        ];
 
     }
 
-    public static function details($_model_id=0){
+    public static function details($_model_id=0, $dom_id=null){
 
         extract((static::Module)::variables());
 
@@ -47,9 +64,14 @@ class Cards {
             && AccountAuthority::canView( $modeler::model() )
         )){return false;}
 
+        return [
+            "model" => $modeler::model(),
+            "dom_id" => $dom_id
+        ];
+
     }
 
-    public static function internalForms($_model_id=0){
+    public static function internalForms($_model_id=0, $dom_id=null){
 
         extract((static::Module)::variables());
         
@@ -59,9 +81,14 @@ class Cards {
             || AccountAuthority::isSystemOwner())
         )){return false;}
 
+        return [
+            "model" => $modeler::model(),
+            "dom_id" => $dom_id
+        ];
+
     }
 
-    public static function internalPositionForms($_model_id=0, $position=0){
+    public static function internalPositionForms($_model_id=0, $position=0, $dom_id=null){
 
         extract((static::Module)::variables());
         
@@ -71,11 +98,15 @@ class Cards {
             || AccountAuthority::isSystemOwner())
         )){return false;}
 
-        return [$position];
+        return [
+            "position" => $position,
+            "model" => $modeler::model(),
+            "dom_id" => $dom_id
+        ];
 
     }
 
-    public static function chart($_model_id=0){
+    public static function chart($_model_id=0, $dom_id=null){
 
         extract((static::Module)::variables());
         
@@ -84,9 +115,15 @@ class Cards {
             && (AccountAuthority::isOwner( $modeler::model() )
             || AccountAuthority::isSystemOwner())
         )){return false;}
+
+        return [
+            "model" => $modeler::model(),
+            "dom_id" => $dom_id
+        ];
+
     }
 
-    public static function sequencer($_model_id=0){
+    public static function sequencer($_model_id=0, $dom_id=null){
 
         extract((static::Module)::variables());
         
@@ -95,6 +132,11 @@ class Cards {
             && (AccountAuthority::isOwner( $modeler::model() )
             || AccountAuthority::isSystemOwner())
         )){return false;}
+
+        return [
+            "model" => $modeler::model(),
+            "dom_id" => $dom_id
+        ];
 
     }
 

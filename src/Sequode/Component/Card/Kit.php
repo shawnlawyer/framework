@@ -61,6 +61,34 @@ class Kit {
 
     }
 
+    public static function collectionTile($module_registry_key, $models, $headline=''){
+
+        extract((ModuleRegistry::module($module_registry_key))::variables());
+
+        $dom_id = FormInputComponent::uniqueHash('','');
+
+        $html = $js = [];
+
+        $html[] = '<div class="automagic-content-area-xsmall-tile-container">';
+
+        $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.'">'.$headline .' '. count($models).'</div>';
+
+        $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($module::xhrCardRoute('my'), [$object->id]));
+
+        foreach($models as $i => $object){
+
+            $html[] = '<div class="automagic-card-menu-item noSelect" id="'.$dom_id.$i.'">'. $object->name .'</div> ';
+
+            $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id.$i, DOMElementKitJS::xhrCallObject($module::xhrCardRoute('details'), [$object->id]));
+
+        }
+
+        $html[] = '</div>';
+
+        return (object) ['html' => implode('', $html), 'js' => implode(' ', $js)];
+
+    }
+
     public static function collectionCard($component){
 
         if(!(
@@ -76,7 +104,7 @@ class Kit {
 
         $html = $js = [];
         
-        $html[] = '<div  class="fitBlock alignCenter" id="'. $dom_id .'"></div>';
+        $html[] = '<div  class="automagic-card-collection" id="'. $dom_id .'"></div>';
         $js[] = 'var cards = new CollectionCards();';
         $js[] = 'cards.container = \''.$dom_id.'\';';
         $js[] = 'cards.icon = \''.$component->icon.'\';';
