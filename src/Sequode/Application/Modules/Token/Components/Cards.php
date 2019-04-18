@@ -50,37 +50,7 @@ class Cards {
         return $_o;
         
     }
-    
-    public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
 
-        extract((static::Module)::variables());
-
-        if($user_model == null ){
-
-            $user_model = AccountModeler::model();
-
-        }
-
-        $models = $operations::getOwnedModels($user_model, $fields, 20)->all;
-
-        $items = [];
-
-        if(count($models) > 0){
-
-            $items[] = CardKit::onTapEventsXHRCallMenuItem('My Tokens', $module::xhrCardRoute('my'));
-
-            foreach($models as $model){
-
-                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, $module::xhrCardRoute('details'), [$model->id]);
-
-            }
-
-        }
-
-        return $items;
-        
-    }
-    
     public static function modelMenuItems($filters=[], $_model = null){
 
         extract((static::Module)::variables());
@@ -193,32 +163,6 @@ class Cards {
 
         return $_o;
 
-    }
-    
-    public static function myTile($user_model=null){
-
-        extract((static::Module)::variables());
-
-        if($user_model == null ){
-
-            $user_model = AccountModeler::model();
-
-        }
-        
-        $_o = (object) null;
-
-        $_o->head = 'Tokens';
-        $_o->size = 'xsmall';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'atom-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items[] = static::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
-        $_o->body = [];
-        $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model, 'Tokens');
-        
-        return $_o;
-        
     }
     
 }

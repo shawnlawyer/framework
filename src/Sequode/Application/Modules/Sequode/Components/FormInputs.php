@@ -85,13 +85,13 @@ class FormInputs {
         $components_object->sequenced->Off_Value = 0;
         $components_object->sequenced->Value = 1;
         
-        $components_object->my_sequodes = FormInputModeler::model()->component_object;
-        $components_object->my_sequodes->Label = '';
-        $components_object->my_sequodes->On_Text = 'My Sequodes';
-        $components_object->my_sequodes->On_Value = 1;
-        $components_object->my_sequodes->Off_Text = 'My Sequodes';
-        $components_object->my_sequodes->Off_Value = 0;
-        $components_object->my_sequodes->Value = 1;
+        $components_object->sequodes_owned = FormInputModeler::model()->component_object;
+        $components_object->sequodes_owned->Label = '';
+        $components_object->sequodes_owned->On_Text = 'Owned Sequodes';
+        $components_object->sequodes_owned->On_Value = 1;
+        $components_object->sequodes_owned->Off_Text = 'Owned Sequodes';
+        $components_object->sequodes_owned->Off_Value = 0;
+        $components_object->sequodes_owned->Value = 1;
         
         $components_object->shared_sequodes = FormInputModeler::model()->component_object;
         $components_object->shared_sequodes->Label = '';
@@ -111,7 +111,7 @@ class FormInputs {
             SequodeModeler::model($sequode_model);
         }
         
-        $default_map = SequodeOperationsKit::makeDefaultSequenceObjectMap($type, $sequode_model->sequence);
+        $default_map = SequodeOperationsKit::makeDefaultSequenceObjectMap($type, SequodeModeler::model()->sequence);
         $sequence =  SequodeModeler::model()->sequence;
         $location_object = $default_map[$map_key];
 		$sequence_key = $location_object->Key - 1;

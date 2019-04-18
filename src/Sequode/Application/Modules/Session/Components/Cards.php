@@ -13,6 +13,8 @@ use Sequode\Application\Modules\Session\Module;
 class Cards {
     
     const Module = Module::class;
+
+    const Tiles = ['search'];
     
     public static function menu(){
         
@@ -87,7 +89,8 @@ class Cards {
         
         $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$modeler::model()->id]);
 
-        $_o->body = [];
+        $_o->head = 'Session Detail';
+        $_o->body = [''];
 
         if($modeler::model()->session_id === $operations::getCookieValue()) {
             $_o->body[] = CardKitHTML::sublineBlock('This your current session');

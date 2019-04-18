@@ -36,7 +36,8 @@ trait CardsCardRouteTrait {
 
         $card_object = forward_static_call_array([$component_cards, $method],is_array($parameters) ? $parameters : []);
 
-        return CardKitJS::placeCard(CardComponent::render($card_object), $dom_id);
+        return CardKitJS::placeCard(ModuleCard::render($module::Registry_Key, $method, $parameters, ($dom_id != 'CardsContainer') ? [1] : []), $dom_id);
+        //return CardKitJS::placeCard(CardComponent::render($card_object), $dom_id);
 
     }
 

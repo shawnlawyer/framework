@@ -112,9 +112,6 @@ class Cards {
         $_o->body[] = json_encode($modeler::model()->sequode_favorites);
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $modeler::model()->email;
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Sequode', $modeler::model(), 'Sequodes');
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Package', $modeler::model(), 'Packages');
-        $_o->body[] = CardKit::ownedItemsCollectionTile('Token', $modeler::model(), 'Tokens ');
         $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
         
         return $_o;

@@ -21,7 +21,7 @@ class Card {
 
         }
 
-        $component_object->route = (isset($component_object->context) && isset($component_object->context->card)) ? $component_object->context->card : '';
+        //$component_object->route = (isset($component_object->context) && isset($component_object->context->card)) ? $component_object->context->card : '';
 
         if(in_array(static::Modifier_Small_Tile, $modifiers) !== false) {
 
@@ -31,6 +31,10 @@ class Card {
             $component_object->size = 'xsmall';
 
         }
+
+        //if(!empty($component_object->context)){
+        //    unset($component_object->route);
+        //}
 
         return CardComponent::render($component_object);
         

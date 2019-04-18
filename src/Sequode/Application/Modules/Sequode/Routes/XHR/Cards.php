@@ -20,7 +20,7 @@ class Cards {
         'chart',
         'sequencer',
         'search',
-        'my',
+        'owned',
         'favorites',
     ];
 
@@ -32,7 +32,7 @@ class Cards {
         'chart',
         'sequencer',
         'search',
-        'my',
+        'owned',
         'favorites',
     ];
     

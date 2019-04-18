@@ -25,7 +25,7 @@ class Cards {
         $_o->icon_background = 'user-icon-background';
         $_o->menu = (object) null;
         $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  self::menuItems();
+        $_o->menu->items =  self::modelMenuItems() + self::menuItems();
         
         return $_o;
         
@@ -37,7 +37,6 @@ class Cards {
 
         $_o = [];
 
-        $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Account Details', $module::xhrCardRoute('details'));
         $_o[$module::xhrCardRoute('updatePassword')] = CardKit::onTapEventsXHRCallMenuItem('Update Password', $module::xhrCardRoute('updatePassword'));
         $_o[$module::xhrCardRoute('updateEmail')] = CardKit::onTapEventsXHRCallMenuItem('Update Email', $module::xhrCardRoute('updateEmail'));
 
@@ -60,8 +59,6 @@ class Cards {
         $items = [];
 
         $items[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Detail', $module::xhrCardRoute('details'), [$modeler::model()->id]);
-        $items[$module::xhrCardRoute('updatePassword')] = CardKit::onTapEventsXHRCallMenuItem('Account Password', $module::xhrCardRoute('updatePassword'), []);
-        $items[$module::xhrCardRoute('updateEmail')] = CardKit::onTapEventsXHRCallMenuItem('Account Email', $module::xhrCardRoute('updateEmail'), []);
 
         foreach($filters as $filter){
 

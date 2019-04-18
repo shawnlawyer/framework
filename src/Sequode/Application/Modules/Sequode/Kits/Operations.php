@@ -427,7 +427,7 @@ class Operations{
 		}
 		return $new_object;
 	}
-    public static function makeDefaultSequenceObjectMap($type, $sequence){
+    public static function makeDefaultSequenceObjectMap($type, $sequence=[]){
 
         switch($type){
             case 'input':

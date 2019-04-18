@@ -52,27 +52,6 @@ class Cards {
         
     }
 
-    public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
-
-        extract((static::Module)::variables());
-
-        if($user_model == null ){
-            $user_model = AccountModeler::model();
-        }
-
-        $models = $operations::getOwnedModels($user_model, $fields, 10)->all;
-        $items = [];
-        if(count($models) > 0){
-            $items[] = CardKit::onTapEventsXHRCallMenuItem('My Packages', $module::xhrCardRoute('my'));
-            foreach($models as $model){
-                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, $module::xhrCardRoute('details'), [$model->id]);
-            }
-        }
-
-        return $items;
-        
-    }
-
     public static function modelMenuItems($filters=[], $_model = null){
 
         extract((static::Module)::variables());
@@ -155,7 +134,7 @@ class Cards {
             'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($module::xhrOperationRoute('newPackage')))
         ];
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'packages', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('my'), 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'packages', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute(__FUNCTION__), 'details_route' => $module::xhrCardRoute('details')]);
         
         return $_o;
         
@@ -191,33 +170,6 @@ class Cards {
         }
         $_o->body = [];
         $_o->body[] = CardKit::collectionCard((object) ['collection' => 'package_search', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('search'), 'details_route' => $module::xhrCardRoute('details')]);
-        
-        return $_o;
-        
-    }
-    
-    public static function myTile($user_model=null){
-
-        extract((static::Module)::variables());
-
-        if($user_model == null ){
-            
-            $user_model = AccountModeler::model();
-            
-        }
-        
-        $_o = (object) null;
-
-        $_o->head = 'Sequence Packages';
-        $_o->size = 'xsmall';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'atom-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items =  [];
-        $_o->menu->item[] = CardKit::onTapEventsXHRCallMenuItem('New Package', $module::xhrOperationRoute('newPackage'));
-        $_o->body = [];
-        $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model,'Packages');
         
         return $_o;
         

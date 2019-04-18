@@ -21,7 +21,7 @@ class Cards {
 
     const Module = Module::class;
 
-    const Tiles = ['my', 'favorites', 'search'];
+    const Tiles = ['owned', 'favorites', 'search'];
     
     public static function menu(){
 
@@ -43,7 +43,7 @@ class Cards {
 
         $_o = [];
 
-        $_o[$module::xhrCardRoute('my')] = CardKit::onTapEventsXHRCallMenuItem('Sequodes', $module::xhrCardRoute('my'));
+        $_o[$module::xhrCardRoute('owned')] = CardKit::onTapEventsXHRCallMenuItem('Sequodes', $module::xhrCardRoute('owned'));
         $_o[$module::xhrCardRoute('search')] = CardKit::onTapEventsXHRCallMenuItem('Search Sequodes', $module::xhrCardRoute('search'));
         $_o[$module::xhrCardRoute('favorites')] = CardKit::onTapEventsXHRCallMenuItem('Favorited Sequodes', $module::xhrCardRoute('favorites'));
         $_o[$module::xhrOperationRoute('newSequence')] = CardKit::onTapEventsXHRCallMenuItem('New Sequode', $module::xhrOperationRoute('newSequence'));
@@ -56,26 +56,6 @@ class Cards {
 
         return $_o;
 
-    }
-
-    public static function collectionOwnedMenuItems($user_model = null, $fields='id,name'){
-
-        extract((static::Module)::variables());
-
-        if($user_model == null ){
-            $user_model = AccountModeler::model();
-        }
-
-        $models = $operations::getOwnedModels($user_model, $fields, 10)->all;
-        $items = [];
-        if(count($models) > 0){
-            $items[] = CardKit::onTapEventsXHRCallMenuItem('My Sequodes', $module::xhrCardRoute('my'));
-            foreach($models as $model){
-                $items[] = CardKit::onTapEventsXHRCallMenuItem($model->name, $module::xhrCardRoute('details'), [$model->id]);
-            }
-        }
-        return $items;
-        
     }
 
     public static function modelMenuItems($filters=[], $_model = null){
@@ -606,7 +586,7 @@ class Cards {
         
     }
 
-    public static function my(){
+    public static function owned(){
 
         extract((static::Module)::variables());
 
@@ -614,7 +594,7 @@ class Cards {
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'my_sequodes',
+            'collection' => 'sequodes_owned',
             'teardown' => 'function(){cards = undefined;}'
         ];
         $_o->size = 'fullscreen';
@@ -624,7 +604,7 @@ class Cards {
         $_o->menu->items = self::menuItems();
         $_o->head = 'Sequodes';
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'my_sequodes', 'icon' => 'sequode', 'card_route' => $module::xhrCardRoute('my'), 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'sequodes_owned', 'icon' => 'sequode', 'card_route' => $module::xhrCardRoute(__FUNCTION__), 'details_route' => $module::xhrCardRoute('details')]);
 
         return $_o;
         
@@ -660,31 +640,6 @@ class Cards {
         $_o->body = [];
         $_o->body[] = CardKit::collectionCard((object) ['collection'=>'sequode_favorites','icon'=>'sequode','card_route' => $module::xhrCardRoute('favorites'),'details_route' => $module::xhrCardRoute('details')]);
         
-        return $_o;
-        
-    }
-    
-    public static function myTile($user_model=null){
-
-        extract((static::Module)::variables());
-        
-        if($user_model == null ){
-            
-            $user_model = AccountModeler::model();
-            
-        }
-        
-        $_o = (object) null;
-        $_o->head = 'Sequodes';
-        $_o->size = 'xsmall';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items =  self::menuItems();
-        $_o->body = [];
-        $_o->body[] = '';
-        $_o->body[] = CardKit::ownedItemsCollectionTile($module::Registry_Key, $user_model, 'Sequodes');
-
         return $_o;
         
     }

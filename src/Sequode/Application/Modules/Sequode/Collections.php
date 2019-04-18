@@ -36,7 +36,7 @@ class Collections {
             unset($_model);
         }else{
             $results = [];
-            if($_i->my_sequodes == 1){
+            if($_i->sequodes_owned == 1){
                 $where = [];
                 if(isset($shared_where)){
                     $where[] = $shared_where;

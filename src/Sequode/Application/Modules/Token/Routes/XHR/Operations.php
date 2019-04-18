@@ -77,7 +77,7 @@ class Operations {
             forward_static_call_array([$operations, __FUNCTION__], []);
 
             return implode(' ', [
-                forward_static_call_array([$xhr_cards, 'card'], ['my'])
+                forward_static_call_array([$xhr_cards, 'card'], ['tokens'])
             ]);
 
         }

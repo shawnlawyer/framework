@@ -170,7 +170,7 @@ class Operations {
 
             return implode(' ', [
                 DOMElementKitJS::fetchCollection($collection, $modeler::model()->id),
-                forward_static_call_array([$xhr_cards, 'card'], ['my'])
+                forward_static_call_array([$xhr_cards, 'card'], ['owned'])
             ]);
 
         }

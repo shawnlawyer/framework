@@ -15,7 +15,7 @@ class Collections{
 
 	public static $routes = [
 		'sequodes',
-		'my_sequodes',
+		'sequodes_owned',
 		'sequode_search',
 		'sequode_favorites',
 		'palette',
@@ -23,7 +23,7 @@ class Collections{
 
     const Routes = [
 		'sequodes',
-		'my_sequodes',
+		'sequodes_owned',
 		'sequode_search',
 		'sequode_favorites',
 		'palette',
@@ -31,7 +31,7 @@ class Collections{
 
 	public static $routes_to_methods = [
 		'sequodes' => 'main',
-		'my_sequodes' => 'owned',
+		'sequodes_owned' => 'owned',
 		'sequode_search' => 'search',
 		'sequode_favorites' => 'favorited',
 		'palette' => 'palette',
