@@ -11,9 +11,9 @@ class Model extends ORM {
     const Table                   =	'users';
 
     const Normalizations = [
-        'sequode_favorites' =>
+        'favorites' =>
             [
-                'get' => 'jsonToObject',
+                'get' => 'jsonToArray',
                 'set' => 'objectToJson'
             ]
     ];

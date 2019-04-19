@@ -16,7 +16,7 @@ trait ORMModelSignupTrait {
             'email' => $email,
             'active' => 1,
             'verified' => 1,
-            'sequode_favorites' => [],
+            'favorites' => [],
             'role_id' => 100,
             'allowed_sequode_count' => 33,
             'sign_up_date' => time(),

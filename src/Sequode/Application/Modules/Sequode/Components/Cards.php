@@ -68,10 +68,10 @@ class Cards {
         if(AccountAuthority::canView($modeler::model())){
             $items[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
         }
-        if(AccountAuthority::isInSequodeFavorites($modeler::model())){
-            $items[AccountModule::xhrOperationRoute('removeFromSequodeFavorites')] = CardKit::onTapEventsXHRCallMenuItem('Remove From Favorited', AccountModule::xhrOperationRoute('removeFromSequodeFavorites'), [$modeler::model()->id]);
+        if(AccountAuthority::isFavorited($module::Registry_Key, $modeler::model())){
+            $items[AccountModule::xhrOperationRoute('unfavorite')] = CardKit::onTapEventsXHRCallMenuItem('Remove From Favorited', AccountModule::xhrOperationRoute('unfavorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
         }else{
-            $items[AccountModule::xhrOperationRoute('addToSequodeFavorites')] = CardKit::onTapEventsXHRCallMenuItem('Add To Favorited', AccountModule::xhrOperationRoute('addToSequodeFavorites'), [$modeler::model()->id]);
+            $items[AccountModule::xhrOperationRoute('favorite')] = CardKit::onTapEventsXHRCallMenuItem('Add To Favorites', AccountModule::xhrOperationRoute('favorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
         }
         if(SequodeAuthority::isSequence($modeler::model())){
             
@@ -634,7 +634,7 @@ class Cards {
             'css_classes'=>'automagic-card-menu-item noSelect',
             'id'=>$dom_id,
             'contents'=>'Empty Favorites',
-            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject(AccountModule::xhrOperationRoute('emptySequodeFavorites'),[]/*,'function(){registry.fetch({collection:\'sequode_favorites\'});}' */))
+            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject(AccountModule::xhrOperationRoute('emptyFavorites'),[DOMElementKitJS::jsQuotedValue( $module::Registry_Key )]))
         ];
         
         $_o->body = [];

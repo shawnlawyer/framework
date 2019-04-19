@@ -22,7 +22,7 @@ class Module {
             ],
             'operations' => Operations::class,
             'authority' => Authority::class,
-            'finder' => Collections::class,
+            'finder' => Finder::class,
             'collections' => Routes\Collections\Collections::class,
             'xhr' => (object) [
                 'operations' => Routes\XHR\Operations::class,

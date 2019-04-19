@@ -15,12 +15,14 @@ class Cards {
     public static $merge = true;
 
     public static $routes = [
+        'favorites',
         'details',
         'search',
         'packages'
     ];
 
     const Routes = [
+        'favorites',
         'details',
         'search',
         'packages'

@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\User\Components;
 
+use Sequode\Application\Modules\Account\Module as AccountModule;
+use Sequode\Component\FormInput as FormInputComponent;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
@@ -14,7 +16,7 @@ class Cards {
     
     const Module = Module::class;
 
-    const Tiles = ['admins','users','guests', 'search'];
+    const Tiles = ['admins','users','guests', 'search', 'favorites'];
 
     public static function menu(){
         
@@ -60,6 +62,12 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 		
         $_o = [];
+
+        if(AccountAuthority::isFavorited($module::Registry_Key, $modeler::model())){
+            $_o[AccountModule::xhrOperationRoute('unfavorite')] = CardKit::onTapEventsXHRCallMenuItem('Remove From Favorited', AccountModule::xhrOperationRoute('unfavorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
+        }else{
+            $_o[AccountModule::xhrOperationRoute('favorite')] = CardKit::onTapEventsXHRCallMenuItem('Add To Favorites', AccountModule::xhrOperationRoute('favorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
+        }
 
         $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
         $_o[$module::xhrOperationRoute('delete')] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
@@ -108,8 +116,8 @@ class Cards {
         $_o->body[] = date('g:ia \o\n l jS F Y',$modeler::model()->sign_up_date);
         $_o->body[] = CardKitHTML::sublineBlock('Allowed Sequode Count');
         $_o->body[] = $modeler::model()->allowed_sequode_count;
-        $_o->body[] = CardKitHTML::sublineBlock('Favorite Sequodes');
-        $_o->body[] = json_encode($modeler::model()->sequode_favorites);
+        $_o->body[] = CardKitHTML::sublineBlock('Favorites');
+        $_o->body[] = ($modeler::model()->favorites);
         $_o->body[] = CardKitHTML::sublineBlock('Email');
         $_o->body[] = $modeler::model()->email;
         $_o->body[] = CardKit::nextInCollection((object) ['model_id' => $modeler::model()->id, 'details_route' => $module::xhrCardRoute('details')]);
@@ -162,7 +170,7 @@ class Cards {
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'users',
+            'collection' => 'user_users',
             'teardown' => 'function(){cards = undefined;}'
         ];
         $_o->size = 'fullscreen';
@@ -172,7 +180,7 @@ class Cards {
         $_o->menu->items = self::menuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->head = 'Users';
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'users','icon'=>'user', 'card_route' => $module::xhrCardRoute('users'), 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'user_users','icon'=>'user', 'card_route' => $module::xhrCardRoute('users'), 'details_route' => $module::xhrCardRoute('details')]);
 
         return $_o;
 
@@ -186,7 +194,7 @@ class Cards {
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'guests',
+            'collection' => 'user_guests',
             'teardown' => 'function(){cards = undefined;}'
         ];
         $_o->size = 'fullscreen';
@@ -196,7 +204,7 @@ class Cards {
         $_o->menu->items = self::menuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->head = 'Guests';
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'guests','icon'=>'user', 'card_route' => $module::xhrCardRoute('guests'), 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'user_guests','icon'=>'user', 'card_route' => $module::xhrCardRoute('guests'), 'details_route' => $module::xhrCardRoute('details')]);
 
         return $_o;
 
@@ -210,7 +218,7 @@ class Cards {
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'admins',
+            'collection' => 'user_admins',
             'teardown' => 'function(){cards = undefined;}'
         ];
         $_o->size = 'fullscreen';
@@ -220,7 +228,41 @@ class Cards {
         $_o->menu->items = self::menuItems([$module::xhrCardRoute(__FUNCTION__) ]);
         $_o->head = 'Admins';
         $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'admins','icon'=>'user', 'card_route' => $module::xhrCardRoute('admins'), 'details_route' => $module::xhrCardRoute('details')]);
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'user_admins','icon'=>'user', 'card_route' => $module::xhrCardRoute('admins'), 'details_route' => $module::xhrCardRoute('details')]);
+
+        return $_o;
+
+    }
+
+    public static function favorites(){
+
+        extract((static::Module)::variables());
+
+        $_o = (object) null;
+
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'user_favorites',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
+        $_o->size = 'fullscreen';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'user-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items = self::menuItems();
+
+        $_o->head = 'User Favorites';
+
+        $dom_id = FormInputComponent::uniqueHash('','');
+        $_o->menu->items[] = [
+            'css_classes'=>'automagic-card-menu-item noSelect',
+            'id'=>$dom_id,
+            'contents'=>'Empty Favorites',
+            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject(AccountModule::xhrOperationRoute('emptyFavorites'),[DOMElementKitJS::jsQuotedValue( $module::Registry_Key )]))
+        ];
+
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'user_favorites','icon'=>'user','card_route' => $module::xhrCardRoute('favorites'),'details_route' => $module::xhrCardRoute('details')]);
 
         return $_o;
 

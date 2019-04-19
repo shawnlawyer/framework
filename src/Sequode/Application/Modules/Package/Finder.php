@@ -1,18 +1,15 @@
 <?php
-
-namespace Sequode\Application\Modules\Token;
+namespace Sequode\Application\Modules\Package;
 
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
-class Collections {
+class Finder {
     
-    const Module = Module::class;
+    public static $modeler = Modeler::class;
     
     public static function search($_i, $limit=100){
-
-        extract((static::Module)::variables());
-        
+        $modeler = static::$modeler;
         $_i->position = urldecode($_i->position);
         //$_i->field = urldecode($_i->field);
         if(!in_array($_i->position, ['=%','%=%','%=','='])){

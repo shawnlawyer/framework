@@ -6,8 +6,15 @@ use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Application\Modules\Sequode\Module;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
+use Sequode\Application\Modules\Traits\Routes\Collections\CollectionsOwnedTrait;
+use Sequode\Application\Modules\Traits\Routes\Collections\CollectionsSearchTrait;
+use Sequode\Application\Modules\Traits\Routes\Collections\CollectionsFavoritesTrait;
 
 class Collections{
+
+    use CollectionsOwnedTrait,
+        CollectionsSearchTrait,
+        CollectionsFavoritesTrait;
 
     const Module = Module::class;
 
@@ -30,14 +37,22 @@ class Collections{
     ];
 
 	public static $routes_to_methods = [
-		'sequodes' => 'main',
+		'sequodes' => 'sequodes',
 		'sequodes_owned' => 'owned',
 		'sequode_search' => 'search',
-		'sequode_favorites' => 'favorited',
+		'sequode_favorites' => 'favorites',
 		'palette' => 'palette',
     ];
 
-	public static function main($key = null){
+    const Method_To_Collection = [
+        'sequodes' => 'sequodes',
+        'owned' => 'sequodes_owned',
+        'search' => 'sequode_search',
+        'favorited' => 'sequode_favorites',
+        'palette' => 'palette'
+    ];
+
+	public static function sequodes($key = null){
 
         extract((static::Module)::variables());
 
@@ -117,83 +132,6 @@ class Collections{
         }
 	}
 
-	public static function search(){
-
-        extract((static::Module)::variables());
-
-        $collection = 'sequode_search';
-
-        $nodes = [];
-
-        if(SessionStore::is($collection)){
-
-            $_array = $finder::search(SessionStore::get($collection));
-
-            foreach($_array as $_object){
-
-                $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->name.'"}';
-
-            }
-
-        }
-
-        echo '{'.implode(',', $nodes).'}';
-        
-        return;
-        
-	}
-
-	public static function owned(){
-
-        extract((static::Module)::variables());
-
-        $_model = new $modeler::$model;
-
-        $where = [];
-
-        $where[] = ['field'=>'owner_id','operator'=>'=','value'=>AccountModeler::model()->id];
-
-        $_model->getAll($where,'id,name');
-
-        $nodes = [];
-
-        foreach($_model->all as $object){
-
-            $nodes[] = '"'.$object->id.'":{"id":"'.$object->id.'","n":"'.$object->name.'"}';
-
-        }
-
-        echo '{'.implode(',', $nodes).'}';
-        
-        return;
-        
-	}
-
-	public static function favorited(){
-
-        extract((static::Module)::variables());
-
-        $collection = 'sequode_favorites';
-
-        $nodes = [];
-
-        $_model_ids = AccountModeler::model()->sequode_favorites;
-
-        foreach(AccountModeler::model()->sequode_favorites as $_model_id){
-
-            if($modeler::exists($_model_id,'id')){
-
-                $nodes[] = '"'. $modeler::model()->id .'":{"id":"'.$modeler::model()->id.'","n":"'.$modeler::model()->name.'"}';
-
-            }
-
-        }
-
-        echo '{'.implode(',', $nodes).'}';
-
-        return;
-
-	}
     /*
 	public static function palette(){
 

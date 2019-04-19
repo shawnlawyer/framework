@@ -5,7 +5,7 @@ namespace Sequode\Application\Modules\Sequode;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 
-class Collections {
+class Finder {
     
     const Module = Module::class;
 

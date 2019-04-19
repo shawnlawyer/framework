@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Token\Components;
 
+use Sequode\Application\Modules\Account\Module as AccountModule;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
@@ -15,7 +16,7 @@ class Cards {
 
     const Module = Module::class;
 
-    const Tiles = ['tokens', 'search'];
+    const Tiles = ['tokens', 'favorites', 'search'];
     
     public static function menu(){
 
@@ -38,6 +39,7 @@ class Cards {
         $_o = [];
 
         $_o[$module::xhrCardRoute('search')] = CardKit::onTapEventsXHRCallMenuItem('Search Tokens', $module::xhrCardRoute('search'));
+        $_o[$module::xhrCardRoute('favorites')] = CardKit::onTapEventsXHRCallMenuItem('Favorite Tokens', $module::xhrCardRoute('favorites'));
         $_o[$module::xhrCardRoute('tokens')] = CardKit::onTapEventsXHRCallMenuItem('Tokens', $module::xhrCardRoute('tokens'));
         $_o[$module::xhrOperationRoute('newToken')] = CardKit::onTapEventsXHRCallMenuItem('New Token',  $module::xhrOperationRoute('newToken'));
 
@@ -59,6 +61,11 @@ class Cards {
 		
         $_o = [];
 
+        if(AccountAuthority::isFavorited($module::Registry_Key, $modeler::model())){
+            $_o[AccountModule::xhrOperationRoute('unfavorite')] = CardKit::onTapEventsXHRCallMenuItem('Remove From Favorited', AccountModule::xhrOperationRoute('unfavorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
+        }else{
+            $_o[AccountModule::xhrOperationRoute('favorite')] = CardKit::onTapEventsXHRCallMenuItem('Add To Favorites', AccountModule::xhrOperationRoute('favorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
+        }
         $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
         $_o[$module::xhrOperationRoute('delete')] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
 
@@ -160,6 +167,41 @@ class Cards {
 
         $_o->body = [];
         $_o->body[] = CardKit::collectionCard((object) ['collection' => 'token_search', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('details'), 'details_route' => $module::xhrCardRoute('details')]);
+
+        return $_o;
+
+    }
+
+
+    public static function favorites(){
+
+        extract((static::Module)::variables());
+
+        $_o = (object) null;
+
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'token_favorites',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
+        $_o->size = 'fullscreen';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'atom-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items = self::menuItems();
+
+        $_o->head = 'Token Favorites';
+
+        $dom_id = FormInputComponent::uniqueHash('','');
+        $_o->menu->items[] = [
+            'css_classes'=>'automagic-card-menu-item noSelect',
+            'id'=>$dom_id,
+            'contents'=>'Empty Favorites',
+            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject(AccountModule::xhrOperationRoute('emptyFavorites'),[DOMElementKitJS::jsQuotedValue( $module::Registry_Key )]))
+        ];
+
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'token_favorites','icon'=>'atom','card_route' => $module::xhrCardRoute('favorites'),'details_route' => $module::xhrCardRoute('details')]);
 
         return $_o;
 

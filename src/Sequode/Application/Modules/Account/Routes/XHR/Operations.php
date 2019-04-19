@@ -5,6 +5,7 @@ namespace Sequode\Application\Modules\Account\Routes\XHR;
 use Sequode\Application\Modules\Account\Module;
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
+use Sequode\Model\Module\Registry as ModuleRegistry;
 use Sequode\View\Email\EmailContent;
 use Sequode\Controller\Email\Email;
 use Sequode\Foundation\Hashes;
@@ -23,66 +24,76 @@ class Operations {
         'updateEmail'
     ];
 
-    public static function emptySequodeFavorites($confirmed=false){
+    public static function emptyFavorites($registry_key, $confirmed=false){
 
         extract((static::Module)::variables());
-        $collection = 'sequode_favorites';
+
+        if(!ModuleRegistry::module($registry_key)){
+            return;
+        };
+
+        extract((ModuleRegistry::module($registry_key))::variables(), EXTR_PREFIX_ALL, 'favorited');
 
         if ($confirmed===false){
 
-            return DOMElementKitJS::confirmOperation($module::xhrOperationRoute(__FUNCTION__), null, 'Are you sure you want to empty your sequode favorites?');
+            return DOMElementKitJS::confirmOperation($module::xhrOperationRoute(__FUNCTION__), $registry_key, null, 'Are you sure you want to empty your favorites?');
 
         } else {
 
-            forward_static_call_array([$operations, __FUNCTION__], []);
+            forward_static_call_array([$operations, __FUNCTION__], [$registry_key]);
 
             return implode(' ', [
-                DOMElementKitJS::fetchCollection($collection)
+                DOMElementKitJS::registryRefreshContext([$favorited_modeler::model()->id])
             ]);
 
         }
     }
 
-    public static function addToSequodeFavorites($_model_id){
+    public static function favorite($registry_key, $_model_id){
 
         extract((static::Module)::variables());
-        $collection = 'sequode_favorites';
+
+        if(!ModuleRegistry::module($registry_key)){
+           return;
+        };
+
+        extract((ModuleRegistry::module($registry_key))::variables(), EXTR_PREFIX_ALL, 'favorited');
 
         if(!(
 
-            SequodeModeler::exists($_model_id,'id')
-            && AccountAuthority::canRun(SequodeModeler::model())
+            $favorited_modeler::exists($_model_id,'id')
+            && AccountAuthority::canView($favorited_modeler::model())
 
         )){ return; }
 
-        forward_static_call_array([$operations, __FUNCTION__], []);
+        forward_static_call_array([$operations, __FUNCTION__], [$registry_key]);
 
         return implode(' ', [
-            DOMElementKitJS::fetchCollection($collection),
-            DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id),
-            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+            DOMElementKitJS::registryRefreshContext([$favorited_modeler::model()->id])
         ]);
 
     }
 
-    public static function removeFromSequodeFavorites($_model_id){
+    public static function unfavorite($registry_key, $_model_id){
 
         extract((static::Module)::variables());
-        $collection = 'sequode_favorites';
+
+        if(!ModuleRegistry::module($registry_key)){
+            return;
+        };
+
+        extract((ModuleRegistry::module($registry_key))::variables(), EXTR_PREFIX_ALL, 'favorited');
 
         if(!(
-
-            SequodeModeler::exists($_model_id,'id')
-            && AccountAuthority::isInSequodeFavorites(SequodeModeler::model())
+            $favorited_modeler::exists($_model_id,'id')
+            && AccountAuthority::isFavorited($registry_key, $favorited_modeler::model())
 
         )){ return; }
 
-        forward_static_call_array([$operations, __FUNCTION__], []);
+        forward_static_call_array([$operations, __FUNCTION__], [$registry_key]);
 
         return implode(' ', [
-            DOMElementKitJS::fetchCollection($collection),
-            DOMElementKitJS::fetchCollection('sequodes', SequodeModeler::model()->id),
-            DOMElementKitJS::registryRefreshContext([$modeler::model()->id])
+            DOMElementKitJS::registryRefreshContext([$favorited_modeler::model()->id])
         ]);
 
     }

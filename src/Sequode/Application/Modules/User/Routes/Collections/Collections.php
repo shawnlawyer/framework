@@ -3,10 +3,15 @@
 namespace Sequode\Application\Modules\User\Routes\Collections;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-
 use Sequode\Application\Modules\User\Module;
+use Sequode\Application\Modules\Traits\Routes\Collections\CollectionsOwnedTrait;
+use Sequode\Application\Modules\Traits\Routes\Collections\CollectionsSearchTrait;
+use Sequode\Application\Modules\Traits\Routes\Collections\CollectionsFavoritesTrait;
 
 class Collections{
+    use CollectionsOwnedTrait,
+        CollectionsSearchTrait,
+        CollectionsFavoritesTrait;
     
     const Module = Module::class;
 
@@ -14,51 +19,34 @@ class Collections{
 
 	public static $routes = [
 		'user_search',
-        'users',
-        'guests',
-        'admins'
+        'user_users',
+        'user_guests',
+        'user_admins',
+        'user_favorites'
     ];
     const Routes = [
 		'user_search',
-        'users',
-        'guests',
-        'admins'
+        'user_users',
+        'user_guests',
+        'user_admins',
+        'user_favorites'
     ];
 
 	public static $routes_to_methods = [
 		'user_search' => 'search',
-		'users' => 'users',
-		'guests' => 'guests',
-		'admins' => 'admins',
-
+		'user_users' => 'users',
+		'user_guests' => 'guests',
+		'user_admins' => 'admins',
+		'user_favorites' => 'favorites'
     ];
 
-    public static function search(){
-
-        extract((static::Module)::variables());
-
-        $collection = 'user_search';
-
-        $nodes = [];
-
-        if(SessionStore::is($collection)){
-
-            $_array = $finder::search(SessionStore::get($collection));
-
-            foreach($_array as $_object){
-
-                $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->name.'"}';
-
-            }
-
-        }
-
-        echo '{'.implode(',', $nodes).'}';
-
-        return;
-
-    }
-
+    const Method_To_Collection = [
+        'users' => 'user_users',
+        'guests' => 'user_guests',
+        'admins' => 'user_admins',
+        'search' => 'user_search',
+        'favorites' => 'user_favorites',
+    ];
 
     public static function guests(){
 

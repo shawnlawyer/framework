@@ -20,7 +20,7 @@ class Module {
                 'forms' => Components\Forms::class,
                 'cards' => Components\Cards::class,
             ],
-            'finder' => Collections::class,
+            'finder' => Finder::class,
             'collections' => Routes\Collections\Collections::class,
             'xhr' => (object) [
                 'operations' => Routes\XHR\Operations::class,

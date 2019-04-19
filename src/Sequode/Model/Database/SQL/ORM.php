@@ -17,6 +17,12 @@ class ORM {
     public $results_count;
     public $database;
 
+    public static function jsonToArray($value){
+
+        return ($value !== null) ? json_decode($value, true) : (object) [];
+
+    }
+
     public static function jsonToObject($value){
 
         return ($value !== null) ? json_decode($value) : (object) [];

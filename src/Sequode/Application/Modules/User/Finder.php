@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\User;
 
-class Collections {
+class Finder {
     
     const Module = Module::class;
     

@@ -13,12 +13,14 @@ class Cards {
 
     public static $routes = [
         'details',
-        'search'
+        'search',
+        'favorites'
     ];
 
     const Routes = [
         'details',
-        'search'
+        'search',
+        'favorites'
     ];
 
 }

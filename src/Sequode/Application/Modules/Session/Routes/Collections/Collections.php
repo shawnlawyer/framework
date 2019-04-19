@@ -3,51 +3,37 @@
 namespace Sequode\Application\Modules\Session\Routes\Collections;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
-
 use Sequode\Application\Modules\Session\Module;
-    
+use Sequode\Application\Modules\Traits\Routes\Collections\CollectionsFavoritesTrait;
+use Sequode\Application\Modules\Traits\Routes\Collections\CollectionsSearchTrait;
+
 class Collections{
-    
+
+    use CollectionsSearchTrait,
+        CollectionsFavoritesTrait;
+
     const Module = Module::class;
 
 	public static $merge = false;
 
 	public static $routes = [
-		'session_search'
+		'session_search',
+		'session_favorites'
     ];
 
     const Routes = [
-		'session_search'
+		'session_search',
+        'session_favorites'
     ];
 
 	public static $routes_to_methods = [
-		'session_search' => 'search'
+		'session_search' => 'search',
+        'session_favorites' => 'favorites'
     ];
 
-	public static function search(){
-
-        extract((static::Module)::variables());
-
-        $collection = 'session_search';
-
-        $nodes = [];
-
-        if(SessionStore::is($collection)){
-
-            $_array = $finder::search(SessionStore::get($collection));
-
-            foreach($_array as $_object){
-
-                $nodes[] = '"'.$_object->id.'":{"id":"'.$_object->id.'","n":"'.$_object->name.'"}';
-
-            }
-
-        }
-
-        echo '{'.implode(',', $nodes).'}';
-
-        return;
-
-	}
+    const Method_To_Collection = [
+        'search' => 'session_search',
+        'favorites' => 'session_favorites',
+    ];
 
 }

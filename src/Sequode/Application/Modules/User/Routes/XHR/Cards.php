@@ -16,7 +16,8 @@ class Cards {
         'search',
         'users',
         'guests',
-        'admins'
+        'admins',
+        'favorites'
     ];
 
     const Routes = [
@@ -24,7 +25,8 @@ class Cards {
         'search',
         'users',
         'guests',
-        'admins'
+        'admins',
+        'favorites'
     ];
 
 }

@@ -13,7 +13,7 @@ class Module {
 	public static function model(){
         $_o = (object)  [
             'context' => 'sequode',
-            'finder' => Collections::class,
+            'finder' => Finder::class,
             'collections' => Routes\Collections\Collections::class,
             'modeler' => Modeler::class,
             'components' => (object) [

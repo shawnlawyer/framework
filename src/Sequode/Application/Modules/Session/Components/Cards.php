@@ -2,6 +2,8 @@
 
 namespace Sequode\Application\Modules\Session\Components;
 
+use Sequode\Application\Modules\Account\Authority as AccountAuthority;
+use Sequode\Application\Modules\Account\Module as AccountModule;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
@@ -14,7 +16,7 @@ class Cards {
     
     const Module = Module::class;
 
-    const Tiles = ['search'];
+    const Tiles = ['search', 'favorites'];
     
     public static function menu(){
         
@@ -55,6 +57,12 @@ class Cards {
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
         $_o = [];
+
+        if(AccountAuthority::isFavorited($module::Registry_Key, $modeler::model())){
+            $_o[AccountModule::xhrOperationRoute('unfavorite')] = CardKit::onTapEventsXHRCallMenuItem('Remove From Favorited', AccountModule::xhrOperationRoute('unfavorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
+        }else{
+            $_o[AccountModule::xhrOperationRoute('favorite')] = CardKit::onTapEventsXHRCallMenuItem('Add To Favorites', AccountModule::xhrOperationRoute('favorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
+        }
 
         $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
         $_o[$module::xhrOperationRoute('destroy')] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$modeler::model()->id]);
@@ -146,6 +154,40 @@ class Cards {
         
         return $_o;
         
+    }
+
+    public static function favorites(){
+
+        extract((static::Module)::variables());
+
+        $_o = (object) null;
+
+        $_o->context = (object)[
+            'card' => $module::xhrCardRoute(__FUNCTION__),
+            'collection' => 'session_favorites',
+            'teardown' => 'function(){cards = undefined;}'
+        ];
+        $_o->size = 'fullscreen';
+        $_o->icon_type = 'menu-icon';
+        $_o->icon_background = 'session-icon-background';
+        $_o->menu = (object) null;
+        $_o->menu->items = self::menuItems();
+
+        $_o->head = 'Session Favorites';
+
+        $dom_id = FormInputComponent::uniqueHash('','');
+        $_o->menu->items[] = [
+            'css_classes'=>'automagic-card-menu-item noSelect',
+            'id'=>$dom_id,
+            'contents'=>'Empty Favorites',
+            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject(AccountModule::xhrOperationRoute('emptyFavorites'),[DOMElementKitJS::jsQuotedValue( $module::Registry_Key )]))
+        ];
+
+        $_o->body = [];
+        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'session_favorites','icon'=>'session','card_route' => $module::xhrCardRoute('favorites'),'details_route' => $module::xhrCardRoute('details')]);
+
+        return $_o;
+
     }
 
 }

@@ -2,54 +2,70 @@
 
 namespace Sequode\Application\Modules\User\Traits\Operations;
 
-use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
+use Sequode\Model\Module\Registry as ModuleRegistry;
 
 trait ORMModelFavoritedModuleModelsTrait {
-    
-    public static function emptySequodeFavorites($_model = null){
-        
+
+    public static function emptyFavorites($registry_key, $_model = null){
+
         $modeler = static::$modeler;
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        $modeler::model()->sequode_favorites = [];
+
+        $favorites = $modeler::model()->favorites;
+        $favorites[$registry_key] = [];
+
+        $modeler::model()->favorites = $favorites;
         $modeler::model()>save();
         return $modeler::model();
     }
-    
-    public static function addToSequodeFavorites($sequode_model = null, $_model = null){
+
+    public static function favorite($registry_key, $favorite_model = null, $_model = null){
 
         $modeler = static::$modeler;
+
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
-        if($sequode_model != null ){ SequodeModeler::model($sequode_model); }
-		$palette = $modeler::model()->sequode_favorites;
-		$palette[] = SequodeModeler::model()->id;
+        extract((ModuleRegistry::module($registry_key))::variables(), EXTR_PREFIX_ALL, 'favorited');
 
-        $modeler::model()->sequode_favorites = array_unique($palette);
+        forward_static_call_array([$favorited_modeler, 'model'], ($favorite_model == null) ? [] : [$favorite_model]);
+
+        $favorites = $modeler::model()->favorites;
+        if(!empty($favorites[$registry_key])){
+            $favorites[$registry_key][] = $favorited_modeler::model()->id;
+        }else{
+            $favorites[$registry_key] = [$favorited_modeler::model()->id];
+        }
+        $favorites[$registry_key] = array_unique($favorites[$registry_key]);
+
+        $modeler::model()->favorites = $favorites;
         $modeler::model()->save();
 
         return $modeler::model();
 
     }
-    
-    public static function removeFromSequodeFavorites($sequode_model = null, $_model = null){
+
+    public static function unfavorite($registry_key, $favorite_model = null, $_model = null){
 
         $modeler = static::$modeler;
+
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
-        if($sequode_model != null ){ SequodeModeler::model($sequode_model); }
+        extract((ModuleRegistry::module($registry_key))::variables(), EXTR_PREFIX_ALL, 'favorited');
 
-        $palette = $modeler::model()->sequode_favorites;
+        forward_static_call_array([$favorited_modeler, 'model'], ($favorite_model == null) ? [] : [$favorite_model]);
+
+        $favorites = $modeler::model()->favorites;
+
         $array = [];
-		foreach($palette as $value){
-			if(intval($value) != SequodeModeler::model()->id){
-				$array[] = $value;
-			}
-		}
-
-        $modeler::model()->sequode_favorites = $array;
+        foreach($favorites[$registry_key] as $value){
+            if(intval($value) != $favorited_modeler::model()->id){
+                $array[] = $value;
+            }
+        }
+        $favorites[$registry_key] = $array;
+        $modeler::model()->favorites = $favorites;
         $modeler::model()->save();
 
         return $modeler::model();
     }
-    
 }

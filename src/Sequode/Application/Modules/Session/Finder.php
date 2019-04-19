@@ -2,7 +2,7 @@
 
 namespace Sequode\Application\Modules\Session;
 
-class Collections {
+class Finder {
     
     public static $modeler = Modeler::class;
     

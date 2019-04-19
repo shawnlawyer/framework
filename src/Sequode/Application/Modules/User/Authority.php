@@ -94,10 +94,10 @@ class Authority {
     public static function isSecurePassword($password){
         return ( strlen($password) >= 8 &&  strlen($password) <= 100 && preg_match("#[0-9]+#", $password) && preg_match("#[a-z]+#", $password) && preg_match("#[A-Z]+#", $password) && preg_match("#\W+#", $password) ) ? true : false;
     }
-    public static function isInSequodeFavorites($test_model, $_model = null){
+    public static function isFavorited($module_registry_key, $test_model, $_model = null){
         $modeler = static::$modeler;
         if($_model == null ){ $_model = $modeler::model(); }
-        return (in_array($test_model->id, $_model->sequode_favorites)) ? true : false;
+        return (!empty($_model->favorites[$module_registry_key]) && in_array($test_model->id, $_model->favorites[$module_registry_key])) ? true : false;
     }
     public static function isAnEmailAddress($email){
         return (filter_var($email,FILTER_VALIDATE_EMAIL) === false) ? false : true;
