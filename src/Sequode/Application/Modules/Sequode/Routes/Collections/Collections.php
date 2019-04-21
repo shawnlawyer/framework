@@ -48,7 +48,7 @@ class Collections{
         'sequodes' => 'sequodes',
         'owned' => 'sequodes_owned',
         'search' => 'sequode_search',
-        'favorited' => 'sequode_favorites',
+        'favorites' => 'sequode_favorites',
         'palette' => 'palette'
     ];
 

@@ -2,6 +2,10 @@
 
 namespace Sequode\Application\Modules\Sequode\Components;
 
+use Sequode\Application\Modules\Traits\Components\CardsCollectionCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsFavoritesCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsSearchCardTrait;
 use Sequode\View\Module\Card as ModuleCard;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit as CardKit;
@@ -18,20 +22,29 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 
 class Cards {
+    use CardsMenuCardTrait,
+        CardsSearchCardTrait,
+        CardsFavoritesCardTrait,
+        CardsCollectionCardTrait;
 
     const Module = Module::class;
 
-    const Tiles = ['owned', 'favorites', 'search'];
-    
-    public static function menu(){
+    const Tiles = [
+        'owned',
+        'favorites',
+        'search'
+    ];
+
+    public static function card(){
 
         $_o = (object) null;
-
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
+        $_o->head = 'Sequode Tools';
+        $_o->icon = 'sequode';
         $_o->menu = (object) null;
-        $_o->menu->position_adjuster = 'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items = self::menuItems();
+        $_o->menu->items = [];
+        $_o->menu->position = '';
+        $_o->size = 'fullscreen';
+        $_o->body = [];
 
         return $_o;
 
@@ -122,22 +135,16 @@ class Cards {
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
-        $_o = (object) null;
+        $_o = static::card();
+
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
-            'node' => $modeler::model()->id,
-            'parameters' => [
-                'type'
-            ]
+            'node' => $modeler::model()->id
         ];
 
-        $_o->menu = (object) null;
         $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->head = 'Component Settings';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
-        $_o->head = 'Component';
 
         $dom_id = FormInputComponent::uniqueHash('','');
 
@@ -161,20 +168,16 @@ class Cards {
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
-        $_o = (object) null;
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
             'node' => $modeler::model()->id
         ];
-        $_o->menu = (object) null;
         $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->size = 'large';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
         $_o->head = 'Component';
-        $_o->body = [];
 
         foreach(ModuleForm::render($module::Registry_Key, 'sequode') as $component){
             $_o->body[] = $component->html;
@@ -190,21 +193,18 @@ class Cards {
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
-        $_o = (object) null;
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
             'node' => $modeler::model()->id
         ];
-        $_o->menu = (object) null;
+
         $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
-        
         $_o->head = 'Sequode Details';
         $_o->size = 'large';
-        $_o->body = [''];
+        $_o->body[] = '';
         $_o->body[] = CardKitHTML::sublineBlock('Name');
         $_o->body[] = (AccountAuthority::canEdit($modeler::model()))
             ? DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrFormRoute('name'), [$modeler::model()->id]), $modeler::model()->name, 'settings')
@@ -316,21 +316,20 @@ class Cards {
         extract((static::Module)::variables());
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
-        $_o = (object) null;
+
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
             'node' => $modeler::model()->id
         ];
-        $_o->menu = (object) null;
+
         $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->size = 'large';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
+
         $_o->head = $modeler::model()->name;
-        $_o->body = [''];
+        $_o->body[] = '';
 
         foreach($modeler::model()->sequence as $loop_sequence_key => $loop_model_id){
 
@@ -350,14 +349,14 @@ class Cards {
 
         $position = intval($position);
 
-        $_o = (object) null;
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
             'node' => $modeler::model()->id
         ];
-        $_o->menu = (object) null;
+
         $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
 
         $sequence = $modeler::model()->sequence;
@@ -373,10 +372,9 @@ class Cards {
         $sequence_model->exists($sequence_model_id,'id');
 
         $_o->size = 'large';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
+
         $_o->head = $sequence_model->name;
-        $_o->body = [''];
+        $_o->body[] = '';
 
         $types = ['input', 'property'];
         $type_labels = ['input' => 'Inputs', 'property' => 'Properties'];
@@ -474,18 +472,14 @@ class Cards {
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
 
-        $_o = (object) null;
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
             'node' => $modeler::model()->id
         ];
-        $_o->menu = (object) null;
         $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
         $_o->head = 'Sequode Chart &gt; Edit &gt; ' . $modeler::model()->name;
         
         $items = [];
@@ -500,7 +494,6 @@ class Cards {
             'js_action'=> 'new XHRCall({route:\''.$module::xhrFormRoute('selectPalette').'\',inputs:['.FormComponent::jsQuotedValue($dom_id).']});'
         ];
         $_o->menu->items = array_merge($items, $_o->menu->items);
-        $_o->body = [];
 
         $dom_id = FormInputComponent::uniqueHash('','');
         $html = $js = [];
@@ -522,21 +515,16 @@ class Cards {
         extract((static::Module)::variables());
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
-        $_o = (object) null;
+
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes',
             'node' => $modeler::model()->id
         ];
-        $_o->menu = (object) null;
         $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
         $_o->head = 'Sequode Chart &gt; View &gt; '.$modeler::model()->name;
-        $_o->body = [];
         $html = $js = [];
         $html[] = '<div class="SequencerStageContainer" id="'.$dom_id.'chart"></div>';
         $js[] = 'var sequencer;';
@@ -554,24 +542,21 @@ class Cards {
     public static function search($_model = null){
 
         extract((static::Module)::variables());
-        
-        $_o = (object) null;
+
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequode_search',
             'teardown' => 'function(){cards = undefined;}'
         ];
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
+
         $_o->menu->items = [];
-        
+
         $search_components_array = ModuleForm::render($module::Registry_Key,'search');
         $_o->head = $search_components_array[0];
         array_shift($search_components_array);
-        
+
         foreach($search_components_array as $key => $object){
             $_o->menu->items[] = [
                 'css_classes'=>'automagic-card-menu-item noSelect',
@@ -579,69 +564,32 @@ class Cards {
                 'js_action'=> $object->js
             ];
         }
-        $_o->body = [];
+
         $_o->body[] = CardKit::collectionCard((object) ['collection' => 'sequode_search', 'icon' => 'sequode', 'card_route' => $module::xhrCardRoute('search'), 'details_route' => $module::xhrCardRoute('details')]);
-        
+
         return $_o;
-        
+
     }
 
     public static function owned(){
 
         extract((static::Module)::variables());
 
-        $_o = (object) null;
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sequodes_owned',
             'teardown' => 'function(){cards = undefined;}'
         ];
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
+
         $_o->menu->items = self::menuItems();
         $_o->head = 'Sequodes';
-        $_o->body = [];
+
         $_o->body[] = CardKit::collectionCard((object) ['collection' => 'sequodes_owned', 'icon' => 'sequode', 'card_route' => $module::xhrCardRoute(__FUNCTION__), 'details_route' => $module::xhrCardRoute('details')]);
 
         return $_o;
-        
-    }
 
-    public static function favorites(){
-
-        extract((static::Module)::variables());
-
-        $_o = (object) null;
-
-        $_o->context = (object)[
-            'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'sequode_favorites',
-            'teardown' => 'function(){cards = undefined;}'
-        ];
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'sequode-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = self::menuItems();
-        
-        $_o->head = 'Sequode Favorites';
-        
-        $dom_id = FormInputComponent::uniqueHash('','');
-        $_o->menu->items[] = [
-            'css_classes'=>'automagic-card-menu-item noSelect',
-            'id'=>$dom_id,
-            'contents'=>'Empty Favorites',
-            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject(AccountModule::xhrOperationRoute('emptyFavorites'),[DOMElementKitJS::jsQuotedValue( $module::Registry_Key )]))
-        ];
-        
-        $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'sequode_favorites','icon'=>'sequode','card_route' => $module::xhrCardRoute('favorites'),'details_route' => $module::xhrCardRoute('details')]);
-        
-        return $_o;
-        
     }
 
 }

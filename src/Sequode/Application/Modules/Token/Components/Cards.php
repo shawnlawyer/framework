@@ -3,6 +3,10 @@
 namespace Sequode\Application\Modules\Token\Components;
 
 use Sequode\Application\Modules\Account\Module as AccountModule;
+use Sequode\Application\Modules\Traits\Components\CardsCollectionCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsFavoritesCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsSearchCardTrait;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
@@ -14,19 +18,29 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
     
 class Cards {
 
+    use CardsMenuCardTrait,
+        CardsSearchCardTrait,
+        CardsFavoritesCardTrait,
+        CardsCollectionCardTrait;
+
     const Module = Module::class;
 
-    const Tiles = ['tokens', 'favorites', 'search'];
-    
-    public static function menu(){
+    const Tiles = [
+        'tokens',
+        'favorites',
+        'search'
+    ];
+
+    public static function card(){
 
         $_o = (object) null;
-
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'atom-icon-background';
+        $_o->head = 'Token Tools';
+        $_o->icon = 'atom';
         $_o->menu = (object) null;
-        $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  self::menuItems();
+        $_o->menu->items = [];
+        $_o->menu->position = '';
+        $_o->size = 'fullscreen';
+        $_o->body = [];
 
         return $_o;
 
@@ -66,6 +80,7 @@ class Cards {
         }else{
             $_o[AccountModule::xhrOperationRoute('favorite')] = CardKit::onTapEventsXHRCallMenuItem('Add To Favorites', AccountModule::xhrOperationRoute('favorite'), [DOMElementKitJS::jsQuotedValue( $module::Registry_Key ), $modeler::model()->id]);
         }
+
         $_o[$module::xhrCardRoute('details')] = CardKit::onTapEventsXHRCallMenuItem('Details', $module::xhrCardRoute('details'), [$modeler::model()->id]);
         $_o[$module::xhrOperationRoute('delete')] = CardKit::onTapEventsXHRCallMenuItem('Delete', $module::xhrOperationRoute('delete'), [$modeler::model()->id]);
 
@@ -84,8 +99,8 @@ class Cards {
         extract((static::Module)::variables());
 
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
-        
-        $_o = (object) null;
+
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
@@ -93,9 +108,6 @@ class Cards {
             'node' => $modeler::model()->id
         ];
         $_o->size = 'large';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'atom-icon-background';
-        $_o->menu = (object) null;
         $_o->menu->items = self::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         $_o->head = 'Token Details';
         $_o->body = [''];
@@ -108,102 +120,10 @@ class Cards {
         return $_o;
 
     }
-    
+
     public static function tokens(){
 
-        extract((static::Module)::variables());
-
-        $_o = (object) null;
-
-        $_o->context = (object)[
-            'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'tokens'
-        ];
-        $_o->size = 'fullscreen';
-        $_o->head = 'Tokens';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'atom-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items[] = self::menuItems([$module::xhrCardRoute(__FUNCTION__)]);
-        $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'tokens', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('tokens'), 'details_route' => $module::xhrCardRoute('details')]);
-
-        return $_o;
-
-    }
-
-    public static function search(){
-
-        extract((static::Module)::variables());
-
-        $_o = (object) null;
-
-        $_o->context = (object)[
-            'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'token_search',
-            'teardown' => 'function(){cards = undefined;}'
-        ];
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'atom-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = [];
-        
-        $search_components_array = ModuleForm::render($module::Registry_Key, 'search');
-
-        $_o->head = $search_components_array[0];
-
-        array_shift($search_components_array);
-        
-        foreach($search_components_array as $key => $object){
-
-            $_o->menu->items[] = [
-                'css_classes'=>'automagic-card-menu-item noSelect',
-                'contents'=>$object->html,
-                'js_action'=> $object->js
-            ];
-
-        }
-
-        $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'token_search', 'icon' => 'atom', 'card_route' => $module::xhrCardRoute('details'), 'details_route' => $module::xhrCardRoute('details')]);
-
-        return $_o;
-
-    }
-
-
-    public static function favorites(){
-
-        extract((static::Module)::variables());
-
-        $_o = (object) null;
-
-        $_o->context = (object)[
-            'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'token_favorites',
-            'teardown' => 'function(){cards = undefined;}'
-        ];
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'atom-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = self::menuItems();
-
-        $_o->head = 'Token Favorites';
-
-        $dom_id = FormInputComponent::uniqueHash('','');
-        $_o->menu->items[] = [
-            'css_classes'=>'automagic-card-menu-item noSelect',
-            'id'=>$dom_id,
-            'contents'=>'Empty Favorites',
-            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject(AccountModule::xhrOperationRoute('emptyFavorites'),[DOMElementKitJS::jsQuotedValue( $module::Registry_Key )]))
-        ];
-
-        $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'token_favorites','icon'=>'atom','card_route' => $module::xhrCardRoute('favorites'),'details_route' => $module::xhrCardRoute('details')]);
-
-        return $_o;
+        return static::collectionCard('owned','Tokens');
 
     }
     

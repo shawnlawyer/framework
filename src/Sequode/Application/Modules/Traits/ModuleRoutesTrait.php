@@ -89,6 +89,11 @@ trait ModuleRoutesTrait {
             $vars += ['finder' => $model->finder];
 
         }
+        if(isset($model->collections)){
+
+            $vars += ['collections' => $model->collections];
+
+        }
 
         if(!empty($filter)){
 

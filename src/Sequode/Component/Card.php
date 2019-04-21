@@ -11,9 +11,10 @@ class Card {
 
         $html = $js = [];
         $position_adjuster = (isset($menu_object->position_adjuster)) ? ' '.$menu_object->position_adjuster : '';
+        $position = (!empty($menu_object->position)) ? ' automagic-card-menu-'.$menu_object->position.'-side-adjuster' : '';
 
         $html[] = '<div class="automagic-card-menu-container">';
-        $html[] = '<div class="automagic-card-menu'.$position_adjuster.'">';
+        $html[] = '<div class="automagic-card-menu'.$position_adjuster.$position.'">';
         foreach($menu_object->items as $item){
             $html[] = '<div';
             if(isset($item['css_classes'])){
@@ -91,27 +92,20 @@ class Card {
             $js[] = DOMElementKitJS::registrySetContext($card_object->context);
         }
 
-        if(isset($card_object->head) || isset($card_object->menu)){
+        if(!empty($card_object->head) || !empty($card_object->menu)){
             $html[] = '<div class="automagic-card-head';
-            if(isset($card_object->size) && $card_object->size == 'fullscreen'){
+            if(!empty($card_object->body) && !empty($card_object->size) && $card_object->size == 'fullscreen'){
                 $html[] = ' clear-border fullscreen';
             }
             $html[] = '">';
             $html[] = '<div class="';
-            $html[] = (isset($card_object->menu)) ? 'menu-icon' : 'card-icon';
-            $html[] = (isset($card_object->icon_background)) ? ' '.$card_object->icon_background : '';
+            $html[] = (!empty($card_object->menu)) ? 'menu-icon' : 'card-icon';
+            $html[] = (!empty($card_object->icon_background)) ? ' '.$card_object->icon_background : '';
+            $html[] = (!empty($card_object->icon)) ? ' '.$card_object->icon.'-icon-background' : '';
             $html[] = '"';
             $html[] = '>';
 
-            if(!empty($card_object->route)){
-
-                $dom_id = FormInputComponent::uniqueHash('','SQDE');
-                $html[] = '<div id="' . $dom_id . '" style="z-index:3; position:absolute; right:0; top:35%;">></div>';
-                $js[] = DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject($card_object->route));
-
-            }
-
-            if(isset($card_object->menu)){
+            if(!empty($card_object->menu)){
                 $menu_component = self::cardMenuComponent($card_object->menu);
                 $html[] = $menu_component->html;
                     
@@ -121,7 +115,7 @@ class Card {
             }
             
             $html[] = '</div>';
-            if(isset($card_object->head)){
+            if(!empty($card_object->head)){
 
 
                 $html[] = '<div class="card-title noSelect ">';
@@ -143,7 +137,8 @@ class Card {
             $html[] = '</div>';
         }
         
-        if(isset($card_object->body)){
+        if(!empty($card_object->body)){
+
             $body_component = self::cardBodyContentComponent($card_object->body, $card_object->component_seperator);
             if(is_object($body_component)){
                 if(isset($body_component->html)){

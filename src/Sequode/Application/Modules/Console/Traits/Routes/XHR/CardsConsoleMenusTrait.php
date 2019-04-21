@@ -24,7 +24,7 @@ trait CardsConsoleMenusTrait {
                 
                 if(in_array('menu', get_class_methods($model->components->cards))){
                     $i--;
-					$card = ModuleCard::render($module::Registry_Key, 'menu', [], [ModuleCard::Modifier_No_Context]);
+					$card = ModuleCard::render($module::Registry_Key, 'menu', [], [ModuleCard::Modifier_No_Head, ModuleCard::Modifier_Menu_Position_Right]);
                     $html[] = CardKitHTML::menuCardHidingContainer($card->html,$i);
                     $js[] = $card->js;
                     
