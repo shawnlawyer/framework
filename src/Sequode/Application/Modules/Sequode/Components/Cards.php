@@ -539,56 +539,9 @@ class Cards {
         
     }
 
-    public static function search($_model = null){
-
-        extract((static::Module)::variables());
-
-        $_o = static::card();
-
-        $_o->context = (object)[
-            'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'sequode_search',
-            'teardown' => 'function(){cards = undefined;}'
-        ];
-
-        $_o->menu->items = [];
-
-        $search_components_array = ModuleForm::render($module::Registry_Key,'search');
-        $_o->head = $search_components_array[0];
-        array_shift($search_components_array);
-
-        foreach($search_components_array as $key => $object){
-            $_o->menu->items[] = [
-                'css_classes'=>'automagic-card-menu-item noSelect',
-                'contents'=>$object->html,
-                'js_action'=> $object->js
-            ];
-        }
-
-        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'sequode_search', 'icon' => 'sequode', 'card_route' => $module::xhrCardRoute('search'), 'details_route' => $module::xhrCardRoute('details')]);
-
-        return $_o;
-
-    }
-
     public static function owned(){
 
-        extract((static::Module)::variables());
-
-        $_o = static::card();
-
-        $_o->context = (object)[
-            'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'sequodes_owned',
-            'teardown' => 'function(){cards = undefined;}'
-        ];
-
-        $_o->menu->items = self::menuItems();
-        $_o->head = 'Sequodes';
-
-        $_o->body[] = CardKit::collectionCard((object) ['collection' => 'sequodes_owned', 'icon' => 'sequode', 'card_route' => $module::xhrCardRoute(__FUNCTION__), 'details_route' => $module::xhrCardRoute('details')]);
-
-        return $_o;
+        return static::collectionCard(__FUNCTION__, 'Sequodes');
 
     }
 

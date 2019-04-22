@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\Account\Components;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
+use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
@@ -12,19 +13,35 @@ use Sequode\Application\Modules\Account\Module;
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Cards {
-    
+
+    use CardsMenuCardTrait;
+
     const Module = Module::class;
 
-    const Tiles = ['details'];
+    const Tiles = [
+        'details'
+    ];
+
+    public static function card(){
+
+        $_o = (object) null;
+        $_o->head = 'Account Tools';
+        $_o->icon = 'user';
+        $_o->menu = (object) null;
+        $_o->menu->items = [];
+        $_o->menu->position = '';
+        $_o->size = 'fullscreen';
+        $_o->body = [];
+
+        return $_o;
+
+    }
 
     public static function menu(){
         
-        $_o = (object) null;
+        $_o = self::card();
 
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'user-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
+        $_o->menu->position = 'right';
         $_o->menu->items =  self::modelMenuItems() + self::menuItems();
         
         return $_o;
@@ -90,7 +107,9 @@ class Cards {
         $_o->icon_background = 'user-icon-background';
         $_o->body = [''];
         $_o->body[] = CardKitHTML::sublineBlock('Email');
-        $_o->body[] = $modeler::model()->email;
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrCardRoute('updateEmail')), $modeler::model()->email, 'settings');
+        $_o->body[] = CardKitHTML::sublineBlock('Password');
+        $_o->body[] = DOMElementKitJS::loadComponentHere(DOMElementKitJS::xhrCallObject($module::xhrCardRoute('updatePassword')), 'Update Password', 'settings');
 
         return $_o;
 

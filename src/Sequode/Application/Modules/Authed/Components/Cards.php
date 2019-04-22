@@ -2,22 +2,26 @@
 
 namespace Sequode\Application\Modules\Authed\Components;
 
+use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Application\Modules\Authed\Module;
 
 class Cards {
-    
+
+    use CardsMenuCardTrait;
+
     const Module = Module::class;
 
-    public static function menu(){
+    public static function card(){
 
         $_o = (object) null;
-
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'settings-icon-background';
+        $_o->head = 'Authed Tools';
+        $_o->icon = 'settings';
         $_o->menu = (object) null;
-        $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items = self::menuItems();
+        $_o->menu->items = [];
+        $_o->menu->position = '';
+        $_o->size = 'fullscreen';
+        $_o->body = [];
 
         return $_o;
 

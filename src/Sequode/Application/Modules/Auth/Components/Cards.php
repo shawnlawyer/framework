@@ -3,24 +3,29 @@
 namespace Sequode\Application\Modules\Auth\Components;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
+use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\Form as FormComponent;
 use Sequode\Application\Modules\Auth\Module;
 
 class Cards {
-    
+
+    use CardsMenuCardTrait;
+
     const Module = Module::class;
-    
-    public static function menu(){
+
+
+    public static function card(){
 
         $_o = (object) null;
-
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'settings-icon-background';
+        $_o->head = 'Auth Tools';
+        $_o->icon = 'settings';
         $_o->menu = (object) null;
-        $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items = self::menuItems();
+        $_o->menu->items = [];
+        $_o->menu->position = '';
+        $_o->size = 'fullscreen';
+        $_o->body = [];
 
         return $_o;
 

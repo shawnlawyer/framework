@@ -4,6 +4,10 @@ namespace Sequode\Application\Modules\Session\Components;
 
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Account\Module as AccountModule;
+use Sequode\Application\Modules\Traits\Components\CardsCollectionCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsFavoritesCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsSearchCardTrait;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit as CardKit;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
@@ -13,23 +17,32 @@ use Sequode\View\Export\PHPClosure;
 use Sequode\Application\Modules\Session\Module;
     
 class Cards {
-    
+
+    use CardsMenuCardTrait,
+        CardsSearchCardTrait,
+        CardsFavoritesCardTrait,
+        CardsCollectionCardTrait;
+
     const Module = Module::class;
 
-    const Tiles = ['search', 'favorites'];
-    
-    public static function menu(){
-        
-        $_o = (object) null;
+    const Tiles = [
+        'search',
+        'favorites'
+    ];
 
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'session-icon-background';
+    public static function card(){
+
+        $_o = (object) null;
+        $_o->head = 'Session Tools';
+        $_o->icon = 'session';
         $_o->menu = (object) null;
-        $_o->menu->position_adjuster =  'automagic-card-menu-right-side-adjuster';
-        $_o->menu->items =  self::menuItems();
-        
+        $_o->menu->items = [];
+        $_o->menu->position = '';
+        $_o->size = 'fullscreen';
+        $_o->body = [];
+
         return $_o;
-        
+
     }
 
     public static function menuItems($filters=[]){
@@ -82,23 +95,21 @@ class Cards {
         
         forward_static_call_array([$modeler, 'model'], ($_model == null) ? [] : [$_model]);
         
-        $_o = (object) null;
+        $_o = static::card();
 
         $_o->context = (object)[
             'card' => $module::xhrCardRoute(__FUNCTION__),
             'collection' => 'sessions',
             'node' => $modeler::model()->id
         ];
+
         $_o->size = 'large';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'session-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items =  static::menuItems() + static::modelMenuItems();
+        $_o->menu->items = static::modelMenuItems([$module::xhrCardRoute(__FUNCTION__)]);
         
         $items[] = CardKit::onTapEventsXHRCallMenuItem('Delete Session', $module::xhrOperationRoute('destroy'), [$modeler::model()->id]);
 
         $_o->head = 'Session Detail';
-        $_o->body = [''];
+        $_o->body[] = '';
 
         if($modeler::model()->session_id === $operations::getCookieValue()) {
             $_o->body[] = CardKitHTML::sublineBlock('This your current session');
@@ -117,77 +128,6 @@ class Cards {
 
         return $_o;
         
-    }
-
-    public static function search($_model = null){
-
-        extract((static::Module)::variables());
-        
-        $_o = (object) null;
-
-        $_o->context = (object)[
-            'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'session_search',
-            'teardown' => 'function(){cards = undefined;}'
-        ];
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'session-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = [];
-        
-        $search_components_array = ModuleForm::render($module::Registry_Key,'search');
-        $_o->head = $search_components_array[0];
-        array_shift($search_components_array);
-        
-        foreach($search_components_array as $key => $object){
-
-            $_o->menu->items[] = [
-                'css_classes'=>'automagic-card-menu-item noSelect',
-                'contents'=>$object->html,
-                'js_action'=> $object->js
-            ];
-
-        }
-        $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'session_search', 'icon'=>'atom', 'card_route'=>$module::xhrCardRoute('search'), 'details_route'=>$module::xhrCardRoute('details')]);
-        
-        return $_o;
-        
-    }
-
-    public static function favorites(){
-
-        extract((static::Module)::variables());
-
-        $_o = (object) null;
-
-        $_o->context = (object)[
-            'card' => $module::xhrCardRoute(__FUNCTION__),
-            'collection' => 'session_favorites',
-            'teardown' => 'function(){cards = undefined;}'
-        ];
-        $_o->size = 'fullscreen';
-        $_o->icon_type = 'menu-icon';
-        $_o->icon_background = 'session-icon-background';
-        $_o->menu = (object) null;
-        $_o->menu->items = self::menuItems();
-
-        $_o->head = 'Session Favorites';
-
-        $dom_id = FormInputComponent::uniqueHash('','');
-        $_o->menu->items[] = [
-            'css_classes'=>'automagic-card-menu-item noSelect',
-            'id'=>$dom_id,
-            'contents'=>'Empty Favorites',
-            'js_action'=> DOMElementKitJS::onTapEventsXHRCall($dom_id, DOMElementKitJS::xhrCallObject(AccountModule::xhrOperationRoute('emptyFavorites'),[DOMElementKitJS::jsQuotedValue( $module::Registry_Key )]))
-        ];
-
-        $_o->body = [];
-        $_o->body[] = CardKit::collectionCard((object) ['collection'=>'session_favorites','icon'=>'session','card_route' => $module::xhrCardRoute('favorites'),'details_route' => $module::xhrCardRoute('details')]);
-
-        return $_o;
-
     }
 
 }

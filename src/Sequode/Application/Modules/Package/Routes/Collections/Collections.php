@@ -40,6 +40,6 @@ class Collections{
     const Method_To_Collection = [
         'owned' => 'packages',
         'search' => 'package_search',
-        'package' => 'package_favorites',
+        'favorites' => 'package_favorites',
     ];
 }
