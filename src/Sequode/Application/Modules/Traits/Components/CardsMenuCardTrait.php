@@ -6,11 +6,11 @@ use Sequode\Component\Card\Kit as CardKit;
 
 trait CardsMenuCardTrait {
 
-    public static function menu(){
+    public static function menu($card = null){
 
-        $_o = static::card();
+        $_o = $card ?: static::card();
 
-        $_o->menu->items =  self::menuItems();
+        $_o->menu->items =  static::menuItems();
 
         return $_o;
 

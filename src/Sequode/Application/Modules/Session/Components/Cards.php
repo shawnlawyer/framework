@@ -4,6 +4,7 @@ namespace Sequode\Application\Modules\Session\Components;
 
 use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 use Sequode\Application\Modules\Account\Module as AccountModule;
+use Sequode\Application\Modules\Traits\Components\CardsCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsCollectionCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsFavoritesCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
@@ -18,32 +19,20 @@ use Sequode\Application\Modules\Session\Module;
     
 class Cards {
 
-    use CardsMenuCardTrait,
+    use CardsCardTrait,
+        CardsMenuCardTrait,
         CardsSearchCardTrait,
         CardsFavoritesCardTrait,
         CardsCollectionCardTrait;
 
     const Module = Module::class;
 
+    const Icon = 'session';
+
     const Tiles = [
         'search',
         'favorites'
     ];
-
-    public static function card(){
-
-        $_o = (object) null;
-        $_o->head = 'Session Tools';
-        $_o->icon = 'session';
-        $_o->menu = (object) null;
-        $_o->menu->items = [];
-        $_o->menu->position = '';
-        $_o->size = 'fullscreen';
-        $_o->body = [];
-
-        return $_o;
-
-    }
 
     public static function menuItems($filters=[]){
 

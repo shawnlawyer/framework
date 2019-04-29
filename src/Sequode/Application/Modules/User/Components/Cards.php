@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\User\Components;
 
 use Sequode\Application\Modules\Account\Module as AccountModule;
+use Sequode\Application\Modules\Traits\Components\CardsCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
 use Sequode\Component\FormInput as FormInputComponent;
 use Sequode\View\Module\Form as ModuleForm;
@@ -18,12 +19,15 @@ use Sequode\Application\Modules\Traits\Components\CardsCollectionCardTrait;
 
 class Cards {
 
-    use CardsMenuCardTrait,
+    use CardsCardTrait,
+        CardsMenuCardTrait,
         CardsSearchCardTrait,
         CardsFavoritesCardTrait,
         CardsCollectionCardTrait;
     
     const Module = Module::class;
+
+    const Icon = 'user';
 
     const Tiles = [
         'admins',
@@ -32,21 +36,6 @@ class Cards {
         'search',
         'favorites'
     ];
-
-    public static function card(){
-
-        $_o = (object) null;
-        $_o->head = 'User Tools';
-        $_o->icon = 'user';
-        $_o->menu = (object) null;
-        $_o->menu->items = [];
-        $_o->menu->position = '';
-        $_o->size = 'fullscreen';
-        $_o->body = [];
-
-        return $_o;
-
-    }
     
     public static function menuItems($filters=[]){
 

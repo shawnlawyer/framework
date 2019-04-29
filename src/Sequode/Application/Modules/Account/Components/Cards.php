@@ -4,6 +4,7 @@ namespace Sequode\Application\Modules\Account\Components;
 
 use Sequode\Application\Modules\Session\Store as SessionStore;
 use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
+use Sequode\Application\Modules\Traits\Components\CardsCardTrait;
 use Sequode\Component\DOMElement\Kit\JS as DOMElementKitJS;
 use Sequode\View\Module\Form as ModuleForm;
 use Sequode\Component\Card\Kit\HTML as CardKitHTML;
@@ -14,34 +15,21 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
 
 class Cards {
 
-    use CardsMenuCardTrait;
+    use CardsCardTrait,
+        CardsMenuCardTrait;
 
     const Module = Module::class;
+
+    const Icon = 'user';
 
     const Tiles = [
         'details'
     ];
 
-    public static function card(){
-
-        $_o = (object) null;
-        $_o->head = 'Account Tools';
-        $_o->icon = 'user';
-        $_o->menu = (object) null;
-        $_o->menu->items = [];
-        $_o->menu->position = '';
-        $_o->size = 'fullscreen';
-        $_o->body = [];
-
-        return $_o;
-
-    }
-
-    public static function menu(){
+    public static function menu($card = null){
         
-        $_o = self::card();
+        $_o = $card ?: self::card();
 
-        $_o->menu->position = 'right';
         $_o->menu->items =  self::modelMenuItems() + self::menuItems();
         
         return $_o;

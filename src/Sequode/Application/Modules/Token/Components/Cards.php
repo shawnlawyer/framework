@@ -3,6 +3,7 @@
 namespace Sequode\Application\Modules\Token\Components;
 
 use Sequode\Application\Modules\Account\Module as AccountModule;
+use Sequode\Application\Modules\Traits\Components\CardsCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsCollectionCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsFavoritesCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
@@ -18,33 +19,21 @@ use Sequode\Application\Modules\Account\Authority as AccountAuthority;
     
 class Cards {
 
-    use CardsMenuCardTrait,
+    use CardsCardTrait,
+        CardsMenuCardTrait,
         CardsSearchCardTrait,
         CardsFavoritesCardTrait,
         CardsCollectionCardTrait;
 
     const Module = Module::class;
 
+    const Icon = 'atom';
+
     const Tiles = [
         'tokens',
         'favorites',
         'search'
     ];
-
-    public static function card(){
-
-        $_o = (object) null;
-        $_o->head = 'Token Tools';
-        $_o->icon = 'atom';
-        $_o->menu = (object) null;
-        $_o->menu->items = [];
-        $_o->menu->position = '';
-        $_o->size = 'fullscreen';
-        $_o->body = [];
-
-        return $_o;
-
-    }
 
     public static function menuItems($filters=[]){
 

@@ -2,6 +2,7 @@
 
 namespace Sequode\Application\Modules\Sequode\Components;
 
+use Sequode\Application\Modules\Traits\Components\CardsCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsCollectionCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsFavoritesCardTrait;
 use Sequode\Application\Modules\Traits\Components\CardsMenuCardTrait;
@@ -22,33 +23,21 @@ use Sequode\Application\Modules\Account\Modeler as AccountModeler;
 use Sequode\Application\Modules\Sequode\Modeler as SequodeModeler;
 
 class Cards {
-    use CardsMenuCardTrait,
+    use CardsCardTrait,
+        CardsMenuCardTrait,
         CardsSearchCardTrait,
         CardsFavoritesCardTrait,
         CardsCollectionCardTrait;
 
     const Module = Module::class;
 
+    const Icon = 'sequode';
+
     const Tiles = [
         'owned',
         'favorites',
         'search'
     ];
-
-    public static function card(){
-
-        $_o = (object) null;
-        $_o->head = 'Sequode Tools';
-        $_o->icon = 'sequode';
-        $_o->menu = (object) null;
-        $_o->menu->items = [];
-        $_o->menu->position = '';
-        $_o->size = 'fullscreen';
-        $_o->body = [];
-
-        return $_o;
-
-    }
 
     public static function menuItems($filters=[]){
 
